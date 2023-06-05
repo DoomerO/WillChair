@@ -1,6 +1,8 @@
 const Search = () => {
     return (
-        <></>
+        <>
+
+        </>
     )
 }
 
