@@ -3,6 +3,10 @@ import { useState } from 'react';
 
 const Login = () => {
 
+    const handleSubmits = () => { //Controla Envios de Formulários
+
+    }
+
     const [rightShow, setShow] = useState('')
 
     function activateRight() {
@@ -18,7 +22,7 @@ const Login = () => {
                         <input type="text" name="name" placeholder='Nome'/>
                         <input type="email" name="mail" pattern="/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/" placeholder='Email'/>
                         <input type="password" name="password" placeholder='Senha'/>
-                        <input type="submit" className='btn' value="Registrar"/>
+                        <button type='submit'>Registrar</button>
                         <span>Ou registre-se pelo google</span>
                     </form>
                 </div>
@@ -28,7 +32,7 @@ const Login = () => {
                         <h1>Login aqui</h1>
                         <input type="email" name="mail" pattern="/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/" placeholder='Email'/>
                         <input type="password" name="password" placeholder='Senha'/>
-                        <input className='btn' type="submit" value="Login"/>
+                        <button type='submit'>Login</button>
                         <div id="content">
                             <input type="checkbox" id="checkbox"></input>
                             <label>Remember me</label>
