@@ -10,7 +10,7 @@ interface catProps {
 const Category =({imgPath, name}:catProps) => {
 
     return (
-        <div id="marginDiv">
+        <div id="Category">
             <div id="background">
                 <Link to={"/login"}><img src={imgPath}></img></Link>
             </div>
