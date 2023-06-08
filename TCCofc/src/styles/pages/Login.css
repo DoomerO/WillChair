@@ -118,21 +118,6 @@
     width: 100%;
 }
 
-#logPage input.btn {
-    position: relative;
-    border-radius: 15px;
-    border: 1px solid #54e3f4;
-    background-color: #54e3f4;
-    color: #fff;
-    font-size: 15px;
-    font-weight: 700;
-    margin: 10px;
-    padding: 12px 80px;
-    letter-spacing: 1px;
-    text-transform: capitalize;
-    transition: 0.3s ease-in-out;
-}
-
 #logPage #container {
     background-color: #fff;
     border-radius: 20px;
