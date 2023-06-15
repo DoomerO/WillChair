@@ -11,22 +11,25 @@
 
 #Home #Presentation {
     background-color: #003B95;
-    display: flex;
-    flex-direction: row;   
     width: 100%;
-    height: 60vh;
+    height: 62vh;
 }
 
 #Home #Presentation #textDiv {
-    background-color: #AAA;
-    width: 60vw;
+    background-image: url('../../img/home/Arrow.png');
+    background-repeat: no-repeat;
+    background-size:contain;
+    width: 75%;
     float: left;
-    height: inherit;
+    height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
     color:#FFF;
-    font-size: 20pt;
+    font-size: 23pt;
+    text-shadow: #00000044 5px 6px 6px;
+    z-index: 10;
+    position: absolute;
 }
 
 #Home #Presentetion #text {
@@ -37,8 +40,25 @@
 #Home #Presentation h1{
     color: #001586;
     margin-left: 4vw;
-    font-size: 30pt;
+    font-size: 38pt;
     margin-bottom: 14px;
+}
+
+#Home #Presentation #imageDiv {
+    background-color: #fff;
+    width: 35%;
+    height: inherit;
+    display: flex;
+    z-index: 2;
+    position:relative;
+    float: right;
+    justify-content: center;
+    align-items: center;
+}
+
+#Home #Presentation img {
+    width: 90%;
+    height: 80%;
 }
 
 #Home header {
@@ -46,8 +66,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    
+    flex-direction: row;
 }
 
 #Home header input {
@@ -61,6 +80,8 @@
     list-style: none;
     font-family: 'Atkinson Hyperlegible';
     color: #fff;
+    margin-left: 24%;
+    margin-top: 10px;
 }
 
 #Home header ul li {
@@ -68,7 +89,7 @@
     margin: 0 10px 0 10px;
     font-style: normal;
     font-weight: 700;
-    font-size: 16pt;
+    font-size: 25pt;
     line-height: 37px;
     color: #FFFFFF;
 }
@@ -90,18 +111,23 @@
 }
 
 #Home header #registerButton {
+    margin-top: 10px;
     display: flex;
     justify-content: center;
-    align-items: center;
     font-size: 16pt;
+    float: right;
+    margin-left: 23%;
+}
+
+#Home header #logoTitle {
+    width: 16%;
+    height: 60px;
 }
 
 #Home #Abstratic {
     background-color: #FFF;
-    display: flex;
-    flex-direction: row-reverse;   
+    display: flex; 
     width: 100%;
-    height: 60vh;
     background-repeat: no-repeat;
     background-size: cover;
     background-image: url('../../img/home/backgroundWhite.jpg');
@@ -109,16 +135,38 @@
 
 #Home #Abstratic #textDiv {
     width: 90vw;
+    height: 75vh;
+    display: flex;
+    font-family: 'Kand', 'Outfit';
+    justify-content: center;
+    align-items: center;
+}  
+
+#Home #Abstratic h1 {
+    font-size: 35pt;
+    margin-bottom: 9%;
+}
+
+#Home #Abstratic p {
+    font-size: 30pt;
+    width: 80%;
+    margin: 20px 0 20px 0;
+    text-align: right;
 }
 
 #Home #Abstratic #imageDiv {
-    padding-top: 30px;
-    padding-left: 30px;
+    margin-top: 30px;
+    margin-left: 30px;
+    height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
 
 #Home #Abstratic #imageDiv img {
-    width: 30vw;
-    height: 30vh;
+    width: 44vw;
+    height: 40vh;
+    margin-top: 16%;
 }
 
 #Home .centralize {
@@ -126,9 +174,28 @@
 }
 
 #Home #Categories{
-    width: 90vw;
-    padding-left: 10vw;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     background-color: #AAA;
+    background-image: url('../../img/home/backgroundBlue.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fff;
+}
+
+#Home #Categories #categoriesDiv {
+    display: flex;
+    height: 55vh;
+    flex-direction: row;
+    
+}
+
+#Home #Categories h1 {
+    font-size: 32pt;
+    margin: 5% 0 5% 0;
 }
 
 #Home footer{
@@ -141,31 +208,28 @@
 
 #Home footer *{
     color: #FFF;
+    list-style: none;
 }
 
 .container2 {
     display: grid;
     grid-template-columns: auto auto auto auto;
     background-color: #000;
+    height: 40vh;
     color: aliceblue;
     font-size: 20px;
-}
-
-ul {
-    list-style: none;
+    width: 100%;
+    padding-top: 4vh;
 }
 
 .first {
     color: rgb(173, 167, 167);
-    font-size: 16px;
+    font-size: 24px;
 }
 
-.logo {
-    width: 120px;
-    height: 30px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 0 0;
+#Home footer img {
+    width: 190px;
+    height: 80px;
 }
 
 .container2 ul li a {
@@ -176,4 +240,8 @@ ul {
 
 .container2 ul li a:hover {
     color: rgb(87, 87, 230);
+}
+
+.container2 ul {
+    font-size: 20pt;
 }
