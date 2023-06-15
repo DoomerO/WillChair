@@ -12,13 +12,14 @@ import bengala from '../img/categories/bengala.png';
 import diversidade from '../img/categories/diversidade.png';
 import logo from '../img/home/logo.png';
 import middleImage from '../img/home/imgHomeMiddle.png';
+import topImage from '../img/home/imgHomeTop.png';
 
 const Home = () => {
     return (
         <div id="Home"> 
             <header>
                 <input type="checkbox"></input>
-                <img id="logoTitle"></img>
+                <img id="logoTitle" src={logo}></img>
                 <ul>
                     <li>Home</li>
                     <li>Produtos</li>
@@ -36,31 +37,28 @@ const Home = () => {
                    
                         <p>Compre ou negocie equipamentos de acessibilidade!</p>
                     </div>
-                </div>
+                </div>    
                 <div id="imageDiv">
-                    <img src=""></img>
-                </div>                
+                    <img src={topImage}></img>
+                </div>
             </section>
 
             <section id="Abstratic">
+                
+                <div id="imageDiv">
+                    <img src={middleImage}></img>
+                </div>
                 <div id="textDiv">
-                    <div id="title">
-                        <h1>O que você pode encontrar aqui</h1>
-                    </div>
                     <div id="text">
+                        <h1>O que você pode encontrar aqui</h1>
                         <p>Aluguéis, vendas ou doações temos de tudo aqui.</p>
                         <p>Crie ou acesse várias ofertas de equipamentos.</p>
                     </div>
                 </div>
-                <div id="imageDiv">
-                    <img src={middleImage}></img>
-                </div>
             </section>
 
             <section id="Categories">
-                <div id="title">
-                    <h1>Confira abaixo algumas das nossas categorias</h1>
-                </div>
+                <h1>Confira abaixo algumas das nossas categorias</h1>
                 <div id="categoriesDiv">
                     <Category imgPath={cadeira} name="Cadeira de Rodas"></Category>
                     <Category imgPath={muleta} name="Muletas"></Category>
@@ -74,7 +72,7 @@ const Home = () => {
             <div className="container2">
             <div className="iten1">
                 <ul>
-                    <li><img src={logo} className="logo"/></li>
+                    <li><img src={logo}/></li>
                 </ul>
             </div>
             <div className="iten2">
@@ -95,7 +93,7 @@ const Home = () => {
                 </ul>
             </div>
         </div>
-            </footer>
+        </footer>
         </div>
     )
 }
