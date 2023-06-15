@@ -7,7 +7,7 @@ interface catProps {
     name: string //Using to define the name to a Category
 }  
 
-const Category =({imgPath, name}:catProps) => {
+const Category =({name, imgPath}:catProps) => {
 
     return (
         <div id="Category">

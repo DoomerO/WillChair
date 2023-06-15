@@ -1,32 +1,66 @@
-#Presentation, #Abstratic{
-    background-color: #FFF;
-}
 
 #Home {
     width: 100vw;
     height: 100vh;
     display: flex;
-    background-color: #000;
+    background-color: #fff;
     box-sizing: border-box;
     flex-direction: column;
     align-items: center;
 }
 
+#Home #Presentation {
+    background-color: #003B95;
+    display: flex;
+    flex-direction: row;   
+    width: 100%;
+    height: 60vh;
+}
+
+#Home #Presentation #textDiv {
+    background-color: #AAA;
+    width: 60vw;
+    float: left;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:#FFF;
+    font-size: 20pt;
+}
+
+#Home #Presentetion #text {
+    display: flex;
+    flex-direction: column;
+}
+
+#Home #Presentation h1{
+    color: #001586;
+    margin-left: 4vw;
+    font-size: 30pt;
+    margin-bottom: 14px;
+}
+
 #Home header {
     background-color: #000D7F;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+#Home header input {
+    display: none;
 }
 
 #Home header ul {
     display: flex;
     justify-content: center;
+    flex-direction: row;
     list-style: none;
     font-family: 'Atkinson Hyperlegible';
     color: #fff;
-}
-
-#Home header input {
-    display: none;
 }
 
 #Home header ul li {
@@ -34,7 +68,7 @@
     margin: 0 10px 0 10px;
     font-style: normal;
     font-weight: 700;
-    font-size: 22pt;
+    font-size: 16pt;
     line-height: 37px;
     color: #FFFFFF;
 }
@@ -56,23 +90,35 @@
 }
 
 #Home header #registerButton {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 6%;
+    display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 16pt;
+}
+
+#Home #Abstratic {
+    background-color: #FFF;
     display: flex;
+    flex-direction: row-reverse;   
+    width: 100%;
+    height: 60vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url('../../img/home/backgroundWhite.jpg');
 }
 
-#Home #textDiv{
+#Home #Abstratic #textDiv {
     width: 90vw;
-    padding-left: 10vw;
 }
 
-#Home #textDiv #title{
-    font-family: Arial, Helvetica, sans-serif;
-    font-style: italic;
+#Home #Abstratic #imageDiv {
+    padding-top: 30px;
+    padding-left: 30px;
+}
+
+#Home #Abstratic #imageDiv img {
+    width: 30vw;
+    height: 30vh;
 }
 
 #Home .centralize {
@@ -93,6 +139,41 @@
     flex-direction: column;
 }
 
-footer *{
+#Home footer *{
     color: #FFF;
+}
+
+.container2 {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    background-color: #000;
+    color: aliceblue;
+    font-size: 20px;
+}
+
+ul {
+    list-style: none;
+}
+
+.first {
+    color: rgb(173, 167, 167);
+    font-size: 16px;
+}
+
+.logo {
+    width: 120px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+}
+
+.container2 ul li a {
+    color: white;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.container2 ul li a:hover {
+    color: rgb(87, 87, 230);
 }

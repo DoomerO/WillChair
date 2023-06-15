@@ -3,33 +3,37 @@ import Category from "../components/Category";
 import "../styles/pages/Home.css";
 import {CgProfile} from "react-icons/cg";
 
+
+//images
+import andador from '../img/categories/andador.png';
+import muleta from '../img/categories/muleta.png';
+import cadeira from '../img/categories/cadeira-de-rodas.png';
+import bengala from '../img/categories/bengala.png';
+import diversidade from '../img/categories/diversidade.png';
+import logo from '../img/home/logo.png';
+import middleImage from '../img/home/imgHomeMiddle.png';
+
 const Home = () => {
     return (
         <div id="Home"> 
             <header>
-                <div className="centralize">
-                    <input type="checkbox"></input>
-                    <img id="logoTitle"></img>
-                    <ul>
-                        <li>Home</li>
-                        <li>Produtos</li>
-                        <li>Sobre</li>
-                    </ul>
-                    <div id="registerButton">
-                        <p style={{marginTop: '1px'}}>Cadastrar</p>
-                        <Link to="/login"><CgProfile color="#fff" size="40px" /></Link>
-                    </div>
+                <input type="checkbox"></input>
+                <img id="logoTitle"></img>
+                <ul>
+                    <li>Home</li>
+                    <li>Produtos</li>
+                    <li>Sobre</li>
+                </ul>
+                <div id="registerButton">
+                    <p style={{marginTop: '1px'}}>Cadastrar</p>                        <Link to="/login"><CgProfile color="#fff" size="40px"/></Link>
                 </div>
             </header>
 
             <section id="Presentation">
                 <div id="textDiv">
-                    <div id="title">
-                        <h1>O seu sonho</h1>
-                        <h1>acessível perto de você!</h1>
-                        
-                    </div>
                     <div id="text">
+                        <h1>O seu sonho <br></br>acessível perto de você!</h1>
+                   
                         <p>Compre ou negocie equipamentos de acessibilidade!</p>
                     </div>
                 </div>
@@ -49,7 +53,7 @@ const Home = () => {
                     </div>
                 </div>
                 <div id="imageDiv">
-                    <img src=""></img>
+                    <img src={middleImage}></img>
                 </div>
             </section>
 
@@ -58,55 +62,39 @@ const Home = () => {
                     <h1>Confira abaixo algumas das nossas categorias</h1>
                 </div>
                 <div id="categoriesDiv">
-                    <Category imgPath="/login" name="Cadeira de Rodas"></Category>
-                    <Category imgPath="/login" name="Muletas"></Category>
-                    <Category imgPath="/login" name="Andadores"></Category>
-                    <Category imgPath="/login" name="Bengalas"></Category>
-                    <Category imgPath="/login" name="Todas"></Category>
+                    <Category imgPath={cadeira} name="Cadeira de Rodas"></Category>
+                    <Category imgPath={muleta} name="Muletas"></Category>
+                    <Category imgPath={andador} name="Andadores"></Category>
+                    <Category imgPath={bengala} name="Bengalas"></Category>
+                    <Category imgPath={diversidade} name="Todas"></Category>
                 </div>
             </section>
 
             <footer>                
-                <div id="Logo"><img id="logoImg"></img></div>
-                <div id="Links">
-                    <div id="partners">
-                        <h3>Empresa</h3>
-                        <ul>
-                            <li>Willchair</li>
-                        </ul>
-                    </div>
-                    <div id="usefull">
-                        <h3>Links Úteis</h3>
-                        <ul>
-                            <li><a href="localhost:5173/login">hihihiha</a></li>
-                        </ul>
-                    </div>
-                    <div id="contacts">
-                        <h3>Contatos</h3>
-                        <ul>
-                            <li><a href="#"></a></li>
-                        </ul>
-                    </div>
-                    <div id="socialMedias">
-                        <ul>
-                            <li><a href="https://www.instagram.com"><img src="/l"></img></a></li>
-                            <li><a href="https://www.whatsapp.com"><img src="/l"></img></a></li>
-                            <li><a href="https://www.facebook.com"><img src="/l"></img></a></li>
-                        </ul>
-                    </div>
-                    <div id="mobileLinks">
-                        <ul>
-                            <li id="AppleStore"><a><img src="/l"></img></a></li>
-                            <li id="PlayStore"><a><img src="/l"></img></a></li>
-                        </ul>
-                    </div>
-                    <div id="info">
-                        <ul>
-                            <li><i></i>Brasil Portugues</li>
-                            <li><i></i>2023 WillChair</li>
-                        </ul>
-                    </div>
-                </div>
+            <div className="container2">
+            <div className="iten1">
+                <ul>
+                    <li><img src={logo} className="logo"/></li>
+                </ul>
+            </div>
+            <div className="iten2">
+                <ul>
+                    <li className="first">Empresa</li>
+                    <li><a href="#">Sobre</a></li>
+                    <li><a href="#">Marca</a></li>
+                </ul>
+            </div>
+            <div className="iten3">
+                <ul>
+                    <li className="first">Links úteis</li>
+                </ul>
+            </div>
+                <div className="iten4">
+                <ul>
+                    <li className="first">Contatos</li>
+                </ul>
+            </div>
+        </div>
             </footer>
         </div>
     )
