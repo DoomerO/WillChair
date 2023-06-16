@@ -6,6 +6,7 @@ const routes = express.Router();
 
 //User Routes
 routes.get('/users', controllersUsers.searchUsers);
+routes.get('/userAuthentication/:email/:password', controllersUsers.searchUserEmailPassword);
 routes.post('/users', controllersUsers.createUser);
 
 module.exports = routes;
