@@ -1,10 +1,42 @@
 import '../styles/pages/Login.css';
-import { useState } from 'react';
+import { ChangeEvent, useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Login = () => {
 
-    const handleSubmits = () => { //Controla Envios de Formulários
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
+ 
+    useEffect(() => { //controla acesso ao banco de dados
+        axios.get("http://localhost:3344/users", {}).then(res => {
+            console.log(res)
+        }).catch(error => {
+            console.log(error)
+        })
+    }, [])
 
+    function handleSubmits (event: React.FormEvent<HTMLFormElement>) { //Controla Envios de Formulários
+        event.preventDefault();
+        axios.post('http://localhost:3344/users', {
+            user_email: email, 
+            user_name: name,
+            password: password,
+            user_level: 0}).then(res => {
+            console.log("User Posted")
+        }).catch(error => {
+            console.log(error)
+        });
+    }
+
+    const handleChangeEmail = (e:ChangeEvent<HTMLInputElement>) => { //Controla Mudança de inputs Email
+       setEmail(e.target.value);
+    }
+    const handleChangeName = (e:ChangeEvent<HTMLInputElement>) => { //Controla Mudança de inputs Nome
+       setName(e.target.value);
+    }
+    const handleChangePassword = (e:ChangeEvent<HTMLInputElement>) => { //Controla Mudança de inputs Senha
+        setPassword(e.target.value);
     }
 
     const [rightShow, setShow] = useState('')
@@ -17,11 +49,11 @@ const Login = () => {
         <div id="logPage">
             <div id="container" className={rightShow}>
                 <div id="Register-Section" className='formSection'>
-                    <form action="#">
+                    <form action="#" onSubmit={handleSubmits}>
                         <h1>Cadastre-se aqui</h1>
-                        <input type="text" name="name" placeholder='Nome'/>
-                        <input type="email" name="mail" pattern="/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/" placeholder='Email'/>
-                        <input type="password" name="password" placeholder='Senha'/>
+                        <input type="text" name="name" placeholder='Nome' onChange={handleChangeName}/>
+                        <input type="email" name="mail" placeholder='Email' onChange={handleChangeEmail}/>
+                        <input type="password" name="password" placeholder='Senha' onChange={handleChangePassword}/>
                         <button type='submit'>Registrar</button>
                         <span>Ou registre-se pelo google</span>
                     </form>
