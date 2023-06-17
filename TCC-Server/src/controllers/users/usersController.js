@@ -18,22 +18,29 @@ module.exports= {
             const {password} = req.params;
 
             const consult = await knex('User').where("user_email", email);
-        
-            if (consultEmail != "") {
-                bcrypt.compare(password, consult.user_password), function(err, result) {
+            const pass = await knex('User').select('user_password').where("user_email", email);
+           
+            if (consult != "") {
+                const test = bcrypt.compare(password, pass, function(err, res) {
                     if (err) {
-                        return res.status(400).json({error: error.mesage});
+                        console.log(err)
                     }
-                    if(result) {
-                        return res.status(201).json({msg: "User Exists"});
+                    if(res) {
+                        return true;
                     }
                     else {
-                        return res.status(400).json({msg: "There is no user with this informations"});
+                        return false;
                     }
-                } 
+                });
+                if (test) {
+                    return res.status(201).json({msg: "This user does exists" + pass})
+                }
+                else {
+                    return res.status(401).json({msg: "There is no user with this informations"});
+                }
             }
             else {
-                return res.status(400).json({msg: "There is no user with this informations"});
+                return res.status(401).json({msg: "There is no user with this informations"});
             }
         }
         catch(error) {
@@ -63,6 +70,17 @@ module.exports= {
                 user_password
             })
             return res.status(201).json({msg: "User Registred Properly"});
+        }
+        catch(error) {
+            return res.status(400).json({error: error.mesage});
+        }
+    },
+
+    async deleteUser(req, res) {
+        try {
+            const {cod} = req.params;
+            await knex('User').del().where("user_id", cod);
+            return res.status(201).json({msg: "User Deleted"});
         }
         catch(error) {
             return res.status(400).json({error: error.mesage});
