@@ -8,6 +8,8 @@ const routes = express.Router();
 routes.get('/users', controllersUsers.searchUsers);
 routes.get('/userAuthentication/:email/:password', controllersUsers.searchUserEmailPassword);
 routes.post('/users', controllersUsers.createUser);
+routes.put('/user/:email', controllersUsers.updateUser);
+routes.put('/userPassword/:email', controllersUsers.updateUserPassword);
 routes.delete('/user/:cod', controllersUsers.deleteUser);
 
 module.exports = routes;
