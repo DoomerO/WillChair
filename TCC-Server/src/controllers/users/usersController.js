@@ -17,12 +17,10 @@ module.exports= {
             const {email} = req.params;
             const {password} = req.params;
 
-            const consult = await knex('User').where("user_email", email);
-            
-            const pass = await knex('User').where("user_email", email).select('user_password');
-             
-            if (consult != "") {
-                bcrypt.compare(password, pass.toString()).then((result) => {
+            if (await knex('User').where("user_email", email) != "") {
+                const pass = await knex('User').where("user_email", email).select('user_password').then(result => result[0].user_password);
+
+                bcrypt.compare(password, pass).then((result) => {
                     if(result) {
                         return res.status(201).json({msg: "This user does exists" })
                     }
