@@ -20,7 +20,6 @@ module.exports= {
             const consult = await knex('User').where("user_email", email);
             
             const pass = await knex('User').where("user_email", email).select('user_password');
-            return res.status(201).json({msg: "This user does exists" + pass })
              
             if (consult != "") {
                 bcrypt.compare(password, pass.toString()).then((result) => {
@@ -52,9 +51,7 @@ module.exports= {
             
             const user_password = bcrypt.hashSync(password, 10);
             
-            const consult = await knex('User').where("user_email", user_email);
-
-            if (consult != "") {
+            if (await knex('User').where("user_email", user_email) != "") {
                 return res.status(401).json({msg: "This user alredy exists"});
             }
            
@@ -80,8 +77,7 @@ module.exports= {
             const {user_houseNum} = req.body;
             const {user_img} = req.body;
 
-            const consult = await knex('User').where("user_email", email);
-            if (consult != "") {
+            if (await knex('User').where("user_email", email) != "") {
                 await knex("User").update({
                     user_name,
                     user_phone,
@@ -105,8 +101,7 @@ module.exports= {
             const {email} = req.params;
             const {password} = req.body;
 
-            const consult = await knex('User').where("user_email", email);
-            if (consult != "") {
+            if (await knex('User').where("user_email", email) != "") {
                 const user_password = bcrypt.hashSync(password, 10);
 
                 await knex("User").update({
@@ -125,9 +120,14 @@ module.exports= {
 
     async deleteUser(req, res) { //deleta um usuário  pelo id
         try {
-            const {cod} = req.params;
-            await knex('User').del().where("user_id", cod);
-            return res.status(201).json({msg: "User Deleted"});
+            const {id} = req.params;
+            if (await knex("User").where("user_id", id) != "") {
+                await knex('User').del().where("user_id", id);
+                return res.status(201).json({msg: "User Deleted"});
+            }
+            else {
+                return res.status(401).json({msg: "This user is not registred"});
+            }
         }
         catch(error) {
             return res.status(400).json({error: error.mesage});
