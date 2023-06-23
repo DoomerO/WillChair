@@ -1,5 +1,5 @@
 const express = require('express');
-
+const auth = require('./middleware/auth')
 const controllersUsers = require('./controllers/users/usersController');
 const controllersOffers = require('./controllers/offers/offersController');
 
@@ -11,7 +11,7 @@ routes.get('/users/:email/:password', controllersUsers.searchUserEmailPassword);
 routes.post('/users', controllersUsers.createUser);
 routes.put('/users/:email', controllersUsers.updateUser);
 routes.put('/usersPassword/:email', controllersUsers.updateUserPassword);
-routes.delete('/users/:cod', controllersUsers.deleteUser);
+routes.delete('/users/:id', controllersUsers.deleteUser);
 
 //Offer Routes
 routes.get('/offers', controllersOffers.searchOffers);

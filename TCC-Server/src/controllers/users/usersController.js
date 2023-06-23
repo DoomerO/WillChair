@@ -1,5 +1,7 @@
+
 const knex = require('../../database/database');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 module.exports= {
     async searchUsers(req, res) { //recebe todos os cadastros de usuário no sistema
@@ -16,16 +18,22 @@ module.exports= {
         try {
             const {email} = req.params;
             const {password} = req.params;
-
-            if (await knex('User').where("user_email", email) != "") {
-                const pass = await knex('User').where("user_email", email).select('user_password').then(result => result[0].user_password);
-
+            const consult = await knex('User').where("user_email", email);
+            if (consult != "") {
+                const pass = consult[0].user_password;
                 bcrypt.compare(password, pass).then((result) => {
                     if(result) {
-                        return res.status(201).json({msg: "This user does exists" })
+                        const user = {id: consult[0].user_id, name: consult[0].user_name, 
+                            email: consult[0].user_email, level: consult[0].user_level};
+                            
+                            const acssesToken = jwt.sign( //criação de token
+                                user,
+                                process.env.TOKEN_KEY_ACSSES,
+                            );
+                        return res.status(201).json({msg: acssesToken })
                     }
                     else {
-                        return res.status(401).json({msg: "There is no user with this informations" + pass.toString()});
+                        return res.status(401).json({msg: "There is no user with this informations"});
                     }
                 }).catch((err) => {
                     return res.status(400).json({error: err.mesage})
@@ -47,19 +55,22 @@ module.exports= {
             const {password} = req.body;
             const {user_level} = req.body;
             
-            const user_password = bcrypt.hashSync(password, 10);
-            
+            if(!(user_name || user_email || password)) {
+                return res.status(401).json({msg: "All inputs must be filled"})
+            }
             if (await knex('User').where("user_email", user_email) != "") {
                 return res.status(401).json({msg: "This user alredy exists"});
             }
+            const user_password = bcrypt.hashSync(password, 10);
            
             await knex('User').insert({
                 user_name,
                 user_email,
                 user_level,
                 user_password
-            })
-            return res.status(201).json({msg: "User Registred Properly"});
+            });
+            return res.status(201).json({msg: user});
+
         }
         catch(error) {
             return res.status(400).json({error: error.mesage});
