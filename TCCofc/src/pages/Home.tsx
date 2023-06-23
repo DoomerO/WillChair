@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import Category from "../components/Category";
-import "../styles/pages/Home.css";
-import {CgProfile} from "react-icons/cg";
-
+import Header from '../components/Header'
+import { Box, Center, Flex, Spacer, Text, Image, Heading, HStack, Container } from '@chakra-ui/react'
+import {BsCreditCard} from "react-icons/bs";
+import {BiDonateHeart} from "react-icons/bi";
+import {MdWheelchairPickup} from "react-icons/md";
 
 //images
 import andador from '../img/categories/andador.png';
@@ -16,85 +18,58 @@ import topImage from '../img/home/imgHomeTop.png';
 
 const Home = () => {
     return (
-        <div id="Home"> 
-            <header>
-                <input type="checkbox"></input>
-                <img id="logoTitle" src={logo}></img>
-                <ul>
-                    <li>Home</li>
-                    <li>Produtos</li>
-                    <li>Sobre</li>
-                </ul>
-                <div id="registerButton">
-                    <p style={{marginTop: '1px'}}>Cadastrar</p>                        <Link to="/login"><CgProfile color="#fff" size="40px"/></Link>
-                </div>
-            </header>
-
-            <section id="Presentation">
-                <div id="textDiv">
-                    <div id="text">
-                        <h1>O seu sonho <br></br>acessível perto de você!</h1>
-                   
-                        <p>Compre ou negocie equipamentos de acessibilidade!</p>
-                    </div>
-                </div>    
-                <div id="imageDiv">
-                    <img src={topImage}></img>
-                </div>
-            </section>
-
-            <section id="Abstratic">
-                
-                <div id="imageDiv">
-                    <img src={middleImage}></img>
-                </div>
-                <div id="textDiv">
-                    <div id="text">
-                        <h1>O que você pode encontrar aqui</h1>
-                        <p>Aluguéis, vendas ou doações temos de tudo aqui.</p>
-                        <p>Crie ou acesse várias ofertas de equipamentos.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="Categories">
-                <h1>Confira abaixo algumas das nossas categorias</h1>
-                <div id="categoriesDiv">
-                    <Category imgPath={cadeira} name="Cadeira de Rodas"></Category>
-                    <Category imgPath={muleta} name="Muletas"></Category>
-                    <Category imgPath={andador} name="Andadores"></Category>
-                    <Category imgPath={bengala} name="Bengalas"></Category>
-                    <Category imgPath={diversidade} name="Todas"></Category>
-                </div>
-            </section>
-
-            <footer>                
-            <div className="container2">
-            <div className="iten1">
-                <ul>
-                    <li><img src={logo}/></li>
-                </ul>
-            </div>
-            <div className="iten2">
-                <ul>
-                    <li className="first">Empresa</li>
-                    <li><a href="#">Sobre</a></li>
-                    <li><a href="#">Marca</a></li>
-                </ul>
-            </div>
-            <div className="iten3">
-                <ul>
-                    <li className="first">Links úteis</li>
-                </ul>
-            </div>
-                <div className="iten4">
-                <ul>
-                    <li className="first">Contatos</li>
-                </ul>
-            </div>
-        </div>
-        </footer>
-        </div>
+        <Box w="100%" h="100%">
+            <Header/> 
+            <Flex w='100%' h='70vh' bg='#F7F9FC' align='center'>
+                <Flex align='center' direction='column' ml='8%' w='50%'>
+                    <Text color='#2D3748' fontSize="30px">O seu sonho acessível</Text>
+                    <Text color='#1976D2' fontSize="30px">perto de você!</Text>
+                    <Text noOfLines={[1, 2]} fontSize='20px' mt='20px'>
+                        Compre, negocie ou anuncie equipamentos de acessibilidade
+                    </Text>
+                </Flex>
+                <Image src={topImage} w='50%' h='100%' objectFit='contain'/>
+            </Flex>
+            <Flex w='100%' bg='#fff' h='60vh' align='center' direction='column'>
+                <Heading as='h1' noOfLines={1} color='#2D3748' mt='3%'>
+                    O que você pode encontrar por aqui
+                </Heading>
+                <HStack mt='8%' gap="50">
+                    <Flex direction='column' align='center' w='30vh' h='30vh'>
+                        <Box w='fit-content'>
+                            <Container borderRadius='100%' bg='#E8F1FA' p='20px'>
+                                <BsCreditCard size='8vh'/>
+                            </Container>
+                        </Box>
+                        <Text align='center' noOfLines={2}>
+                            Compras ou vendas de produtos
+                        </Text>
+                    </Flex>
+                    <Spacer />
+                    <Flex direction='column' align='center' w='30vh' h='30vh'>
+                        <Box w='fit-content'>
+                            <Container borderRadius='100%' bg='#E8F1FA' p='20px'>
+                                <BiDonateHeart size='8vh'/>
+                            </Container>
+                        </Box>
+                        <Text align='center' noOfLines={2}>
+                            Doações de equipamentos
+                        </Text>
+                    </Flex>
+                    <Spacer />
+                    <Flex direction='column' align='center' w='30vh' h='30vh'>
+                        <Box w='fit-content'>
+                            <Container borderRadius='100%' bg='#E8F1FA' p='20px'>
+                                <MdWheelchairPickup size='8vh'/>
+                            </Container>
+                        </Box>
+                        <Text align='center' noOfLines={2}>
+                            Aluguéis por preços acessíveis
+                        </Text>
+                    </Flex>
+                </HStack>
+            </Flex>
+        </Box> 
     )
 }
 
