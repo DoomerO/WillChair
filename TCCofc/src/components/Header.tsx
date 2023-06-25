@@ -1,20 +1,24 @@
 import { Link } from "react-router-dom";
-import { Flex, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button } from '@chakra-ui/react';
+import {useState} from 'react';
+import { Flex, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button, useColorMode, useBoolean, useColorModeValue } from '@chakra-ui/react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 //imagens
 import logo from '../img/home/logoDark.png'
+import logoLight from '../img/home/logo.png'
 
 const Header = () => {
 
+    const {toggleColorMode, colorMode} = useColorMode();
+    const logoImg = useColorModeValue(logo, logoLight)
     return (
-        <Flex w="100%" h="8.5vh" bg='#fff' position='fixed'>
+        <Flex w="100%" h="8.5vh" bg='#fff' position='fixed' _dark={{bg : '#222'}}>
             <Center h='100%'  ml='10px'>
                 <Menu>
                     <MenuButton  
                         as={IconButton}
                         aria-label='Options'
                         icon = {<RxHamburgerMenu size='100%'/>}
-                        bg='#fff'>
+                        bg='#0000'>
                     </MenuButton>
                     <MenuList>
                         <MenuItem>
@@ -29,11 +33,14 @@ const Header = () => {
                         <MenuItem>
                             ou alguma coisa
                         </MenuItem>
+                        <MenuItem onClick={toggleColorMode}>
+                            Dark Mode
+                        </MenuItem>
                     </MenuList>
                 </Menu>
             </Center>
             <Spacer />
-                <Image src={logo} objectFit='auto' w="16%" h='66%' mt='2.5'></Image>
+                <Image src={logoImg} objectFit='auto' w="16%" h='66%' mt='2.5'></Image>
             <Spacer />
             <HStack w='25%'>
                 <Button variant='link' colorScheme="#000">
