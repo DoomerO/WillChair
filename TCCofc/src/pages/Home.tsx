@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Category from "../components/Category";
 import Header from '../components/Header';
 import Footer from "../components/Footer";
-import { Box, Flex, Spacer, Text, Image, Heading, HStack, Container} from '@chakra-ui/react';
+import { Box, Flex, Spacer, Text, Image, Heading, HStack, Container, useColorMode} from '@chakra-ui/react';
 import {BsCreditCard} from "react-icons/bs";
 import {BiDonateHeart} from "react-icons/bi";
 import {MdWheelchairPickup} from "react-icons/md";
@@ -17,14 +17,14 @@ import bengala from '../img/categories/bengala.png';
 import diversos from '../img/categories/diversidade.png';
 
 const Home = () => {
-    
+
     return (
         <Box w="100%" h="100%">
             <Header/>
 
-            <Flex w='100%' h='70vh' bg='#F7F9FC' align='center'>
+            <Flex w='100%' h='70vh' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
                 <Flex align='center' direction='column' ml='8%' w='50%'>
-                    <Heading color='#2D3748' as='h1' fontSize="30px">O seu sonho acessível</Heading>
+                    <Heading color='#2D3748' as='h1' fontSize="30px" _dark={{color:"#0D87d8"}}>O seu sonho acessível</Heading>
                     <Heading color='#1976D2' as='h1' fontSize="30px">perto de você!</Heading>
                     <Text noOfLines={[1, 2]} fontSize='20px' mt='20px'>
                         Compre, negocie ou anuncie equipamentos de acessibilidade
@@ -33,14 +33,14 @@ const Home = () => {
                 <Image src={topImage} w='50%' h='100%' objectFit='contain'/>
             </Flex>
 
-            <Flex w='100%' bg='#fff' h='60vh' align='center' direction='column'>
-                <Heading as='h1' noOfLines={1} color='#2D3748' mt='3%'>
+            <Flex w='100%' bg='#fff' h='60vh' align='center' direction='column' _dark={{bg:'#4f4f4f'}}>
+                <Heading as='h1' noOfLines={1} color='#2D3748' mt='3%' _dark={{color:"#0D87d8"}}>
                     O que você pode encontrar por aqui
                 </Heading>
                 <HStack mt='8%' gap="50">
                     <Flex direction='column' align='center' w='30vh' h='30vh'>
                         <Box w='fit-content'>
-                            <Container borderRadius='100%' bg='#E8F1FA' p='20px'>
+                            <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}}>
                                 <BsCreditCard size='8vh'/>
                             </Container>
                         </Box>
@@ -51,7 +51,7 @@ const Home = () => {
                     <Spacer />
                     <Flex direction='column' align='center' w='30vh' h='30vh'>
                         <Box w='fit-content'>
-                            <Container borderRadius='100%' bg='#E8F1FA' p='20px'>
+                            <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}}>
                                 <BiDonateHeart size='8vh'/>
                             </Container>
                         </Box>
@@ -62,7 +62,7 @@ const Home = () => {
                     <Spacer />
                     <Flex direction='column' align='center' w='30vh' h='30vh'>
                         <Box w='fit-content'>
-                            <Container borderRadius='100%' bg='#E8F1FA' p='20px'>
+                            <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}}>
                                 <MdWheelchairPickup size='8vh'/>
                             </Container>
                         </Box>
@@ -73,9 +73,9 @@ const Home = () => {
                 </HStack>
             </Flex>
 
-            <Flex w='100%' h='70vh' bg='#F7F9FC' align='center' direction='column'>
+            <Flex w='100%' h='70vh' bg='#F7F9FC' align='center' direction='column' _dark={{bg:'#484A4D'}}>
                 <Box h='20%' align='center' mt="3%">
-                <Heading as='h2' noOfLines={1} color='#1963D2'>
+                <Heading as='h2' noOfLines={1} color='#1963D2' _dark={{color:'#1983D2'}}>
                     Confira abaixo algumas de nossas categorias
                 </Heading>
                 </Box>
