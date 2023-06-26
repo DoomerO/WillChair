@@ -14,6 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema willchair
 -- -----------------------------------------------------
+Drop database willchair;
 CREATE SCHEMA IF NOT EXISTS `willchair` DEFAULT CHARACTER SET utf8 ;
 USE `willchair` ;
 
@@ -23,7 +24,7 @@ USE `willchair` ;
 CREATE TABLE IF NOT EXISTS `willchair`.`User` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
   `user_email` VARCHAR(45) NOT NULL,
-  `user_password` VARCHAR(40) NOT NULL,
+  `user_password` VARCHAR(60) NOT NULL,
   `user_level` INT NOT NULL,
   `user_phone` VARCHAR(20) NULL,
   `user_houseNum` VARCHAR(6) NULL,

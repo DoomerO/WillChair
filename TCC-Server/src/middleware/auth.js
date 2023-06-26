@@ -2,19 +2,18 @@ const jwt = require("jsonwebtoken");
 
 function verifyToken (req, res, next) {
 
-    const token = req.body.token || req.query.token || req.headers["x-acsses-token"];
-
-    if(!token) {
-        return res.status(403).json({msg :"A token is required for authentication"});
+    const tokenHeader = req.headers['authorazition'];
+    const token = tokenHeader && tokenHeader.split(' ')[1];
+    if (!token) {
+        return res.status(403).json({msg : "User must have a valid token"});
     }
-    try {
-        const decodeToken = jwt.verify(token, process.env.TOKEN_KEY_ACSSES);
-        req.user = decodeToken;
-    }
-    catch (error) {
-        return res.status(401).json({msg: "invalid token"});
-    }
-    return next();
+    jwt.verify(token, process.env.TOKEN_KEY_ACSSES, (error, user) => {
+        if(error) {
+            return res.status(403).json({msg : "This user does not have acsses to the aplication"});
+        }
+        req.user = user
+        next();
+    });
 }
 
 module.exports = verifyToken;
