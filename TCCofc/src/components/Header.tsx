@@ -11,7 +11,8 @@ const Header = () => {
     const {toggleColorMode, colorMode} = useColorMode();
     const logoImg = useColorModeValue(logo, logoLight)
     return (
-        <Flex w="100%" h="8.5vh" bg='#fff' position='fixed' _dark={{bg : '#222'}}>
+        <Flex w="100%" h="8.5vh" bg='#fff' position='fixed' _dark={{bg : '#131313'}} boxShadow='lg'>
+            
             <Center h='100%'  ml='10px'>
                 <Menu>
                     <MenuButton  
@@ -40,7 +41,7 @@ const Header = () => {
                 </Menu>
             </Center>
             <Spacer />
-                <Image src={logoImg} objectFit='auto' w="16%" h='66%' mt='2.5'></Image>
+                <Image src={logoImg} objectFit='cover' w="12%" h='66%' mt='2.5'></Image>
             <Spacer />
             <HStack w='25%'>
                 <Button variant='link' colorScheme="#000">
@@ -60,6 +61,7 @@ const Header = () => {
                 </Button>
             </HStack>
             <Spacer/>
+            <Spacer />
             <HStack>
                 <Button variant='ghost'>
                     Sign In

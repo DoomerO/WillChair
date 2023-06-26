@@ -14,7 +14,7 @@ const Category =({name, icon}:catProps) => {
        <Flex align='center' direction='column' w="14vw">
             <Box w='fit-content' mb='10px'>
                 <Container bg='#fff' p='20px' borderRadius='15px' boxShadow='lg'  _hover={{bg : "#ddd"}} _dark={{bg: '#444', _hover : {bg: "#123"}}}>
-                    <Link to='/login'><Image src={icon} objectFit='contain' w="12vh" h="12svh"></Image></Link>
+                    <Link to='/login'><Image src={icon} objectFit='contain' w="12vh" h="14vh"></Image></Link>
                 </Container>
             </Box>
             
