@@ -1,7 +1,6 @@
 import '../styles/pages/Login.css';
-import { ChangeEvent, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Password from '../components/Password';
-import Header from '../components/Header';
 import axios from 'axios';
 import { Wrap, Stack, Button, Toast, Collapse, Input, Center, useBoolean } from '@chakra-ui/react'
 
@@ -19,8 +18,7 @@ const Loginwip = () => {
         })
     }, [])
 
-    function handleSubmits (event: React.FormEvent<HTMLFormElement>) { //Controla Envios de Formulários
-        event.preventDefault();
+    function handleSubmits () { //Controla Envios de Formulários
         axios.post('http://localhost:3344/users', {
             user_email: email, 
             user_name: name,
@@ -49,14 +47,14 @@ const Loginwip = () => {
                 </Collapse>
                 <Collapse in={screen}>
                     <Wrap>
-                        <Input className='submit' placeholder='Nome de usuário'/>
-                        <Input className='submit' placeholder='E-mail'/>
-                        <Password setTo={setPassword}/>
+                        <Input className='submit' placeholder='Nome de usuário' onChange={e => setName(e.target.value)}/>
+                        <Input className='submit' placeholder='E-mail' onChange={e => setEmail(e.target.value)}/>
+                        <Password setTo={setPassword} placeHolder='Senha'/>
                         <Password setTo={setPassword} placeHolder='Confirmar senha'/>
                     </Wrap>
                     <Wrap justify='center' spacing={8}>
                         <Button onClick={setScreen.toggle}>Login</Button>
-                        <Button>Enviar</Button>
+                        <Button type='submit' onClick={() => {handleSubmits()}}>Enviar</Button>
                     </Wrap>
                 </Collapse>
             </Stack>

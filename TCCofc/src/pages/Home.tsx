@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Category from "../components/Category";
 import Header from '../components/Header';
 import Footer from "../components/Footer";
-import { Box, Flex, Spacer, Text, Image, Heading, HStack, Container, useColorMode} from '@chakra-ui/react';
+import { Box, Flex, Spacer, Text, Image, Heading, HStack, Container } from '@chakra-ui/react';
 import {BsCreditCard} from "react-icons/bs";
 import {BiDonateHeart} from "react-icons/bi";
 import {MdWheelchairPickup} from "react-icons/md";
