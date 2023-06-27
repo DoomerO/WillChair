@@ -88,7 +88,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `willchair`.`Mesage`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `willchair`.`Mesage` (
+CREATE TABLE IF NOT EXISTS `willchair`.`Message` (
   `msg_id` INT NOT NULL AUTO_INCREMENT,
   `msg_content` VARCHAR(255) NOT NULL,
   `User_user_id` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
