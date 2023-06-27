@@ -10,7 +10,7 @@ const Password = ({placeHolder, setTo}:passProps) => {
     return(
         //Elemento de input
         <InputGroup>
-        <Input placeholder={placeHolder ? placeHolder : 'Senha'} type={showPassword ? 'text' : 'password'}
+        <Input placeholder={placeHolder} type={showPassword ? 'text' : 'password'}
         onChange={e => setTo(e.target.value)}/>
         //Botão de mostrar senha
         <InputRightAddon bg={showPassword ? '#000' : '#fff'} color={showPassword ? '#fff' : '#222'}
