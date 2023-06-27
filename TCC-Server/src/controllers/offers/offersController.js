@@ -11,7 +11,7 @@ module.exports = {
         }
     },
 
-    async createOffer(req, res) { //insere uma ofertano banco
+    async createOffer(req, res) { //insere uma oferta no banco
         try {
             const {ofr_name} = req.body;
             const {ofr_desc} = req.body;
@@ -56,7 +56,7 @@ module.exports = {
             const {ofr_value} = req.body;
             const {ofr_status} = req.body;
 
-            if(await knex("Products").where("ofr_id", id) != "") {
+            if(await knex("Offer").where("ofr_id", id) != "") {
                 await knex("Offer").update({
                     ofr_desc,
                     ofr_name,
