@@ -1,7 +1,7 @@
-const knex = require('knex');
+const knex = require('../../database/database')
 
 module.exports = {
-    async getMessages(req, res) {
+    async searchMessages(req, res) { //Requisita todas as mensagens
         try {
             const result = await knex('Message');
             return res.status(201).json(result);
@@ -10,7 +10,7 @@ module.exports = {
         }
     },
 
-    async getMessagesChat(req, res) {
+    async searchMessagesChat(req, res) { //Requisita Mensagens pertencentes à um chat
         try {
             const {chat_id} = req.params;
             const result = await knex('Messages').where('Chat_chat_cod', chat_id);
@@ -27,7 +27,7 @@ module.exports = {
         }
     },
 
-    async createMessages(req, res) {
+    async createMessages(req, res) { //Cria uma mensagem
         try {
             const {msg_content} = req.body;
             const {User_user_id} = req.body;
@@ -51,7 +51,7 @@ module.exports = {
         }
     },
 
-    async delMessages(req, res) {
+    async delMessages(req, res) { //Deleta uma mensagem à partir do id
         try {
             const {id} = req.params;
 
@@ -68,7 +68,7 @@ module.exports = {
         }
     },
 
-    async delMessagesChat(req, res) {
+    async delMessagesChat(req, res) { //Deleta mensagens pertencentes a um chat específico
         try {
             const {chat_id} = req.params;
 
