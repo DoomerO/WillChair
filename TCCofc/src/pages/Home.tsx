@@ -22,7 +22,7 @@ const Home = () => {
         <Box w="100%" h="100%">
             <Header/>
 
-            <Flex w='100%' h='70vh' bg='#F3F7FC' align='center' _dark={{bg:'#484A4D'}}>
+            <Flex w='100%' h='70vh' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
                 <Flex align='center' direction='column' ml='8%' w='50%'>
                     <Heading color='#2D3748' as='h1' fontSize="30px" _dark={{color:"#0D87d8"}}>O seu sonho acessível</Heading>
                     <Heading color='#1976D2' as='h1' fontSize="30px">perto de você!</Heading>
@@ -74,10 +74,12 @@ const Home = () => {
             </Flex>
 
             <Flex w='100%' h='70vh' bg='#F7F9FC' align='center' direction='column' _dark={{bg:'#484A4D'}}>
-                <Heading as='h2' noOfLines={1} color='#1963D2' _dark={{color:'#1983D2'}} mt='3%' h='20%'>
+                <Box h='20%' alignContent='center' mt="3%">
+                <Heading as='h2' noOfLines={1} color='#1963D2' _dark={{color:'#1983D2'}}>
                     Confira abaixo algumas de nossas categorias
                 </Heading>
-                <Spacer />
+                </Box>
+                
                 <Flex h="80%" direction='row' align='center'>
                     <Image src={bottomImage} w="30%" h='100%' objectFit='contain'></Image>
                     <Flex direction='row' w='60%'>
