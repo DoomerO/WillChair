@@ -60,9 +60,9 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Offer` (
   `ofr_name` VARCHAR(45) NOT NULL,
   `ofr_type` VARCHAR(20) NOT NULL,
   `ofr_desc` VARCHAR(255) NULL,
-  `ofr_value` DATETIME NULL,
+  `ofr_value` DECIMAL NULL,
   `ofr_status` VARCHAR(10) NOT NULL,
-  `ofer_postDate` DATE NULL,
+  `ofr_postDate` DATETIME NULL,
   `User_user_id` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
