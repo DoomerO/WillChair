@@ -15,28 +15,29 @@ const routes = express.Router();
 routes.get('/users', auth,controllersUsers.searchUsers);
 routes.get('/users/:email/:password', controllersUsers.searchUserEmailPassword);
 routes.post('/users', controllersUsers.createUser);
-routes.put('/users/:email', controllersUsers.updateUser);
-routes.put('/usersPassword/:email', controllersUsers.updateUserPassword);
-routes.delete('/users/:id', controllersUsers.deleteUser);
+routes.put('/users/:email', auth,controllersUsers.updateUser);
+routes.put('/usersPassword/:email', auth,controllersUsers.updateUserPassword);
+routes.delete('/users/:id', auth,controllersUsers.deleteUser);
 
 //Offer Routes
-routes.get('/offers', controllersOffers.searchOffers);
-routes.post('/offers', controllersOffers.createOffer);
-routes.put('/offers/:id', controllersOffers.updateOffer);
-routes.delete('/offers/:id', controllersOffers.deleteOffer);
+routes.get('/offers', auth, controllersOffers.searchOffers);
+routes.get('/offers/:email', auth, controllersOffers.searchOffersUser);
+routes.post('/offers', auth, controllersOffers.createOffer);
+routes.put('/offers/:id', auth, controllersOffers.updateOffer);
+routes.delete('/offers/:id', auth, controllersOffers.deleteOffer);
 
 //Messages Routes
-routes.get('/messages', controllersMessages.searchMessages);
-routes.get('/messages/:chat_id', controllersMessages.searchMessagesChat);
-routes.post('/messages', controllersMessages.createMessages);
-routes.delete('/messages/:id', controllersMessages.delMessages);
-routes.delete('/messages/:chat_id', controllersMessages.delMessagesChat);
+routes.get('/messages', auth, controllersMessages.searchMessages);
+routes.get('/messages/:chat_id', auth, controllersMessages.searchMessagesChat);
+routes.post('/messages', auth, controllersMessages.createMessages);
+routes.delete('/messages/:id', auth, controllersMessages.delMessages);
+routes.delete('/messages/:chat_id', auth, controllersMessages.delMessagesChat);
 
 //Chat Routes 
-routes.get('/chats', controllersChats.searchChats);
-routes.get('/chats/:ofr_id', controllersChats.searchChatOffer);
-routes.post('/chats', controllersChats.createChat);
-routes.delete('/chats/:id', controllersChats.deleteChat);
-routes.delete('chats/:ofr_id', controllersChats.deleteChatOffer);
+routes.get('/chats', auth, controllersChats.searchChats);
+routes.get('/chats/:ofr_id', auth, controllersChats.searchChatOffer);
+routes.post('/chats', auth, controllersChats.createChat);
+routes.delete('/chats/:id', auth, controllersChats.deleteChat);
+routes.delete('chats/:ofr_id', auth, controllersChats.deleteChatOffer);
 
 module.exports = routes;
