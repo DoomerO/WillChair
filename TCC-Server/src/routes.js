@@ -8,6 +8,7 @@ const controllersUsers = require('./controllers/users/usersController');
 const controllersOffers = require('./controllers/offers/offersController');
 const controllersMessages = require('./controllers/messages/messagesController');
 const controllersChats = require('./controllers/chats/chatsController');
+const controllersProducts = require('./controllers/products/productsController')
 
 const routes = express.Router();
 
@@ -39,5 +40,11 @@ routes.get('/chats/:ofr_id', auth, controllersChats.searchChatOffer);
 routes.post('/chats', auth, controllersChats.createChat);
 routes.delete('/chats/:id', auth, controllersChats.deleteChat);
 routes.delete('chats/:ofr_id', auth, controllersChats.deleteChatOffer);
+
+//Products Routes
+routes.get('/products', auth, controllersProducts.searchProducts);
+routes.post('/products', auth, controllersProducts.createProduct);
+routes.put('/products/:id', auth, controllersProducts.updateProduct);
+routes.delete('/products/:id', auth, controllersProducts.deleteProduct);
 
 module.exports = routes;
