@@ -7,7 +7,21 @@ module.exports = {
             return res.status(201).json(result);
         }
         catch(error) {
-            return res.status(400).json({error: error.mesage});
+            return res.status(400).json({error: error.message});
+        }
+    },
+
+    async searchOffersUser(req, res) {
+        try {
+            const {email} = req.params;
+            const consult  = await knex('User').where('user_email', user_email);
+            if(consult != "") {
+                const result = await knex('Offer').where('User_user_id', consult[0].user_id);
+                return res.status(201).json(result);
+            }
+        }
+        catch(error) {
+            return res.status(400).json({error : error.message})
         }
     },
 
@@ -21,30 +35,29 @@ module.exports = {
             const {User_user_id} = req.body;
             const {Product_prod_id} = req.body;
 
-            const consult = await knex("User");
-
-            if(consult != "") {
-                consult = await knex('Product');
-                if (consult == "") {
+            if(await knex("User").where('user_id', User_user_id) != "") {
+                if (await knex('Product').where('prod_id', Product_prod_id) != "") {
+                    await knex('Offer').insert({
+                        ofr_name,
+                        ofr_desc,
+                        ofr_postDate,
+                        ofr_status,
+                        ofr_value,
+                        User_user_id,
+                        Product_prod_id
+                    });
+                    return res.status(201).json({msg : "Offer properly registred"})
+                }
+                else {
                     return res.status(401).json({msg:"This product does not exists in the database"});
                 }
             }
             else {
                 return res.status(401).json({msg:"This user does not exists in the database"});
-            }
-
-            await knex('Offer').insert({
-                ofr_name,
-                ofr_desc,
-                ofr_postDate,
-                ofr_status,
-                ofr_value,
-                User_user_id,
-                Product_prod_id
-            });
+            } 
         }
         catch(error) {
-            return res.status(400).json({error: error.mesage})
+            return res.status(400).json({error: error.message})
         }
     },
     
@@ -70,7 +83,7 @@ module.exports = {
             return res.status(201).json({msg : "This offer was properly updated"});
         }
         catch (error) {
-            return res.status(400).json({error: error.mesage});
+            return res.status(400).json({error: error.message});
         }
     },
 
@@ -88,7 +101,7 @@ module.exports = {
             
         }
         catch(error) {
-            return res.status(400).json({error: error.mesage});
+            return res.status(400).json({error: error.message});
         }
     }
 }

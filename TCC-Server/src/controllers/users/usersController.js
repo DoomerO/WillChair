@@ -55,21 +55,25 @@ module.exports= {
             const {password} = req.body;
             const {user_level} = req.body;
             
+            if (!user_name || !user_email || !user_level || !password) {
+                return res.status(401).json({msg : "All data must be fullfiled"})
+            }
+
             if (await knex('User').where("user_email", user_email) != "") {
                 return res.status(401).json({msg: "This user alredy exists"});
             }
+           
             const user_password = bcrypt.hashSync(password, 10);
 
-           
-           
             await knex('User').insert({
                 user_name,
                 user_email,
                 user_level,
                 user_password
             });
+            
             const user = { name: user_name, level: user_level, email: user_email }
-              
+            
             const acssesToken = jwt.sign( //criação de token
                 user,
                 process.env.TOKEN_KEY_ACSSES,
@@ -114,6 +118,10 @@ module.exports= {
         try {
             const {email} = req.params;
             const {password} = req.body;
+
+            if(!email || !password) {
+                return res.status(401).json({msg : "All data must be fullfiled"})
+            }
 
             if (await knex('User').where("user_email", email) != "") {
                 const user_password = bcrypt.hashSync(password, 10);
