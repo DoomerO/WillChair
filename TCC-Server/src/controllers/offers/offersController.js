@@ -3,7 +3,7 @@ const knex = require('../../database/database')
 module.exports = {
     async searchOffers(req, res) { //recebe todas as ofertas no banco de dados
         try {
-            const result = await knex('Offers');
+            const result = await knex('Offer');
             return res.status(201).json(result);
         }
         catch(error) {
@@ -14,7 +14,7 @@ module.exports = {
     async searchOffersUser(req, res) {
         try {
             const {email} = req.params;
-            const consult  = await knex('User').where('user_email', user_email);
+            const consult  = await knex('User').where('user_email', email);
             if(consult != "") {
                 const result = await knex('Offer').where('User_user_id', consult[0].user_id);
                 return res.status(201).json(result);
@@ -31,17 +31,20 @@ module.exports = {
             const {ofr_desc} = req.body;
             const {ofr_value} = req.body;
             const {ofr_status} = req.body;
-            const {ofr_postDate} = Date.now();
+            const {ofr_type} = req.body;
             const {User_user_id} = req.body;
             const {Product_prod_id} = req.body;
+
+            //const ofr_postDate = Date.now();
 
             if(await knex("User").where('user_id', User_user_id) != "") {
                 if (await knex('Product').where('prod_id', Product_prod_id) != "") {
                     await knex('Offer').insert({
                         ofr_name,
                         ofr_desc,
-                        ofr_postDate,
+                        //ofr_postDate,
                         ofr_status,
+                        ofr_type,
                         ofr_value,
                         User_user_id,
                         Product_prod_id
@@ -68,12 +71,14 @@ module.exports = {
             const {ofr_desc} = req.body;
             const {ofr_value} = req.body;
             const {ofr_status} = req.body;
+            const {ofr_type} = req.body;
 
             if(await knex("Offer").where("ofr_id", id) != "") {
                 await knex("Offer").update({
                     ofr_desc,
                     ofr_name,
                     ofr_status,
+                    ofr_type,
                     ofr_value
                 }).where('ofr_id', id);
             }
