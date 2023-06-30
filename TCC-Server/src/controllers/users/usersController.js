@@ -55,7 +55,7 @@ module.exports= {
             const {password} = req.body;
             const {user_level} = req.body;
             
-            if (!user_name || !user_email || !user_level || !password) {
+            if (!user_name || !user_email || user_level < 0 || !password) {
                 return res.status(401).json({msg : "All data must be fullfiled"})
             }
 
