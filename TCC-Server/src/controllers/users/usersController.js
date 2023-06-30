@@ -10,14 +10,14 @@ module.exports= {
             res.status(201).json(result);
         }
         catch(error) {
-            return res.status(400).json({error: error.mesage});
+            return res.status(400).json({error: error.message});
         }
     },
 
     async searchUserEmailPassword(req, res) { //Autentica um usuário existente
         try {
-            const {email} = req.params;
-            const {password} = req.params;
+            const {email} = req.body;
+            const {password} = req.body;
             const consult = await knex('User').where("user_email", email);
             if (consult != "") {
                 const pass = consult[0].user_password.toString();
@@ -36,7 +36,7 @@ module.exports= {
                         return res.status(401).json({msg: "There is no user with this informations1 " + pass + " " + password});
                     }
                 }).catch((err) => {
-                    return res.status(400).json({error: err.mesage})
+                    return res.status(400).json({error: err.message})
                 });
             }
             else {
@@ -44,7 +44,7 @@ module.exports= {
             }
         }
         catch(error) {
-            return res.status(400).json({error: error.mesage});
+            return res.status(400).json({error: error.message});
         }
     },
 
@@ -82,13 +82,14 @@ module.exports= {
 
         }
         catch(error) {
-            return res.status(400).json({error: error.mesage});
+            return res.status(400).json({error: error.message});
         }
     },
 
     async updateUser(req, res) { //atualiza parâmetros do usuário
         try {
-            const {email} = req.params;
+            const {email} = req.body;
+
             const {user_name} = req.body;
             const {user_phone} = req.body;
             const {user_CEP} = req.body;
@@ -110,13 +111,14 @@ module.exports= {
             return res.status(201).json({msg: "User Updated Properly"});
         }
         catch(error) {
-            return res.status(400).json({error: error.mesage});
+            return res.status(400).json({error: error.message});
         }
     },
 
     async updateUserPassword(req, res) { //Atualiza a senha do usuário
         try {
-            const {email} = req.params;
+            const {email} = req.body;
+
             const {password} = req.body;
 
             if(!email || !password) {
@@ -142,7 +144,7 @@ module.exports= {
 
     async deleteUser(req, res) { //deleta um usuário  pelo id
         try {
-            const {id} = req.params;
+            const {id} = req.body;
             if (await knex("User").where("user_id", id) != "") {
                 await knex('User').del().where("user_id", id);
                 return res.status(201).json({msg: "User Deleted"});
@@ -152,7 +154,7 @@ module.exports= {
             }
         }
         catch(error) {
-            return res.status(400).json({error: error.mesage});
+            return res.status(400).json({error: error.message});
         }
     }
 }

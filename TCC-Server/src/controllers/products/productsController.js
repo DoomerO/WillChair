@@ -11,6 +11,24 @@ module.exports = {
         }
     },
 
+    async searchProductOffer(req, res) {
+        try {
+            const {ofr_id} = req.body;
+
+            const result = await knex('Offer').where('ofr_if', ofr_id);
+            if(result != ""){
+                const product = await knex('Product').where('prod_id', result[0].Product_prod_id);
+                return res.status(201).json(product);
+            }
+            else {
+                return res.status(401).json({msg : "There is no such offer with this id"})
+            }
+        }
+        catch(error) {
+            return  res.status(400).json({error : error.message});
+        }
+    },
+
     async createProduct(req, res) {
         try {
             const {prod_img} = req.body;
@@ -37,7 +55,7 @@ module.exports = {
 
     async updateProduct(req, res) {
         try {
-            const {id} = req.params;
+            const {id} = req.body;
             const {prod_img} = req.body;
             const {prod_status} = req.body;
             const {prod_height} = req.body;
