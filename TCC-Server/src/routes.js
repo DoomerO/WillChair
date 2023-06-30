@@ -14,38 +14,38 @@ const routes = express.Router();
 
 //User Routes
 routes.get('/users', auth,controllersUsers.searchUsers);
-routes.get('/users/email/password', controllersUsers.searchUserEmailPassword);
+routes.get('/users/login', controllersUsers.searchUserEmailPassword);
 routes.post('/users', controllersUsers.createUser);
-routes.put('/users/email', auth,controllersUsers.updateUser);
-routes.put('/usersPassword/email', auth,controllersUsers.updateUserPassword);
-routes.delete('/users/id', auth,controllersUsers.deleteUser);
+routes.put('/users', auth,controllersUsers.updateUser);
+routes.put('/users/password', auth,controllersUsers.updateUserPassword);
+routes.delete('/users', auth,controllersUsers.deleteUser);
 
 //Offer Routes
 routes.get('/offers', auth, controllersOffers.searchOffers);
-routes.get('/offers/email', auth, controllersOffers.searchOffersUser);
+routes.get('/offers/user', auth, controllersOffers.searchOffersUser);
 routes.post('/offers', auth, controllersOffers.createOffer);
-routes.put('/offers/id', auth, controllersOffers.updateOffer);
-routes.delete('/offers/id', auth, controllersOffers.deleteOffer);
+routes.put('/offers', auth, controllersOffers.updateOffer);
+routes.delete('/offers', auth, controllersOffers.deleteOffer);
 
 //Messages Routes
 routes.get('/messages', auth, controllersMessages.searchMessages);
-routes.get('/messages/chat_id', auth, controllersMessages.searchMessagesChat);
+routes.get('/messages/chat', auth, controllersMessages.searchMessagesChat);
 routes.post('/messages', auth, controllersMessages.createMessages);
-routes.delete('/messages/id', auth, controllersMessages.delMessages);
-routes.delete('/messages/chat_id', auth, controllersMessages.delMessagesChat);
+routes.delete('/messages', auth, controllersMessages.delMessages);
+routes.delete('/messages/chat', auth, controllersMessages.delMessagesChat);
 
 //Chat Routes 
 routes.get('/chats', auth, controllersChats.searchChats);
-routes.get('/chats/ofr_id', auth, controllersChats.searchChatOffer);
+routes.get('/chats/offer', auth, controllersChats.searchChatOffer);
 routes.post('/chats', auth, controllersChats.createChat);
-routes.delete('/chats/id', auth, controllersChats.deleteChat);
-routes.delete('chats/ofr_id', auth, controllersChats.deleteChatOffer);
+routes.delete('/chats', auth, controllersChats.deleteChat);
+routes.delete('chats/offer', auth, controllersChats.deleteChatOffer);
 
 //Products Routes
 routes.get('/products', auth, controllersProducts.searchProducts);
-routes.get('/products/ofr_id', auth, controllersProducts.searchProductOffer);
+routes.get('/products/offer', auth, controllersProducts.searchProductOffer);
 routes.post('/products', auth, controllersProducts.createProduct);
-routes.put('/products/id', auth, controllersProducts.updateProduct);
-routes.delete('/products/id', auth, controllersProducts.deleteProduct);
+routes.put('/products', auth, controllersProducts.updateProduct);
+routes.delete('/products', auth, controllersProducts.deleteProduct);
 
 module.exports = routes;
