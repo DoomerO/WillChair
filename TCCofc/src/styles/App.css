@@ -7,3 +7,15 @@
     font-family: 'outfit';
     src: '../fonts/Outfit.ttf';
 }
+@font-face {
+    font-family: 'kdamthmor';
+    src: '../fonts/KdamThmor.ttf';
+}
+@font-face {
+    font-family: 'dohyeon';
+    src: 'DoHyeon';
+}
+@font-face {
+    font-family: 'atkinson';
+    src: 'AtkinsonHyperlegible.ttf';
+}
