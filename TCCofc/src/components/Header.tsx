@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import {useState} from 'react';
 import { Flex, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button, useColorMode, useBoolean, useColorModeValue } from '@chakra-ui/react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 //imagens
@@ -23,13 +22,13 @@ const Header = () => {
                     </MenuButton>
                     <MenuList>
                         <MenuItem>
-                            Algo
+                            <Link to="/contact">Contato</Link>
                         </MenuItem>
                         <MenuItem>
-                            Alguma coisa
+                            <Link to="/about">Sobre nós</Link>
                         </MenuItem>
                         <MenuItem>
-                            Nada
+                            <Link to="/loginw">Sign up/in</Link>
                         </MenuItem>
                         <MenuItem>
                             ou alguma coisa
@@ -41,9 +40,9 @@ const Header = () => {
                 </Menu>
             </Center>
             <Spacer />
-                <Image src={logoImg} objectFit='cover' w="12%" h='66%' mt='2.5'></Image>
+                <Image src={logoImg} objectFit='cover' w={{base:"45%", sm:"12%"}} h='66%' mt='2.5'></Image>
             <Spacer />
-            <HStack w='25%'>
+            <HStack w='25%' display={{base: 'none', sm:'inherit'}}>
                 <Button variant='link' colorScheme="#000">
                     <Link to="/"><b>Home</b></Link>
                 </Button>
@@ -53,16 +52,16 @@ const Header = () => {
                 </Button>
                 <Spacer />
                 <Button variant='link' colorScheme="#000">
-                    <Link to="/"><b>Sobre</b></Link>
+                    <Link to="/about"><b>Sobre</b></Link>
                 </Button>
                 <Spacer />
                 <Button variant='link' colorScheme="#000">
-                    <Link to="/"><b>Contato</b></Link>
+                    <Link to="/contact"><b>Contato</b></Link>
                 </Button>
             </HStack>
             <Spacer/>
             <Spacer />
-            <HStack>
+            <HStack display={{base: 'none', sm:'inherit'}}>
                 <Button variant='ghost'>
                     Sign In
                 </Button>
