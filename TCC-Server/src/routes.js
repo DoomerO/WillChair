@@ -8,7 +8,10 @@ const controllersUsers = require('./controllers/users/usersController');
 const controllersOffers = require('./controllers/offers/offersController');
 const controllersMessages = require('./controllers/messages/messagesController');
 const controllersChats = require('./controllers/chats/chatsController');
-const controllersProducts = require('./controllers/products/productsController')
+const controllersProducts = require('./controllers/products/productsController');
+const controllersavaliation = require('./controllers/avaliation/avaliationController');
+const controllersdenounce = require('./controllers/denounce/denounceController');
+const controllerscomment = require('./controllers/comment/commentController');
 
 const routes = express.Router();
 
@@ -47,5 +50,27 @@ routes.get('/products/offer', auth, controllersProducts.searchProductOffer);
 routes.post('/products', auth, controllersProducts.createProduct);
 routes.put('/products', auth, controllersProducts.updateProduct);
 routes.delete('/products', auth, controllersProducts.deleteProduct);
+
+//avaliation routes
+
+routes.get('/avaliation', auth, controllersavaliation.searchavaliation);
+routes.post('/avaliation', auth, controllersavaliation.createavaliation);
+routes.delete('/avaliation', auth, controllersavaliation.deleteavaliation);
+
+//denounce routes
+
+routes.get('/denounce', auth, controllersdenounce.searchdenounce);
+routes.get('/denounce/user', auth, controllersdenounce.searchdenounceByEmail);
+routes.post('/denounce', auth, controllersdenounce.createDenounce);
+routes.put('/denounce', auth, controllersdenounce.updateDenounce);
+routes.delete('/denounce', auth, controllersdenounce.deleteDenounce);
+
+//comment routes
+
+routes.get('/comment', auth, controllerscomment.searchcomment);
+routes.post('/comment', auth, controllerscomment.createcomment);
+routes.put('/comment', auth, controllerscomment.updatecomment);
+routes.delete('/comment', auth, controllerscomment.deletecomment);
+
 
 module.exports = routes;
