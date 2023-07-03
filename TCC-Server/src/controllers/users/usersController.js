@@ -14,6 +14,23 @@ module.exports= {
         }
     },
 
+    async searchUserEmail(req, res) {
+        try {
+            const {email} = req.body;
+
+            const result = await knex('User').where('user_email', email);
+            if(consult != "") {
+                return res.status(201).json(result);
+            }
+            else {
+                return res.status(401).json({msg : "There is no user with this email"})
+            }
+        }
+        catch(error) {
+            return res.status(400).json({error: error.message})
+        }
+    },
+
     async searchUserEmailPassword(req, res) { //Autentica um usuário existente
         try {
             const {email} = req.body;
@@ -24,7 +41,7 @@ module.exports= {
                 bcrypt.compare(password, pass).then((result) => {
                     if(result) {
                         const user = {id: consult[0].user_id, name: consult[0].user_name, 
-                            email: consult[0].user_email, level: consult[0].user_level};
+                            email: consult[0].user_email};
                             
                             const acssesToken = jwt.sign( //criação de token
                                 user,
@@ -75,7 +92,7 @@ module.exports= {
                 user_password
             });
             
-            const user = { name: user_name, level: user_level, email: user_email}
+            const user = { name: user_name, email: user_email}
             
             const acssesToken = jwt.sign( //criação de token
                 user,
