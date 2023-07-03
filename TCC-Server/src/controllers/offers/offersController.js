@@ -36,14 +36,17 @@ module.exports = {
             const {User_user_id} = req.body;
             const {Product_prod_id} = req.body;
 
-            //const ofr_postDate = Date.now();
+            const now = new Date();
+            const ofr_postDate =  now.getMonth() + 1 + "/" + now.getDate() + "/" + now.getFullYear()
+            ;
+            console.log(ofr_postDate)
 
             if(await knex("User").where('user_id', User_user_id) != "") {
                 if (await knex('Product').where('prod_id', Product_prod_id) != "") {
                     await knex('Offer').insert({
                         ofr_name,
                         ofr_desc,
-                        //ofr_postDate,
+                        ofr_postDate,
                         ofr_status,
                         ofr_type,
                         ofr_value,

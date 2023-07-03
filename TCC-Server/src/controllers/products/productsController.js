@@ -4,7 +4,7 @@ module.exports = {
     async searchProducts(req, res) {
         try {
             const result = await knex('Product');
-            return res.status(201).json({result});
+            return res.status(201).json(result);
         }
         catch(error) {
             return res.status(400).json({error : error.message});

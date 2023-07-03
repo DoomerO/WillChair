@@ -30,7 +30,10 @@ module.exports= {
                                 user,
                                 process.env.TOKEN_KEY_ACSSES,
                             );
-                        return res.status(201).json({msg: acssesToken })
+
+                            user["token"] = acssesToken;
+
+                        return res.status(201).json(user)
                     }
                     else {
                         return res.status(401).json({msg: "There is no user with this informations1 " + pass + " " + password});
@@ -40,7 +43,7 @@ module.exports= {
                 });
             }
             else {
-                return res.status(401).json({msg: "There is no user with this informations2"});
+                return res.status(401).json({msg: "There is no user with this informations"});
             }
         }
         catch(error) {
@@ -72,13 +75,16 @@ module.exports= {
                 user_password
             });
             
-            const user = { name: user_name, level: user_level, email: user_email }
+            const user = { name: user_name, level: user_level, email: user_email}
             
             const acssesToken = jwt.sign( //criação de token
                 user,
                 process.env.TOKEN_KEY_ACSSES,
             );
-            return res.status(201).json({msg: 'User posted ' + acssesToken});
+
+            user["token"] = acssesToken;
+
+            return res.status(201).json(user);
 
         }
         catch(error) {
