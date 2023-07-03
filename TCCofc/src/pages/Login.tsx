@@ -7,7 +7,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
- 
+
     useEffect(() => { //controla acesso ao banco de dados
         axios.get("http://localhost:3344/users", {}).then(res => {
             console.log(res)
@@ -23,7 +23,11 @@ const Login = () => {
             user_name: name,
             password: password,
             user_level: 0}).then(res => {
-            console.log("User Posted")
+                localStorage.setItem("name", res.data.name);
+                localStorage.setItem("level", res.data.level.toString());
+                localStorage.setItem("email", res.data.email);
+                localStorage.setItem("token", res.data.token);
+                console.log(res.data);
         }).catch(error => {
             console.log(error)
         });

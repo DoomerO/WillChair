@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Category from "../components/Category";
 import Header from '../components/Header';
 import Footer from "../components/Footer";
-import { Box, Flex, Spacer, Text, Image, Heading, HStack, Container } from '@chakra-ui/react';
+import { Box, Flex, Spacer, Text, Image, Heading, Stack, Container } from '@chakra-ui/react';
 import {BsCreditCard} from "react-icons/bs";
 import {BiDonateHeart} from "react-icons/bi";
 import {MdWheelchairPickup} from "react-icons/md";
@@ -23,21 +23,21 @@ const Home = () => {
             <Header/>
 
             <Flex w='100%' h='70vh' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
-                <Flex align='center' direction='column' ml='8%' w='50%'>
-                    <Heading color='#2D3748' as='h1' fontSize="30px" _dark={{color:"#0D87d8"}}>O seu sonho acessível</Heading>
-                    <Heading color='#1976D2' as='h1' fontSize="30px">perto de você!</Heading>
-                    <Text noOfLines={[1, 2]} fontSize='20px' mt='20px'>
+                <Flex align='center' direction='column' ml={{base: "none", sm: '8%'}} w={{base: "inherit", sm :'50%'}}>
+                    <Heading color='#2D3748' as='h1' fontSize={{base: "26px", sm: "30px"}} _dark={{color:"#0D87d8"}}>O seu sonho acessível</Heading>
+                    <Heading color='#1976D2' as='h1' fontSize={{base: "26px", sm: "30px"}} >perto de você!</Heading>
+                    <Text noOfLines={2} fontSize={{base: '18px',sm:'20px'}} mt='20px' align="center">
                         Compre, negocie ou anuncie equipamentos de acessibilidade
                     </Text>
                 </Flex>
-                <Image src={topImage} w='50%' h='100%' objectFit='contain'/>
+                <Image src={topImage} w='50%' h='100%' objectFit='contain' display={{base: "none", sm: "inherit"}}/>
             </Flex>
 
-            <Flex w='100%' bg='#fff' h='60vh' align='center' direction='column' _dark={{bg:'#4f4f4f'}}>
-                <Heading as='h1' noOfLines={1} color='#2D3748' mt='3%' _dark={{color:"#0D87d8"}}>
+            <Flex w='100%' bg='#fff' h='fit-content' align='center' direction='column' _dark={{bg:'#4f4f4f'}}>
+                <Heading as='h1' noOfLines={1} color='#2D3748' mt={{base:'10%', sm:'3%'}} _dark={{color:"#0D87d8"}} fontSize={{base: "22px", sm: "34px"}}>
                     O que você pode encontrar por aqui
                 </Heading>
-                <HStack mt='8%' gap="50">
+                <Stack mt='8%' gap="50" direction={{base: "column", sm: "row"}} >
                     <Flex direction='column' align='center' w='30vh' h='30vh'>
                         <Box w='fit-content'>
                             <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}}>
@@ -70,28 +70,28 @@ const Home = () => {
                             Aluguéis por preços acessíveis
                         </Text>
                     </Flex>
-                </HStack>
+                </Stack>
             </Flex>
 
-            <Flex w='100%' h='70vh' bg='#F7F9FC' align='center' direction='column' _dark={{bg:'#484A4D'}}>
-                <Box h='20%' alignContent='center' mt="3%">
-                <Heading as='h2' noOfLines={1} color='#1963D2' _dark={{color:'#1983D2'}}>
+            <Flex w='100%' h='fit-content' bg='#F7F9FC' align='center' direction='column' _dark={{bg:'#484A4D'}}>
+                <Box h='20%' alignContent='center' mt={{base:'10%', sm:'3%'}}>
+                <Heading as='h2' noOfLines={2} color='#1963D2' _dark={{color:'#1983D2'}} fontSize={{base: "22px", sm: "34px"}} align="center">
                     Confira abaixo algumas de nossas categorias
                 </Heading>
                 </Box>
                 
                 <Flex h="80%" direction='row' align='center'>
-                    <Image src={bottomImage} w="30%" h='100%' objectFit='contain'></Image>
-                    <Flex direction='row' w='60%'>
-                        <Category name='Cadeira de rodas' icon={cadeiraRodas}/>
+                    <Image src={bottomImage} w="30%" h='100%' objectFit='contain' display={{base: "none", sm: "inherit"}}></Image>
+                    <Flex direction={{base:'column', sm :'row'}} w='60%'>
+                        <Category name='Cadeira de Rodas' icon={cadeiraRodas}/>
                         <Spacer />
                         <Category name='Muleta' icon={muleta}/>
                         <Spacer />
                         <Category name='Andador' icon={andador}/>
                         <Spacer />
-                        <Category name='bengala' icon={bengala}/>
+                        <Category name='Bengala' icon={bengala}/>
                         <Spacer />
-                        <Category name='outros' icon={diversos}/>
+                        <Category name='Outros' icon={diversos}/>
                     </Flex>
                 </Flex>
             </Flex>
