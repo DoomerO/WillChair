@@ -18,6 +18,7 @@ const routes = express.Router();
 //User Routes
 routes.get('/users', auth,controllersUsers.searchUsers);
 routes.get('/users/login', controllersUsers.searchUserEmailPassword);
+routes.get('/users/email', controllersUsers.searchUserEmail);
 routes.post('/users', controllersUsers.createUser);
 routes.put('/users', auth,controllersUsers.updateUser);
 routes.put('/users/password', auth,controllersUsers.updateUserPassword);
