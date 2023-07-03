@@ -46,6 +46,7 @@ module.exports= {
                             const acssesToken = jwt.sign( //criação de token
                                 user,
                                 process.env.TOKEN_KEY_ACSSES,
+                                {expiresIn: '3h'}
                             );
 
                             user["token"] = acssesToken;
@@ -97,6 +98,7 @@ module.exports= {
             const acssesToken = jwt.sign( //criação de token
                 user,
                 process.env.TOKEN_KEY_ACSSES,
+                {expiresIn: '3h'}
             );
 
             user["token"] = acssesToken;
