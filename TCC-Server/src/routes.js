@@ -48,7 +48,13 @@ routes.delete('chats/offer', auth, controllersChats.deleteChatOffer);
 //Products Routes
 routes.get('/products', auth, controllersProducts.searchProducts);
 routes.get('/products/offer', auth, controllersProducts.searchProductOffer);
+routes.get('/products/id', auth, controllersProducts.searchProductId);
+routes.get('/products/types', auth, controllersProducts.searchProductsTypes);
 routes.post('/products', auth, controllersProducts.createProduct);
+routes.post('/products/cadeira-rodas', auth, controllersProducts.createCadeiraRodas);
+routes.post('/products/muleta', auth, controllersProducts.createMuleta);
+routes.post('/products/bengala', auth, controllersProducts.createBengala);
+routes.post('/products/Andador', auth, controllersProducts.createAndador);
 routes.put('/products', auth, controllersProducts.updateProduct);
 routes.delete('/products', auth, controllersProducts.deleteProduct);
 
