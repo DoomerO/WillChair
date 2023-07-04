@@ -158,7 +158,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `willchair`.`Cadeira de Rodas` (
   `cad_width` DECIMAL(2) NULL,
   `cad_widthSeat` DECIMAL(2) NULL,
-  `cad_ type` VARCHAR(20) NULL,
+  `cad_type` VARCHAR(20) NULL,
   `cad_maxWeight` DECIMAL(2) NULL,
   `Product_prod_id` INT NULL REFERENCES `willchair`.`Product` (`prod_id`)
     ON DELETE NO ACTION
