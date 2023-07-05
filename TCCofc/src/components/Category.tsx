@@ -11,14 +11,14 @@ interface catProps {
 const Category =({name, icon}:catProps) => {
 
     return (
-       <Flex align='center' direction='column' w={{base:"25vw", sm: "14vw"}} m={{base: "20px", sm: "none"}}>
+       <Flex align='center' direction='column' w={{base:"50vw", sm: "16vw"}} m={{base: "20px", sm: "none"}}>
             <Box w='fit-content' mb='10px'>
                 <Container bg='#fff' p={{base:'10px' ,sm:'20px'}} borderRadius='15px' boxShadow='lg' _hover={{bg : "#ddd"}} _dark={{bg: '#444', _hover : {bg: "#123"}}}>
                     <Link to='/login'><Image src={icon} objectFit='contain' w="12vh" h="14vh"></Image></Link>
                 </Container>
             </Box>
             
-            <Text align='center' noOfLines={1} fontSize={{base: '16px',sm:'20px'}}>
+            <Text align='center' noOfLines={2} fontSize={{base: '19px',sm:'20px'}}>
                 {name}
             </Text>
        </Flex>
