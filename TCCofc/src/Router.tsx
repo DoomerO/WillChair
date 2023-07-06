@@ -6,12 +6,13 @@ import Search from "./pages/Search";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import login from "./pages/Loginwip"
+import HomeToggle from "./components/HomeToggle";
 
 const Router = () => {
     return (
         <BrowserRouter>
         <Routes>
-            <Route Component={Home} path="/"/>
+            <Route Component={HomeToggle} path="/"/>
             <Route Component={login} path="/loginw"/>
             <Route Component={Login} path="/login"/>
             <Route Component={Search} path="/search"/>
