@@ -16,14 +16,13 @@ module.exports = {
     // Função para criar uma nova avaliação
     async createavaliation(req,res) {
         try {
-            const { ava_id, ava_value, ava_data, User_user_idEnv, User_user_idRec } = req.body;
+            const { ava_value, ava_data, User_user_idEnv, User_user_idRec } = req.body;
 
             const userEnvExists = await knex("User").where('user_id', User_user_idEnv);
             const userRecExists = await knex("User").where('user_id', User_user_idRec);
             
             if (userEnvExists && userRecExists) {
                 await knex('avaliation').insert({
-                    ava_id,
                     ava_value,
                     ava_data,
                     User_user_idEnv,
@@ -44,7 +43,7 @@ module.exports = {
     // Função para excluir uma avaliação
     async deleteavaliation(req, res) { 
         try {
-            const { id } = req.body;
+            const { id } = req.params;
 
             const avaliationExists = await knex("avaliation").where("ava_id", id);
             if (avaliationExists) {

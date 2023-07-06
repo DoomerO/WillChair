@@ -16,14 +16,13 @@ module.exports = {
     // Função para criar um novo comentário
     async createcomment(req,res) {
         try {
-            const { com_id, com_content, com_date, User_user_idEnv, User_user_idRec } = req.body;
+            const { com_content, com_date, User_user_idEnv, User_user_idRec } = req.body;
 
             const userEnvExists = await knex("User").where('user_id', User_user_idEnv);
             const userRecExists = await knex("User").where('user_id', User_user_idRec);
             
             if (userEnvExists && userRecExists) {
                 await knex('comment').insert({
-                    com_id,
                     com_content,
                     com_date,
                     User_user_idEnv,
@@ -43,14 +42,13 @@ module.exports = {
     // Função para atualizar um comentário existente
     async updatecomment(req, res) {
         try {
-            const { id } = req.body;
+            const { id } = req.params;
 
-            const { com_id, com_content, com_date } = req.body;
+            const { com_content, com_date } = req.body;
 
             const commentExists = await knex("comment").where("com_id", id);
             if (commentExists) {
                 await knex("comment").update({
-                    com_id,
                     com_content,
                     com_date
                 }).where('com_id', id);
@@ -68,7 +66,7 @@ module.exports = {
     // Função para excluir um comentário
     async deletecomment(req, res) { 
         try {
-            const { id } = req.body;
+            const { id } = req.params;
 
             const commentExists = await knex("comment").where("com_id", id);
             if (commentExists) {

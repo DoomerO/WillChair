@@ -13,7 +13,7 @@ module.exports = {
 
     async searchProductsTypes(req, res) {
         try {
-            const {type} = req.body;
+            const {type} = req.params;
             let result = null;
             if(type == "Cadeira de Rodas" || type  == "Muleta" || type == "Andador" || type == "Bengala") {
                 result = await knex(type);
@@ -30,7 +30,7 @@ module.exports = {
 
     async searchProductId(req, res) {
         try {
-            const {id} = req.body;
+            const {id} = req.params;
             const consult = await knex('Product').where('prod_id',id);
             if(consult != "") {
                 let productType = {case: null};
@@ -62,7 +62,7 @@ module.exports = {
 
     async searchProductOffer(req, res) {
         try {
-            const {ofr_id} = req.body;
+            const {ofr_id} = req.params;
 
             const result = await knex('Offer').where('ofr_id', ofr_id);
             if(result != ""){
@@ -259,7 +259,8 @@ module.exports = {
 
     async updateProduct(req, res) {
         try {
-            const {id} = req.body;
+            const {id} = req.params;
+
             const {prod_img} = req.body;
             const {prod_status} = req.body;
             const {prod_height} = req.body;
@@ -289,7 +290,7 @@ module.exports = {
 
     async updateCadeiraRodas(req, res) {
         try {
-            const {id} = req.body;
+            const {id} = req.params;
 
             const {cad_width} = req.body;
             const {cad_widthSeat} = req.body;
@@ -323,7 +324,7 @@ module.exports = {
 
     async updateMuleta(req, res) {
         try {
-            const {id} = req.body;
+            const {id} = req.params;
 
             const {mul_maxWidth} = req.body;
             const {mul_maxHeight} = req.body;
@@ -357,7 +358,7 @@ module.exports = {
 
     async updateBengala(req, res) {
         try {
-            const {id} = req.body;
+            const {id} = req.params;
 
             const {ben_minHeight} = req.body;
             const {ben_maxHeight} = req.body;
@@ -391,7 +392,7 @@ module.exports = {
 
     async updateAndador(req, res) {
         try {
-            const {id} = req.body;
+            const {id} = req.params;
 
             const {and_lenght} = req.body;
             const {and_width} = req.body;
@@ -427,7 +428,7 @@ module.exports = {
 
     async deleteProduct(req, res) {
         try {
-            const {id} = req.body;
+            const {id} = req.params;
             const product = await knex("Product").where('prod_id', id); 
             if(product != "") {
                 switch(product[0].prod_type) {

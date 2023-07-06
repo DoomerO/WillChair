@@ -16,10 +16,10 @@ module.exports= {
 
     async searchUserEmail(req, res) {
         try {
-            const {email} = req.body;
+            const {email} = req.params;
 
             const result = await knex('User').where('user_email', email);
-            if(consult != "") {
+            if(result != "") {
                 return res.status(201).json(result);
             }
             else {
@@ -33,14 +33,14 @@ module.exports= {
 
     async searchUserEmailPassword(req, res) { //Autentica um usuário existente
         try {
-            const {email} = req.body;
-            const {password} = req.body;
+            const {email} = req.params;
+            const {password} = req.params;
             const consult = await knex('User').where("user_email", email);
             if (consult != "") {
                 const pass = consult[0].user_password.toString();
                 bcrypt.compare(password, pass).then((result) => {
                     if(result) {
-                        const user = {id: consult[0].user_id, name: consult[0].user_name, 
+                        const user = {name: consult[0].user_name, 
                             email: consult[0].user_email, level: consult[0].user_level};
                             
                             const acssesToken = jwt.sign( //criação de token
@@ -91,7 +91,7 @@ module.exports= {
                 user_password
             });
             
-            const user = {id:user_id ,name: user_name, email: user_email, level: user_level}
+            const user = {name: user_name, email: user_email, level: user_level}
             
             const acssesToken = jwt.sign( //criação de token
                 user,
@@ -109,13 +109,14 @@ module.exports= {
 
     async updateUser(req, res) { //atualiza parâmetros do usuário
         try {
-            const {email} = req.body;
+            const {email} = req.params;
 
             const {user_name} = req.body;
             const {user_phone} = req.body;
             const {user_CEP} = req.body;
             const {user_houseNum} = req.body;
             const {user_img} = req.body;
+            const {user_city} = req.body;
 
             if (await knex('User').where("user_email", email) != "") {
                 await knex("User").update({
@@ -123,6 +124,7 @@ module.exports= {
                     user_phone,
                     user_CEP,
                     user_houseNum,
+                    user_city,
                     user_img
                 }).where('user_email', email);
             }
@@ -138,7 +140,7 @@ module.exports= {
 
     async updateUserPassword(req, res) { //Atualiza a senha do usuário
         try {
-            const {email} = req.body;
+            const {email} = req.params;
 
             const {password} = req.body;
 
@@ -165,7 +167,7 @@ module.exports= {
 
     async deleteUser(req, res) { //deleta um usuário  pelo id
         try {
-            const {id} = req.body;
+            const {id} = req.params;
             if (await knex("User").where("user_id", id) != "") {
                 await knex('User').del().where("user_id", id);
                 return res.status(201).json({msg: "User Deleted"});

@@ -13,7 +13,7 @@ module.exports = {
 
     async searchOffersUser(req, res) {
         try {
-            const {email} = req.body;
+            const {email} = req.params;
 
             const consult  = await knex('User').where('user_email', email);
             if(consult != "") {
@@ -70,7 +70,7 @@ module.exports = {
     
     async updateOffer(req, res) { //atualiza uma oferta pelo id
         try {
-            const {id} = req.body;
+            const {id} = req.params;
 
             const {ofr_name} = req.body;
             const {ofr_desc} = req.body;
@@ -99,7 +99,7 @@ module.exports = {
 
     async deleteOffer(req, res) { // deleta uma oferta pelo id
         try {
-            const {id} = req.body;
+            const {id} = req.params;
 
             if(await knex("Offer").where("ofr_id", id) != ""){
                 await knex("Offer").del().where("ofr_id", id);

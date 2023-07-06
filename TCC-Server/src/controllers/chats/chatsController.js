@@ -13,10 +13,10 @@ module.exports = {
     },
     async searchChatOffer(req, res) { //Requisita chats pertencentes à uma oferta específica
         try {
-            const {offer_id} = req.body;
+            const {ofr_id} = req.params;
 
             if(await knex('Offer').where('Offer_ofr_id', offer_id) != "") {
-                const result = await knex('Chat').where('Offer_ofr_id', offer_id);
+                const result = await knex('Chat').where('Offer_ofr_id', ofr_id);
                 return res.status(201).json(result);
             }
             else {
@@ -48,7 +48,7 @@ module.exports = {
 
    async deleteChat(req, res) { //Deleta um chat à partir do código
         try{
-            const {id} = req.body;
+            const {id} = req.params;
 
             if (await knex('Chat').where('chat_id', id) != "") {
                 await knex('Chat').del().where('chat_id', id);
@@ -65,7 +65,7 @@ module.exports = {
 
    async deleteChatOffer(req, res) { //Deleta chats prtences à ofertas específicas
         try{
-            const {ofr_id} = req.body;
+            const {ofr_id} = req.params;
 
             if (await knex('Offer').where('ofr_id', ofr_id) != "") {
                 await knex('Chat').del().where('Offer_ofr_id', ofr_id);
