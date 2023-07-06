@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`User` (
   `user_level` INT NOT NULL,
   `user_phone` VARCHAR(20) NULL,
   `user_houseNum` VARCHAR(6) NULL,
+  `user_city` VARCHAR(30) NULL,
   `user_CEP` VARCHAR(10) NULL,
   `user_nota` INT NULL,
   `user_name` VARCHAR(45) NULL,
