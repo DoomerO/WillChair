@@ -1,5 +1,6 @@
 import '../styles/pages/Login.css';
 import { ChangeEvent, useState, useEffect } from 'react';
+import decode from '../components/decoderToken';
 import axios from 'axios';
 
 const Login = () => {
@@ -7,6 +8,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    const [user, setUser] = useState(Object);
 
     useEffect(() => { //controla acesso ao banco de dados
         axios.get("http://localhost:3344/users", {}).then(res => {
@@ -23,9 +25,6 @@ const Login = () => {
             user_name: name,
             password: password,
             user_level: 0}).then(res => {
-                localStorage.setItem("name", res.data.name);
-                localStorage.setItem("level", res.data.level.toString());
-                localStorage.setItem("email", res.data.email);
                 localStorage.setItem("token", res.data.token);
                 console.log(res.data);
         }).catch(error => {
@@ -87,7 +86,7 @@ const Login = () => {
                         <div id="overlay-Left" className='overlay-panel'>
                             <h1 className="title">Já tem uma Conta?</h1>
                             <p>Clique aqui para realizar o login!</p>
-                            <button className="ghost" onClick={activateRight}>Login</button>
+                            <button className="ghost" onClick={() => {activateRight(); setUser(decode(localStorage.getItem("token"))), console.log(user)}}>Login</button>
                         </div>
                     </div>
                 </div>
