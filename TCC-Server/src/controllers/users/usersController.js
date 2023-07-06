@@ -41,7 +41,7 @@ module.exports= {
                 bcrypt.compare(password, pass).then((result) => {
                     if(result) {
                         const user = {id: consult[0].user_id, name: consult[0].user_name, 
-                            email: consult[0].user_email};
+                            email: consult[0].user_email, level: consult[0].user_level};
                             
                             const acssesToken = jwt.sign( //criação de token
                                 user,
@@ -49,9 +49,7 @@ module.exports= {
                                 {expiresIn: '3h'}
                             );
 
-                            user["token"] = acssesToken;
-
-                        return res.status(201).json(user)
+                        return res.status(201).json({token : acssesToken})
                     }
                     else {
                         return res.status(401).json({msg: "There is no user with this informations1 " + pass + " " + password});
@@ -93,7 +91,7 @@ module.exports= {
                 user_password
             });
             
-            const user = { name: user_name, email: user_email}
+            const user = {id:user_id ,name: user_name, email: user_email, level: user_level}
             
             const acssesToken = jwt.sign( //criação de token
                 user,
@@ -101,9 +99,7 @@ module.exports= {
                 {expiresIn: '3h'}
             );
 
-            user["token"] = acssesToken;
-
-            return res.status(201).json(user);
+            return res.status(201).json({token : acssesToken});
 
         }
         catch(error) {
