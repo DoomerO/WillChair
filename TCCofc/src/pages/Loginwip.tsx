@@ -32,12 +32,11 @@ const Loginwip = () => {
 
     const [screen, setScreen] = useBoolean(false)
 
-    function switchScreen(){
-        setEmail('')
-        setName('')
-        setPassword('')
-        setScreen.toggle
-    }
+   useEffect(() => {
+    setEmail('');
+    setName('');
+    setPassword('');
+   }, [screen])
 
     return (
         <Container border='0.5vh solid' borderRadius='10px' marginTop='10vh' maxW='container.md'
@@ -49,8 +48,8 @@ const Loginwip = () => {
                         <Password setTo={setPassword} placeholder='Senha'/>
                     </Wrap>
                     <Wrap justify='center' spacing={8}>
-                        <Button onClick={switchScreen()}>Sign Up</Button>
-                        <Button type='submit' onClick={() => {handleSubmits()}}>Enviar</Button>
+                        <Button onClick={setScreen.toggle}>Sign Up</Button>
+                        <Button type='submit' onClick={handleSubmits}>Enviar</Button>
                     </Wrap>
                 </Collapse>
                 <Collapse in={screen}>
@@ -61,8 +60,8 @@ const Loginwip = () => {
                         <Password setTo={setPassword} placeholder='Confirmar senha'/>
                     </Wrap>
                     <Wrap justify='center' spacing={8}>
-                        <Button onClick={switchScreen()}>Login</Button>
-                        <Button type='submit' onClick={() => {handleSubmits()}}>Enviar</Button>
+                        <Button onClick={setScreen.toggle}>Login</Button>
+                        <Button type='submit' onClick={handleSubmits}>Enviar</Button>
                     </Wrap>
                 </Collapse>
             </Stack>
