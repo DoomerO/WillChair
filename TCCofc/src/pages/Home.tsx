@@ -83,20 +83,25 @@ const Home = () => {
                 <Flex h="80%" direction='row' align='center'>
                     <Image src={bottomImage} w="30%" h='100%' objectFit='contain' display={{base: "none", sm: "inherit"}}></Image>
                     <Flex direction={{base:'column', sm :'row'}} w='60%'>
-                        <Category name='Cadeira de Rodas' icon={cadeiraRodas}/>
+                        <Category name='Cadeira de Rodas' icon={cadeiraRodas} path="/login"/>
                         <Spacer />
-                        <Category name='Muleta' icon={muleta}/>
+                        <Category name='Muleta' icon={muleta} path="/"/>
                         <Spacer />
-                        <Category name='Andador' icon={andador}/>
+                        <Category name='Andador' icon={andador} path="/"/>
                         <Spacer />
-                        <Category name='Bengala' icon={bengala}/>
+                        <Category name='Bengala' icon={bengala} path="/"/>
                         <Spacer />
-                        <Category name='Outros' icon={diversos}/>
+                        <Category name='Outros' icon={diversos} path="/"/>
                     </Flex>
                 </Flex>
             </Flex>
             <Footer/>
             
+        </Box> 
+    )
+}
+
+export default Home;
         </Box> 
     )
 }
