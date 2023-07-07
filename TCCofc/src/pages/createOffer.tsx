@@ -19,7 +19,7 @@ const createOffer = () => {
 
             <Flex w='100%' h='55vh' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
                 <Flex align='center' direction='column' w='100%'>
-                    <Heading color='#000' as='h1' fontSize="55px">Faça aqui a sua oferta!</Heading>
+                    <Heading color='#000' as='h1' fontSize="55px" _dark={{color:"#fff"}}>Faça aqui a sua oferta!</Heading>
                     <Heading color='#646E73' fontSize="25px" textAlign='center' w={{base: "98%", sm:"37%"}} _dark={{color:"#8f9bbc"}}>Selecione a categoria 
                     em que seu produto melhor se encaixa</Heading>
                 </Flex>
