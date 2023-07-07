@@ -6,6 +6,7 @@ import Search from "./pages/Search";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import login from "./pages/Loginwip"
+import createOffer from "./pages/createOffer";
 import HomeToggle from "./components/HomeToggle";
 
 const Router = () => {
@@ -18,6 +19,7 @@ const Router = () => {
             <Route Component={Search} path="/search"/>
             <Route Component={About} path="/about"/>
             <Route Component={Contact} path="/contact"/>
+            <Route Component={createOffer} path="/createoffer"/>
         </Routes>
     </BrowserRouter>
     )
