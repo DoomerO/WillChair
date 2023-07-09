@@ -32,7 +32,7 @@ module.exports = {
             let consult;
             switch (atribute) {
                 case "user_city":
-                    consult = await knex("User").join("Offer","user_id", "User_user_id").where("user_city", "like", `%${value}%`);
+                    consult = await knex("User").join("Offer","user_id", "User_user_id").where("user_city", "like", `%${value}%`).join("Product", "Product_prod_id", "prod_id");
                     if(!consult){
                         return res.status(401).json('There is no offer like this.');
                     }
