@@ -1,18 +1,59 @@
-import {Box, Heading, Flex, Input, InputGroup, InputRightAddon} from '@chakra-ui/react';
+import {Box, Heading, Flex, Input, InputGroup, InputRightAddon, Stack, TabPanel, Tabs, TabPanels} from '@chakra-ui/react';
 import {useState, useEffect} from 'react';
+
 import decode from '../components/decoderToken';
 import HeaderLoged from '../components/HeaderLoged';
 import Footer from '../components/Footer';
+import CardOffer from '../components/OfferCard';
+
+import axios from 'axios';
+
+//icons
 import {BiSearchAlt} from 'react-icons/bi';
+
+
 
 const HomeProd = () => {
 
+    const [closeOffers, setClose] = useState([]);
+    const [listIndex, setIndex] = useState([0, 1, 2])
+    const [user, setUser] = useState(decode(localStorage.getItem("token")));
+    const [city, setCity] = useState<String>();
+
+    async function queryCloseOffers() {
+
+        await axios.get(`http://localhost:3344/users/email/${user.email}`, {headers: {
+                authorization : "Bearer " + localStorage.getItem("token")
+        }}).then(res => {
+            setCity(res.data.user_city);
+        }).catch(error => {
+            console.log(error);
+        })
+        
+        await axios.get(`http://localhost:3344/offers/query/${"user_name"}/${user.name}`, {headers: {
+                authorization : "Bearer " + localStorage.getItem("token")
+        }}).then(res => {
+            setClose(res.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
     useEffect(() => {
-        setUser(decode(localStorage.getItem("token")));
+        queryCloseOffers();
     }, []);
-    
-    const [user, setUser] = useState({name: "", level: 0, email: ""});
-    console.log(user);
+
+    const renderOffers = closeOffers.map(item => {
+        return <CardOffer 
+        title={item.ofr_name} 
+        composition={item.prod_composition} 
+        condition={item.prod_condition} 
+        img={item.prod_img} 
+        value={item.ofr_value} 
+        type={item.prod_type}
+        key={item.ofr_id}/>
+    });
+
 
     return (
         <Box w="100%" h="100%">
@@ -28,11 +69,35 @@ const HomeProd = () => {
                 </Flex>
             </Flex>
 
-            <Flex bg="#fff" h='70vh' align="center" direction="column">
+            <Flex bg="#fff" h='fit-content' align="center" direction="column" _dark={{bg:'#4f4f4f'}} pb='5vh'>
                 <Heading color='#2D3748' as='h1' fontSize={{base: "36px", sm: "30px"}} _dark={{color:"#0D87d8"}} mt="3%" mb="5%">Confira as ofertas perto de você</Heading>
+                    <Tabs alignContent="center">
+                        <TabPanels>
+                            <TabPanel overflowX="scroll" maxWidth="98vw" css={{
+                                '&::-webkit-scrollbar': {
+                                height: '4px',
+                                },
+                                '&::-webkit-scrollbar-track': {
+                                background: '#aaaaaa',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                background: '#1976D2',
+                                borderRadius: '50px',
+                                },
+                                '&::-webkit-scrollbar-thumb:hover': {
+                                    background: '#0946a6',
+                                    borderRadius: '50px',
+                                },
+                            }}>
+                                <Stack direction="row" w="fit-content" spacing={25}>
+                                    {renderOffers}
+                                </Stack>  
+                            </TabPanel>
+                        </TabPanels>
+                    </Tabs>
             </Flex>
-            
             <Footer/>
+            
         </Box>
     );
 }
