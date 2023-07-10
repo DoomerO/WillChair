@@ -2,7 +2,7 @@ import '../styles/pages/Login.css';
 import { useState, useEffect } from 'react';
 import Password from '../components/Password';
 import axios from 'axios';
-import { Wrap, Stack, Button, Toast, Collapse, Input, Center, useBoolean, Container } from '@chakra-ui/react'
+import { Wrap, Button, Toast, Collapse, Input, useBoolean, Container } from '@chakra-ui/react'
 
 const Loginwip = () => {
 
@@ -39,12 +39,11 @@ const Loginwip = () => {
    }, [screen])
 
     return (
-        <Container border='0.5vh solid' borderRadius='10px' marginTop='10vh' maxW='container.md'
+        <Container borderRadius='10px' marginTop='10vh' maxW='container.md'
             padding='2vh' height='fit-content' centerContent>
-            <Stack id='mainDiv' direction={'row'}>
                 <Collapse in={!screen}>
                     <Wrap justify='center'>
-                        <Input className='submit' placeholder='E-mail ou nome de usuário' onChange={e => setName(e.target.value)}/>
+                        <Input className='submit' placeholder='E-mail ou nome de usuário' onChange={e => setName(e.target.value)} value={name}/>
                         <Password setTo={setPassword} placeholder='Senha'/>
                     </Wrap>
                     <Wrap justify='center' spacing={8}>
@@ -54,8 +53,8 @@ const Loginwip = () => {
                 </Collapse>
                 <Collapse in={screen}>
                     <Wrap justify='center'>
-                        <Input className='submit' placeholder='Nome de usuário' onChange={e => setName(e.target.value)}/>
-                        <Input className='submit' placeholder='E-mail' onChange={e => setEmail(e.target.value)}/>
+                        <Input className='submit' placeholder='Nome de usuário' onChange={e => setName(e.target.value)} value={name}/>
+                        <Input className='submit' placeholder='E-mail' onChange={e => setEmail(e.target.value)} value={email}/>
                         <Password setTo={setPassword} placeholder='Senha'/>
                         <Password setTo={setPassword} placeholder='Confirmar senha'/>
                     </Wrap>
@@ -64,7 +63,6 @@ const Loginwip = () => {
                         <Button type='submit' onClick={handleSubmits}>Enviar</Button>
                     </Wrap>
                 </Collapse>
-            </Stack>
         </Container>
     );
 }
