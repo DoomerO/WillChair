@@ -36,7 +36,7 @@ const wcOffer = () => {
                                             fontSize='1.2em'
                                             children='$'
                                         />
-                                        <Input placeholder='Preço' />
+                                        <Input placeholder='Preço' type='number' />
                                     </InputGroup>
                                 </Stack>
 
