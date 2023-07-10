@@ -8,6 +8,8 @@ const Loginwip = () => {
 
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
+    const [subPass, setSubPass] = useState('');
+    const [passMatch, setPassMatch] = useBoolean(false);
     const [password, setPassword] = useState('');
  
     useEffect(() => { //controla acesso ao banco de dados
@@ -19,6 +21,11 @@ const Loginwip = () => {
     }, [])
 
     function handleSubmits () { //Controla Envios de Formulários
+        var filled = 0
+        filled += Number(!email)
+        filled += Number(!name)
+        filled += Number(!password)
+        if(!passMatch || !filled){return}
         axios.post('http://localhost:3344/users', {
             user_email: email, 
             user_name: name,
@@ -38,6 +45,10 @@ const Loginwip = () => {
     setPassword('');
    }, [screen])
 
+   useEffect(() => {
+    (password == subPass) ? setPassMatch.on : setPassMatch.off;
+   }, [password])
+
     return (
         <Container borderRadius='10px' marginTop='10vh' maxW='container.md'
             padding='2vh' height='fit-content' centerContent>
@@ -55,7 +66,7 @@ const Loginwip = () => {
                     <Wrap justify='center'>
                         <Input className='submit' placeholder='Nome de usuário' onChange={e => setName(e.target.value)} value={name}/>
                         <Input className='submit' placeholder='E-mail' onChange={e => setEmail(e.target.value)} value={email}/>
-                        <Password setTo={setPassword} placeholder='Senha'/>
+                        <Password setTo={setSubPass} placeholder='Senha'/>
                         <Password setTo={setPassword} placeholder='Confirmar senha'/>
                     </Wrap>
                     <Wrap justify='center' spacing={8}>
