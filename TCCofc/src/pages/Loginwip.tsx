@@ -11,30 +11,19 @@ const Loginwip = () => {
     const [subPass, setSubPass] = useState('');
     const [passMatch, setPassMatch] = useBoolean(false);
     const [password, setPassword] = useState('');
- 
-    useEffect(() => { //controla acesso ao banco de dados
-        axios.get("http://localhost:3344/users", {}).then(res => {
-            console.log(res)
-        }).catch(error => {
-            console.log(error)
-        })
-    }, [])
 
     function handleSubmits () { //Controla Envios de Formulários
-        var filled = 0
-        filled += Number(!email)
-        filled += Number(!name)
-        filled += Number(!password)
-        if(!passMatch || !filled){return}
-        axios.post('http://localhost:3344/users', {
-            user_email: email, 
-            user_name: name,
-            password: password,
-            user_level: 0}).then(res => {
-            console.log("User Posted")
-        }).catch(error => {
-            console.log(error)
-        });
+        if(passMatch){
+            axios.post('http://localhost:3344/users', {
+                user_email: email, 
+                user_name: name,
+                password: password,
+                user_level: 0}).then(res => {
+                console.log("User Posted")
+            }).catch(error => {
+                console.log(error)
+            }); 
+        }
     }
 
     const [screen, setScreen] = useBoolean(false)
@@ -46,7 +35,7 @@ const Loginwip = () => {
    }, [screen])
 
    useEffect(() => {
-    (password == subPass) ? setPassMatch.on : setPassMatch.off;
+    password == subPass ? setPassMatch.on : setPassMatch.off;
    }, [password])
 
     return (
