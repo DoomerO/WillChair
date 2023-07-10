@@ -34,7 +34,7 @@ const PageToggle = ({compError, compSucsses}: toggleProps) => {
                 setComp(compSucsses)
             }).catch(error => {
                console.log(error);
-               setComp(Loginwip);
+               setComp(<Loginwip/>);
             });
         }
     }
