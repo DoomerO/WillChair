@@ -27,7 +27,7 @@ const Home = () => {
                 <Flex align='center' direction='column' ml={{base: "none", sm: '8%'}} w={{base: "inherit", sm :'50%'}}>
                     <Heading fontFamily="outfit"  color='#2D3748' as='h1' fontSize={{base: "36px", sm: "30px"}} _dark={{color:"#0D87d8"}}>O seu sonho acessível</Heading>
                     <Heading color='#1976D2' as='h1' fontSize={{base: "36px", sm: "30px"}} >perto de você!</Heading>
-                    <Text fontFamily="kdamThmor" noOfLines={2} fontSize={{base: '22px',sm:'20px'}} mt='20px' align="center">
+                    <Text fontFamily="atkinson" noOfLines={2} fontSize={{base: '22px',sm:'20px'}} mt='20px' align="center">
                         Compre, negocie ou anuncie equipamentos de acessibilidade
                     </Text>
                 </Flex>
