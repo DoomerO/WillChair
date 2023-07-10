@@ -7,6 +7,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import login from "./pages/Loginwip"
 import CreateOffer from "./pages/CreateOffer";
+import wcOffer from "./pages/wcOffer";
 import PageToggle from "./components/PageToggle";
 import HomeProd from "./pages/HomeProd";
 
@@ -25,6 +26,7 @@ const Router = () => {
             <Route Component={About} path="/about"/>
             <Route Component={Contact} path="/contact"/>
             <Route Component={CreateOffer} path="/createoffer"/>
+            <Route Component={wcOffer} path="/wcoffer"/>
         </Routes>
     </BrowserRouter>
     )
