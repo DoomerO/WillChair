@@ -2,7 +2,7 @@ import Header from '../components/Header';
 import Footer from "../components/Footer";
 import { Box, Flex, Spacer, Text, Heading, Stack, Container, Input } from '@chakra-ui/react';
 
-const WcOffer = () => {
+const wcOffer = () => {
     return (
             <Box w="100%" h="100%">
                 <Header/>
@@ -34,4 +34,4 @@ const WcOffer = () => {
     )
 }
 
-export default WcOffer;
+export default wcOffer;
