@@ -52,7 +52,7 @@ const HomeProd = () => {
         return <CardOffer 
         title={item.ofr_name} 
         composition={item.prod_composition} 
-        condition={item.prod_condition} 
+        condition={item.prod_status} 
         img={item.prod_img} 
         value={item.ofr_value} 
         type={item.prod_type}
