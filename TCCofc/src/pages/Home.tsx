@@ -6,6 +6,7 @@ import { Box, Flex, Spacer, Text, Image, Heading, Stack, Container } from '@chak
 import {BsCreditCard} from "react-icons/bs";
 import {BiDonateHeart} from "react-icons/bi";
 import {MdWheelchairPickup} from "react-icons/md";
+import "../fonts/fonts.css"
 
 //images
 import bottomImage from '../img/home/homeImgBottom.png';
@@ -24,9 +25,9 @@ const Home = () => {
 
             <Flex w='100%' h='70vh' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
                 <Flex align='center' direction='column' ml={{base: "none", sm: '8%'}} w={{base: "inherit", sm :'50%'}}>
-                    <Heading color='#2D3748' as='h1' fontSize={{base: "36px", sm: "30px"}} _dark={{color:"#0D87d8"}}>O seu sonho acessível</Heading>
+                    <Heading fontFamily="outfit"  color='#2D3748' as='h1' fontSize={{base: "36px", sm: "30px"}} _dark={{color:"#0D87d8"}}>O seu sonho acessível</Heading>
                     <Heading color='#1976D2' as='h1' fontSize={{base: "36px", sm: "30px"}} >perto de você!</Heading>
-                    <Text noOfLines={2} fontSize={{base: '22px',sm:'20px'}} mt='20px' align="center">
+                    <Text fontFamily="kdamThmor" noOfLines={2} fontSize={{base: '22px',sm:'20px'}} mt='20px' align="center">
                         Compre, negocie ou anuncie equipamentos de acessibilidade
                     </Text>
                 </Flex>
@@ -34,7 +35,7 @@ const Home = () => {
             </Flex>
 
             <Flex w='100%' bg='#fff' h='fit-content' align='center' direction='column' _dark={{bg:'#4f4f4f'}} pb={{base:"5vh", sm:"none"}}>
-                <Heading as='h1' noOfLines={{base: 2, sm: 1}} color='#2D3748' mt={{base:'10%', sm:'3%'}} _dark={{color:"#0D87d8"}} fontSize={{base: "32px", sm: "34px"}} align='center' w={{base:'98vw', sm:'fit-content'}}>
+                <Heading fontFamily="outfit" as='h1' noOfLines={{base: 2, sm: 1}} color='#2D3748' mt={{base:'10%', sm:'3%'}} _dark={{color:"#0D87d8"}} fontSize={{base: "32px", sm: "34px"}} align='center' w={{base:'98vw', sm:'fit-content'}}>
                     O que você pode encontrar por aqui
                 </Heading>
                 <Stack mt='8%' gap="50" direction={{base: "column", sm: "row"}} >
@@ -44,7 +45,7 @@ const Home = () => {
                                 <BsCreditCard size='8vh'/>
                             </Container>
                         </Box>
-                        <Text align='center' noOfLines={2} fontSize={{base:'19px', sm:'15px'}}>
+                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', sm:'15px'}}>
                             Compras ou vendas de produtos
                         </Text>
                     </Flex>
@@ -55,7 +56,7 @@ const Home = () => {
                                 <BiDonateHeart size='8vh'/>
                             </Container>
                         </Box>
-                        <Text align='center' noOfLines={2} fontSize={{base:'19px', sm:'15px'}}>
+                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', sm:'15px'}}>
                             Doações de equipamentos
                         </Text>
                     </Flex>
@@ -66,7 +67,7 @@ const Home = () => {
                                 <MdWheelchairPickup size='8vh'/>
                             </Container>
                         </Box>
-                        <Text align='center' noOfLines={2} fontSize={{base:'19px', sm:'15px'}}>
+                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', sm:'15px'}}>
                             Aluguéis por preços acessíveis
                         </Text>
                     </Flex>
@@ -75,7 +76,7 @@ const Home = () => {
 
             <Flex w='100%' h='fit-content' bg='#F7F9FC' align='center' direction='column' _dark={{bg:'#484A4D'}}>
                 <Box h='20%' alignContent='center' mt={{base:'10%', sm:'3%'}}>
-                <Heading as='h2' noOfLines={{base: 2, sm: 1}} color='#1963D2' _dark={{color:'#1983D2'}} fontSize={{base: "32px", sm: "34px"}} align='center' w={{base:'98vw', sm:'fit-content'}}>
+                <Heading fontFamily="outfit" as='h2' noOfLines={{base: 2, sm: 1}} color='#1963D2' _dark={{color:'#1983D2'}} fontSize={{base: "32px", sm: "34px"}} align='center' w={{base:'98vw', sm:'fit-content'}}>
                     Confira abaixo algumas de nossas categorias
                 </Heading>
                 </Box>
