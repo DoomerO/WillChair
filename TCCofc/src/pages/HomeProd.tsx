@@ -16,7 +16,6 @@ import {BiSearchAlt} from 'react-icons/bi';
 const HomeProd = () => {
 
     const [closeOffers, setClose] = useState([]);
-    const [listIndex, setIndex] = useState([0, 1, 2])
     const [user, setUser] = useState(decode(localStorage.getItem("token")));
     const [city, setCity] = useState<String>();
 
@@ -25,15 +24,16 @@ const HomeProd = () => {
         await axios.get(`http://localhost:3344/users/email/${user.email}`, {headers: {
                 authorization : "Bearer " + localStorage.getItem("token")
         }}).then(res => {
-            setCity(res.data.user_city);
+            setCity(res.data[0].user_city);
         }).catch(error => {
             console.log(error);
         })
-        
-        await axios.get(`http://localhost:3344/offers/query/${"user_name"}/${user.name}`, {headers: {
+      
+        await axios.get(`http://localhost:3344/offers/query/${"user_city"}/${city}`, {headers: {
                 authorization : "Bearer " + localStorage.getItem("token")
         }}).then(res => {
             setClose(res.data);
+            console.log(res)
         }).catch(error => {
             console.log(error);
         })
@@ -70,7 +70,8 @@ const HomeProd = () => {
             </Flex>
 
             <Flex bg="#fff" h='fit-content' align="center" direction="column" _dark={{bg:'#4f4f4f'}} pb='5vh'>
-                <Heading color='#2D3748' as='h1' fontSize={{base: "36px", sm: "30px"}} _dark={{color:"#0D87d8"}} mt="3%" mb="5%">Confira as ofertas perto de você</Heading>
+                <Heading color='#2D3748' as='h1' fontSize={{base: "36px", sm: "30px"}} _dark={{color:"#0D87d8"}} mt="3%" mb="5%"
+                onClick={() => {console.log(city)}}>Confira as ofertas perto de você</Heading>
                     <Tabs alignContent="center">
                         <TabPanels>
                             <TabPanel overflowX="scroll" maxWidth="98vw" css={{
