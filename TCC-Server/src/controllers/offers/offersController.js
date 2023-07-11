@@ -39,7 +39,7 @@ module.exports = {
                     return res.status(201).json(consult);
 
                 case "ofr_type":
-                    consult = await knex("Offer").where("ofr_type", "like", `%${value}%`);
+                    consult = await knex("Offer").where("ofr_type", "like", `%${value}%`).join("Product", "Product_prod_id", "prod_id");
                     if(!consult){
                         return res.status(401).json('There is no offer like this.');
                     }
@@ -53,7 +53,7 @@ module.exports = {
                     return res.status(201).json(consult);
 
                 case "name":
-                    consult = await knex("Offer").where("ofr_name", "like", `%${value}%`);
+                    consult = await knex("Offer").where("ofr_name", "like", `%${value}%`).join("Product", "Product_prod_id", "prod_id");
                     if(!consult){
                         return res.status(401).json('There is no offer like this.');
                     }
@@ -67,7 +67,7 @@ module.exports = {
                     return res.status(201).json(consult);
 
                 case "user_name":
-                    consult = await knex("User").join("Offer","user_id", "User_user_id").where("user_name", "like", `%${value}%`);
+                    consult = await knex("User").join("Offer","user_id", "User_user_id").where("user_name", "like", `%${value}%`).join("Product", "Product_prod_id", "prod_id");
                     if(!consult){
                         return res.status(401).json('There is no offer like this.');
                     }
