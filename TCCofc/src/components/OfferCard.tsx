@@ -14,7 +14,7 @@ const CardOffer = ({img, title, condition, composition, type, value}: OfferCard)
     return (
         <Card w="23vw" boxShadow="lg" h="fit-content" align='center' variant="outline" size="sm"> 
             <CardHeader>
-                <Heading as='h3' fontSize='20px'>{title}</Heading>
+                <Heading as='h3' fontSize='20px' noOfLines={1}>{title}</Heading>
             </CardHeader>
             <CardBody flexDirection="column" w="100%">
                 <Image src={img} objectFit="auto" w="100%" h="20vh"/>
