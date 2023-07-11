@@ -5,11 +5,12 @@ import decode from '../components/decoderToken';
 import HeaderLoged from '../components/HeaderLoged';
 import Footer from '../components/Footer';
 import CardOffer from '../components/OfferCard';
-
+import OfferList from '../components/OfferList';
 import axios from 'axios';
 
 //icons
 import {BiSearchAlt} from 'react-icons/bi';
+import SignNotFound from '../components/SignNotFound';
 
 
 
@@ -59,6 +60,9 @@ const HomeProd = () => {
         key={item.ofr_id}/>
     });
 
+    const signNotFound = () => {
+        return <p>Cu</p>
+    }
 
     return (
         <Box w="100%" h="100%">
@@ -77,31 +81,10 @@ const HomeProd = () => {
             <Flex bg="#fff" h='fit-content' align="center" direction="column" _dark={{bg:'#4f4f4f'}} pb='5vh'>
                 <Heading color='#2D3748' as='h1' fontSize={{base: "36px", sm: "30px"}} _dark={{color:"#0D87d8"}} mt="3%" mb="5%"
                 onClick={() => {console.log(userQuery)}}>Confira as ofertas perto de você</Heading>
-                    <Tabs alignContent="center">
-                        <TabPanels>
-                            <TabPanel overflowX="scroll" maxWidth="98vw" css={{
-                                '&::-webkit-scrollbar': {
-                                height: '4px',
-                                },
-                                '&::-webkit-scrollbar-track': {
-                                background: '#aaaaaa',
-                                },
-                                '&::-webkit-scrollbar-thumb': {
-                                background: '#1976D2',
-                                borderRadius: '50px',
-                                },
-                                '&::-webkit-scrollbar-thumb:hover': {
-                                    background: '#0946a6',
-                                    borderRadius: '50px',
-                                },
-                            }}>
-                                <Stack direction="row" w="fit-content" spacing={25}>
-                                    {renderOffers}
-                                </Stack>  
-                            </TabPanel>
-                        </TabPanels>
-                    </Tabs>
+                {(closeOffers.length > 0) ? <OfferList component={renderOffers}/> : <SignNotFound msg="Parece que não há equipamentos registrados em sua cidade..."/>}
+
             </Flex>
+
             <Footer/>
             
         </Box>
