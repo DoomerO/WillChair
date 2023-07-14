@@ -1,10 +1,9 @@
 import decode from "./decoderToken";
 
 import Loginwip from "../pages/Loginwip";
-import HomeProd from "../pages/HomeProd";
-import Home from "../pages/Home";
+import TokenErrorPage from "../pages/TokenErrorPage";
 
-import React, {useState, useEffect, Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from "axios";
 
 interface toggleProps {
@@ -34,7 +33,7 @@ const PageToggle = ({compError, compSucsses}: toggleProps) => {
                 setComp(compSucsses)
             }).catch(error => {
                console.log(error);
-               setComp(<Loginwip/>);
+               setComp(<TokenErrorPage/>);
             });
         }
     }

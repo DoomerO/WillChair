@@ -63,10 +63,10 @@ const Header = () => {
             <Spacer />
             <HStack display={{base: 'none', sm:'inherit'}}>
                 <Button variant='ghost'>
-                    Sign In
+                    <Link to="/loginw">Sign in</Link>
                 </Button>
                 <Button variant='ghost' color='#1976D2'>
-                    Sign Up
+                    <Link to="/loginw">Sign Up</Link>
                 </Button>
             </HStack>
         </Flex>
