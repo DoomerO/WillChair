@@ -20,6 +20,7 @@ const Loginwip = () => {
                 password: password,
                 user_level: 0}).then(res => {
                 console.log("User Posted")
+                localStorage.setItem("token", res.data.token);
             }).catch(error => {
                 console.log(error)
             }); 
