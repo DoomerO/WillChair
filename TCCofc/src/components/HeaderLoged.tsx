@@ -4,6 +4,7 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 //imagens
 import logo from '../img/home/logoDark.png';
 import logoLight from '../img/home/logo.png';
+import logOutFunc from "./logout";
 
 interface avatarProps {
     name: string,
@@ -11,7 +12,7 @@ interface avatarProps {
 }
 
 const HeaderLoged = ({name, img}: avatarProps) => {
-    const {toggleColorMode, colorMode} = useColorMode();
+    const {toggleColorMode} = useColorMode();
     const logoImg = useColorModeValue(logo, logoLight) //muda o valor de lago a partir do modo de cor que estiver ativo
     return (
         <Flex w="100%" h="8.5vh" bg='#fff' position='fixed' _dark={{bg : '#131313'}} boxShadow='lg' zIndex={2}>
@@ -34,8 +35,8 @@ const HeaderLoged = ({name, img}: avatarProps) => {
                         <MenuItem>
                             <Link to="/loginw">Sign up/in</Link>
                         </MenuItem>
-                        <MenuItem>
-                            ou alguma coisa
+                        <MenuItem onClick={logOutFunc}>
+                            <Link to="/">Log Out</Link>
                         </MenuItem>
                         <MenuItem onClick={toggleColorMode}>
                             Dark Mode
