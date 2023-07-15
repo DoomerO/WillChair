@@ -1,4 +1,4 @@
-import {Text, Flex, Image, Stack, SimpleGrid, Spacer, Container, HStack} from '@chakra-ui/react';
+import {Text, Flex, Image, Stack, SimpleGrid, Spacer, Container} from '@chakra-ui/react';
 import { Link } from "react-router-dom";
 import logo from '../img/home/logo.png';
 import {BsWhatsapp} from 'react-icons/bs';
@@ -6,10 +6,11 @@ import {AiOutlineInstagram} from 'react-icons/ai';
 import {CiFacebook} from 'react-icons/ci';
 import {MdOutlineLanguage} from 'react-icons/md';
 import {MdBusiness} from 'react-icons/md';
+import colors from '../colors/colors';
 
 const Footer = () => {
     return (
-        <Flex w="100%" h="fit-content" bg='#131313' direction='column'>
+        <Flex w="100%" h="fit-content" bg={colors.footerBg} direction='column'>
             <Stack w='100%' mt='3%' direction={{base:'column', sm:'row'}}>
                 <Image src={logo} w={{base:'20vh', sm:'18vw'}} h='16vh' objectFit='contain'></Image>
                 <Spacer />
