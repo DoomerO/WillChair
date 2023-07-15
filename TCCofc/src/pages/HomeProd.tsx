@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react';
 
 import decode from '../components/decoderToken';
 import HeaderLoged from '../components/HeaderLoged';
+import HeaderToggle from '../components/toggles/HeaderToggle';
 import Footer from '../components/Footer';
 import CardOffer from '../components/OfferCard';
 import OfferList from '../components/OfferList';
@@ -90,7 +91,7 @@ const HomeProd = () => {
 
     return (
         <Box w="100%" h="100%">
-            <HeaderLoged name={user.name} img={""}/>
+            <HeaderToggle/>
 
             <Flex bg={colors.veryLightBlue} w='100%' h='70vh' align="center" _dark={{bg:colors.veryLightBlue_Dark}}>
                 <Flex w="100%" direction="column" align="center">

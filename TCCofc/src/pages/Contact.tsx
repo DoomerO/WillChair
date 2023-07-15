@@ -1,16 +1,16 @@
-import Header from '../components/Header';
 import Footer from "../components/Footer";
 import { Box, Flex, Heading, Stack } from '@chakra-ui/react';
 import { FaPhoneAlt } from "react-icons/Fa";
 import { MdEmail } from "react-icons/md"
 import { IoLogoWhatsapp } from "react-icons/io"
 import { BsFacebook } from "react-icons/bs"
+import HeaderToggle from '../components/toggles/HeaderToggle';
 
 
 const Contact = () => {
     return (
             <Box w="100%" h="100%">
-                    <Header/>
+                    <HeaderToggle/>
         
                     <Flex w='100%' h='30vh' bg='#F7F9FC' align='center' _dark={{bg:'#4f4f4f'}}>
                         <Flex mt='2%' align='center' direction='column' w='100%'>

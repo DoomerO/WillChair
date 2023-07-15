@@ -1,14 +1,15 @@
-import Header from '../components/Header';
+
 import Footer from "../components/Footer";
 import { Box, Flex, Spacer, Text, Heading, Stack, Container, Input } from '@chakra-ui/react';
 import { Select } from '@chakra-ui/react';
 import { InputGroup, InputLeftElement, InputRightElement} from '@chakra-ui/react';
 import { Button, ButtonGroup } from '@chakra-ui/react'
+import HeaderToggle from '../components/toggles/HeaderToggle';
 
 const wcOffer = () => {
     return (
             <Box w="100%" h="100%">
-                    <Header/>
+                    <HeaderToggle/>
         
                     <Flex w='100%' h='30vh' bg='#F7F9FC' align='center' _dark={{bg:'#4f4f4f'}}>
                         <Flex mt='2%' align='center' direction='column' w='100%'>

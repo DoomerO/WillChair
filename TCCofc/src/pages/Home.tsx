@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Category from "../components/Category";
-import Header from '../components/Header';
+import HeaderToggle from "../components/toggles/HeaderToggle";
 import Footer from "../components/Footer";
 import { Box, Flex, Spacer, Text, Image, Heading, Stack, Container } from '@chakra-ui/react';
 import {BsCreditCard} from "react-icons/bs";
@@ -21,7 +21,7 @@ const Home = () => {
 
     return (
         <Box w="100%" h="100%">
-            <Header/>
+            <HeaderToggle/>
 
             <Flex w='100%' h='70vh' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
                 <Flex align='center' direction='column' ml={{base: "none", sm: '8%'}} w={{base: "inherit", sm :'50%'}}>

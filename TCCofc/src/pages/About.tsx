@@ -1,5 +1,5 @@
 import { Box, Flex, Spacer, Text, Heading, Stack, Container } from '@chakra-ui/react';
-import Header from '../components/Header';
+import HeaderToggle from '../components/toggles/HeaderToggle';
 import Footer from "../components/Footer";
 import {BsPeopleFill} from "react-icons/bs";
 import {HiOutlineDesktopComputer} from "react-icons/hi";
@@ -8,7 +8,7 @@ import {BsGearFill} from "react-icons/bs";
 const About = () => {
     return (
         <Box w="100%" h="100%">
-            <Header/>
+            <HeaderToggle/>
 
             <Flex w='100%' h='70vh' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
                 <Flex align='center' direction='column' w='100%'>
@@ -55,8 +55,8 @@ const About = () => {
                         </Box>
                         <Text align='center' textAlign='justify' fontSize={{base: '19px', sm: '16px'}}>
                         Nossa aplicação permite que quem precisa de itens de acessibilidade ache ofertantes  
-                        destes produtos. Além disso, o WillChair apresenta três tipos de oferta: doação, venda e 
-                        emprésticmo, se adequando situações financeiras diferentes 
+                        destes produtos. Além disso, o WillChair apresenta três tipos de ofertas: doação, venda e 
+                        empréstimo, se adequando situações financeiras diferentes.
                         </Text>
                     </Flex>
                 </Stack>
@@ -69,9 +69,9 @@ const About = () => {
                     <Flex direction='column' w={{base:'80vw', sm:'72vh'}} h={{base:'fit-content' , sm:'50vh'}}>
                         <Text fontSize={{base:'19px', sm:'18px'}} textAlign='justify'>
                         A ideia de desenvolver uma aplicação web que facilitaria a aquisição de
-                        itens de acessibilidade surgiu da necessidade. Nós, da equipe, nos depararmos com uma 
+                        itens de acessibilidade surgiu da necessidade. Nós, da equipe, nos deparamos com uma 
                         situação em que uma conhecida precisava de uma cadeira de rodas rapidamente e não encontrava 
-                        em lugar nenhum. Ela buscou por dias e não encontrou ninguém que vendesse ou doasse o produto. 
+                        em lugar nenhum. Ela buscou por dias e não encontrou ninguém que vendesse ou doasse o equipamento. 
                         </Text>
                     </Flex>
                     <Spacer/>
@@ -79,7 +79,7 @@ const About = () => {
                     <Flex direction='column' w={{base:'80vw', sm:'65vh'}} h={{base:'fit-content' , sm:'50vh'}}>
                         <Text fontSize={{base:'19px', sm:'18px'}}  textAlign='justify'>
                         Pensamos juntos em soluções para tal problema e o que surgiu foi o WillChair: uma aplicação 
-                        web que permitiria que o usuário buscando um produto se comunicasse com um ofertante dele. 
+                        web que permitiria que o usuário buscando um equipamento se comunicasse com um ofertante dele. 
                         Além disso, o WillChair aceitaria três tipos de ofertas: doação, aluguél e venda, para que 
                         todos consigam suprir sua necessidade de acordo com as circunstâncias em que se encontram. 
                         </Text>
