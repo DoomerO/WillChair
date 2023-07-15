@@ -33,7 +33,9 @@ const HeaderToggle = () => {
     }
 
     return (
-        {comp}
+        <div>
+            {comp}
+        </div>  
     )
 }
 
