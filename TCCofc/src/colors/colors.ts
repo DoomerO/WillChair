@@ -1,8 +1,8 @@
 const colors = {
     veryLightBlue : "#F7F9FC",
-    lightGray_Dark : "#484A4D",
+    veryLightBlue_Dark : "#484A4D",
     bgWhite: "#fff",
-    bgWhite_Dark: "#4f4f4f",
+    bgWhite_Dark: "#505050",
     black: '#000',
     colorFontDarkBlue: "#2D3748",
     colorFontDarkBlue_Dark: "#8f9bbc",
@@ -13,6 +13,7 @@ const colors = {
     signColorOpacity: "#1976D230",
     categoryBg: "#fff",
     categoryBg_Dark: "#444",
+    footerBg: "#131313"
 }
 
 export default colors

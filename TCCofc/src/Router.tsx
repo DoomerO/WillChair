@@ -8,7 +8,7 @@ import Contact from "./pages/Contact";
 import login from "./pages/Loginwip"
 import CreateOffer from "./pages/CreateOffer";
 import wcOffer from "./pages/wcOffer";
-import PageToggle from "./components/PageToggle";
+import PageToggle from "./components/toggles/PageToggle";
 import HomeProd from "./pages/HomeProd";
 
 const Router = () => {
