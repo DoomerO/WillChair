@@ -10,6 +10,7 @@ import CreateOffer from "./pages/CreateOffer";
 import wcOffer from "./pages/wcOffer";
 import PageToggle from "./components/toggles/PageToggle";
 import HomeProd from "./pages/HomeProd";
+import ConfirmLogOut from "./pages/intersections/ConfirmLogOut";
 
 const Router = () => {
     const toggleHome = () => {
@@ -27,6 +28,7 @@ const Router = () => {
             <Route Component={Contact} path="/contact"/>
             <Route Component={CreateOffer} path="/createoffer"/>
             <Route Component={wcOffer} path="/wcoffer"/>
+            <Route Component={ConfirmLogOut} path="/logout"/>
         </Routes>
     </BrowserRouter>
     )
