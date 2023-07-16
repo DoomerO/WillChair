@@ -140,7 +140,7 @@ const HomeProd = () => {
                 {(userOffers.length > 0) ? <OfferList component={renderUserOffers}/> : <SignNotFoundButton msg="Parece que você não possui ofertas registradas...Que tal criar alguma?!" icon={<BsPencil size="45%"/>} btnText='Criar Oferta' btnPath='/createoffer'/>} 
             </Flex>
 
-            <Flex bg={colors.veryLightBlue} h="fit-content" align="center" direction="column" _dark={{bg:colors.veryLightBlue_Dark}}>
+            <Flex bg={colors.bgWhite} h="fit-content" align="center" direction="column" _dark={{bg:colors.bgWhite_Dark}}>
                 <Heading color={colors.colorFontBlue} as="h1" fontSize={{base: "36px", sm:"30px"}} mt="3%" mb="5%" fontFamily="outfit">
                     Dicas para você
                 </Heading>
