@@ -13,7 +13,9 @@ const colors = {
     signColorOpacity: "#1976D230",
     categoryBg: "#fff",
     categoryBg_Dark: "#444",
-    footerBg: "#131313"
+    footerBg: "#131313",
+    slideMsgBg: "#bfbfbf",
+    slideMsgBg_Dark: "#363636",
 }
 
 export default colors
