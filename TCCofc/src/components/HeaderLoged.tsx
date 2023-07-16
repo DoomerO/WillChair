@@ -4,7 +4,6 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 //imagens
 import logo from '../img/home/logoDark.png';
 import logoLight from '../img/home/logo.png';
-import logOutFunc from "./logout";
 
 interface avatarProps {
     name: string,
@@ -26,18 +25,18 @@ const HeaderLoged = ({name, img}: avatarProps) => {
                         bg='#0000'>
                     </MenuButton>
                     <MenuList>
-                        <MenuItem>
-                            <Link to="/contact">Contato</Link>
-                        </MenuItem>
-                        <MenuItem>
-                            <Link to="/about">Sobre nós</Link>
-                        </MenuItem>
-                        <MenuItem>
-                            <Link to="/loginw">Sign up/in</Link>
-                        </MenuItem>
-                        <MenuItem onClick={logOutFunc}>
-                            <Link to="/">Log Out</Link>
-                        </MenuItem>
+                        <Link to="/contact"><MenuItem>
+                            Contato
+                        </MenuItem></Link>
+                        <Link to="/about"><MenuItem>
+                            Sobre nós
+                        </MenuItem></Link>
+                        <Link to="/loginw"><MenuItem>
+                            Sign up/in
+                        </MenuItem></Link>
+                        <Link to="/logout"><MenuItem>
+                            Log Out
+                        </MenuItem></Link>
                         <MenuItem onClick={toggleColorMode}>
                             Dark Mode
                         </MenuItem>

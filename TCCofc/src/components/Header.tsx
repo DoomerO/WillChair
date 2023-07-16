@@ -21,15 +21,15 @@ const Header = () => {
                         bg='#0000'>
                     </MenuButton>
                     <MenuList>
-                        <MenuItem>
-                            <Link to="/contact">Contato</Link>
-                        </MenuItem>
-                        <MenuItem>
-                            <Link to="/about">Sobre nós</Link>
-                        </MenuItem>
-                        <MenuItem>
-                            <Link to="/loginw">Sign up/in</Link>
-                        </MenuItem>
+                        <Link to="/contact"><MenuItem>
+                            Contato
+                        </MenuItem></Link>
+                        <Link to="/about"><MenuItem>
+                            Sobre nós
+                        </MenuItem></Link>
+                        <Link to="/loginw"><MenuItem>
+                            Sign up/in
+                        </MenuItem></Link>
                         <MenuItem>
                             ou alguma coisa
                         </MenuItem>
@@ -62,12 +62,12 @@ const Header = () => {
             <Spacer/>
             <Spacer />
             <HStack display={{base: 'none', sm:'inherit'}}>
-                <Button variant='ghost'>
-                    <Link to="/loginw">Sign in</Link>
-                </Button>
-                <Button variant='ghost' color='#1976D2'>
-                    <Link to="/loginw">Sign Up</Link>
-                </Button>
+                <Link to="/loginw"><Button variant='ghost'>
+                    Sign in
+                </Button></Link>
+                <Link to="/loginw"><Button variant='ghost' color='#1976D2'>
+                    Sign Up
+                </Button></Link>
             </HStack>
         </Flex>
     )

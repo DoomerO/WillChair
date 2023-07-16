@@ -16,7 +16,7 @@ const SignNotFoundButton = ({msg, icon, btnPath, btnText} : signProps) => {
         w="100%" pt="3%">
            {icon}
             <Text fontSize="25px" fontFamily="atkinson">{msg}</Text>
-            <Button variant="outline" bgColor="#0000" mt="1.5%"><Link to={btnPath}>{btnText}</Link></Button>
+            <Link to={btnPath}><Button variant="outline" bgColor="#0000" mt="1.5%">{btnText}</Button></Link>
         </Flex>
     );
 }
