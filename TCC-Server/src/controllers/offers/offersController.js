@@ -17,7 +17,7 @@ module.exports = {
 
             const consult  = await knex('User').where('user_email', email);
             if(consult != "") {
-                const result = await knex('Offer').where('User_user_id', consult[0].user_id);
+                const result = await knex('Offer').where('User_user_id', consult[0].user_id).join("Product", "Product_prod_id", "prod_id");
                 return res.status(201).json(result);
             }
         }
