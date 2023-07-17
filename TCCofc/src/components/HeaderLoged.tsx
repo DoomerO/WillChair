@@ -66,7 +66,7 @@ const HeaderLoged = ({name, img}: avatarProps) => {
             <Spacer/>
             <Spacer/>
             <HStack>
-                <Avatar name={name} src={img} size={{base: "sm", sm:"md"}} mr="1vw"/>
+                <Avatar name={name} src={img} size={{base: "md", sm:"md"}} mr="1vw"/>
             </HStack>
         </Flex>
     )

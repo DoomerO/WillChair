@@ -1,4 +1,5 @@
 import { Text, Card, CardBody, CardFooter, CardHeader, Flex, Heading, Image, Button} from "@chakra-ui/react";
+import colors from "../../colors/colors";
 
 interface OfferCard {
     img: string,
@@ -11,30 +12,30 @@ interface OfferCard {
 
 const CardOffer = ({img, title, condition, composition, type, value}: OfferCard) => {
     return (
-        <Card w="23vw" boxShadow="lg" h="fit-content" align='center' variant="outline" size="sm"> 
+        <Card w={{base:"70vw", sm:"23vw"}} boxShadow="lg" h="fit-content" align='center' variant="outline" size="sm"> 
             <CardHeader>
-                <Heading as='h3' fontSize='20px' noOfLines={1}>{title}</Heading>
+                <Heading as='h3' fontSize={{base:"24px", sm:"20px"}} noOfLines={1}>{title}</Heading>
             </CardHeader>
             <CardBody flexDirection="column" w="100%">
                 <Image src={img} objectFit="auto" w="100%" h="20vh"/>
                 <Flex direction="column" mt="3%">
                    <Flex direction="row">
-                        <Text color="#2D37b8">Condição:</Text>
-                        <Text>{condition}</Text>
+                        <Text color={colors.colorFontBlue} fontSize={{base:"20px", sm:"18px"}}>Condição:</Text>
+                        <Text fontSize={{base:"20px", sm:"18px"}}>{condition}</Text>
                    </Flex>
                    <Flex direction="row">
-                        <Text color="#2D37b8">Tipo:</Text>
-                        <Text>{type}</Text>
+                        <Text color={colors.colorFontBlue} fontSize={{base:"20px", sm:"18px"}}>Tipo:</Text>
+                        <Text fontSize={{base:"20px", sm:"18px"}}>{type}</Text>
                    </Flex>
                    <Flex direction="row">
-                        <Text color="#2D37b8">Composição:</Text>
-                        <Text>{composition}</Text>
+                        <Text color={colors.colorFontBlue} fontSize={{base:"20px", sm:"18px"}}>Composição:</Text>
+                        <Text fontSize={{base:"20px", sm:"18px"}}>{composition}</Text>
                    </Flex>
-                   <Text fontSize="19px" align='center' color="#1963D2" mt="2%">{value}</Text>
+                   <Text fontSize={{base:"22px", sm:"19px"}} align='center' color="#1963D2" mt="2%">{value}</Text>
                 </Flex>
             </CardBody>
             <CardFooter>
-                <Button variant="solid" colorScheme="linkedin">Ver mais</Button>
+                <Button variant="solid" colorScheme="linkedin" fontSize={{base:"22px", sm:"20px"}}>Ver mais</Button>
             </CardFooter>
         </Card>
     )
