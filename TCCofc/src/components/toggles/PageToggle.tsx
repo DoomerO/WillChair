@@ -1,6 +1,6 @@
 import decode from "../decoderToken";
 
-import TokenErrorPage from "../../pages/TokenErrorPage";
+import TokenErrorPage from "../../pages/intersections/TokenErrorPage";
 
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
