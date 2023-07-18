@@ -1,9 +1,12 @@
-import {Box, Heading, Flex, Input, InputGroup, InputRightAddon} from '@chakra-ui/react';
+//Componentes externos e React
+import {Box, Heading, Flex, Input, InputGroup, InputRightAddon, Stack} from '@chakra-ui/react';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import '../styles/alice-carousel.css';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, ChangeEvent} from 'react';
+import axios from 'axios';
 
+//componentes Willchair
 import decode from '../components/decoderToken';
 import HeaderToggle from '../components/toggles/HeaderToggle';
 import Footer from '../components/Footer';
@@ -12,7 +15,6 @@ import OfferList from '../components/offerCards/OfferList';
 import SignNotFound from '../components/SignNotFound';
 import SignNotFoundButton from '../components/SignNotFoundButton';
 import SlideMsg from '../components/SlideMsg';
-import axios from 'axios';
 
 //icons
 import {BiSearchAlt, BiAccessibility} from 'react-icons/bi';
@@ -21,39 +23,46 @@ import {BsPencil} from "react-icons/bs";
 import {RiEmpathizeLine} from "react-icons/ri";
 import {GiBrokenBone} from "react-icons/gi";
 
+//outros
 import "../fonts/fonts.css";
 import colors from "../colors/colors";
 
 const HomeProd = () => {
 
-    const [closeOffers, setClose] = useState([]);
-    const [userOffers, setUserOffers] = useState([]);
-    const [user, setUser] = useState(decode(localStorage.getItem("token")));
-    const [userQuery, setQuery] = useState([]);
+    const [closeOffers, setClose] = useState([]); //Lista de ofertas próxiams por cidade
+    const [userOffers, setUserOffers] = useState([]); //Lista de ofertas do usuário logado
+    const [user, setUser] = useState(decode(localStorage.getItem("token"))); //usuário do token decodificado
+    const [userQuery, setQuery] = useState([]); //usuário logado pelo banco de dados, pegar cidade
+    const [offerQuery, setOffer] = useState([]); //lista de ofertas no banco de dados, pesquisa por nome
+    const [search, setSearch] = useState(""); //valor input de barra de pesquisa
+    let numOptRender = 0; //número de opções renderizadas
 
-    async function queryCloseOffers() {
+    const handleChange = (e:ChangeEvent<HTMLInputElement>) => { //evento de change no input de pesquisa
+        e.preventDefault();
+        setSearch(e.target.value);
+    }
+
+    async function queryCloseOffers() { //get de ofertas próximas no banco de dados
         await axios.get(`http://localhost:3344/offers/query/${"user_city"}/${userQuery.user_city}`, {headers: {
             authorization : "Bearer " + localStorage.getItem("token")
         }}).then(res => {
             setClose(res.data);
-            console.log(res)
         }).catch(error => {
             console.log(error);
         })
     };
 
-    async function queryUserOffers() {
+    async function queryUserOffers() { //get de ofertas do usuário no banco de dados
         await axios.get(`http://localhost:3344/offers/user/${user.email}`, {headers: {
             authorization : "Bearer " + localStorage.getItem("token")
         }}).then(res => {
             setUserOffers(res.data);
-            console.log(res)
         }).catch(error => {
             console.log(error);
         })
     };
 
-    async function queryUser() {
+    async function queryUser() { //get do usuário à partir do token
         await axios.get(`http://localhost:3344/users/email/${user.email}`, {headers: {
             authorization : "Bearer " + localStorage.getItem("token")
         }}).then(res => {
@@ -63,16 +72,29 @@ const HomeProd = () => {
         })
     };
 
-    useEffect(() => {
+    async function queryOffers() { //get de todas as ofertas
+        await axios.get(`http://localhost:3344/offers`, {headers: {
+            authorization : "Bearer " + localStorage.getItem("token")
+        }}).then(res => {
+            setOffer(res.data);
+            console.log(res)
+        }).catch(error => {
+            console.log(error);
+        })
+    };
+
+    useEffect(() => { //useEffect para inicialização da pégina
         queryUser();
+        queryOffers();
     }, []);
 
-    useEffect(() => {
+    useEffect(() => { //useEffect após get do usuário
         queryCloseOffers();
         queryUserOffers();
-    }, [userQuery]); 
+        
+    }, [userQuery]);
 
-    const renderCloseOffers = closeOffers.map(item => {
+    const renderCloseOffers = closeOffers.map(item => { //lista de ofertas próximas renderizadas
         return <CardOffer 
         title={item.ofr_name} 
         composition={item.prod_composition} 
@@ -83,7 +105,7 @@ const HomeProd = () => {
         key={item.ofr_id}/>
     });
 
-    const renderUserOffers = userOffers.map(item => {
+    const renderUserOffers = userOffers.map(item => { //lista de ofertas do usuário renderizadas
         return <CardOffer 
         title={item.ofr_name} 
         composition={item.prod_composition} 
@@ -94,7 +116,20 @@ const HomeProd = () => {
         key={item.ofr_id}/>
     });
 
-    const slideItems = [
+    const renderSearchOptions = offerQuery.map(item => { //lista de opções de pesquiza renderizada
+        if(search == ""){
+            return <div key={item.ofr_id}></div>
+        }
+        if (item.ofr_name.match(search) && numOptRender < 6) {
+            numOptRender += 1;
+            return <Flex key={item.ofr_id} bg="#eee" w={{base:"80%", sm:"50%"}} p={2.5} color={colors.colorFontBlue}
+            _hover={{bg: "#bfbfbf"}}>
+                {item.ofr_name}
+            </Flex>
+        }
+    })
+
+    const slideItems = [ //itens para renderização no slide
         <SlideMsg msg="Caso precise de equipamentos de acessibilidade e, não os acha em lugar algum,
         procurar em um centro de assistência social pode ser de grande ajuda! Mas lembre, o Willchair está aqui para te ajudar
         nestes momentos! ♥" 
@@ -121,9 +156,12 @@ const HomeProd = () => {
                 <Flex w="100%" direction="column" align="center">
                     <Heading color={colors.colorFontDarkBlue} as='h1' fontSize={{base: "36px", sm: "30px"}} fontFamily="outfit" _dark={{color:colors.colorFontDarkBlue_Dark}} mb="5%">O que deseja encontrar?</Heading>
                     <InputGroup display="flex" zIndex={1} w={{base:"80%", sm:"50%"}}>    
-                        <Input placeholder='Busque as melhores ofertas aqui!' bg="#eee" borderRightColor="#000" _dark={{bg:"#0000", borderRightColor:"#fff", color: "#fff", _placeholder : {color: "#dfdfdf"}}}/>
+                        <Input placeholder='Busque as melhores ofertas aqui!' bg="#eee" borderRightColor="#000" _dark={{bg:"#0000", borderRightColor:"#fff", color: "#fff", _placeholder : {color: "#dfdfdf"}}} onChange={handleChange}/>
                         <InputRightAddon children={<BiSearchAlt/>} bg="#eee" _dark={{bg:"#0000"}}/>
-                    </InputGroup> 
+                    </InputGroup>
+                    <Stack position="absolute" top={{base:"41vh", sm:"45vh"}} w="inherit" align="center" spacing={0}>
+                        {renderSearchOptions}
+                    </Stack> 
                 </Flex>
             </Flex>
 
