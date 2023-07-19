@@ -63,6 +63,8 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Offer` (
   `ofr_desc` VARCHAR(255) NULL,
   `ofr_value` DECIMAL NULL,
   `ofr_status` VARCHAR(10) NOT NULL,
+  `ofr_city` VARCHAR(30) NOT NULL,
+  `ofr_user_name` VARCHAR(45) NOT NULL,
   `ofr_postDate` DATETIME NULL,
   `User_user_id` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
     ON DELETE NO ACTION
