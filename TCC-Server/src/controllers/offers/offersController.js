@@ -3,7 +3,7 @@ const knex = require('../../database/database')
 module.exports = {
     async searchOffers(req, res) { //recebe todas as ofertas no banco de dados
         try {
-            const result = await knex('Offer');
+            const result = await knex('Offer').join("Product", "product_prod_id", "prod_id");
             return res.status(201).json(result);
         }
         catch(error) {
@@ -32,7 +32,7 @@ module.exports = {
             let consult;
             switch (atribute) {
                 case "user_city":
-                    consult = await knex("User").join("Offer","user_id", "User_user_id").where("user_city", "like", `%${value}%`).join("Product", "Product_prod_id", "prod_id");
+                    consult = await knex("Offer").where("ofr_city", "like", `%${value}%`).join("Product", "Product_prod_id", "prod_id");
                     if(!consult){
                         return res.status(401).json('There is no offer like this.');
                     }
@@ -46,7 +46,13 @@ module.exports = {
                     return res.status(201).json(consult);
 
                 case "prod_type":
-                    consult = await knex("Product").join("Offer", "prod_id", "Product_prod_id").where("prod_type", "like", `%${value}%`);
+                    if (value == "others") {
+                        consult = await knex("Product").join("Offer", "prod_id", "Product_prod_id").where("prod_type", "not like", "%Cadeira de Rodas%")
+                        .where("prod_type", "not like", "%Bengala%").where("prod_type", "not like", "%Andador%").where("prod_type", "not like", "%Muleta%");    
+                    }
+                    else {
+                        consult = await knex("Product").join("Offer", "prod_id", "Product_prod_id").where("prod_type", "like", `%${value}%`);
+                    }
                     if(!consult){
                         return res.status(401).json('There is no offer like this.');
                     }
@@ -67,7 +73,7 @@ module.exports = {
                     return res.status(201).json(consult);
 
                 case "user_name":
-                    consult = await knex("User").join("Offer","user_id", "User_user_id").where("user_name", "like", `%${value}%`).join("Product", "Product_prod_id", "prod_id");
+                    consult = await knex("Offer").where("ofr_user_name", "like", `%${value}%`).join("Product", "Product_prod_id", "prod_id");
                     if(!consult){
                         return res.status(401).json('There is no offer like this.');
                     }
@@ -97,7 +103,11 @@ module.exports = {
             const ofr_postDate =  now.getMonth() + 1 + "/" + now.getDate() + "/" + now.getFullYear();
             console.log(ofr_postDate)
 
-            if(await knex("User").where('user_id', User_user_id) != "") {
+            const user = await knex("User").where('user_id', User_user_id);
+
+            if(user != "") {
+                const ofr_city = user[0].user_city;
+                const ofr_user_name = user[0].user_name;
                 if (await knex('Product').where('prod_id', Product_prod_id) != "") {
                     await knex('Offer').insert({
                         ofr_name,
@@ -106,6 +116,8 @@ module.exports = {
                         ofr_status,
                         ofr_type,
                         ofr_value,
+                        ofr_city,
+                        ofr_user_name,
                         User_user_id,
                         Product_prod_id
                     });
