@@ -23,7 +23,7 @@ const Router = () => {
             <Route Component={toggleHome} path="/"/>
             <Route Component={login} path="/loginw"/>
             <Route Component={Login} path="/login"/>
-            <Route Component={Search} path="/search"/>
+            <Route Component={Search} path="/search/:query/:value"/>
             <Route Component={About} path="/about"/>
             <Route Component={Contact} path="/contact"/>
             <Route Component={CreateOffer} path="/createoffer"/>
