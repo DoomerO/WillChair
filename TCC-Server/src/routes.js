@@ -25,9 +25,9 @@ routes.put('/users/password/:email', auth,controllersUsers.updateUserPassword);
 routes.delete('/users/:id', auth,controllersUsers.deleteUser);
 
 //Offer Routes
-routes.get('/offers', auth, controllersOffers.searchOffers);
+routes.get('/offers', controllersOffers.searchOffers);
 routes.get('/offers/user/:email', auth, controllersOffers.searchOffersUser);
-routes.get('/offers/query/:atribute/:value', auth, controllersOffers.searchOffersAtributes);
+routes.get('/offers/query/:atribute/:value', controllersOffers.searchOffersAtributes);
 routes.post('/offers', auth, controllersOffers.createOffer);
 routes.put('/offers/:id', auth, controllersOffers.updateOffer);
 routes.delete('/offers/:id', auth, controllersOffers.deleteOffer);
