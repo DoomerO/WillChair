@@ -43,9 +43,7 @@ const HomeProd = () => {
     }
 
     async function queryCloseOffers() { //get de ofertas próximas no banco de dados
-        await axios.get(`http://localhost:3344/offers/query/${"user_city"}/${userQuery.user_city}`, {headers: {
-            authorization : "Bearer " + localStorage.getItem("token")
-        }}).then(res => {
+        await axios.get(`http://localhost:3344/offers/query/${"user_city"}/${userQuery.user_city}`).then(res => {
             setClose(res.data);
         }).catch(error => {
             console.log(error);
@@ -73,9 +71,7 @@ const HomeProd = () => {
     };
 
     async function queryOffers() { //get de todas as ofertas
-        await axios.get(`http://localhost:3344/offers`, {headers: {
-            authorization : "Bearer " + localStorage.getItem("token")
-        }}).then(res => {
+        await axios.get(`http://localhost:3344/offers`).then(res => {
             setOffer(res.data);
             console.log(res)
         }).catch(error => {

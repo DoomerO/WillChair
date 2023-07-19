@@ -37,9 +37,7 @@ const Search = () => {
     }
 
     async function queryConsult() {
-        await axios.get(`http://localhost:3344/offers/query/${query}/${value}`, {headers: {
-            authorization : "Bearer " + localStorage.getItem("token")
-        }}).then(res => {
+        await axios.get(`http://localhost:3344/offers/query/${query}/${value}`).then(res => {
             setConsult(res.data);
             console.log(res.data)
         }).catch(error => {
@@ -48,9 +46,7 @@ const Search = () => {
     }
 
     async function getOffers() {
-        await axios.get(`http://localhost:3344/offers`, {headers: {
-            authorization : "Bearer " + localStorage.getItem("token")
-        }}).then(res => {
+        await axios.get(`http://localhost:3344/offers`).then(res => {
             setOffers(res.data);
             console.log(res.data)
         }).catch(error => {
