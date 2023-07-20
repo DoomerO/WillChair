@@ -1,15 +1,15 @@
 import { Flex, Box, Heading, Input, InputGroup, InputRightAddon, Stack, Spacer, Select } from "@chakra-ui/react";
 import { useState, useEffect, ChangeEvent } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 import HeaderToggle from "../components/toggles/HeaderToggle";
 import Footer from "../components/Footer";
-import OfferList from "../components/offerCards/OfferList";
-import CardOffer from "../components/offerCards/OfferCard";
+import OfferCardHorizontal from "../components/offerCards/OfferCardHorizontal";
 
 import { BiSearchAlt } from "react-icons/bi";
 import colors from "../colors/colors";
+import "../fonts/fonts.css";
 import { MdOutlineSearchOff } from "react-icons/md";
 import SignNotFound from "../components/SignNotFound";
 
@@ -17,29 +17,50 @@ const Search = () => {
     const {query} = useParams();
     const {value} = useParams();
 
-    const[newQuery, setQuery] = useState("");
-    const[newValue, setValue] = useState("");
+    const[newQuery, setQuery] = useState("any");
     const [search, setSearch] = useState("");
+    const [reload, setReload] = useState(false);
+    
     let numOptRender = 0;
+    let optionsRenderList: string[] = [];
 
     const [consult, setConsult] = useState([]);
     const [offers, setOffers] = useState([]);
+    const navigate = useNavigate();
+
+    const handleKeyPress = (e:React.KeyboardEvent<HTMLInputElement>) => { //evento de input de enter na barra de pesquisa
+        if (e.key == "Enter") {
+            navigate(`/search/${newQuery}/${search}`);
+            setReload(true);
+        }
+    }
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => { //evento de change no input de pesquisa
         e.preventDefault();
         setSearch(e.target.value);
     }
 
-    const handleChangeSelect = (e:ChangeEvent<HTMLInputElement>) => {
+    const handleChangeSelect = (e:ChangeEvent<HTMLInputElement>) => { //evento de change para select
         e.preventDefault();
         setQuery(e.target.value);
-        console.log(newQuery)
+        if(!newQuery) setQuery("any");
+      console.log(optionsRenderList);
     }
 
-    async function queryConsult() {
+    async function queryConsult() { 
+        if(value == "all" && query == "all") {
+            await axios.get(`http://localhost:3344/offers`).then(res => {
+            setConsult(res.data);
+            }).catch(error => {
+                console.log(error);
+            })
+            return
+        }
+        if(value == "any" || query == "any") {
+            return
+        }
         await axios.get(`http://localhost:3344/offers/query/${query}/${value}`).then(res => {
             setConsult(res.data);
-            console.log(res.data)
         }).catch(error => {
             console.log(error);
         })
@@ -48,7 +69,6 @@ const Search = () => {
     async function getOffers() {
         await axios.get(`http://localhost:3344/offers`).then(res => {
             setOffers(res.data);
-            console.log(res.data)
         }).catch(error => {
             console.log(error);
         })
@@ -59,82 +79,70 @@ const Search = () => {
         getOffers();
     }, []);
 
-    const renderSearchOptions = offers.map(item => { //lista de opções de pesquiza renderizada
-        if(search == ""){
-            return <div key={item.ofr_id}></div>
-        }
+    useEffect(() => {
+        if (reload) navigate(0)
+    }, [reload])
+
+    offers.map(item => { //lista de opções criada
         switch (newQuery) {
             case "name":
-                if (item.ofr_name.match(search) && numOptRender < 6) {
-                    numOptRender += 1;
-                    
-                    return <Flex key={item.ofr_id} bg="#eee" w={{base:"80%", sm:"30%"}} p={2.5} color={colors.colorFontBlue}
-                    _hover={{bg: "#bfbfbf"}}>
-                        {item.ofr_name}
-                    </Flex>
+                for (let i = 0; i < optionsRenderList.length; i++) {
+                    if (item.ofr_name == optionsRenderList[i]) return <div key={item.ofr_id}></div>;
                 }
+                optionsRenderList.push(item.ofr_name);
             break;
             case "user_city":
-                if (item.ofr_city.match(search) && numOptRender < 6) {
-                    numOptRender += 1;
-                    
-                    return <Flex key={item.ofr_id} bg="#eee" w={{base:"80%", sm:"30%"}} p={2.5} color={colors.colorFontBlue}
-                    _hover={{bg: "#bfbfbf"}}>
-                        {item.ofr_city}
-                    </Flex>
+                for (let i = 0; i < optionsRenderList.length; i++) {
+                    if (item.ofr_city == optionsRenderList[i]) return <div key={item.ofr_id}></div>;
                 }
+                optionsRenderList.push(item.ofr_city);
             break;
             case "prod_type": 
-                if (item.prod_type.match(search) && numOptRender < 6) {
-                    numOptRender += 1;
-
-                    return <Flex key={item.ofr_id} bg="#eee" w={{base:"80%", sm:"30%"}} p={2.5} color={colors.colorFontBlue}
-                    _hover={{bg: "#bfbfbf"}}>
-                        {item.prod_type}
-                    </Flex>
+                for (let i = 0; i < optionsRenderList.length; i++) {
+                    if (item.prod_type == optionsRenderList[i]) return <div key={item.ofr_id}></div>;
                 }
+                optionsRenderList.push(item.prod_type);
             break;
             case "prod_composition": 
-                if (item.prod_composition.match(search) && numOptRender < 6) {
-                    numOptRender += 1;
-
-                    return <Flex key={item.ofr_id} bg="#eee" w={{base:"80%", sm:"30%"}} p={2.5} color={colors.colorFontBlue}
-                    _hover={{bg: "#bfbfbf"}}>
-                        {item.prod_composition}
-                    </Flex>
+                for (let i = 0; i < optionsRenderList.length; i++) {
+                    if (item.prod_composition == optionsRenderList[i]) return <div key={item.ofr_id}></div>;
                 }
+                optionsRenderList.push(item.prod_composition);
             break;
             case "user_name": 
-                if (item.ofr_user_name.match(search) && numOptRender < 6) {
-                    numOptRender += 1;
-
-                    return <Flex key={item.ofr_id} bg="#eee" w={{base:"80%", sm:"30%"}} p={2.5} color={colors.colorFontBlue}
-                    _hover={{bg: "#bfbfbf"}}>
-                        {item.ofr_user_name}
-                    </Flex>
+                for (let i = 0; i < optionsRenderList.length; i++) {
+                    if (item.ofr_user_name == optionsRenderList[i]) return <div key={item.ofr_id}></div>;
                 }
+                optionsRenderList.push(item.ofr_user_name);
             break;
             case "ofr_type": 
-                if (item.ofr_type.match(search) && numOptRender < 6) {
-                    numOptRender += 1;
-
-                    return <Flex key={item.ofr_id} bg="#eee" w={{base:"80%", sm:"30%"}} p={2.5} color={colors.colorFontBlue}
-                    _hover={{bg: "#bfbfbf"}}>
-                        {item.ofr_type}
-                    </Flex>
+                for (let i = 0; i < optionsRenderList.length; i++) {
+                    if (item.ofr_type == optionsRenderList[i]) return <div key={item.ofr_id}></div>;
                 }
+                optionsRenderList.push(item.ofr_type);
             break;
         }
     });
 
+    const renderSearchOptions = optionsRenderList.map(item => { //lista de opções renderizada
+        if(search == ""){
+            return <div key={optionsRenderList.indexOf(item)}></div>
+        }
+        if (item.match(search) && numOptRender < 6) {
+                numOptRender += 1;
+                return <Flex key={optionsRenderList.indexOf(item)} bg="#eee" w={{base:"80%", sm:"30%"}} p={2.5} color={colors.colorFontBlue}
+                _hover={{bg: "#bfbfbf"}} _dark={{bg:"#4f4f4f", _hover:{bg:"#444"}}}>
+                <Link to={`/search/${(newQuery) ? newQuery : "any"}/${item}`} onClick={() => {setReload(true)}}>{item}</Link>
+            </Flex>
+        }
+    })
+
     const renderQueryOffers = consult.map(item => {
-        return <CardOffer
+        return <OfferCardHorizontal
         title={item.ofr_name} 
-        composition={item.prod_composition} 
-        condition={item.prod_status} 
+        desc={item.ofr_desc}
         img={item.prod_img} 
         value={item.ofr_value} 
-        type={item.prod_type}
         key={item.ofr_id}/>
     });
 
@@ -144,17 +152,23 @@ const Search = () => {
 
             <Flex bg={colors.veryLightBlue} w='100%' h='70vh' align="center" _dark={{bg:colors.veryLightBlue_Dark}} direction="column">
                 <Spacer/>
-                <Heading color={colors.colorFontDarkBlue} as='h1' fontSize={{base: "36px", sm: "30px"}} fontFamily="outfit" _dark={{color:colors.colorFontDarkBlue_Dark}} mb="5%">Não achou o que estava procurando?</Heading>
-                <Flex w="90%" direction="row" align="center">
+                <Heading color={colors.colorFontDarkBlue} as='h1' textAlign="center" fontSize={{base: "36px", sm: "30px"}} fontFamily="outfit" _dark={{color:colors.colorFontDarkBlue_Dark}} mb="5%">Não achou o que estava procurando?</Heading>
+
+                <Flex w="90%" direction={{base:"column-reverse", sm:"row"}} align={{base: "normal", sm:"center"}}>
                     <InputGroup display="flex" zIndex={1} w={{base:"80%", sm:"30%"}}>    
-                        <Input placeholder='Pesquise aqui' bg="#eee" borderRightColor="#000" _dark={{bg:"#0000", borderRightColor:"#fff", color: "#fff", _placeholder : {color: "#dfdfdf"}}} onChange={handleChange}/>
-                        <InputRightAddon children={<BiSearchAlt/>} bg="#eee" _dark={{bg:"#0000"}}/>
+                        <Input placeholder='Pesquise aqui' bg="#eee" borderRightColor="#000" _dark={{bg:"#0000", borderRightColor:"#fff", color: "#fff", _placeholder : {color: "#dfdfdf"}}}
+                        onChange={handleChange} onKeyUp={handleKeyPress}/>
+                        <Link to={`/search/${(newQuery) ? newQuery : "any"}/${(search) ? search : "any"}`} onClick={() => {setReload(true)}}>
+                            <InputRightAddon children={<BiSearchAlt/>} bg="#eee" _dark={{bg:"#0000"}} _hover={{bg:"#aaa", _dark:{bg:"#555"}}}/>
+                        </Link>
                     </InputGroup>
-                    <Stack position="absolute" top={{base:"41vh", sm:"45vh"}} w="inherit" align="center" spacing={0} left="-26.2vw">
+
+                    <Stack position="absolute" top={{base:"47vh", sm:"45vh"}} w="inherit" align="center" spacing={0} left={{base:"-4vw" , sm:"-26.2vw"}}>
                         {renderSearchOptions}
                     </Stack>
                     <Spacer/>
-                    <Select placeholder="Por onde procurar?" variant="flushed" w="17%" color={colors.colorFontBlue} onChange={handleChangeSelect}>
+
+                    <Select placeholder="Por onde procurar?" variant="flushed" w={{base:"80%" ,sm:"17%"}} color={colors.colorFontBlue} onChange={handleChangeSelect} mb={{base: "5%", sm:"0"}}>
                         <option value="user_city">Cidades</option>
                         <option value="name">Titúlos</option>
                         <option value="prod_type">Equipamentos</option>
@@ -166,11 +180,14 @@ const Search = () => {
                 </Flex>
                 <Spacer/>
             </Flex>
-            
-            <Flex w="100%" h="fit-content">
-            {(consult.length > 0) ? <OfferList component={renderQueryOffers}/> : <SignNotFound msg="Parece que não há equipamentos registrados em sua cidade..." icon={<MdOutlineSearchOff size="45%"/>}/>}
+
+            <Flex bg={colors.bgWhite} w="100%" h='fit-content' align="center" direction="column" _dark={{bg: colors.bgWhite_Dark}} pb="5vh">
+                <Heading as="h1" fontSize={{base: "36px", sm: "30px"}} fontFamily="outfit" color={colors.colorFontBlue} mb="3%" mt="3%" textAlign="center">Seus Resultados da Pesquisa</Heading>
+                <Stack align="center" spacing={4} w="100%">
+                    {(consult.length > 0) ? renderQueryOffers : <SignNotFound msg="Pelo visto não há registro de sua pesquisa no banco de dados..." icon={<MdOutlineSearchOff size="45%"/>}/>}
+                </Stack>
             </Flex>
-            
+           
             <Footer/>
        </Box> 
     )

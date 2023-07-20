@@ -1,9 +1,10 @@
 //Componentes externos e React
-import {Box, Heading, Flex, Input, InputGroup, InputRightAddon, Stack} from '@chakra-ui/react';
+import {Box, Heading, Flex, Input, InputGroup, InputRightAddon, Stack, Text} from '@chakra-ui/react';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import '../styles/alice-carousel.css';
 import {useState, useEffect, ChangeEvent} from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 //componentes Willchair
@@ -26,6 +27,7 @@ import {GiBrokenBone} from "react-icons/gi";
 //outros
 import "../fonts/fonts.css";
 import colors from "../colors/colors";
+import { Link } from 'react-router-dom';
 
 const HomeProd = () => {
 
@@ -35,11 +37,19 @@ const HomeProd = () => {
     const [userQuery, setQuery] = useState([]); //usuário logado pelo banco de dados, pegar cidade
     const [offerQuery, setOffer] = useState([]); //lista de ofertas no banco de dados, pesquisa por nome
     const [search, setSearch] = useState(""); //valor input de barra de pesquisa
+    const navigate = useNavigate();
     let numOptRender = 0; //número de opções renderizadas
+    let optionsRenderList: string[] = [];
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => { //evento de change no input de pesquisa
         e.preventDefault();
         setSearch(e.target.value);
+    }
+
+    const handleKeyPress = (e:React.KeyboardEvent<HTMLInputElement>) => { //evento de input de enter na barra de pesquisa
+        if (e.key == "Enter") {
+            navigate(`/search/name/${search}`);
+        }
     }
 
     async function queryCloseOffers() { //get de ofertas próximas no banco de dados
@@ -73,7 +83,6 @@ const HomeProd = () => {
     async function queryOffers() { //get de todas as ofertas
         await axios.get(`http://localhost:3344/offers`).then(res => {
             setOffer(res.data);
-            console.log(res)
         }).catch(error => {
             console.log(error);
         })
@@ -112,15 +121,22 @@ const HomeProd = () => {
         key={item.ofr_id}/>
     });
 
-    const renderSearchOptions = offerQuery.map(item => { //lista de opções de pesquiza renderizada
-        if(search == ""){
-            return <div key={item.ofr_id}></div>
+    offerQuery.map(item => {
+        for (let i = 0; i < optionsRenderList.length; i++) {
+            if (item.ofr_name == optionsRenderList[i]) return <div key={item.ofr_id}></div>;
         }
-        if (item.ofr_name.match(search) && numOptRender < 6) {
+        optionsRenderList.push(item.ofr_name);
+    })
+
+    const renderSearchOptions = optionsRenderList.map(item => { //lista de opções de pesquiza renderizada
+        if(search == ""){
+            return <div key={optionsRenderList.indexOf(item)}></div>
+        }
+        if (item.match(search) && numOptRender < 6) {
             numOptRender += 1;
-            return <Flex key={item.ofr_id} bg="#eee" w={{base:"80%", sm:"50%"}} p={2.5} color={colors.colorFontBlue}
-            _hover={{bg: "#bfbfbf"}}>
-                {item.ofr_name}
+            return <Flex key={optionsRenderList.indexOf(item)} bg="#eee" w={{base:"80%", sm:"50%"}} p={2.5} color={colors.colorFontBlue}
+            _hover={{bg: "#bfbfbf"}} _dark={{bg:"#4f4f4f", _hover:{bg:"#444"}}}>
+                <Link to={`/search/${"name"}/${item}`}>{item}</Link>
             </Flex>
         }
     })
@@ -151,10 +167,15 @@ const HomeProd = () => {
             <Flex bg={colors.veryLightBlue} w='100%' h='70vh' align="center" _dark={{bg:colors.veryLightBlue_Dark}}>
                 <Flex w="100%" direction="column" align="center">
                     <Heading color={colors.colorFontDarkBlue} as='h1' fontSize={{base: "36px", sm: "30px"}} fontFamily="outfit" _dark={{color:colors.colorFontDarkBlue_Dark}} mb="5%">O que deseja encontrar?</Heading>
+
                     <InputGroup display="flex" zIndex={1} w={{base:"80%", sm:"50%"}}>    
-                        <Input placeholder='Busque as melhores ofertas aqui!' bg="#eee" borderRightColor="#000" _dark={{bg:"#0000", borderRightColor:"#fff", color: "#fff", _placeholder : {color: "#dfdfdf"}}} onChange={handleChange}/>
-                        <InputRightAddon children={<BiSearchAlt/>} bg="#eee" _dark={{bg:"#0000"}}/>
+                        <Input placeholder='Busque as melhores ofertas aqui!' bg="#eee" borderRightColor="#000" _dark={{bg:"#0000", borderRightColor:"#fff", color: "#fff", _placeholder : {color: "#dfdfdf"}}}
+                        onChange={handleChange} onKeyUp={handleKeyPress}/>
+                        <Link to={`/search/${"name"}/${(search) ? search : "any"}`}>
+                            <InputRightAddon children={<BiSearchAlt/>} bg="#eee" _dark={{bg:"#0000"}} _hover={{bg:"#aaa", _dark:{bg:"#555"}}}/>
+                        </Link>
                     </InputGroup>
+
                     <Stack position="absolute" top={{base:"41vh", sm:"45vh"}} w="inherit" align="center" spacing={0}>
                         {renderSearchOptions}
                     </Stack> 
