@@ -31,7 +31,7 @@ const CardOffer = ({img, title, condition, composition, type, value}: OfferCard)
                         <Text color={colors.colorFontBlue} fontSize={{base:"20px", sm:"18px"}}>Composição:</Text>
                         <Text fontSize={{base:"20px", sm:"18px"}}>{composition}</Text>
                    </Flex>
-                   <Text fontSize={{base:"22px", sm:"19px"}} align='center' color="#1963D2" mt="2%">{value}</Text>
+                   <Text fontSize={{base:"22px", sm:"19px"}} align='center' color={colors.colorFontBlue} mt="2%">{(value) ? "R$" + value : "Doação"}</Text>
                 </Flex>
             </CardBody>
             <CardFooter>
