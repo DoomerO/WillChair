@@ -12,7 +12,7 @@ const SignNotFound = ({msg, icon} : signProps) => {
         bgGradient="linear(to-b, #1976D230, #1976D2)" 
         w="100%" pt="3%">
            {icon}
-            <Text fontSize="25px" fontFamily="atkinson">{msg}</Text>
+            <Text fontSize="25px" fontFamily="atkinson" textAlign="center">{msg}</Text>
         </Flex>
     );
 }
