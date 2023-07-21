@@ -18,8 +18,47 @@ module.exports= {
         try {
             const {email} = req.params;
 
-            const result = await knex('User').where('user_email', email);
-            if(result != "") {
+            const consult = await knex('User').where('user_email', email);
+            if(consult != "") {
+                const result = {
+                    user_id : consult[0].user_id,
+                    user_name : consult[0].user_name,
+                    user_CEP : consult[0].user_CEP,
+                    user_city : consult[0].user_city,
+                    user_level : consult[0].user_level,
+                    user_houseNum : consult[0].user_houseNum,
+                    user_phone : consult[0].user_phone,
+                    user_img : consult[0].user_img,
+                    user_email : consult[0].user_email
+                }
+                return res.status(201).json(result);
+            }
+            else {
+                return res.status(401).json({msg : "There is no user with this email"})
+            }
+        }
+        catch(error) {
+            return res.status(400).json({error: error.message})
+        }
+    },
+
+    async searchUserId(req, res) {
+        try {
+            const {id} = req.params;
+
+            const consult = await knex('User').where('user_id', id);
+            if(consult != "") {
+                const result = {
+                    user_id : consult[0].user_id,
+                    user_name : consult[0].user_name,
+                    user_CEP : consult[0].user_CEP,
+                    user_city : consult[0].user_city,
+                    user_level : consult[0].user_level,
+                    user_houseNum : consult[0].user_houseNum,
+                    user_phone : consult[0].user_phone,
+                    user_img : consult[0].user_img,
+                    user_email : consult[0].user_email
+                }
                 return res.status(201).json(result);
             }
             else {

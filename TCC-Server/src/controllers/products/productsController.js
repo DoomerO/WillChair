@@ -33,23 +33,23 @@ module.exports = {
             const {id} = req.params;
             const consult = await knex('Product').where('prod_id',id);
             if(consult != "") {
-                let productType = {case: null};
+                let result = product;
 
-                switch(consult[0].prod_type) {
+                switch(product[0].prod_type) {
                     case "Cadeira de Rodas":
-                        productType = await knex("Cadeira de Rodas").where('Product_prod_id', consult[0].prod_id);
+                        result = await knex("Cadeira de Rodas").join("Product", "Product_prod_id", "prod_id");
                     break;
                     case "Andador":
-                        productType = await knex("Andador").where('Product_prod_id', consult[0].prod_id);
+                        result = await knex("Andador").join("Product", "Product_prod_id", "prod_id");
                     break;
                     case "Muleta":
-                        productType = await knex("Muleta").where('Product_prod_id', consult[0].prod_id);
+                        result = await knex("Muleta").join("Product", "Product_prod_id", "prod_id");
                     break;
                     case "Bengala":
-                        productType = await knex("Bengala").where('Product_prod_id', consult[0].prod_id);
+                        result = await knex("Bengala").join("Product", "Product_prod_id", "prod_id");
                     break;
                 }
-                return res.status(201).json({product : consult[0], type: productType[0]});
+                return res.status(201).json(result);
             }
             else {
                 return res.status(401).json({msg : "this product does not exists"});
@@ -64,27 +64,27 @@ module.exports = {
         try {
             const {ofr_id} = req.params;
 
-            const result = await knex('Offer').where('ofr_id', ofr_id);
-            if(result != ""){
+            const consult = await knex('Offer').where('ofr_id', ofr_id);
+            if(consult != ""){
                 const product = await knex('Product').where('prod_id', result[0].Product_prod_id);
-                let productType = {case: null};
+                let result = product;
 
                 switch(product[0].prod_type) {
                     case "Cadeira de Rodas":
-                        productType = await knex("Cadeira de Rodas").where('Product_prod_id', product[0].prod_id);
+                        result = await knex("Cadeira de Rodas").join("Product", "Product_prod_id", "prod_id");
                     break;
                     case "Andador":
-                        productType = await knex("Andador").where('Product_prod_id', product[0].prod_id);
+                        result = await knex("Andador").join("Product", "Product_prod_id", "prod_id");
                     break;
                     case "Muleta":
-                        productType = await knex("Muleta").where('Product_prod_id', product[0].prod_id);
+                        result = await knex("Muleta").join("Product", "Product_prod_id", "prod_id");
                     break;
                     case "Bengala":
-                        productType = await knex("Bengala").where('Product_prod_id', product[0].prod_id);
+                        result = await knex("Bengala").join("Product", "Product_prod_id", "prod_id");
                     break;
                 }
 
-                return res.status(201).json({product : product[0], type: productType[0]});
+                return res.status(201).json(result);
             }
             else {
                 return res.status(401).json({msg : "There is no such offer with this id"})
