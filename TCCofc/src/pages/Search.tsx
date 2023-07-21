@@ -182,7 +182,7 @@ const Search = () => {
             </Flex>
 
             <Flex bg={colors.bgWhite} w="100%" h='fit-content' align="center" direction="column" _dark={{bg: colors.bgWhite_Dark}} pb="5vh">
-                <Heading as="h1" fontSize={{base: "36px", sm: "30px"}} fontFamily="outfit" color={colors.colorFontBlue} mb="3%" mt="3%" textAlign="center">Seus Resultados da Pesquisa</Heading>
+                <Heading as="h1" fontSize={{base: "36px", sm: "30px"}} fontFamily="outfit" color={colors.colorFontBlue} mb="3%" mt="3%" textAlign="center">Seus Resultados da Pesquisa "{(value == "others") ? "Outros" : value}"</Heading>
                 <Stack align="center" spacing={4} w="100%">
                     {(consult.length > 0) ? renderQueryOffers : <SignNotFound msg="Pelo visto não há registro de sua pesquisa no banco de dados..." icon={<MdOutlineSearchOff size="45%"/>}/>}
                 </Stack>

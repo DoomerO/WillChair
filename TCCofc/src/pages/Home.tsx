@@ -84,15 +84,15 @@ const Home = () => {
                 <Flex h="80%" direction='row' align='center'>
                     <Image src={bottomImage} w="30%" h='100%' objectFit='contain' display={{base: "none", sm: "inherit"}}></Image>
                     <Flex direction={{base:'column', sm :'row'}} w='60%'>
-                        <Category name='Cadeira de Rodas' icon={cadeiraRodas} path="/login"/>
+                        <Category name='Cadeira de Rodas' icon={cadeiraRodas} path="/search/prod_type/Cadeira de Rodas"/>
                         <Spacer />
-                        <Category name='Muleta' icon={muleta} path="/"/>
+                        <Category name='Muleta' icon={muleta} path="/search/prod_type/Muleta"/>
                         <Spacer />
-                        <Category name='Andador' icon={andador} path="/"/>
+                        <Category name='Andador' icon={andador} path="/search/prod_type/Andador"/>
                         <Spacer />
-                        <Category name='Bengala' icon={bengala} path="/"/>
+                        <Category name='Bengala' icon={bengala} path="/search/prod_type/Bengala"/>
                         <Spacer />
-                        <Category name='Outros' icon={diversos} path="/"/>
+                        <Category name='Outros' icon={diversos} path="/search/prod_type/others"/>
                     </Flex>
                 </Flex>
             </Flex>
