@@ -32,10 +32,9 @@ module.exports = {
         try {
             const {id} = req.params;
             const consult = await knex('Product').where('prod_id',id);
+            let result = consult;
             if(consult != "") {
-                let result = product;
-
-                switch(product[0].prod_type) {
+                switch(consult[0].prod_type) {
                     case "Cadeira de Rodas":
                         result = await knex("Cadeira de Rodas").join("Product", "Product_prod_id", "prod_id");
                     break;
@@ -63,11 +62,14 @@ module.exports = {
     async searchProductOffer(req, res) {
         try {
             const {ofr_id} = req.params;
-
+           
             const consult = await knex('Offer').where('ofr_id', ofr_id);
+            let result = consult;
+
             if(consult != ""){
+                
                 const product = await knex('Product').where('prod_id', result[0].Product_prod_id);
-                let result = product;
+                result = product;
 
                 switch(product[0].prod_type) {
                     case "Cadeira de Rodas":
