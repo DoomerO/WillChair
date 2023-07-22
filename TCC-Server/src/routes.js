@@ -19,7 +19,7 @@ const routes = express.Router();
 routes.get('/users', auth,controllersUsers.searchUsers);
 routes.get('/users/login/:email/:password', controllersUsers.searchUserEmailPassword);
 routes.get('/users/email/:email', auth, controllersUsers.searchUserEmail);
-routes.get('/user/id/:id', controllersUsers.searchUserId);
+routes.get('/users/id/:id', controllersUsers.searchUserId);
 routes.post('/users', controllersUsers.createUser);
 routes.put('/users/:email', auth,controllersUsers.updateUser);
 routes.put('/users/password/:email', auth,controllersUsers.updateUserPassword);
@@ -29,6 +29,7 @@ routes.delete('/users/:id', auth,controllersUsers.deleteUser);
 routes.get('/offers', controllersOffers.searchOffers);
 routes.get('/offers/user/:email', auth, controllersOffers.searchOffersUser);
 routes.get('/offers/query/:atribute/:value', controllersOffers.searchOffersAtributes);
+routes.get('/offers/id/:id', controllersOffers.searchOfferId);
 routes.post('/offers', auth, controllersOffers.createOffer);
 routes.put('/offers/:id', auth, controllersOffers.updateOffer);
 routes.delete('/offers/:id', auth, controllersOffers.deleteOffer);
@@ -49,8 +50,8 @@ routes.delete('chats/offer/:ofr_id', auth, controllersChats.deleteChatOffer);
 
 //Products Routes
 routes.get('/products', auth, controllersProducts.searchProducts);
-routes.get('/products/offer/:ofr_id', auth, controllersProducts.searchProductOffer);
-routes.get('/products/id/:id', auth, controllersProducts.searchProductId);
+routes.get('/products/offer/:ofr_id', controllersProducts.searchProductOffer);
+routes.get('/products/id/:id', controllersProducts.searchProductId);
 routes.get('/products/types/:type', auth, controllersProducts.searchProductsTypes);
 routes.post('/products', auth, controllersProducts.createProduct);
 routes.post('/products/cadeira-rodas', auth, controllersProducts.createCadeiraRodas);
