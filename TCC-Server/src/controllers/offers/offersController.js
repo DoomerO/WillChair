@@ -20,6 +20,27 @@ module.exports = {
                 const result = await knex('Offer').where('User_user_id', consult[0].user_id).join("Product", "Product_prod_id", "prod_id");
                 return res.status(201).json(result);
             }
+            else {
+                return res.status(401).json("There is no user with this email");
+            }
+        }
+        catch(error) {
+            return res.status(400).json({error : error.message})
+        }
+    },
+
+    async searchOfferId(req, res) { //recebe todas as ofertas de determinado usuário
+        try {
+            const {id} = req.params;
+
+            const consult  = await knex('Offer').where('ofr_id', id);
+            if(consult != "") {
+                const result = await knex('Offer').where('ofr_id', consult[0].ofr_id).join("Product", "Product_prod_id", "prod_id");
+                return res.status(201).json(result);
+            }
+            else {
+                return res.status(401).json("There is no offer with this id");
+            }
         }
         catch(error) {
             return res.status(400).json({error : error.message})

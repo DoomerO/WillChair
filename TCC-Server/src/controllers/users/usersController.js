@@ -62,7 +62,7 @@ module.exports= {
                 return res.status(201).json(result);
             }
             else {
-                return res.status(401).json({msg : "There is no user with this email"})
+                return res.status(401).json({msg : "There is no user with this id"})
             }
         }
         catch(error) {
