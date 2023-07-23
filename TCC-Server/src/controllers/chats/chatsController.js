@@ -15,12 +15,42 @@ module.exports = {
         try {
             const {ofr_id} = req.params;
 
-            if(await knex('Offer').where('Offer_ofr_id', offer_id) != "") {
+            if(await knex('Offer').where('Offer_ofr_id', ofr_id) != "") {
                 const result = await knex('Chat').where('Offer_ofr_id', ofr_id);
                 return res.status(201).json(result);
             }
             else {
                 return res.status(401).json({msg : 'There is no offer corresponding to this id'})
+            }
+        }
+        catch(error) {
+            return res.status(400).json({error : error.message});
+        }
+    },
+
+    async searchChatUserMessages(req, res) {
+        try {
+            const {user_id} = req.params;
+            const {ofr_id} = req.params;
+
+            if(await knex("User").where("user_id", user_id) != "") {
+                if(await knex('Offer').where('ofr_id', ofr_id) != "") {
+                    const consult = await knex("Message").where("User_user_id", user_id).join("Chat", "Chat_chat_id", "chat_id");
+
+                    for (let i = 0; i < consult.length; i++) {
+                        if(consult[i].Offer_ofr_id == ofr_id) {
+                            const result = consult[i].chat_id;
+                            return res.status(201).json({chat : result})
+                        }
+                    }
+                    return res.status(401).json({msg : "This user has no messages"});
+                }
+                else {
+                    return res.status(401).json({msg : 'There is no offer corresponding to this id'});
+                }
+            }
+            else {
+                return res.status(401).json({msg : 'There is no user corresponding to this id'})
             }
         }
         catch(error) {
