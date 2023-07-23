@@ -44,6 +44,7 @@ routes.delete('/messages/chat/:chat_id', auth, controllersMessages.delMessagesCh
 //Chat Routes 
 routes.get('/chats', auth, controllersChats.searchChats);
 routes.get('/chats/offer/:ofr_id', auth, controllersChats.searchChatOffer);
+routes.get('/chats/user/offer/:user_id/:ofr_id', auth, controllersChats.searchChatUserMessages);
 routes.post('/chats', auth, controllersChats.createChat);
 routes.delete('/chats/:id', auth, controllersChats.deleteChat);
 routes.delete('chats/offer/:ofr_id', auth, controllersChats.deleteChatOffer);
