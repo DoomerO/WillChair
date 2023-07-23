@@ -16,6 +16,10 @@ const colors = {
     footerBg: "#131313",
     slideMsgBg: "#bfbfbf",
     slideMsgBg_Dark: "#363636",
+    bgTableRow1: "#F1F6Fd",
+    bgTableRow1_Dark: "#3a424f",
+    bgTableRow2: "#F0F0F0",
+    bgTableRow2_Dark: "#3f3f3f"
 }
 
 export default colors
