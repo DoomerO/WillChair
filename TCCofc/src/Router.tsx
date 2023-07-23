@@ -11,10 +11,15 @@ import wcOffer from "./pages/wcOffer";
 import PageToggle from "./components/toggles/PageToggle";
 import HomeProd from "./pages/HomeProd";
 import ConfirmLogOut from "./pages/intersections/ConfirmLogOut";
+import OfferPage from "./pages/offerPages/OfferPage";
+import OfferPageChat from "./pages/offerPages/OfferPageChat";
 
 const Router = () => {
     const toggleHome = () => {
         return <PageToggle compError={<Home />} compSucsses={<HomeProd/>}/>
+    }
+    const toggleOffer = () => {
+        return <PageToggle compError={<OfferPage />} compSucsses={<OfferPageChat/>}/>
     }
 
     return (
@@ -26,6 +31,7 @@ const Router = () => {
             <Route Component={Search} path="/search/:query/:value"/>
             <Route Component={About} path="/about"/>
             <Route Component={Contact} path="/contact"/>
+            <Route Component={toggleOffer} path="/offer/:id"/>
             <Route Component={CreateOffer} path="/createoffer"/>
             <Route Component={wcOffer} path="/wcoffer"/>
             <Route Component={ConfirmLogOut} path="/logout"/>
