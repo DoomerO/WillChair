@@ -74,7 +74,7 @@ const HomeProd = () => {
         await axios.get(`http://localhost:3344/users/email/${user.email}`, {headers: {
             authorization : "Bearer " + localStorage.getItem("token")
         }}).then(res => {
-            setQuery(res.data[0]);
+            setQuery(res.data);
         }).catch(error => {
             console.log(error);
         })
