@@ -36,7 +36,8 @@ module.exports = {
             if(await knex("User").where("user_id", user_id) != "") {
                 if(await knex('Offer').where('ofr_id', ofr_id) != "") {
                    
-                   const result = knex('Chat').where('Offer_ofr_id', ofr_id).where('User_user_id', user_id);
+                   const result = await knex("Chat").where("User_user_id", user_id).where("Offer_ofr_id", ofr_id);
+                   if(!result) return res.status(401).json("there is no chat like this");
                    return res.status(201).json(result);
                 }
                 else {

@@ -117,6 +117,7 @@ module.exports = {
             const {ofr_value} = req.body;
             const {ofr_status} = req.body;
             const {ofr_type} = req.body;
+            const {ofr_parcelas} = req.body;
             const {User_user_id} = req.body;
             const {Product_prod_id} = req.body;
 
@@ -139,6 +140,7 @@ module.exports = {
                         ofr_value,
                         ofr_city,
                         ofr_user_name,
+                        ofr_parcelas,
                         User_user_id,
                         Product_prod_id
                     });
