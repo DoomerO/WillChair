@@ -166,6 +166,7 @@ module.exports = {
             const {ofr_value} = req.body;
             const {ofr_status} = req.body;
             const {ofr_type} = req.body;
+            const {ofr_parcelas} = req.body;
 
             if(await knex("Offer").where("ofr_id", id) != "") {
                 await knex("Offer").update({
@@ -173,7 +174,8 @@ module.exports = {
                     ofr_name,
                     ofr_status,
                     ofr_type,
-                    ofr_value
+                    ofr_value,
+                    ofr_parcelas
                 }).where('ofr_id', id);
             }
             else {

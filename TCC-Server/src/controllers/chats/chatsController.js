@@ -35,15 +35,9 @@ module.exports = {
 
             if(await knex("User").where("user_id", user_id) != "") {
                 if(await knex('Offer').where('ofr_id', ofr_id) != "") {
-                    const consult = await knex("Message").where("User_user_id", user_id).join("Chat", "Chat_chat_id", "chat_id");
-
-                    for (let i = 0; i < consult.length; i++) {
-                        if(consult[i].Offer_ofr_id == ofr_id) {
-                            const result = consult[i].chat_id;
-                            return res.status(201).json({chat : result})
-                        }
-                    }
-                    return res.status(401).json({msg : "This user has no messages"});
+                   
+                   const result = knex('Chat').where('Offer_ofr_id', ofr_id).where('User_user_id', user_id);
+                   return res.status(201).json(result);
                 }
                 else {
                     return res.status(401).json({msg : 'There is no offer corresponding to this id'});
@@ -61,9 +55,13 @@ module.exports = {
     async createChat(req, res) { //Cria um chat
         try {
             const {Offer_ofr_id} = req.body;
-            if(await knex('Offer').where('ofr_id', Offer_ofr_id) != "") {
+            const {User_user_id} = req.body;
+
+            if(await knex('Offer').where('ofr_id', Offer_ofr_id) != ""
+            || await knex('User').where('user_id', User_user_id) != "") {
                 await knex('Chat').insert({
-                    Offer_ofr_id
+                    Offer_ofr_id,
+                    User_user_id
                 });
                 return res.status(201).json({msg : "The Chat was properly created"});
             }
