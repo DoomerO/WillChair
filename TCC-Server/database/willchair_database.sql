@@ -65,7 +65,8 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Offer` (
   `ofr_status` VARCHAR(10) NOT NULL,
   `ofr_city` VARCHAR(30) NOT NULL,
   `ofr_user_name` VARCHAR(45) NOT NULL,
-  `ofr_postDate` DATETIME NULL,
+  `ofr_parcelas` INT NULL,
+  `ofr_postDate` DATE NULL,
   `User_user_id` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
@@ -82,6 +83,9 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `willchair`.`Chat` (
   `chat_id` INT NOT NULL AUTO_INCREMENT,
   `Offer_ofr_id` INT NOT NULL  REFERENCES `willchair`.`Offer` (`ofr_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  `User_user_id` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   PRIMARY KEY (`chat_id`))
