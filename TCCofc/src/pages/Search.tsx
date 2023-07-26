@@ -17,7 +17,7 @@ const Search = () => {
     const {query} = useParams();
     const {value} = useParams();
 
-    const[newQuery, setQuery] = useState("any");
+    const [newQuery, setQuery] = useState("any");
     const [search, setSearch] = useState("");
     const [reload, setReload] = useState(false);
     
@@ -143,7 +143,8 @@ const Search = () => {
         desc={item.ofr_desc}
         img={item.prod_img} 
         value={item.ofr_value} 
-        key={item.ofr_id}/>
+        key={item.ofr_id}
+        id={item.ofr_id}/>
     });
 
     return (

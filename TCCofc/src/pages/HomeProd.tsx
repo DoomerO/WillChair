@@ -75,6 +75,7 @@ const HomeProd = () => {
             authorization : "Bearer " + localStorage.getItem("token")
         }}).then(res => {
             setQuery(res.data);
+            console.log(res.data)
         }).catch(error => {
             console.log(error);
         })
@@ -94,6 +95,7 @@ const HomeProd = () => {
     }, []);
 
     useEffect(() => { //useEffect após get do usuário
+        console.log(userQuery)
         queryCloseOffers();
         queryUserOffers();
         
@@ -118,7 +120,8 @@ const HomeProd = () => {
         img={item.prod_img} 
         value={item.ofr_value} 
         type={item.prod_type}
-        key={item.ofr_id}/>
+        key={item.ofr_id}
+        id={item.ofr_id}/>
     });
 
     offerQuery.map(item => {

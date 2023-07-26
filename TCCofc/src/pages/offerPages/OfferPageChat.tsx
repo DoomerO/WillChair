@@ -8,6 +8,7 @@ import Footer from "../../components/Footer";
 import colors from "../../colors/colors";
 import testImg from "../../img/home/imgHomeMiddle.png";
 import ProdInfoTable from "../../components/ProdInfoTable";
+import ChatBox from "../../components/ChatBox";
 import "../../fonts/fonts.css";
 
 import {BsFillStarFill} from "react-icons/bs";
@@ -28,6 +29,7 @@ const OfferPageChat = () => {
     const [owner, setOwner] = useState([]);
     const [recomended, setRecom] = useState([]);
     const [chat, setChat] = useState([]);
+    const [chatBool, setChatBool] = useState(false);
     let renderTest = false;
 
     async function queryOffer() { 
@@ -40,37 +42,13 @@ const OfferPageChat = () => {
 
     async function createChat() {
         await axios.post(`http://localhost:3344/chats`, {
-            headers : {authorization : "Bearer " + localStorage.getItem("token")},
-            Offer_ofr_id : offer.ofr_id  
+            Offer_ofr_id : offer.ofr_id,
+            User_user_id : userQuery.user_id
+        }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then(res => {
+            console.log(res);
+            setChatBool(true);
         }).catch(error => {
-            console.log(error);
-        });
-
-        await axios.get(`http://localhost:3344/chats/user/offer/${userQuery.user_id}/${offer.ofr_id}`, {
-            headers : {authorization : "Bearer " + localStorage.getItem("token")}
-        }).then(res => {
-            setChat(res.data);
-        }).catch(error => {
-            console.log(error);
-        });
-
-        await axios.post(`https://localhost:3344/messages`, {
-            headers : {authorization : "Bearer " + localStorage.getItem("token")},
-            User_user_id : userQuery.user_id,
-            Chat_chat_id : chat.chat,
-            msg_content : "Olá!"
-        }).catch(error => {
-            console.log(error)
-        });
-        console.log("Cu")
-    }
-
-    async function getUser() {
-        await axios.get(`http://localhost:3344/users/email/${user.email}`, {
-            headers : {authorization : "Bearer " + localStorage.getItem("token")}
-        }).then(res => {
-            setUserQuery(res.data);
-        }).catch(error => {
+            console.log("Bitch")
             console.log(error);
         });
     }
@@ -79,12 +57,22 @@ const OfferPageChat = () => {
         await axios.get(`http://localhost:3344/chats/user/offer/${userQuery.user_id}/${offer.ofr_id}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then(res => {
-            setChat(res.data);
-            console.log(chat);
+            setChat(res.data[0]);
         }).catch(error => {
             console.log(error);
         })
-    };
+    }
+
+    async function getUser() {
+        await axios.get(`http://localhost:3344/users/email/${user.email}`, {
+            headers : {authorization : "Bearer " + localStorage.getItem("token")}
+        }).then(res => {
+            setUserQuery(res.data);
+        }).catch(error => {
+            
+            console.log(error);
+        });
+    }
 
     async function queryOffersRecomended() {
         await axios.get(`http://localhost:3344/offers/query/${"prod_type"}/${offer.prod_type}`).then(res => {
@@ -103,17 +91,34 @@ const OfferPageChat = () => {
     };
 
     useEffect(() => {
+        const canceltoken = axios.CancelToken.source();
         queryOffer();
         getUser();
+        return () => {
+            canceltoken.cancel();
+        }
     }, []);
 
     useEffect(() => {
+        const canceltoken = axios.CancelToken.source();
         if (offer[0] != "") {
             queryOwner();
             queryOffersRecomended();
+            queryOwner();
             getChat();
         }
+        return () => {
+            canceltoken.cancel();
+        }
     }, [offer]);
+
+    useEffect(() => {
+        const canceltoken = axios.CancelToken.source();
+        (chatBool) ? getChat(): "";
+        return () => {
+            canceltoken.cancel();
+        }
+    }, [chatBool])
 
     const renderRecom = recomended.map(item => {
         if(item.ofr_city != offer.ofr_city || item.ofr_id == offer.ofr_id) return <div key={item.ofr_id}></div>
@@ -125,7 +130,8 @@ const OfferPageChat = () => {
             condition={item.prod_status} 
             img={item.prod_img} 
             value={item.ofr_value} 
-            type={item.prod_type}/>
+            type={item.prod_type}
+            id={item.ofr_id}/>
     });
 
     const SignButton = () => {
@@ -135,7 +141,7 @@ const OfferPageChat = () => {
             w="100%" pt="3%">
                 <BsChatLeftText size="45%"/>
                 <Text fontSize="25px" fontFamily="atkinson" textAlign="center">Você ainda não falou com {owner.user_name}, que tal iniciar uma conversa?</Text>
-                <Button variant="outline" bgColor="#0000" mt="1.5%" onClick={createChat}>Criar um chat</Button>
+                <Button variant="outline" bgColor="#0000" mt="1.5%" onClick={() => {createChat()}}>Criar um chat</Button>
             </Flex>
         )
     }
@@ -177,7 +183,7 @@ const OfferPageChat = () => {
                                     </Flex>
                                     <Flex>
                                         <Text fontFamily="atkinson" mr="5px">Parcelas:</Text>
-                                        <Text fontFamily="atkinson" color={colors.colorFontBlue}>null</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontBlue}>{offer.ofr_parcelas}</Text>
                                     </Flex>
                                 </SimpleGrid>
                             </Flex>
@@ -223,7 +229,7 @@ const OfferPageChat = () => {
 
                     <Flex w="100%" h="fit-content" mt="3%" mb="3%" align="center" direction="column">
                         <Heading noOfLines={1} mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "36px", sm: "30px"}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>Chat com {owner.user_name}</Heading>
-                        {(chat.chat > 0) ? <div></div> : <SignButton/>}
+                        {(chat) ? <ChatBox other={owner} user_id={userQuery.user_id} chat_id={chat.chat_id}/> : <SignButton/>}
                     </Flex>
                 </Flex>
 

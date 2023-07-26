@@ -71,7 +71,8 @@ const OfferPage = () => {
             condition={item.prod_status} 
             img={item.prod_img} 
             value={item.ofr_value} 
-            type={item.prod_type}/>
+            type={item.prod_type}
+            id={item.ofr_id}/>
     })
 
     return (
@@ -111,7 +112,7 @@ const OfferPage = () => {
                                     </Flex>
                                     <Flex>
                                         <Text fontFamily="atkinson" mr="5px">Parcelas:</Text>
-                                        <Text fontFamily="atkinson" color={colors.colorFontBlue}>null</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontBlue}>{offer.ofr_parcelas}</Text>
                                     </Flex>
                                 </SimpleGrid>
                             </Flex>
