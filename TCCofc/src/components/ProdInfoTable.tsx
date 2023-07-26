@@ -21,7 +21,11 @@ const ProdInfoTable = ({ofr_id} : prodTableProps) => {
     }
 
     useEffect(() => {
+        const canceltoken = axios.CancelToken.source();
         queryProduct();
+        return () => {
+            canceltoken.cancel();
+        }
     }, [ofr_id]);
 
     const ChildTableInfo = () => {
