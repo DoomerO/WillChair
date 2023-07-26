@@ -81,6 +81,7 @@ module.exports = {
 
             if (await knex('Chat').where('chat_id', id) != "") {
                 await knex('Chat').del().where('chat_id', id);
+                await knex('Message').del().where('Chat_chat_id', id);
             }
             else {
                 return res.status(401).json({msg : "There is no chat with this id"});
@@ -97,7 +98,9 @@ module.exports = {
             const {ofr_id} = req.params;
 
             if (await knex('Offer').where('ofr_id', ofr_id) != "") {
+                const consult = knex('Chat').where('Offer_ofr_id', ofr_id);
                 await knex('Chat').del().where('Offer_ofr_id', ofr_id);
+                await knex('Message').del().where('Chat_chat_id', consult.chat_id);
             }
             else {
                 return res.status(401).json({msg : "There is no offer with this id"});

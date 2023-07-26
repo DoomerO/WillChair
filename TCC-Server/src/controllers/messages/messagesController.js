@@ -13,7 +13,7 @@ module.exports = {
     async searchMessagesChat(req, res) { //Requisita Mensagens pertencentes à um chat
         try {
             const {chat_id} = req.params;
-            const result = await knex('Messages').where('Chat_chat_cod', chat_id);
+            const result = await knex('Message').where('Chat_chat_id', chat_id);
 
             if(result != "") {
                 return res.status(201).json(result);
