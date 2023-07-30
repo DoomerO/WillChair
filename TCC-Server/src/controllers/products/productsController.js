@@ -399,7 +399,7 @@ module.exports = {
             const {and_lenght} = req.body;
             const {and_width} = req.body;
             const {and_regulator}= req.body;
-            const {and_maxHeigth} = req.body;
+            const {and_maxHeight} = req.body;
             const {and_minHeight} = req.body;
 
             const consult = await knex('Product').where('prod_id', id);
@@ -407,7 +407,7 @@ module.exports = {
                 if(consult[0].prod_type == "Andador") {
                     await knex('Andador').update({
                         and_lenght,
-                        and_maxHeigth,
+                        and_maxHeight,
                         and_minHeight,
                         and_regulator,
                         and_width,
