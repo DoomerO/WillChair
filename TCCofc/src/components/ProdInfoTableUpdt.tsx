@@ -1,4 +1,4 @@
-import {Table, TableContainer, TableCaption, Tbody, Tr, Td, Input} from "@chakra-ui/react";
+import {Table, TableContainer, TableCaption, Tbody, Tr, Td, Input, useToast, Stack, Text} from "@chakra-ui/react";
 import { useState, useEffect, ChangeEvent } from "react";
 
 import axios from "axios";
@@ -11,6 +11,7 @@ interface prodTableProps {
 
 const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
     const [prod, setProd] = useState([]);
+    const toast = useToast();
 
     async function queryProduct() {
         await axios.get(`http://localhost:3344/products/offer/${ofr_id}`).then(res => {
@@ -32,6 +33,14 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
             console.log(res);
+            toast({
+                position: 'bottom',
+                render: () => (
+                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Produto atualizado com sucesso!</Text>
+                    </Stack>
+                )
+            })
         }).catch(error => {
             console.log(error);
         })
@@ -117,6 +126,14 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
         append5 : ""
     });
 
+    const [prodChildInp, setChildInp] = useState({
+        title1: "",
+        title2: "",
+        title3: "",
+        title4: "",
+        title5: "",
+    })
+
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         setProdUpdate(prev => ({...prev, [e.target.name]: e.target.value}));
     }
@@ -130,6 +147,80 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
     }, [ofr_id]);
 
     useEffect(() => {
+        setProdUpdate(prev => ({...prev, 
+            prod_status : prod.prod_status,
+            prod_composition : prod.prod_composition,
+            prod_height : prod.prod_height,
+            prod_weight: prod.prod_weight,
+        }));
+    }, [prod])
+
+    useEffect(() => {
+        switch (prod.prod_type) {
+            case "Cadeira de Rodas":
+                setProdUpdate(prev => ({...prev,
+                    append1: prod.cad_width,
+                    append2: prod.cad_widthSeat,
+                    append3: prod.cad_type,
+                    append4: prod.cad_maxWeight
+                }))
+                setChildInp(prev => ({...prev,
+                    title1: "Largura(centímetros)",
+                    title2: "Largura do Acento(centímetros)",
+                    title3: "Tipo de Cadeira",
+                    title4: "Peso Máximo(quilos)"
+                }))
+            break;
+            case "Bengala":
+                setProdUpdate(prev => ({...prev,
+                    append1: prod.ben_maxHeight,
+                    append2: prod.ben_minHeight,
+                    append3: prod.ben_type,
+                    append4: prod.ben_regulator
+                }))
+                setChildInp(prev => ({...prev,
+                    title1: "Altura Miníma(metros)",
+                    title2: "Altura Máxima(metros)",
+                    title3: "Tipo de Bengala",
+                    title4: "Possui Regulador"
+                }))
+            break;
+            case "Andador":
+                setProdUpdate(prev => ({...prev,
+                    append1: prod.and_width,
+                    append2: prod.and_lenght,
+                    append3: prod.and_minHeight,
+                    append4: prod.and_maxHeight,
+                    append5: prod.and_regulator
+                }))
+                setChildInp(prev => ({...prev,
+                    title1: "Largura(centímetros)",
+                    title2: "Comprimento(centímetros)",
+                    title3: "Altura Miníma(metros)",
+                    title4: "Altura Máxima(metros)",
+                    title5: "Possui Regulador"
+                }))
+            break;
+            case "Muleta":
+                setProdUpdate(prev => ({...prev,
+                    append1: prod.mul_maxHeight,
+                    append2: prod.mul_minHeight,
+                    append3: prod.mul_regulator,
+                    append4: prod.mul_maxWeight
+                }))
+                setChildInp(prev => ({...prev,
+                    title1: "Altura Máxima(metros)",
+                    title2: "Altura Miníma(metros)",
+                    title3: "Possui Regulador",
+                    title4: "Peso Máximo(quilos)"
+                }))
+            break;
+            default:
+                return
+        }
+    }, [prod])
+
+    useEffect(() => {
         const canceltoken = axios.CancelToken.source();
         if (update) {
             updateProduct();
@@ -139,93 +230,6 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
             canceltoken.cancel();
         }
     }, [update])
-
-    const ChildTableInfo = () => {
-        switch(prod.prod_type) {
-            case "Cadeira de Rodas":
-                return <Tbody>
-                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Largura</Td>
-                        <Td><Input placeholder={prod.cad_width + "cm"} name="append1" onChange={handleChange}/></Td>
-                    </Tr>
-                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Largura do Acento</Td>
-                        <Td><Input placeholder={prod.cad_widthSeat + "cm"} name="append2" onChange={handleChange}/></Td>
-                    </Tr>
-                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Tipo de Cadeira</Td>
-                        <Td><Input placeholder={prod.cad_type} name="append3" onChange={handleChange}/></Td>
-                    </Tr>
-                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Peso Máximo</Td>
-                        <Td><Input placeholder={prod.cad_maxWeight + "kg"} name="append4" onChange={handleChange}/></Td>
-                    </Tr>
-                </Tbody>
-             case "Bengala":
-                return <Tbody>
-                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Altura Miníma</Td>
-                        <Td><Input placeholder={prod.ben_maxHeight + "cm"} name="append1" onChange={handleChange}/></Td>
-                    </Tr>
-                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Altura Máxima</Td>
-                        <Td><Input placeholder={prod.ben_minHeight + "cm"} name="append2" onChange={handleChange}/></Td>
-                    </Tr>
-                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Tipo de Bengala</Td>
-                        <Td><Input placeholder={prod.ben_type} name="append3" onChange={handleChange}/></Td>
-                    </Tr>
-                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Possui regulador</Td>
-                        <Td><Input placeholder={prod.ben_regulator} name="append4" onChange={handleChange}/></Td>
-                    </Tr>
-                </Tbody>
-             case "Andador":
-                return <Tbody>
-                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Largura</Td>
-                        <Td><Input placeholder={prod.and_width + "cm"} name="append1" onChange={handleChange}/></Td>
-                    </Tr>
-                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Comprimento</Td>
-                        <Td><Input placeholder={prod.and_lenght + "cm"} name="append2" onChange={handleChange}/></Td>
-                    </Tr>
-                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Altura miníma</Td>
-                        <Td><Input placeholder={prod.and_minHeight + "cm"} name="append3" onChange={handleChange}/></Td>
-                    </Tr>
-                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Altura máxima</Td>
-                        <Td><Input placeholder={prod.and_maxHeight + "cm"} name="append4" onChange={handleChange}/></Td>
-                    </Tr>
-                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Possui Regulador</Td>
-                        <Td><Input placeholder={prod.and_regulator} name="append5" onChange={handleChange}/></Td>
-                    </Tr>
-                </Tbody>
-             case "Muleta":
-                return <Tbody>
-                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Altura Máxima</Td>
-                        <Td><Input placeholder={prod.mul_maxHeight + "cm"} name="append1" onChange={handleChange}/></Td>
-                    </Tr>
-                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Largura Máxima</Td>
-                        <Td><Input placeholder={prod.mul_maxWidth + "cm"} name="append2" onChange={handleChange}/></Td>
-                    </Tr>
-                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Possui regulador</Td>
-                        <Td><Input placeholder={prod.mul_regulator} name="append3" onChange={handleChange}/></Td>
-                    </Tr>
-                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Peso Máximo</Td>
-                        <Td><Input placeholder={prod.mul_maxWeight + "kg"} name="append4" onChange={handleChange}/></Td>
-                    </Tr>
-                </Tbody>
-            default:
-                return <Tbody/>
-        }
-    }
 
     return (
         <TableContainer w="80%">
@@ -245,15 +249,40 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
                         <Td><Input placeholder={prod.prod_composition} name="prod_composition" onChange={handleChange}/></Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Altura</Td>
-                        <Td><Input placeholder={prod.prod_height + "m"} name="prod_height" onChange={handleChange}/></Td>
+                        <Td fontWeight="bold">Altura{"(metros)"}</Td>
+                        <Td><Input placeholder={prod.prod_height} type="number" name="prod_height" onChange={handleChange}/></Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Peso</Td>
-                        <Td><Input placeholder={prod.prod_weight + "kg"} name="prod_weight" onChange={handleChange}/></Td>
-                    </Tr> 
+                        <Td fontWeight="bold">Peso{"(quilos)"}</Td>
+                        <Td><Input placeholder={prod.prod_weight} type="number" name="prod_weight" onChange={handleChange}/></Td>
+                    </Tr>
+
+                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}
+                    display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" || prod.prod_type == "Muleta" || prod.prod_type == "Bengala") ? 0 : "none"}>
+                        <Td fontWeight="bold">{prodChildInp.title1}</Td>
+                        <Td><Input placeholder={prodUpdate.append1} name="append1" onChange={handleChange}/></Td>
+                    </Tr>
+                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}
+                    display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" || prod.prod_type == "Muleta" || prod.prod_type == "Bengala") ? 0 : "none"}>
+                        <Td fontWeight="bold">{prodChildInp.title2}</Td>
+                        <Td><Input placeholder={prodUpdate.append2} name="append2" onChange={handleChange}/></Td>
+                    </Tr>
+                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}
+                    display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" || prod.prod_type == "Muleta" || prod.prod_type == "Bengala") ? 0 : "none"}>
+                        <Td fontWeight="bold">{prodChildInp.title3}</Td>
+                        <Td><Input placeholder={prodUpdate.append3} name="append3" onChange={handleChange}/></Td>
+                    </Tr>
+                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}
+                    display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" || prod.prod_type == "Muleta" || prod.prod_type == "Bengala") ? 0 : "none"}>
+                        <Td fontWeight="bold">{prodChildInp.title4}</Td>
+                        <Td><Input placeholder={prodUpdate.append4} name="append4" onChange={handleChange}/></Td>
+                    </Tr>
+                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}
+                    display={(prod.prod_type == "Andador") ? 0 : "none"}>
+                        <Td fontWeight="bold">{prodChildInp.title5}</Td>
+                        <Td><Input placeholder={prodUpdate.append5} name="append3" onChange={handleChange}/></Td>
+                    </Tr>
                 </Tbody>
-                <ChildTableInfo/>
             </Table>
         </TableContainer>
     )
