@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Product` (
   `prod_status` VARCHAR(10) NOT NULL,
   `prod_height` VARCHAR(10) NULL,
   `prod_type` VARCHAR(20) NOT NULL,
-  `prod_weight` DECIMAL(2) NULL,
+  `prod_weight` DECIMAL NULL,
   `prod_composition` VARCHAR(10) NULL,
   PRIMARY KEY (`prod_id`))
 ENGINE = InnoDB;
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Offer` (
   `ofr_city` VARCHAR(30) NOT NULL,
   `ofr_user_name` VARCHAR(45) NOT NULL,
   `ofr_parcelas` INT NULL,
-  `ofr_postDate` DATE NULL,
+  `ofr_postDate` VARCHAR(10) NULL,
   `User_user_id` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
@@ -163,10 +163,10 @@ ENGINE = InnoDB;
 -- Table `willchair`.`Cadeira de Rodas`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `willchair`.`Cadeira de Rodas` (
-  `cad_width` DECIMAL(2) NULL,
-  `cad_widthSeat` DECIMAL(2) NULL,
+  `cad_width` DECIMAL NULL,
+  `cad_widthSeat` DECIMAL NULL,
   `cad_type` VARCHAR(20) NULL,
-  `cad_maxWeight` DECIMAL(2) NULL,
+  `cad_maxWeight` DECIMAL NULL,
   `Product_prod_id` INT NULL REFERENCES `willchair`.`Product` (`prod_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
