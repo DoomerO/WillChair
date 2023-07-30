@@ -1,21 +1,36 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Avatar, Box, Card, CardBody, CardFooter, Flex, Input, InputGroup, InputRightAddon, Spacer, Stack, Text } from "@chakra-ui/react";
 import axios from "axios";
+import { socket } from "./socket/socket";
 
 import {IoMdSend} from "react-icons/io";
 import colors from "../colors/colors";
 
 interface chatBoxProps {
-    user_id : number
+    user_id : number,
     chat_id : number,
-    other: object
+    other: object,
 }
 
 const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
     const [messages, setMessages] = useState([]);
-    const [timer, setTimer] = useState(false);
+    const [msgRender, setRender] = useState([]);
+    const [once, setOnce] = useState(true);
     const [msg, setMsg] = useState("");
 
+    socket.on("message", (message) => {
+        console.log(message); 
+    });
+    
+    socket.on("showMsg", (resp) => {
+        setMessages(resp);
+    });
+
+    if (chat_id && once) {
+        setOnce(false);
+        socket.emit("reqMsg", chat_id);
+    }
+    
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         setMsg(e.target.value);
     }
@@ -23,36 +38,11 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
     const handleKeyPress = (e:React.KeyboardEvent<HTMLInputElement>) => { //evento de input de enter na barra de pesquisa
         if (e.key == "Enter") {
             postMessage();
-            setMsg(""); 
+            socket.emit("postMessage", {chat: chat_id, msg : msg, user: user_id});
+            socket.emit("reqMsg", chat_id);
+            setMsg("");
         }
     }
-
-    async function getMessages() {
-        await axios.get(`http://localhost:3344/messages/chat/${chat_id}`, {
-            headers : {authorization : "Bearer " + localStorage.getItem("token")}
-        }).then(res => {
-            setMessages(res.data);
-        }).catch(error => {
-            console.log(error);
-        });
-    }
-
-    async function postMessage() {
-        await axios.post(`http://localhost:3344/messages`, {
-            User_user_id : user_id,
-            Chat_chat_id : chat_id,
-            msg_content : msg},
-            {headers : {authorization : "Bearer " + localStorage.getItem("token")}
-        }).catch(error => {
-            console.log(error)
-        });
-    }
-    
-
-    useEffect(() => {
-        if(messages) getMessages();
-        setTimer(!timer);
-    });
 
     const renderMessages = messages.map(item => {
         if(item.User_user_id == other.user_id) {
@@ -71,7 +61,7 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
             </Box>
             </Flex>
         }
-    })
+    });
 
     return (
         <Card w="80vw" bg="#f7f7f7" variant="outline" _dark={{bg : colors.colorFontDarkBlue}}>
@@ -104,8 +94,10 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
                     <Input type="text" onKeyDown={handleKeyPress} onChange={handleChange} value={msg}></Input>
                     <InputRightAddon children={<IoMdSend/>} bg="#eee" _dark={{bg:"#0000"}} _hover={{bg:"#aaa", _dark:{bg:"#555"}}}
                     onClick={() => {
-                        postMessage();
-                        setMsg("")
+                        //postMessage();
+                        setMsg("");
+                        socket.emit("postMessage", {chat: chat_id, msg : msg, user: user_id});
+                        socket.emit("reqMsg", chat_id);
                     }}/>
                 </InputGroup>
                 
