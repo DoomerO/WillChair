@@ -11,15 +11,15 @@ import wcOffer from "./pages/wcOffer";
 import PageToggle from "./components/toggles/PageToggle";
 import HomeProd from "./pages/HomeProd";
 import ConfirmLogOut from "./pages/intersections/ConfirmLogOut";
+import OfferPageLoged from "./pages/offerPages/OfferPageLoged";
 import OfferPage from "./pages/offerPages/OfferPage";
-import OfferPageChat from "./pages/offerPages/OfferPageChat";
 
 const Router = () => {
     const toggleHome = () => {
         return <PageToggle compError={<Home />} compSucsses={<HomeProd/>}/>
     }
     const toggleOffer = () => {
-        return <PageToggle compError={<OfferPage />} compSucsses={<OfferPageChat/>}/>
+        return <PageToggle compError={<OfferPage />} compSucsses={<OfferPageLoged/>}/>
     }
 
     return (
