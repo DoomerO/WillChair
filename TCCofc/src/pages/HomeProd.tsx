@@ -109,7 +109,8 @@ const HomeProd = () => {
         img={item.prod_img} 
         value={item.ofr_value} 
         type={item.prod_type}
-        key={item.ofr_id}/>
+        key={item.ofr_id}
+        id={item.ofr_id}/>
     });
 
     const renderUserOffers = userOffers.map(item => { //lista de ofertas do usuário renderizadas
