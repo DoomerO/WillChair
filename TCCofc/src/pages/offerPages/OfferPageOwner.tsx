@@ -28,6 +28,18 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         ofr_value : offer.ofr_value,
         ofr_parcelas : offer.ofr_parcelas
     });
+
+    useEffect(() => {
+        setUpdateOffer(prev => ({...prev, 
+            ofr_name : offer.ofr_name,
+            ofr_type : offer.ofr_type,
+            ofr_status : offer.ofr_status,
+            ofr_desc : offer.ofr_desc,
+            ofr_value : offer.ofr_value,
+            ofr_parcelas : offer.ofr_parcelas
+        }));
+    }, [offer])
+
     const [updateProduct, setUpdateProd] = useState(false)
     const navigate = useNavigate();
     const toast = useToast();
@@ -48,6 +60,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         }, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
+            setUpdateProd(true);
             toast({
                 position: 'bottom',
                 render: () => (
@@ -186,9 +199,19 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.veryLightBlue} _dark={{bg : colors.veryLightBlue_Dark}} pb="5vh">
                         <Heading noOfLines={1} mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "36px", sm: "30px"}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>O que deseja fazer com a Oferta?</Heading>
                         <ButtonGroup gap={5}>
-                            <Button colorScheme="linkedin" variant="solid" onClick={() => {setUpdateProd(true); updateOfferOprt()}}>Atualizar</Button>
-                            <Button colorScheme="linkedin" variant="solid">Limpar mudanças</Button>
-                            <Button colorScheme="linkedin" variant="solid" onClick={() => {deleteChatsOffer(); deleteOfferOprt();}}>Apagar</Button>
+                            <Button colorScheme="linkedin" variant="solid" onClick={() => {updateOfferOprt()}}>Atualizar</Button>
+                            <Button colorScheme="linkedin" variant="solid" onClick={() => { toast({
+                                position: 'bottom',
+                                render: () => (
+                                    <Stack bg="red.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Certeza que deseja apagar sua Oferta?</Text>
+                                        <Stack direction="row">
+                                            <Button onClick={() => {deleteChatsOffer(); deleteOfferOprt(); toast.closeAll()}}>Sim</Button>
+                                            <Button onClick={() => {toast.closeAll()}}>Não</Button>    
+                                        </Stack>
+                                    </Stack>
+                                )
+                            })}}>Apagar</Button>
                         </ButtonGroup>
                     </Flex>
                 </Flex>
