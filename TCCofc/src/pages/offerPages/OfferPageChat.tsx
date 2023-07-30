@@ -1,6 +1,5 @@
 import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Button} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 import HeaderToggle from "../../components/toggles/HeaderToggle";
@@ -18,32 +17,24 @@ import {GiUncertainty} from "react-icons/gi";
 import CardOffer from "../../components/offerCards/OfferCard";
 import OfferList from "../../components/offerCards/OfferList";
 import SignNotFound from "../../components/SignNotFound";
-import decode from "../../components/decoderToken";
 
-const OfferPageChat = () => {
-    const {id} = useParams();
+interface ChatPage {
+    offer : object;
+    user : object;
+}
 
-    const [offer, setOffer] = useState([""]);
-    const [user, setUser] = useState(decode(localStorage.getItem("token")));
-    const [userQuery, setUserQuery] = useState([]);
+const OfferPageChat = ({offer, user} : ChatPage) => {
+    
     const [owner, setOwner] = useState([]);
     const [recomended, setRecom] = useState([]);
     const [chat, setChat] = useState([]);
     const [chatBool, setChatBool] = useState(false);
     let renderTest = false;
 
-    async function queryOffer() { 
-        await axios.get(`http://localhost:3344/offers/id/${id}`).then(res => {
-            setOffer(res.data[0]);
-        }).catch(error => {
-            console.log(error);
-        })
-    };
-
     async function createChat() {
         await axios.post(`http://localhost:3344/chats`, {
             Offer_ofr_id : offer.ofr_id,
-            User_user_id : userQuery.user_id
+            User_user_id : user.user_id
         }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then(res => {
             console.log(res);
             setChatBool(true);
@@ -54,24 +45,13 @@ const OfferPageChat = () => {
     }
 
     async function getChat() {
-        await axios.get(`http://localhost:3344/chats/user/offer/${userQuery.user_id}/${offer.ofr_id}`, {
+        await axios.get(`http://localhost:3344/chats/user/offer/${user.user_id}/${offer.ofr_id}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then(res => {
             setChat(res.data[0]);
         }).catch(error => {
             console.log(error);
         })
-    }
-
-    async function getUser() {
-        await axios.get(`http://localhost:3344/users/email/${user.email}`, {
-            headers : {authorization : "Bearer " + localStorage.getItem("token")}
-        }).then(res => {
-            setUserQuery(res.data);
-        }).catch(error => {
-            
-            console.log(error);
-        });
     }
 
     async function queryOffersRecomended() {
@@ -92,25 +72,15 @@ const OfferPageChat = () => {
 
     useEffect(() => {
         const canceltoken = axios.CancelToken.source();
-        queryOffer();
-        getUser();
+       
+        queryOffersRecomended();
+        queryOwner();
+        getChat();
+        
         return () => {
             canceltoken.cancel();
         }
-    }, []);
-
-    useEffect(() => {
-        const canceltoken = axios.CancelToken.source();
-        if (offer[0] != "") {
-            queryOwner();
-            queryOffersRecomended();
-            queryOwner();
-            getChat();
-        }
-        return () => {
-            canceltoken.cancel();
-        }
-    }, [offer]);
+    }, [offer, user]);
 
     useEffect(() => {
         const canceltoken = axios.CancelToken.source();
@@ -223,13 +193,13 @@ const OfferPageChat = () => {
                     </Flex>
                     <Divider/>
                     <Flex align="center" direction="column" h="fit-content" w="100%" mt="3%" mb="3%">
-                        <ProdInfoTable ofr_id={parseInt(id)}/>
+                        <ProdInfoTable ofr_id={offer.ofr_id}/>
                     </Flex>
                     <Divider/>
 
                     <Flex w="100%" h="fit-content" mt="3%" mb="3%" align="center" direction="column">
                         <Heading noOfLines={1} mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "36px", sm: "30px"}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>Chat com {owner.user_name}</Heading>
-                        {(chat) ? <ChatBox other={owner} user_id={userQuery.user_id} chat_id={chat.chat_id}/> : <SignButton/>}
+                        {(chat) ? <ChatBox other={owner} user_id={user.user_id} chat_id={chat.chat_id}/> : <SignButton/>}
                     </Flex>
                 </Flex>
 
