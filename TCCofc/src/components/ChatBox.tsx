@@ -14,7 +14,7 @@ interface chatBoxProps {
 
 const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
     const [messages, setMessages] = useState([]);
-    const [msgRender, setRender] = useState([]);
+    let msgRender: object[] = []
     const [once, setOnce] = useState(true);
     const [msg, setMsg] = useState("");
 
@@ -30,6 +30,11 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
         setOnce(false);
         socket.emit("reqMsg", chat_id);
     }
+
+    messages.map(item => {
+        msgRender.push(item)
+        console.log(messages)
+    })
     
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         setMsg(e.target.value);
@@ -37,14 +42,13 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
 
     const handleKeyPress = (e:React.KeyboardEvent<HTMLInputElement>) => { //evento de input de enter na barra de pesquisa
         if (e.key == "Enter") {
-            postMessage();
             socket.emit("postMessage", {chat: chat_id, msg : msg, user: user_id});
             socket.emit("reqMsg", chat_id);
             setMsg("");
         }
     }
 
-    const renderMessages = messages.map(item => {
+    const renderMessages = msgRender.map(item => {
         if(item.User_user_id == other.user_id) {
             return <Flex w="100%" key={item.msg_id}>
                 <Box w="fit-content" p="1%" borderRadius="30px" bg={colors.colorFontBlue}>
@@ -56,7 +60,7 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
         else {
             return <Flex w="100%" key={item.msg_id}>
             <Spacer/>
-            <Box w="fit-content" p="1%" borderRadius="30px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
+            <Box minW="0%" maxW="60%" p="1%" borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
                 <Text>{item.msg_content}</Text>
             </Box>
             </Flex>
@@ -91,10 +95,9 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
             </CardBody>
             <CardFooter>
                 <InputGroup>
-                    <Input type="text" onKeyDown={handleKeyPress} onChange={handleChange} value={msg}></Input>
+                    <Input maxLength={255} type="text" onKeyDown={handleKeyPress} onChange={handleChange} value={msg}></Input>
                     <InputRightAddon children={<IoMdSend/>} bg="#eee" _dark={{bg:"#0000"}} _hover={{bg:"#aaa", _dark:{bg:"#555"}}}
                     onClick={() => {
-                        //postMessage();
                         setMsg("");
                         socket.emit("postMessage", {chat: chat_id, msg : msg, user: user_id});
                         socket.emit("reqMsg", chat_id);
