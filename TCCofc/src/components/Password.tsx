@@ -1,4 +1,6 @@
 import { Input, useBoolean, InputRightAddon, InputGroup } from '@chakra-ui/react'
+import "../fonts/fonts.css"
+import { ChangeEvent } from 'react'
 
 interface passProps{
     placeholder?: string,
@@ -8,13 +10,17 @@ interface passProps{
 const Password = ({placeholder, setTo, value}:passProps) => {
     //Estado do botão de mostrar senha e valor da senha
     const [showPassword, setShowPassword] = useBoolean(false)
+    const [mismatch, setMismatch] = useBoolean(true)
+    function checkMismatch(){}
 
     return(
         <InputGroup>
         <Input placeholder={placeholder} type={showPassword ? 'text' : 'password'}
-        onChange={e => setTo(e.target.value)} value={value}/>
+        onChange={(e:ChangeEvent<HTMLInputElement>) => setTo(e.target.value)} value={value}
+        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" font="outfit"/>
         
-        <InputRightAddon bg={showPassword ? '#000' : '#fff'} color={showPassword ? '#fff' : '#222'}
+        <InputRightAddon bg={showPassword ? '#000' : '#fff'} color={showPassword ? '#fff' : '#000'}
+        _dark={showPassword ? {bg:"#F7F9FC", color:"#484A4D"} : {bg:"#2D3748", color:"#1976D2"}}
         onClick={setShowPassword.toggle} onMouseOut={setShowPassword.off} cursor='pointer'>+</InputRightAddon>
         </InputGroup>
     )
