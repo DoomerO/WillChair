@@ -6,7 +6,6 @@ import { Box, Flex, Heading, Select, Button, ButtonGroup} from '@chakra-ui/react
 
 
 const Report = () => {
-
     return (
         <Box w="100%" h="100%">
             <HeaderToggle/>
@@ -16,7 +15,7 @@ const Report = () => {
                 </Flex>
               
                 <Flex w='100%' h='fit-content' bg='#F7F9FC' align='center' direction='column' _dark={{bg:'#484A4D'}} >
-                <Select placeholder='motivo da denuncia' color={"blue"} background={"blackAlpha.100"} alignSelf={"center"} borderColor='blue'> 
+                <Select placeholder='motivo da denuncia' color={"blue"} background={"blackAlpha.100"} alignSelf={"center"} borderColor='blue' > 
                     <option value='option1'>Golpe</option>
                     <option value='option2'>Preço abusivo</option>
                     <option value='option3'>usuario fantasma</option>
