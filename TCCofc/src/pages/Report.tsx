@@ -5,7 +5,7 @@ import { Box, Flex, Heading, Select, Button, ButtonGroup} from '@chakra-ui/react
 
 
 
-const denounce = () => {
+const Report = () => {
 
     return (
         <Box w="100%" h="100%">
@@ -37,4 +37,4 @@ const denounce = () => {
     )
 }
 
-export default denounce;
+export default Report;
