@@ -1,5 +1,5 @@
-import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Input, Textarea, ButtonGroup, Button, useToast} from "@chakra-ui/react";
-import { ChangeEvent, useEffect, useState } from "react";
+import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Input, Textarea, ButtonGroup, Button, useToast, Select} from "@chakra-ui/react";
+import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -8,10 +8,13 @@ import Footer from "../../components/Footer";
 import colors from "../../colors/colors";
 import testImg from "../../img/home/imgHomeMiddle.png";
 import ProdInfoTableUpdt from "../../components/ProdInfoTableUpdt";
+import SignNotFound from "../../components/SignNotFound";
 import ChatBox from "../../components/ChatBox";
 import "../../fonts/fonts.css";
 
 import {BsFillStarFill} from "react-icons/bs";
+import {HiOutlineUsers} from "react-icons/hi";
+import {MdOutlineContactSupport} from "react-icons/md";
 
 interface OwnerPageprops {
     offer : object;
@@ -20,6 +23,11 @@ interface OwnerPageprops {
 
 const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
 
+    const [updateProduct, setUpdateProd] = useState(false)
+    const navigate = useNavigate();
+    const toast = useToast();
+    const [chats, setChats] = useState([]);
+    const [others, setOthers] = useState([]);
     const [ updateOffer, setUpdateOffer ] = useState({
         ofr_name : offer.ofr_name,
         ofr_type : offer.ofr_type,
@@ -28,8 +36,11 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         ofr_value : offer.ofr_value,
         ofr_parcelas : offer.ofr_parcelas
     });
+    const [chatUser, setChatUser] = useState([]);
+    const [selected, setSelected] = useState(false);
 
     useEffect(() => {
+        const canceltoken = axios.CancelToken.source();
         setUpdateOffer(prev => ({...prev, 
             ofr_name : offer.ofr_name,
             ofr_type : offer.ofr_type,
@@ -38,11 +49,24 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
             ofr_value : offer.ofr_value,
             ofr_parcelas : offer.ofr_parcelas
         }));
-    }, [offer])
 
-    const [updateProduct, setUpdateProd] = useState(false)
-    const navigate = useNavigate();
-    const toast = useToast();
+        if(offer)getChats();
+        return () => {
+            canceltoken.cancel();
+        }
+    }, [offer]);
+
+    useEffect(() => {
+        const canceltoken = axios.CancelToken.source();
+        if(chats.length > 0) {
+            for (const chat of chats) {
+                getOther(chat.User_user_id, chat.chat_id);
+            }
+            return () => {
+                canceltoken.cancel();
+            }
+        }
+    }, [chats])
 
     const handleChangeOffer = (e:ChangeEvent<HTMLInputElement>) => {
         setUpdateOffer(prev => ({...prev, [e.target.name]:e.target.value}));
@@ -103,12 +127,48 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         })
     }
 
+    async function getOther(id:number, chat_id:number) {
+        await axios.get(`http://localhost:3344/users/id/${id}`).then((res) => {
+            const chatId = {chatId : chat_id};
+            const data = res.data;
+            const result = {data, chatId};
+            setOthers(prev => ([...prev, result]));
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    async function getChats() {
+        await axios.get(`http://localhost:3344/chats/offer/${offer.ofr_id}`, {
+            headers : {authorization : "Bearer " + localStorage.getItem("token")}
+        }).then((res) => {
+            setChats(res.data);
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    const optionsChat = others.map(item => {
+        return <option value={others.indexOf(item)} key={item.data.user_id}>{item.data.user_name}</option>
+    });
+
+    const handleChangeSelect = (e:ChangeEvent<HTMLInputElement>) => {
+        if(e.target.value != "") {
+            setChatUser(others[parseInt(e.target.value)]);
+            setSelected(true);
+        }
+        else {
+            setChatUser([])
+            setSelected(false);
+        }
+    }
+
     return (
         <Box w="100%" h="100%">
             <HeaderToggle/>
                 <Flex bg={colors.bgWhite} direction="column" align="center" h="fit-content" pt="10vh" _dark={{bg : colors.bgWhite_Dark}}>
 
-                    <Flex direction="row" h="50vh" w="90%">
+                    <Flex direction="row" h="50vh" w="90%" onClick={() => {console.log(chatUser)}}>
                         <Image src={testImg} objectFit="contain" h="95%" w="30%" noOfLines={1}></Image>
                         <Divider orientation="vertical" ml="2.5" mr="2.5"/>
                         <Stack w="65%" h="100%" spacing={8}>
@@ -192,10 +252,19 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     </Flex>
                     <Divider/>
 
-                    <Flex w="100%" h="fit-content" mt="3%" mb="3%" align="center" direction="column">
-                        <Heading noOfLines={1} mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "36px", sm: "30px"}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>Chat com </Heading>
-                        
+                    <Flex w="100%" h="fit-content" mt="3%" mb="3%" align="center" direction="column"
+                    onClick={console.log(chatUser)}>
+                        <Stack mb="3%" direction="row" align="center" spacing={2}>
+                            <Heading noOfLines={1} textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "36px", sm: "30px"}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>Chat com </Heading>
+                            <Select placeholder="usuário interessado" variant="flushed" w={{base:"80%" ,sm:"fit-content"}} color={colors.colorFontDarkBlue} fontSize={{base: "36px", sm: "30px"}} 
+                            fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark, bg:"#0000"}} fontWeight="bold" onChange={handleChangeSelect}>
+                                {optionsChat}
+                            </Select>
+                        </Stack>
+                        {(chats.length == 0) ? <SignNotFound msg="Parece que não há nenhum contato iniciado nessa oferta..." icon={<MdOutlineContactSupport size="45%"/>}/> :
+                        (selected) ? <ChatBox chat_id={chatUser.chatId.chatId} other={chatUser.data} user_id={offer.User_user_id}/> : <SignNotFound msg="Selecione um usuário interessado para acessar o chat com ele!" icon={<HiOutlineUsers size="45%"/>}></SignNotFound>}
                     </Flex>
+
                     <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.veryLightBlue} _dark={{bg : colors.veryLightBlue_Dark}} pb="5vh">
                         <Heading noOfLines={1} mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "36px", sm: "30px"}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>O que deseja fazer com a Oferta?</Heading>
                         <ButtonGroup gap={5}>
