@@ -1,6 +1,6 @@
 import Footer from "../components/Footer";
 import { useState,useEffect } from "react"
-import { Box, Flex, Heading, Stack } from '@chakra-ui/react';
+import { Box} from '@chakra-ui/react';
 import HeaderToggle from '../components/toggles/HeaderToggle';
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -24,10 +24,10 @@ const Profile = () => {
   return (
     <Box w="100%" h="100%">
       <HeaderToggle/>
+     
       <Footer/>
     </Box>
   )
-    
 }
 
-export default Profile;
+export default Profile
