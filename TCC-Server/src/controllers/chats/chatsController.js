@@ -15,7 +15,7 @@ module.exports = {
         try {
             const {ofr_id} = req.params;
 
-            if(await knex('Offer').where('Offer_ofr_id', ofr_id) != "") {
+            if(await knex('Offer').where('ofr_id', ofr_id) != "") {
                 const result = await knex('Chat').where('Offer_ofr_id', ofr_id);
                 return res.status(201).json(result);
             }

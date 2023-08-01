@@ -34,7 +34,7 @@ module.exports = {
       const userExists = await knex('User').where('user_id', User_user_id);
       const offerExists = await knex('Offer').where('ofr_id', Offer_ofr_id);
       
-      const den_date = now.getDate() + "/" + now.getMonth() + 1 + "/" + now.getFullYear();
+      const den_date = now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
       
       if (userExists && offerExists) {
         await knex('Denounce').insert({
