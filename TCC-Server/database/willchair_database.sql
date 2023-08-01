@@ -113,8 +113,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `willchair`.`Denounce` (
   `den_id` INT NOT NULL AUTO_INCREMENT,
+  `den_reason` VARCHAR(30) NOT NULL,
   `den_content` VARCHAR(255) NOT NULL,
-  `den_date` DATE NOT NULL,
+  `den_date` VARCHAR(10) NOT NULL,
   `User_user_id` INT NOT NULL  REFERENCES `willchair`.`User` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
