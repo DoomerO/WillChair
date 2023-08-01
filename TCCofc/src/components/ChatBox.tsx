@@ -13,9 +13,10 @@ interface chatBoxProps {
 }
 
 const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
+    socket.connect();
+
     const [messages, setMessages] = useState([]);
     let msgRender: object[] = []
-    const [once, setOnce] = useState(true);
     const [msg, setMsg] = useState("");
 
     socket.on("message", (message) => {
@@ -26,15 +27,13 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
         setMessages(resp);
     });
 
-    if (chat_id && once) {
-        setOnce(false);
-        socket.emit("reqMsg", chat_id);
-    }
-
     messages.map(item => {
         msgRender.push(item)
-        console.log(messages)
     })
+
+    useEffect(() => {
+        socket.emit("reqMsg", chat_id);
+    }, [chat_id])
     
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         setMsg(e.target.value);
@@ -51,7 +50,7 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
     const renderMessages = msgRender.map(item => {
         if(item.User_user_id == other.user_id) {
             return <Flex w="100%" key={item.msg_id}>
-                <Box w="fit-content" p="1%" borderRadius="30px" bg={colors.colorFontBlue}>
+                <Box minW="0%" maxW="60%" p="1%" borderRadius="5px" bg={colors.colorFontBlue}>
                 <Text color="#fff">{item.msg_content}</Text>
                 </Box>
                 <Spacer/>
