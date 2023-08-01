@@ -1,55 +1,33 @@
 import Footer from "../components/Footer";
+import { useState,useEffect } from "react"
 import { Box, Flex, Heading, Stack } from '@chakra-ui/react';
 import HeaderToggle from '../components/toggles/HeaderToggle';
-import {
-    Drawer,
-    DrawerBody,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerOverlay,
-    DrawerContent,
-    DrawerCloseButton
-} from '@chakra-ui/react';
-
-
-
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const Profile = () => {
+  const {email} = useParams();
+  const [userQuery, setUser] = useState([]);
 
-    function DrawerExample() {
-        const { isOpen, onOpen, onClose } = useDisclosure()
-        const btnRef = React.useRef()
-      
-        return (
-          <>
-            <Button ref={btnRef} colorScheme='teal' onClick={onOpen}>
-              Open
-            </Button>
-            <Drawer
-              isOpen={isOpen}
-              placement='right'
-              onClose={onClose}
-              finalFocusRef={btnRef}
-            >
-              <DrawerOverlay />
-              <DrawerContent>
-                <DrawerCloseButton />
-                <DrawerHeader>Create your account</DrawerHeader>
-      
-                <DrawerBody>
-                  <Input placeholder='Type here...' />
-                </DrawerBody>
-      
-                <DrawerFooter>
-                  <Button variant='outline' mr={3} onClick={onClose}>
-                    Cancel
-                  </Button>
-                  <Button colorScheme='blue'>Save</Button>
-                </DrawerFooter>
-              </DrawerContent>
-            </Drawer>
-          </>
-        )
-      }
+  async function getUser() {
+    await axios.get(`http://localhost:3344/users/profile/${email}`).then((res) => {
+      setUser(res.data);
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
+  useEffect(() => {
+    getUser();
+  }, [])
+
+  return (
+    <Box w="100%" h="100%">
+      <HeaderToggle/>
+      <Footer/>
+    </Box>
+  )
+    
+}
 
 export default Profile;
