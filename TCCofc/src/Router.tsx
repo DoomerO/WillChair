@@ -13,7 +13,8 @@ import HomeProd from "./pages/HomeProd";
 import ConfirmLogOut from "./pages/intersections/ConfirmLogOut";
 import OfferPageLoged from "./pages/offerPages/OfferPageLoged";
 import OfferPage from "./pages/offerPages/OfferPage";
-import denounce from "./pages/denounce"; 
+import Report from "./pages/Report";
+import Profile from "./pages/Profile";
 
 const Router = () => {
     const toggleHome = () => {
@@ -36,7 +37,8 @@ const Router = () => {
             <Route Component={CreateOffer} path="/createoffer"/>
             <Route Component={wcOffer} path="/wcoffer"/>
             <Route Component={ConfirmLogOut} path="/logout"/>
-            <Route Component={denounce} path="/denounce"/>
+            <Route Component={Report} path="/report"/>
+            <Route Component={Profile} path="/profile/:email"/>
         </Routes>
     </BrowserRouter>
     )
