@@ -15,12 +15,15 @@ const Loginwip = () => {
     const [screen, setScreen] = useBoolean(false)
     const toast = useToast()
     const route = useNavigate()
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setFields(prev => ({...prev, [e.target.name]:e.target.value}))
+    }
     
     function clearFields(){
-        setFields({
+        setFields(prev => ({...prev,
             name : "",
             email : ""
-        })
+        }))
         setPassword("")
         setSubPass("")
     }
@@ -79,14 +82,14 @@ const Loginwip = () => {
         case "Enter": screen ? handleSubmits() : handleLogin()
     }
    }
-
+    
     return (
         <Container borderRadius='10px' border="solid #000 0.4vh" marginTop='10vh'
             padding='2vh' centerContent minH="60vh" minW="0%" maxW="40%" paddingTop="5%">
                 <Collapse in={!screen}>
                     <Wrap direction='row' spacing={5} paddingLeft="5%">
                         <Box textAlign="center" w="40%">
-                        <Input className='submit' placeholder='E-mail' onChange={e => setFields({name:fields.name, email:e.target.value})} value={fields.email}/>
+                        <Input className='submit' placeholder='E-mail' onChange={handleChange} name="email" value={fields.email}/>
                         <Password setTo={setPassword} value={password} placeholder='Senha'/>
                         <Button type='submit' onClick={handleLogin}>Enviar</Button>
                         </Box>
@@ -98,8 +101,8 @@ const Loginwip = () => {
                 <Collapse in={screen}>
                     <Wrap direction='row' spacing={5} paddingLeft="5%">
                         <Box textAlign="center" w="40%">
-                        <Input className='submit' placeholder='Nome de usuário' onChange={e => setFields({name:e.target.value, email:fields.email})} value={fields.name}/>
-                        <Input className='submit' placeholder='E-mail' onChange={e => setFields({name:fields.name, email:e.target.value})} value={fields.email}/>
+                        <Input className='submit' placeholder='Nome de usuário' onChange={handleChange} name="name" value={fields.name}/>
+                        <Input className='submit' placeholder='E-mail' onChange={handleChange} name="email" value={fields.email}/>
                         <Password setTo={setSubPass} value={subPass} placeholder='Senha'/>
                         <Password setTo={setPassword} value={password} placeholder='Confirmar senha'/>
                         <Button type='submit' onClick={handleSubmits}>Enviar</Button>
