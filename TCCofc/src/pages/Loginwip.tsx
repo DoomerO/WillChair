@@ -2,66 +2,111 @@ import '../styles/pages/Login.css';
 import { useState, useEffect } from 'react';
 import Password from '../components/Password';
 import axios from 'axios';
-import { Wrap, Button, Toast, Collapse, Input, useBoolean, Container } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom';
+import { Wrap, Button, Collapse, Input, useBoolean, Container, useToast, Box } from '@chakra-ui/react'
 
 const Loginwip = () => {
+    const [fields, setFields] = useState({
+        name : "",
+        email : ""
+    })
+    const [password, setPassword] = useState("")
+    const [subPass, setSubPass] = useState("")
+    const [screen, setScreen] = useBoolean(false)
+    const toast = useToast()
+    const route = useNavigate()
+    
+    function clearFields(){
+        setFields({
+            name : "",
+            email : ""
+        })
+        setPassword("")
+        setSubPass("")
+    }
+    
+    function callToast(title:string, desc:string, type:any, close:boolean){
+        toast({
+            title: title,
+            description: desc,
+            status: type,
+            duration: 4000,
+            position: 'bottom',
+            isClosable: close
+        })
+    }
 
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [subPass, setSubPass] = useState('');
-    const [passMatch, setPassMatch] = useBoolean(false);
-    const [password, setPassword] = useState('');
+    function handleLogin(){ //Controla login
+        axios.get(`http://localhost:3344/users/login/${fields.email}/${password}`, {
+        }).then(res=> {
+            localStorage.setItem("token", res.data.token);
+            callToast("Usuário encontrado", "Finalizando login...", "success", false)
+            route("../")
+        }).catch(error => {
+            error ? callToast("Erro." ,error.message ? error.message : "Campos não preenchidos", "error", true) : {}
+        });
+        clearFields()
+    }
 
-    function handleSubmits () { //Controla Envios de Formulários
-        if(passMatch){
+    function handleSubmits () { //Controla cadastro
+        if(subPass == password){
             axios.post('http://localhost:3344/users', {
-                user_email: email, 
-                user_name: name,
+                user_email: fields.email, 
+                user_name: fields.name,
                 password: password,
                 user_level: 0}).then(res => {
-                console.log("User Posted")
                 localStorage.setItem("token", res.data.token);
+                callToast("Usuário/a registrado/a.", "Você será redirecionado/a em breve.", "loading", false)
+                route("../")
+                clearFields()
             }).catch(error => {
-                console.log(error)
+                error ? callToast("Erro.", error.message, "error", true) : {}
+                clearFields()
             }); 
+        }
+        else{
+            callToast("Senhas diferentes.", "As senhas não conferem.", "warning", true)
+            setPassword("")
+            setSubPass("")
         }
     }
 
-    const [screen, setScreen] = useBoolean(false)
 
-   useEffect(() => {
-    setEmail('');
-    setName('');
-    setPassword('');
-   }, [screen])
+   useEffect(clearFields, [screen])
 
-   useEffect(() => {
-    password == subPass ? setPassMatch.on : setPassMatch.off;
-   }, [password])
+   window.onkeydown = (e) => {
+    switch(e.key){
+        case "Enter": screen ? handleSubmits() : handleLogin()
+    }
+   }
 
     return (
-        <Container borderRadius='10px' marginTop='10vh' maxW='container.md'
-            padding='2vh' height='fit-content' centerContent>
+        <Container borderRadius='10px' border="solid #000 0.4vh" marginTop='10vh'
+            padding='2vh' centerContent minH="60vh" minW="0%" maxW="40%" paddingTop="5%">
                 <Collapse in={!screen}>
-                    <Wrap justify='center'>
-                        <Input className='submit' placeholder='E-mail ou nome de usuário' onChange={e => setName(e.target.value)} value={name}/>
-                        <Password setTo={setPassword} placeholder='Senha'/>
-                    </Wrap>
-                    <Wrap justify='center' spacing={8}>
+                    <Wrap direction='row' spacing={5} paddingLeft="5%">
+                        <Box textAlign="center" w="40%">
+                        <Input className='submit' placeholder='E-mail' onChange={e => setFields({name:fields.name, email:e.target.value})} value={fields.email}/>
+                        <Password setTo={setPassword} value={password} placeholder='Senha'/>
+                        <Button type='submit' onClick={handleLogin}>Enviar</Button>
+                        </Box>
+                        <Box textAlign="center" w="40%">
                         <Button onClick={setScreen.toggle}>Sign Up</Button>
-                        <Button type='submit' onClick={handleSubmits}>Enviar</Button>
+                        </Box>
                     </Wrap>
                 </Collapse>
                 <Collapse in={screen}>
-                    <Wrap justify='center'>
-                        <Input className='submit' placeholder='Nome de usuário' onChange={e => setName(e.target.value)} value={name}/>
-                        <Input className='submit' placeholder='E-mail' onChange={e => setEmail(e.target.value)} value={email}/>
-                        <Password setTo={setSubPass} placeholder='Senha'/>
-                        <Password setTo={setPassword} placeholder='Confirmar senha'/>
-                    </Wrap>
-                    <Wrap justify='center' spacing={8}>
-                        <Button onClick={setScreen.toggle}>Login</Button>
+                    <Wrap direction='row' spacing={5} paddingLeft="5%">
+                        <Box textAlign="center" w="40%">
+                        <Input className='submit' placeholder='Nome de usuário' onChange={e => setFields({name:e.target.value, email:fields.email})} value={fields.name}/>
+                        <Input className='submit' placeholder='E-mail' onChange={e => setFields({name:fields.name, email:e.target.value})} value={fields.email}/>
+                        <Password setTo={setSubPass} value={subPass} placeholder='Senha'/>
+                        <Password setTo={setPassword} value={password} placeholder='Confirmar senha'/>
                         <Button type='submit' onClick={handleSubmits}>Enviar</Button>
+                        </Box>
+                        <Box textAlign="center" w="40%">
+                        <Button onClick={setScreen.toggle}>Login</Button>
+                        </Box>
                     </Wrap>
                 </Collapse>
         </Container>
