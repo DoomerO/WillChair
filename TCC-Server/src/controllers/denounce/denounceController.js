@@ -29,15 +29,18 @@ module.exports = {
   // Função para criar uma nova denúncia
   async createDenounce(req, res) {
     try {
-      const { den_content, den_date, User_user_id, Offer_ofr_id } = req.body;
+      const { den_content, User_user_id, Offer_ofr_id, den_reason } = req.body;
 
       const userExists = await knex('User').where('user_id', User_user_id);
       const offerExists = await knex('Offer').where('ofr_id', Offer_ofr_id);
+      
+      const den_date = now.getDate() + "/" + now.getMonth() + 1 + "/" + now.getFullYear();
       
       if (userExists && offerExists) {
         await knex('Denounce').insert({
           den_content,
           den_date,
+          den_reason,
           User_user_id,
           Offer_ofr_id
         });
@@ -55,13 +58,13 @@ module.exports = {
   async updateDenounce(req, res) {
     try {
       const {id} = req.params;
-      const { den_content, den_date } = req.body;
+      const { den_content, den_reason } = req.body;
 
       const denounceExists = await knex('Denounce').where('den_id', id);
       if (denounceExists) {
         await knex('Denounce').update({
           den_content,
-          den_date
+          den_reason
         }).where('den_id', id);
 
         return res.status(201).json({ message: 'Denúncia atualizada com sucesso.' });
