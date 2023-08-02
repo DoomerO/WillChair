@@ -80,13 +80,13 @@ const OfferPage = () => {
             <HeaderToggle/>
                 <Flex bg={colors.bgWhite} direction="column" align="center" h="fit-content" pt="10vh" _dark={{bg : colors.bgWhite_Dark}}>
 
-                    <Flex direction="row" h="50vh" w="90%">
-                        <Image src={testImg} objectFit="contain" h="95%" w="30%" noOfLines={1}></Image>
-                        <Divider orientation="vertical" ml="2.5" mr="2.5"/>
-                        <Stack w="65%" h="100%" spacing={8}>
-                            <Heading as="h1" fontFamily="outfit" fontSize={{base: "36px", sm: "34px"}} color={colors.colorFontBlue}>{offer.ofr_name}</Heading>
-                            <Flex direction="row" w="70%">
-                                <SimpleGrid spacing={3} fontSize={{base:"20px", sm:"18px"}}>
+                    <Flex direction={{base:"column", sm:"row"}} h={{base:"fit-content", sm:"50vh"}} w="90%">
+                        <Image src={testImg} objectFit="contain" h={{base:"40vh",sm:"95%"}} w={{base:"100%", sm:"30%"}}></Image>
+                        <Divider orientation="vertical" ml="2.5" mr="2.5" display={{base:"none", sm:"inherit"}}/>
+                        <Stack w={{base:"100%", sm:"65%"}} h="100%" spacing={8}>
+                            <Heading as="h1" fontFamily="outfit" fontSize={{base: "32px", sm: "34px"}} color={colors.colorFontBlue} noOfLines={{sm:1}}>{offer.ofr_name}</Heading>
+                            <Flex direction={{base:"column" , sm:"row"}} w={{base:"100%", sm:"70%"}}>
+                                <SimpleGrid spacing={3} fontSize={{base:"20px", sm:"18px"}} mb={{base:"3%", sm:"none"}}>
                                     <Flex direction="row">
                                         <Text fontFamily="atkinson" mr="5px">Tipo de Oferta:</Text>
                                         <Text fontFamily="atkinson" color={colors.colorFontBlue}>{offer.ofr_type}</Text>
@@ -121,15 +121,15 @@ const OfferPage = () => {
 
                     <Divider/>
 
-                    <Flex direction="row" h="50vh" w="90%">
-                        <Stack w="45%" h="100%" mt="2vh">
-                            <Heading as="h3" fontFamily="outfit" fontSize={{base: "36px", sm: "30px"}} color={colors.colorFontBlue}>Descrição</Heading>
+                    <Flex direction={{base:"column", sm:"row"}} h={{base:"fit_content",sm:"50vh"}} w="90%">
+                        <Stack w={{base:"100%", sm:"45%"}} h={{base:"50vh", sm:"100%"}} mt="2vh">
+                            <Heading as="h3" fontFamily="outfit" fontSize={{base: "32px", sm: "30px"}} color={colors.colorFontBlue}>Descrição</Heading>
                             <Text textAlign="justify" fontSize={{base:"22px", sm:"19px"}}>{offer.ofr_desc}</Text>
                         </Stack>
 
-                        <Divider orientation="vertical" mr="5%" ml="5%"/>
+                        <Divider orientation="vertical" mr="5%" ml="5%" display={{base:"none", sm:"inherit"}}/>
 
-                        <Stack w="45%" h="100%" mt="2vh">
+                        <Stack w={{base:"100%", sm:"45%"}} h={{base:"20vh", sm:"100%"}} mt="2vh" fontSize={{base:"20px", sm:"18px"}}>
                             <Flex direction="row" align="center">
                                 <Avatar name={owner.user_name} src={owner.user_img} mr="2%"></Avatar>
                                 <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{base:"22px", sm:"20px"}} mr="2%">{owner.user_name}</Text>
