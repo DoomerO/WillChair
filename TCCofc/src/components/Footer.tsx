@@ -35,10 +35,10 @@ const Footer = () => {
                         <Link to='/'><BsWhatsapp color='#eee' size='5vh'/></Link>
                     </Container>
                     <Container borderRadius='100%' bg='#4A4A4A' p='15px' _hover={{bg : '#3a3a3a'}}>
-                        <Link to='/'><AiOutlineInstagram color='#eee' size='5vh'/></Link>
+                        <Link to='https://instagram.com/grupo_willchair?igshid=MzRIODBiNWFIZA=='><AiOutlineInstagram color='#eee' size='5vh'/></Link>
                     </Container>
                     <Container borderRadius='100%' bg='#4A4A4A' p='15px' _hover={{bg : '#3a3a3a'}}>
-                        <Link to='/'><CiFacebook color='#eee' size='5vh'/></Link>
+                        <Link to='https://www.facebook.com/profile.php?id=100093288588328&mibextid=/ZbWKwL'><CiFacebook color='#eee' size='5vh'/></Link>
                     </Container>
                 </Stack>
                 <Spacer />
