@@ -52,58 +52,62 @@ const ProdInfoTable = ({ofr_id} : prodTableProps) => {
              case "Bengala":
                 return <Tbody>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Largura</Td>
-                        <Td>{prod.cad_width}cm</Td>
+                        <Td fontWeight="bold">Altura máxima</Td>
+                        <Td>{prod.ben_maxHeight}m</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Largura do Acento</Td>
-                        <Td>{prod.cad_widthSeat}cm</Td>
+                        <Td fontWeight="bold">Altura mínima</Td>
+                        <Td>{prod.ben_minHeight}m</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Tipo de Cadeira</Td>
-                        <Td>{prod.cad_type}</Td>
+                        <Td fontWeight="bold">Tipo de Bengala</Td>
+                        <Td>{prod.ben_type}</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Peso Máximo</Td>
-                        <Td>{prod.cad_maxWeight}kg</Td>
+                        <Td fontWeight="bold">Possui regulador</Td>
+                        <Td>{prod.ben_regulator}</Td>
                     </Tr>
                 </Tbody>
              case "Andador":
                 return <Tbody>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
                         <Td fontWeight="bold">Largura</Td>
-                        <Td>{prod.cad_width}cm</Td>
+                        <Td>{prod.and_width}m</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Largura do Acento</Td>
-                        <Td>{prod.cad_widthSeat}cm</Td>
+                        <Td fontWeight="bold">Comprimento</Td>
+                        <Td>{prod.and_length}m</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Tipo de Cadeira</Td>
-                        <Td>{prod.cad_type}</Td>
+                        <Td fontWeight="bold">Altura Miníma</Td>
+                        <Td>{prod.and_minHeight}</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Peso Máximo</Td>
-                        <Td>{prod.cad_maxWeight}kg</Td>
+                        <Td fontWeight="bold">Altura Máxima</Td>
+                        <Td>{prod.and_maxHeight}</Td>
+                    </Tr>
+                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
+                        <Td fontWeight="bold">Possui regulador</Td>
+                        <Td>{prod.and_regulator}</Td>
                     </Tr>
                 </Tbody>
              case "Muleta":
                 return <Tbody>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Largura</Td>
-                        <Td>{prod.cad_width}cm</Td>
+                        <Td fontWeight="bold">Altura Máxima</Td>
+                        <Td>{prod.mul_maxHeight}cm</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Largura do Acento</Td>
-                        <Td>{prod.cad_widthSeat}cm</Td>
+                        <Td fontWeight="bold">Altura Miníma</Td>
+                        <Td>{prod.mul_minHeigth}cm</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Tipo de Cadeira</Td>
-                        <Td>{prod.cad_type}</Td>
+                        <Td fontWeight="bold">Possui regulador</Td>
+                        <Td>{prod.mul_regulator}</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
                         <Td fontWeight="bold">Peso Máximo</Td>
-                        <Td>{prod.cad_maxWeight}kg</Td>
+                        <Td>{prod.mul_maxWeight}kg</Td>
                     </Tr>
                 </Tbody>
             default:
@@ -112,7 +116,7 @@ const ProdInfoTable = ({ofr_id} : prodTableProps) => {
     }
 
     return (
-        <TableContainer w="80%">
+        <TableContainer w={{base:"100%", sm:"80%"}}>
             <Table variant="unstyled">
                 <TableCaption>Informações sobre o Equipamento</TableCaption>
                 <Tbody>

@@ -50,8 +50,8 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
     const renderMessages = msgRender.map(item => {
         if(item.User_user_id == other.user_id) {
             return <Flex w="100%" key={item.msg_id}>
-                <Box minW="0%" maxW="60%" p="1%" borderRadius="5px" bg={colors.colorFontBlue}>
-                <Text color="#fff">{item.msg_content}</Text>
+                <Box minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.colorFontBlue}>
+                <Text textAlign="justify" color="#fff" fontSize={{base:"20px", sm:"15px"}}>{item.msg_content}</Text>
                 </Box>
                 <Spacer/>
                 </Flex>
@@ -59,20 +59,20 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
         else {
             return <Flex w="100%" key={item.msg_id}>
             <Spacer/>
-            <Box minW="0%" maxW="60%" p="1%" borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
-                <Text>{item.msg_content}</Text>
+            <Box minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
+                <Text fontSize={{base:"20px", sm:"15px"}} textAlign="justify">{item.msg_content}</Text>
             </Box>
             </Flex>
         }
     });
 
     return (
-        <Card w="80vw" bg="#f7f7f7" variant="outline" _dark={{bg : colors.colorFontDarkBlue}}>
+        <Card w={{base:"90%", sm:"80vw"}} bg="#f7f7f7" variant="outline" _dark={{bg : colors.colorFontDarkBlue}}>
             <Flex w="100%" align="center" direction="row" pt="1%" pb="1%">
-                <Avatar name={other.user_name} src={other.user_img} size="sm" mr="2%" ml="2%"/>
-                <Text>{other.user_name}</Text>
+                <Avatar name={other.user_name} src={other.user_img} size={{base:"md", sm:"sm"}} mr="2%" ml="2%"/>
+                <Text fontSize={{base:"20px", sm:"15px"}}>{other.user_name}</Text>
             </Flex>
-            <CardBody minH="50vh" maxH="50vh" overflowY="scroll" css={{
+            <CardBody minH={{base:"60vh" , sm:"50vh"}} maxH={{base:"60vh", sm:"50vh"}} overflowY="scroll" css={{
                         '&::-webkit-scrollbar': {
                         width: '4px',
                         },
@@ -94,7 +94,7 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
             </CardBody>
             <CardFooter>
                 <InputGroup>
-                    <Input maxLength={255} type="text" onKeyDown={handleKeyPress} onChange={handleChange} value={msg}></Input>
+                    <Input maxLength={255} type="text" fontSize={{base:"20px", sm:"15px"}} onKeyDown={handleKeyPress} onChange={handleChange} value={msg}></Input>
                     <InputRightAddon children={<IoMdSend/>} bg="#eee" _dark={{bg:"#0000"}} _hover={{bg:"#aaa", _dark:{bg:"#555"}}}
                     onClick={() => {
                         setMsg("");

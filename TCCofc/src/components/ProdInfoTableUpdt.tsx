@@ -232,7 +232,7 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
     }, [update])
 
     return (
-        <TableContainer w="80%">
+        <TableContainer w={{base:"100%", sm:"80%"}}>
             <Table variant="unstyled">
                 <TableCaption>Informações sobre o Equipamento</TableCaption>
                 <Tbody>
