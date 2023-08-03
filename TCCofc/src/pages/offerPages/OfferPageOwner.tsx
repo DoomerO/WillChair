@@ -266,7 +266,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     </Flex>
 
                     <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.veryLightBlue} _dark={{bg : colors.veryLightBlue_Dark}} pb="5vh">
-                        <Heading noOfLines={1} mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "32px", sm: "30px"}} noOfLines={{base:2, sm:1}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>O que deseja fazer com a Oferta?</Heading>
+                        <Heading mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "32px", sm: "30px"}} noOfLines={{base:2, sm:1}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>O que deseja fazer com a Oferta?</Heading>
                         <ButtonGroup gap={5}>
                             <Button colorScheme="linkedin" variant="solid" onClick={() => {updateOfferOprt()}}>Atualizar</Button>
                             <Button colorScheme="linkedin" variant="solid" onClick={() => { toast({
