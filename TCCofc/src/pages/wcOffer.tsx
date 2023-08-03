@@ -1,4 +1,3 @@
-
 import Footer from "../components/Footer";
 import { Box, Flex, Spacer, Text, Heading, Stack, Container, Input, Select, FormLabel,
     InputGroup, InputLeftElement, Button, ButtonGroup, Textarea } from '@chakra-ui/react';
@@ -19,18 +18,19 @@ const wcOffer = () => {
                     <Flex w='100%' bg={colors.veryLightBlue} h='fit-content' align='center' direction='column' _dark={{bg:colors.bgWhite_Dark}} pb={{base:"5vh", sm:"none"}}>
                         
                         <Stack gap="90" direction={{base: "column", sm: "row"}} >
-                        <Flex direction='column' align='center' w='60vw'  h={{base:'33%' , sm:'90vh'}}>
+                        <Flex direction='column' align='center' w='60vw' fontSize={{base:"20px", sm:"18px"}} h={{base:'33%' , sm:'90vh'}}>
                             <Stack spacing={3}>
-                            <FormLabel>Nome do produto<Input type='text' id='name' 
+                            <FormLabel fontSize={{base:"20px", sm:"18px"}}>Nome do produto<Input type='text' fontSize={{base:"20px", sm:"18px"}} 
                             placeholder='Ex.: Cadeira de Rodas 101M - CDS'/></FormLabel>
-                            <FormLabel>Descrição<Textarea size='lg' h="20vh" textAlign="left" verticalAlign="top"/></FormLabel>    
+                            <FormLabel fontSize={{base:"20px", sm:"18px"}}>Descrição<Textarea size='lg' h="20vh" fontSize={{base:"20px", sm:"18px"}} textAlign="left" verticalAlign="top"/></FormLabel>    
                                     
                             <Flex w='100%' bg='#F7F9FC' h='fit-content' align='center' direction='column' _dark={{bg:'#4f4f4f'}}>
-                                <Flex direction="row" align="center">
-                                        <FormLabel>Peso<Input color="gray"/></FormLabel>
-                                        <FormLabel>Altura<Input color="gray"/></FormLabel>
+                                <Flex direction={{base:"column", sm:"row"}} align="center">
+                                        <FormLabel fontSize={{base:"20px", sm:"18px"}}>Peso<Input color="gray" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
+                                        <FormLabel fontSize={{base:"20px", sm:"18px"}}>Altura<Input color="gray" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
 
-                                        <FormLabel>Tipo de cadeira<Select color="gray">
+                                        <FormLabel fontSize={{base:"20px", sm:"18px"}}>Tipo de cadeira<Select color="gray"
+                                        fontSize={{base:"20px", sm:"18px"}}>
                                                 <option value='option1'>Cadeira manual simples</option>
                                                 <option value='option2'>Cadeira dobrável em X</option>
                                                 <option value='option3'>Cadeira monobloco</option>
@@ -43,16 +43,16 @@ const wcOffer = () => {
                                 </Flex>
                             </Flex>
 
-                            <Flex w='100%' bg='#F7F9FC' h='fit-content' align='center' direction='row' _dark={{bg:'#4f4f4f'}}>
-                                <FormLabel>Largura da cadeira<Input borderColor='gray' color="gray"/></FormLabel>
+                            <Flex w='100%' bg='#F7F9FC' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}} _dark={{bg:'#4f4f4f'}}>
+                                <FormLabel fontSize={{base:"20px", sm:"18px"}}>Largura da cadeira<Input borderColor='gray' color="gray" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
                                 <Spacer/>
-                                <FormLabel>Largura do assento<Input color="gray"/></FormLabel>
+                                <FormLabel fontSize={{base:"20px", sm:"18px"}}>Largura do assento<Input color="gray" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
                             </Flex>
 
                             <Stack spacing={4}>
                                 <InputGroup>
                                     <InputLeftElement pointerEvents='none' color='gray.440' fontSize='1.2em' children='$'/>
-                                    <Input placeholder='Preço' type='number' w="98.5%" />
+                                    <Input fontSize={{base:"20px", sm:"18px"}} placeholder='Preço' type='number' w="98.5%" />
                                 </InputGroup>
                             </Stack>
 
