@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Flex, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button, useColorMode, useBoolean, useColorModeValue } from '@chakra-ui/react';
+import { Flex, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 //imagens
 import logo from '../img/home/logoDark.png'
@@ -7,7 +7,7 @@ import logoLight from '../img/home/logo.png'
 
 const Header = () => {
 
-    const {toggleColorMode, colorMode} = useColorMode();
+    const {toggleColorMode} = useColorMode();
     const logoImg = useColorModeValue(logo, logoLight)
     return (
         <Flex w="100%" h="8.5vh" bg='#fff' position='fixed' _dark={{bg : '#131313'}} boxShadow='lg' zIndex={2}>
@@ -27,7 +27,7 @@ const Header = () => {
                         <Link to="/about"><MenuItem>
                             Sobre nós
                         </MenuItem></Link>
-                        <Link to="/loginw"><MenuItem>
+                        <Link to="/login"><MenuItem>
                             Sign up/in
                         </MenuItem></Link>
                         <MenuItem>
@@ -62,10 +62,10 @@ const Header = () => {
             <Spacer/>
             <Spacer />
             <HStack display={{base: 'none', sm:'inherit'}}>
-                <Link to="/loginw"><Button variant='ghost'>
+                <Link to="/login"><Button variant='ghost'>
                     Sign in
                 </Button></Link>
-                <Link to="/loginw"><Button variant='ghost' color='#1976D2'>
+                <Link to="/login"><Button variant='ghost' color='#1976D2'>
                     Sign Up
                 </Button></Link>
             </HStack>
