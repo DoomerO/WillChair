@@ -4,7 +4,7 @@ module.exports = {
   // Função para buscar todas as denúncias
   async searchdenounce(req, res) { 
     try {
-      const result = await knex('denounce');
+      const result = await knex('Denounce');
       return res.status(201).json(result);
     } catch(error) {
       return res.status(400).json({ error: error.message });
@@ -16,7 +16,7 @@ module.exports = {
     try {
       const { email } = req.params; 
 
-      const user = await knex('user').where('user_email', email);
+      const user = await knex('User').where('user_email', email);
       if (user) {
         const denounces = await knex('denounce').where('User_user_id', user.user_id);
         return res.status(201).json(denounces);
@@ -33,7 +33,7 @@ module.exports = {
 
       const userExists = await knex('User').where('user_id', User_user_id);
       const offerExists = await knex('Offer').where('ofr_id', Offer_ofr_id);
-      
+      const now = new Date();
       const den_date = now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
       
       if (userExists && offerExists) {
