@@ -2,8 +2,9 @@ import '../styles/pages/Login.css';
 import { useState, useEffect, ChangeEvent } from 'react';
 import Password from '../components/Password';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Wrap, Button, Collapse, Input, useBoolean, Container, useToast, Flex } from '@chakra-ui/react'
+import { useNavigate, Link } from 'react-router-dom';
+import { Wrap, Button, Collapse, Input, useBoolean, Container, useToast, Flex, useColorMode, ButtonGroup } from '@chakra-ui/react'
+import { FiArrowLeft, FiSun, FiMoon } from 'react-icons/fi'
 
 const Loginwip = () => {
     const [fields, setFields] = useState({
@@ -33,7 +34,7 @@ const Loginwip = () => {
             title: title,
             description: desc,
             status: type,
-            duration: 4000,
+            duration: 3000,
             position: 'bottom',
             isClosable: close
         })
@@ -63,7 +64,17 @@ const Loginwip = () => {
                 route("../")
                 clearFields()
             }).catch(error => {
-                error ? callToast("Erro.", error.message, "error", true) : {}
+                if(error){
+                    let errorCode:Number = error.response ? error.response.status : 0
+                    let errorMsg:string
+                    switch(errorCode){
+                        case 401: errorMsg = "Todos os campos devem ser preenchidos"
+                        break;
+                        default: errorMsg = "Sem resposta do servidor"
+                        break;
+                    }
+                    callToast("Erro.", errorMsg, "error", true)
+                }
                 clearFields()
             }); 
         }
@@ -82,10 +93,18 @@ const Loginwip = () => {
         case "Enter": screen ? handleSubmits() : handleLogin()
     }
    }
+
+   const {toggleColorMode} = useColorMode();
     
     return (
         <Container borderRadius='10px' border="solid #000 0.4vh" _dark={{border:"solid #1976D2 0.4vh"}} marginTop='10vh'
-            padding='2vh'  minH="80vh" minW="0%" maxW="80%">
+            padding='2vh'  minH="80vh" minW="80%" maxW="fit-content">
+                <ButtonGroup spacing="80%" w="100%" justifyContent="center">
+                <Button><Link to="../"><FiArrowLeft/></Link></Button>
+                <Button onClick={toggleColorMode}>{
+                    localStorage.getItem("chakra-ui-color-mode") == 'light' ? <FiSun/> : <FiMoon/>
+                }</Button>
+                </ButtonGroup>
                 <Collapse in={!screen}>
                     <Wrap direction='row' spacing={0}>
                         <Flex alignContent="center" w="50%" h="100%" direction="column">
@@ -94,21 +113,21 @@ const Loginwip = () => {
                         <Button type='submit' onClick={handleLogin} fontFamily="outfit">Enviar</Button>
                         </Flex>
                         <Flex alignContent="center" w="50%" h="100%" direction="column">
-                        <Button onClick={setScreen.toggle} fontFamily="outfit">Sign Up</Button>
+                        <Button onClick={setScreen.toggle} fontFamily="outfit">Login</Button>
                         </Flex>
                     </Wrap>
                 </Collapse>
                 <Collapse in={screen}>
                     <Wrap direction='row' spacing={0}>
                         <Flex alignContent="center" w="50%" h="100%" direction="column">
+                        <Button onClick={setScreen.toggle} fontFamily="outfit">Cadastro</Button>
+                        </Flex>
+                        <Flex alignContent="center" w="50%" h="100%" direction="column">
                         <Input className='submit' placeholder='Nome de usuário' onChange={handleChange} name="name" value={fields.name} fontFamily="outfit"/>
                         <Input className='submit' placeholder='E-mail' onChange={handleChange} name="email" value={fields.email} fontFamily="outfit"/>
                         <Password setTo={setSubPass} value={subPass} placeholder='Senha'/>
                         <Password setTo={setPassword} value={password} placeholder='Confirmar senha'/>
                         <Button type='submit' onClick={handleSubmits} fontFamily="outfit">Enviar</Button>
-                        </Flex>
-                        <Flex alignContent="center" w="50%" h="100%" direction="column">
-                        <Button onClick={setScreen.toggle} fontFamily="outfit">Login</Button>
                         </Flex>
                     </Wrap>
                 </Collapse>
