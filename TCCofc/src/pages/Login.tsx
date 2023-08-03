@@ -1,9 +1,9 @@
 import '../styles/pages/Login.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import Password from '../components/Password';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Wrap, Button, Collapse, Input, useBoolean, Container, useToast, Box } from '@chakra-ui/react'
+import { Wrap, Button, Collapse, Input, useBoolean, Container, useToast, Flex } from '@chakra-ui/react'
 
 const Loginwip = () => {
     const [fields, setFields] = useState({
@@ -84,32 +84,32 @@ const Loginwip = () => {
    }
     
     return (
-        <Container borderRadius='10px' border="solid #000 0.4vh" marginTop='10vh'
-            padding='2vh' centerContent minH="60vh" minW="0%" maxW="40%" paddingTop="5%">
+        <Container borderRadius='10px' border="solid #000 0.4vh" _dark={{border:"solid #1976D2 0.4vh"}} marginTop='10vh'
+            padding='2vh'  minH="80vh" minW="0%" maxW="80%">
                 <Collapse in={!screen}>
-                    <Wrap direction='row' spacing={5} paddingLeft="5%">
-                        <Box textAlign="center" w="40%">
-                        <Input className='submit' placeholder='E-mail' onChange={handleChange} name="email" value={fields.email}/>
+                    <Wrap direction='row' spacing={0}>
+                        <Flex alignContent="center" w="50%" h="100%" direction="column">
+                        <Input className='submit' placeholder='E-mail' onChange={handleChange} name="email" value={fields.email} fontFamily="outfit"/>
                         <Password setTo={setPassword} value={password} placeholder='Senha'/>
-                        <Button type='submit' onClick={handleLogin}>Enviar</Button>
-                        </Box>
-                        <Box textAlign="center" w="40%">
-                        <Button onClick={setScreen.toggle}>Sign Up</Button>
-                        </Box>
+                        <Button type='submit' onClick={handleLogin} fontFamily="outfit">Enviar</Button>
+                        </Flex>
+                        <Flex alignContent="center" w="50%" h="100%" direction="column">
+                        <Button onClick={setScreen.toggle} fontFamily="outfit">Sign Up</Button>
+                        </Flex>
                     </Wrap>
                 </Collapse>
                 <Collapse in={screen}>
-                    <Wrap direction='row' spacing={5} paddingLeft="5%">
-                        <Box textAlign="center" w="40%">
-                        <Input className='submit' placeholder='Nome de usuário' onChange={handleChange} name="name" value={fields.name}/>
-                        <Input className='submit' placeholder='E-mail' onChange={handleChange} name="email" value={fields.email}/>
+                    <Wrap direction='row' spacing={0}>
+                        <Flex alignContent="center" w="50%" h="100%" direction="column">
+                        <Input className='submit' placeholder='Nome de usuário' onChange={handleChange} name="name" value={fields.name} fontFamily="outfit"/>
+                        <Input className='submit' placeholder='E-mail' onChange={handleChange} name="email" value={fields.email} fontFamily="outfit"/>
                         <Password setTo={setSubPass} value={subPass} placeholder='Senha'/>
                         <Password setTo={setPassword} value={password} placeholder='Confirmar senha'/>
-                        <Button type='submit' onClick={handleSubmits}>Enviar</Button>
-                        </Box>
-                        <Box textAlign="center" w="40%">
-                        <Button onClick={setScreen.toggle}>Login</Button>
-                        </Box>
+                        <Button type='submit' onClick={handleSubmits} fontFamily="outfit">Enviar</Button>
+                        </Flex>
+                        <Flex alignContent="center" w="50%" h="100%" direction="column">
+                        <Button onClick={setScreen.toggle} fontFamily="outfit">Login</Button>
+                        </Flex>
                     </Wrap>
                 </Collapse>
         </Container>
