@@ -35,7 +35,7 @@ const Router = () => {
             <Route Component={CreateOffer} path="/createoffer"/>
             <Route Component={wcOffer} path="/wcoffer"/>
             <Route Component={ConfirmLogOut} path="/logout"/>
-            <Route Component={Report} path="/report"/>
+            <Route Component={Report} path="/report/:offer"/>
             <Route Component={Profile} path="/profile/:email"/>
         </Routes>
     </BrowserRouter>
