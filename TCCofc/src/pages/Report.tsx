@@ -1,29 +1,60 @@
-import { Input } from '@chakra-ui/react';
 import {useState, useEffect, ChangeEvent} from "react";
 import Footer from "../components/Footer";
 import HeaderToggle from "../components/toggles/HeaderToggle";
-import { Box, Flex, Heading, Select, Button, ButtonGroup} from '@chakra-ui/react';
+import { Box, Input, Flex, Heading, Select, Button, ButtonGroup, Stack, VStack, Text, Collapse, Textarea, useToast} from '@chakra-ui/react';
 import axios from "axios";
+import decode from "../components/decoderToken";
+import { useParams, Link } from "react-router-dom";
 
 const Report = () => {
+    const offer = useParams();
+    const toast = useToast();
+    const [select, setSelect] = useState (false)
+    const [user, setUser] = useState(decode(localStorage.getItem("token")));
+    const [userQuery, setQuery] = useState([]);
 
     const [report, setReport] = useState({
         den_reason: "",
         den_content: "",
         User_user_id: 0,
-        Offer_ofr_id: 0
+        Offer_ofr_id: offer
     });
+
+    async function getUser() {
+        await axios.get(`http://localhost:3344/users/email/${user.email}`, {headers: {
+            authorization : "Bearer " + localStorage.getItem("token")
+        }}).then((res) => {
+            setQuery(res.data);
+            console.log(res);
+            setReport(prev => ({...prev, User_user_id:res.data.user_id}))
+        }).catch((error) => {
+          console.log(error);
+        })
+    }
+
+    useEffect(() => {
+        setReport(prev => ({...prev,
+            Offer_ofr_id: offer,
+        }))
+        getUser();
+    }, [offer])
 
     async function postDenounce() {
         await axios.post(`http://localhost:3344/denounce`, {
             den_reason: report.den_reason,
             den_content: report.den_content,
             User_user_id: report.User_user_id,
-            Offer_ofr_id: report.Offer_ofr_id
+            Offer_ofr_id: report.Offer_ofr_id.offer
         }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
-
+            toast({
+                title: 'Denuncia realiada',
+                description: "Cadastramos sua denuncia em breve voce tera una resposta",
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+            })
         }).catch((error) => {
-            console.log(error);
+           console.log(error);
         })
     }
 
@@ -31,32 +62,39 @@ const Report = () => {
         setReport(prev => ({...prev, [e.target.name] : e.target.value}));
     }
 
-    return (
-        <Box w="100%" h="100%">
-            <HeaderToggle/>
-           < Flex w='100%' h='70vh' bg='#F7F9FC' align='center'>
-                <Flex align='left' direction='column' ml={{base: "none", sm: '8%'}} w={{base: "inherit", sm :'50%'}}>
-                    <Heading fontFamily="outfit"  color='#2D3748' as='h1' >Denuncia</Heading>
-                </Flex>
-              
-                <Flex w='100%' h='fit-content' bg='#F7F9FC' align='center' direction='column' _dark={{bg:'#484A4D'}} >
-                <Select placeholder='motivo da denuncia' color={"blue"} background={"blackAlpha.100"} alignSelf={"center"} borderColor='blue' 
-                onChange={handleChange} name="den_reason"> 
-                    <option value='option1'>Golpe</option>
-                    <option value='option2'>Preço abusivo</option>
-                    <option value='option3'>usuario fantasma</option>
-                    <option value='option4'>outro?</option>
-                </Select>
-                
-                <Input placeholder='outro?, qual?'/>
-                
-                <ButtonGroup variant='outline' spacing='6'>
-                    <Button colorScheme='blue'>Enviar</Button>
-                    <Button>Cancelar</Button>
-                </ButtonGroup>
+    const handleSelect = (e:ChangeEvent<HTMLInputElement>) => {
+        if(e.target.value != "4") {
+            setSelect(false);
+            setReport(prev => ({...prev, den_reason : e.target.value}));
+        }
+        else {
+            setSelect(true);
+        }
+    }
 
-                </Flex>
-            </Flex>
+    return (
+        <Box w="100%" h="100%" onClick={() => {console.log(report)}}>
+            <HeaderToggle/>
+            <Stack h="70vh" w="100%" direction="column" pt="5%" align="center">
+                <Heading>Denúncia</Heading>
+                <Text>Qual a sua Denúncia?</Text>
+                <Select w="70vh" onChange={handleSelect} placeholder="selecione o tipo da denuncia">
+                    <option value="Golpe">Golpe</option>
+                    <option value="Abuso">Abuso</option>
+                    <option value="Assédio">Assédio</option>
+                    <option value="Nome inapropriado">Nome inapropriado</option>
+                    <option value="4">Outro</option>
+                </Select>
+                <Collapse in={select}>
+                    <Input placeholder='Tipo de denúncia' w="70vh" onChange={handleChange} name="den_reason"></Input>
+                </Collapse>
+                <Text>De detalhes sobre o ocorrido</Text>
+                <Textarea w="70vh" placeholder="Descreva" onChange={handleChange} name="den_content"/>
+                <ButtonGroup>
+                    <Button onClick={postDenounce}>Enviar</Button>
+                    <Link to={`/offer/${offer.offer}`}><Button>Cancelar</Button></Link>
+                </ButtonGroup>
+            </Stack>
             <Footer/>
         </Box> 
     )
