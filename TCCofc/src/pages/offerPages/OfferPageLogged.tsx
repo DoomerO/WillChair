@@ -5,7 +5,7 @@ import decode from "../../components/decoderToken";
 import { useParams } from "react-router-dom";
 import OfferPageOwner from "./OfferPageOwner";
 
-const OfferPageLoged = () => {
+const OfferPageLogged = () => {
     const {id} = useParams();
     
     const [user, setUser] = useState(decode(localStorage.getItem("token")));
@@ -48,4 +48,4 @@ const OfferPageLoged = () => {
     )
 }
 
-export default OfferPageLoged;
+export default OfferPageLogged;
