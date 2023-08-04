@@ -10,7 +10,7 @@ import wcOffer from "./pages/wcOffer";
 import PageToggle from "./components/toggles/PageToggle";
 import HomeProd from "./pages/HomeProd";
 import ConfirmLogOut from "./pages/intersections/ConfirmLogOut";
-import OfferPageLoged from "./pages/offerPages/OfferPageLoged";
+import OfferPageLogged from "./pages/offerPages/OfferPageLogged";
 import OfferPage from "./pages/offerPages/OfferPage";
 import Report from "./pages/Report";
 import Profile from "./pages/Profile";
@@ -20,7 +20,7 @@ const Router = () => {
         return <PageToggle compError={<Home />} compSucsses={<HomeProd/>}/>
     }
     const toggleOffer = () => {
-        return <PageToggle compError={<OfferPage />} compSucsses={<OfferPageLoged/>}/>
+        return <PageToggle compError={<OfferPage />} compSucsses={<OfferPageLogged/>}/>
     }
 
     return (
