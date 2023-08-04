@@ -1,4 +1,4 @@
-import { Flex, Box, Heading, Input, InputGroup, InputRightAddon, Stack, Spacer, Select } from "@chakra-ui/react";
+import { Flex, Box, Heading, Input, InputGroup, InputRightAddon, Stack, Spacer, Select, FormLabel } from "@chakra-ui/react";
 import { useState, useEffect, ChangeEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -17,7 +17,7 @@ const Search = () => {
     const {query} = useParams();
     const {value} = useParams();
 
-    const [newQuery, setQuery] = useState("any");
+    const [newQuery, setQuery] = useState("name");
     const [search, setSearch] = useState("");
     const [reload, setReload] = useState(false);
     
@@ -43,7 +43,7 @@ const Search = () => {
     const handleChangeSelect = (e:ChangeEvent<HTMLInputElement>) => { //evento de change para select
         e.preventDefault();
         setQuery(e.target.value);
-        if(!newQuery) setQuery("any");
+        if(!newQuery) setQuery("name");
       console.log(optionsRenderList);
     }
 
@@ -168,15 +168,17 @@ const Search = () => {
                         {renderSearchOptions}
                     </Stack>
                     <Spacer/>
-
-                    <Select placeholder="Por onde procurar?" variant="flushed" w={{base:"80%" ,sm:"17%"}} color={colors.colorFontBlue} onChange={handleChangeSelect} mb={{base: "5%", sm:"0"}}>
-                        <option value="user_city">Cidades</option>
+                    <Flex direction="row" align="center">
+                    <FormLabel fontFamily="outfit">Por onde procurar:</FormLabel>
+                    <Select variant="flushed" w="fit-content" color={colors.colorFontBlue} onChange={handleChangeSelect} mb={{base: "5%", sm:"0"}}>
                         <option value="name">Titúlos</option>
+                        <option value="user_city">Cidades</option>
                         <option value="prod_type">Equipamentos</option>
                         <option value="prod_composition">Composição dos Equipamentos</option>
                         <option value="user_name">Nomes de Usuário</option>
                         <option value="ofr_type">Tipos de Ofertas</option>
                     </Select>
+                    </Flex>
                     <Spacer/>
                 </Flex>
                 <Spacer/>

@@ -11,7 +11,6 @@ const OfferPageLogged = () => {
     const [user, setUser] = useState(decode(localStorage.getItem("token")));
     const [userQuery, setUserQuery] = useState([]);
     const [offer, setOffer] = useState([]);
-    const [comp, setComp] = useState<ReactElement>()
 
     async function getUser() {
         await axios.get(`http://localhost:3344/users/email/${user.email}`, {

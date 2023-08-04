@@ -13,7 +13,7 @@ import ConfirmLogOut from "./pages/intersections/ConfirmLogOut";
 import OfferPageLogged from "./pages/offerPages/OfferPageLogged";
 import OfferPage from "./pages/offerPages/OfferPage";
 import Report from "./pages/Report";
-import Profile from "./pages/Profile";
+import ProfileToggle from "./pages/profilePages/ProfileToggle";
 
 const Router = () => {
     const toggleHome = () => {
@@ -21,6 +21,9 @@ const Router = () => {
     }
     const toggleOffer = () => {
         return <PageToggle compError={<OfferPage />} compSucsses={<OfferPageLogged/>}/>
+    }
+    const toggleProfile = () => {
+        return <ProfileToggle/>
     }
 
     return (
@@ -36,7 +39,7 @@ const Router = () => {
             <Route Component={wcOffer} path="/wcoffer"/>
             <Route Component={ConfirmLogOut} path="/logout"/>
             <Route Component={Report} path="/report/:offer"/>
-            <Route Component={Profile} path="/profile/:email"/>
+            <Route Component={toggleProfile} path="/profile/:email"/>
         </Routes>
     </BrowserRouter>
     )
