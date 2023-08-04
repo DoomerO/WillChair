@@ -48,6 +48,10 @@ const wcOffer = () => {
                                 <Spacer/>
                                 <FormLabel fontSize={{base:"20px", sm:"18px"}}>Largura do assento<Input color="gray" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
                             </Flex>
+                                
+                            <Flex w='100%' bg='#F7F9FC' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}} _dark={{bg:'#4f4f4f'}}>
+                            <Input type="file" id="myfile" name="myfile" accept="gif, .jpg, .jpeg, .png" multiple/>
+                            </Flex>
 
                             <Stack spacing={4}>
                                 <InputGroup>
