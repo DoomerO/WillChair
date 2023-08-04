@@ -24,7 +24,8 @@ const ProfileToggle = () => {
     }, [email]);
 
     useEffect(() => {
-        setComp(profile.user_email === user.email ? <ProfileOwn user={profile}/> : <Profile user={profile}/>)
+        if(user)setComp(profile.user_email === user.email ? <ProfileOwn user={profile}/> : <Profile user={profile}/>)
+        else setComp(<Profile user={profile}/>)
     }, [profile])
    
     return (

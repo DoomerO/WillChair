@@ -1,4 +1,4 @@
-import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Button} from "@chakra-ui/react";
+import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Button, useToast} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -17,6 +17,8 @@ import {GiUncertainty} from "react-icons/gi";
 import CardOffer from "../../components/offerCards/OfferCard";
 import OfferList from "../../components/offerCards/OfferList";
 import SignNotFound from "../../components/SignNotFound";
+import { useNavigate } from "react-router-dom";
+import { MdOutlineReport } from "react-icons/md";
 
 interface ChatPage {
     offer : object;
@@ -29,6 +31,8 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
     const [recomended, setRecom] = useState([]);
     const [chat, setChat] = useState([]);
     const [chatBool, setChatBool] = useState(false);
+    const toast = useToast();
+    const navigate = useNavigate();
     let renderTest = false;
 
     async function createChat() {
@@ -127,7 +131,7 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
                         <Stack w={{base:"100%", sm:"65%"}} h="100%" spacing={8}>
                             <Heading as="h1" fontFamily="outfit" fontSize={{base: "32px", sm: "34px"}} color={colors.colorFontBlue} noOfLines={{sm:1}}>{offer.ofr_name}</Heading>
                             <Flex direction={{base:"column" , sm:"row"}} w={{base:"100%", sm:"70%"}}>
-                                <SimpleGrid spacing={3} fontSize={{base:"20px", sm:"18px"}} mb={{base:"3%", sm:"none"}}>
+                                <SimpleGrid spacing={3} fontSize={{base:"20px", sm:"18px"}}>
                                     <Flex direction="row">
                                         <Text fontFamily="atkinson" mr="5px">Tipo de Oferta:</Text>
                                         <Text fontFamily="atkinson" color={colors.colorFontBlue}>{offer.ofr_type}</Text>
@@ -176,6 +180,20 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
                                 <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{base:"22px", sm:"20px"}} mr="2%">{owner.user_name}</Text>
                                 <BsFillStarFill fill={colors.colorFontBlue}/>
                                 <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}} fontSize={{base:"22px", sm:"20px"}}>{(owner.user_nota) ? owner.user_nota : 0.0}</Text>
+                                <Spacer/>
+                                <Button variant="ghost" w="fit-content" onClick={() => {
+                                toast({
+                                    position: 'bottom',
+                                    render: () => (
+                                        <Stack bg="red.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                                            <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Certeza que deseja denunciar essa oferta?</Text>
+                                            <Stack direction="row">
+                                                <Button color="#fff" _hover={{bg:"#fff2"}} variant="outline" onClick={() => {navigate(`/report/${offer.ofr_id}`), toast.closeAll()}}>Sim</Button>
+                                                <Button color="#fff" _hover={{bg:"#fff2"}} variant="outline" onClick={() => {toast.closeAll()}}>Não</Button>    
+                                            </Stack>
+                                        </Stack>
+                                    )})
+                            }}><MdOutlineReport size="5vh"/></Button>
                             </Flex>
                             <Flex direction="row">
                                 <Text fontFamily="atkinson" mr="5px">Email:</Text>

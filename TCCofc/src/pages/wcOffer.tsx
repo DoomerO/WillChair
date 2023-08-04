@@ -34,7 +34,7 @@ const wcOffer = () => {
             ofr_status : "Livre",
             ofr_parcelas : formInputs
         }, {headers : {
-            authorization : "Bearer " + localStorage.getItem("token");
+            authorization : "Bearer " + localStorage.getItem("token")
         }})
     }
 

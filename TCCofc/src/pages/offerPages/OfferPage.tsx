@@ -1,6 +1,6 @@
-import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider} from "@chakra-ui/react";
+import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Button, useToast} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 import HeaderToggle from "../../components/toggles/HeaderToggle";
@@ -13,6 +13,7 @@ import "../../fonts/fonts.css";
 import {BsFillStarFill} from "react-icons/bs";
 import {BiConfused} from "react-icons/bi";
 import {GiUncertainty} from "react-icons/gi";
+import {MdOutlineReport} from "react-icons/md";
 import SignNotFoundButton from "../../components/SignNotFoundButton";
 import CardOffer from "../../components/offerCards/OfferCard";
 import OfferList from "../../components/offerCards/OfferList";
@@ -21,6 +22,8 @@ import SignNotFound from "../../components/SignNotFound";
 const OfferPage = () => {
     const {id} = useParams();
 
+    const navigate = useNavigate();
+    const toast = useToast();
     const [offer, setOffer] = useState([""]);
     const [owner, setOwner] = useState([]);
     const [recomended, setRecom] = useState([]);
@@ -86,7 +89,7 @@ const OfferPage = () => {
                         <Stack w={{base:"100%", sm:"65%"}} h="100%" spacing={8}>
                             <Heading as="h1" fontFamily="outfit" fontSize={{base: "32px", sm: "34px"}} color={colors.colorFontBlue} noOfLines={{sm:1}}>{offer.ofr_name}</Heading>
                             <Flex direction={{base:"column" , sm:"row"}} w={{base:"100%", sm:"70%"}}>
-                                <SimpleGrid spacing={3} fontSize={{base:"20px", sm:"18px"}} mb={{base:"3%", sm:"none"}}>
+                                <SimpleGrid spacing={3} fontSize={{base:"20px", sm:"18px"}}>
                                     <Flex direction="row">
                                         <Text fontFamily="atkinson" mr="5px">Tipo de Oferta:</Text>
                                         <Text fontFamily="atkinson" color={colors.colorFontBlue}>{offer.ofr_type}</Text>
@@ -135,6 +138,20 @@ const OfferPage = () => {
                                 <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{base:"22px", sm:"20px"}} mr="2%">{owner.user_name}</Text>
                                 <BsFillStarFill fill={colors.colorFontBlue}/>
                                 <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}} fontSize={{base:"22px", sm:"20px"}}>{(owner.user_nota) ? owner.user_nota : 0.0}</Text>
+                                <Spacer/>
+                                <Button variant="ghost" w="fit-content" onClick={() => {
+                                toast({
+                                    position: 'bottom',
+                                    render: () => (
+                                        <Stack bg="red.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                                            <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Para denunciar a oferta é necessário estar logado...</Text>
+                                            <Stack direction="row">
+                                                <Button color="#fff" _hover={{bg:"#fff2"}} variant="outline" onClick={() => {navigate("/login"), toast.closeAll()}}>Realizar Login</Button>
+                                                <Button color="#fff" _hover={{bg:"#fff2"}} variant="outline" onClick={() => {toast.closeAll()}}>Cancelar</Button>    
+                                            </Stack>
+                                        </Stack>
+                                    )})
+                            }}><MdOutlineReport size="5vh"/></Button>
                             </Flex>
                             <Flex direction="row">
                                 <Text fontFamily="atkinson" mr="5px">Email:</Text>

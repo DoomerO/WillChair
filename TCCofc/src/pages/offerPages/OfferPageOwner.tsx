@@ -29,6 +29,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     const [chats, setChats] = useState([]);
     const [others, setOthers] = useState([]);
     const [ updateOffer, setUpdateOffer ] = useState({
+        prod_img : offer.prod_img,
         ofr_name : offer.ofr_name,
         ofr_type : offer.ofr_type,
         ofr_status : offer.ofr_status,
@@ -41,7 +42,8 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
 
     useEffect(() => {
         const canceltoken = axios.CancelToken.source();
-        setUpdateOffer(prev => ({...prev, 
+        setUpdateOffer(prev => ({...prev,
+            prod_img: offer.prod_img,
             ofr_name : offer.ofr_name,
             ofr_type : offer.ofr_type,
             ofr_status : offer.ofr_status,
@@ -68,11 +70,6 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         }
     }, [chats])
 
-    const handleChangeOffer = (e:ChangeEvent<HTMLInputElement>) => {
-        setUpdateOffer(prev => ({...prev, [e.target.name]:e.target.value}));
-        console.log(updateOffer);
-    }
-
     async function updateOfferOprt() {
         await axios.put(`http://localhost:3344/offers/${offer.ofr_id}`, {
             ofr_name: updateOffer.ofr_name,
@@ -90,10 +87,20 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                 render: () => (
                     <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                         <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Oferta atualizada com sucesso!</Text>
-                        <Button onClick={() => {navigate(0)}}>Atualizar a página</Button>
+                        <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate(0)}}>Atualizar a página</Button>
                     </Stack>
                 )
             })
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    async function updateProdimg() {
+        await axios.put(`http://localhost:3344/products/${offer.Product_prod_id}`, {
+            prod_img : updateOffer.prod_img
+        },{
+            headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).catch((error) => {
             console.log(error);
         })
@@ -152,6 +159,11 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         return <option value={others.indexOf(item)} key={item.data.user_id}>{item.data.user_name}</option>
     });
 
+    const handleChangeOffer = (e:ChangeEvent<HTMLInputElement>) => {
+        setUpdateOffer(prev => ({...prev, [e.target.name]:e.target.value}));
+        console.log(updateOffer);
+    }
+
     const handleChangeSelect = (e:ChangeEvent<HTMLInputElement>) => {
         if(e.target.value != "") {
             setChatUser(others[parseInt(e.target.value)]);
@@ -163,13 +175,22 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         }
     }
 
+    const handleImage = (e:ChangeEvent<HTMLInputElement>) => {
+        setUpdateOffer(prev => ({...prev, ofr_img: e.target.value}))
+    }
+
     return (
         <Box w="100%" h="100%">
             <HeaderToggle/>
                 <Flex bg={colors.bgWhite} direction="column" align="center" h="fit-content" pt="10vh" _dark={{bg : colors.bgWhite_Dark}}>
 
                     <Flex direction={{base:"column", sm:"row"}} h={{base:"fit-content", sm:"50vh"}} w="90%">
-                    <Image src={testImg} objectFit="contain" h={{base:"40vh",sm:"95%"}} w={{base:"100%", sm:"30%"}}></Image>
+
+                    <Flex direction="column" w={{base:"100%", sm:"30%"}}>
+                        <Image src={offer.prod_img} objectFit="contain" h={{base:"40vh",sm:"95%"}}></Image>
+                        <Input type="file" onChange={handleImage} accept=".png,.jpg,.jpeg"/>
+                    </Flex>
+                    
                     <Divider orientation="vertical" ml="2.5" mr="2.5" display={{base:"none", sm:"inherit"}}/>
                         <Stack w={{base:"100%", sm:"65%"}} h="100%" spacing={8}>
                             <Stack direction="row">
@@ -268,7 +289,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.veryLightBlue} _dark={{bg : colors.veryLightBlue_Dark}} pb="5vh">
                         <Heading mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "32px", sm: "30px"}} noOfLines={{base:2, sm:1}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>O que deseja fazer com a Oferta?</Heading>
                         <ButtonGroup gap={5}>
-                            <Button colorScheme="linkedin" variant="solid" onClick={() => {updateOfferOprt()}}>Atualizar</Button>
+                            <Button colorScheme="linkedin" variant="solid" onClick={() => {updateOfferOprt(), updateProdimg()}}>Atualizar</Button>
                             <Button colorScheme="linkedin" variant="solid" onClick={() => { toast({
                                 position: 'bottom',
                                 render: () => (
