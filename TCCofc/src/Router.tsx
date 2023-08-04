@@ -31,6 +31,7 @@ const Router = () => {
         <Routes>
             <Route Component={toggleHome} path="/"/>
             <Route Component={Login} path="/login"/>
+            <Route Component={Login} path="/login/:screen"/>
             <Route Component={Search} path="/search/:query/:value"/>
             <Route Component={About} path="/about"/>
             <Route Component={Contact} path="/contact"/>

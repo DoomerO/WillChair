@@ -28,11 +28,11 @@ const Header = () => {
                             Sobre nós
                         </MenuItem></Link>
                         <Link to="/login"><MenuItem>
-                            Sign up/in
+                            Entrar
                         </MenuItem></Link>
-                        <MenuItem>
-                            ou alguma coisa
-                        </MenuItem>
+                        <Link to="/login/new"><MenuItem>
+                            Cadastrar
+                        </MenuItem></Link>
                         <MenuItem onClick={toggleColorMode}>
                             Dark Mode
                         </MenuItem>
@@ -63,10 +63,10 @@ const Header = () => {
             <Spacer />
             <HStack display={{base: 'none', sm:'inherit'}}>
                 <Link to="/login"><Button variant='ghost'>
-                    Sign in
+                    Entrar
                 </Button></Link>
-                <Link to="/login"><Button variant='ghost' color='#1976D2'>
-                    Sign Up
+                <Link to="/login/new"><Button variant='ghost' color='#1976D2'>
+                    Cadastrar
                 </Button></Link>
             </HStack>
         </Flex>

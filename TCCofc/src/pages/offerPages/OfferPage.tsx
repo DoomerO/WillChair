@@ -158,7 +158,7 @@ const OfferPage = () => {
 
                     <Flex w="100%" h="fit-content" mt="3%" mb="3%" align="center" direction="column">
                         <Heading noOfLines={1} mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "36px", sm: "30px"}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>Chat com {owner.user_name}</Heading>
-                        <SignNotFoundButton msg="Pelo visto você não pode acessar o chat sem uma conta... Que tal se cadastrar no sistema ou fazer login?" icon={<BiConfused size="45%"/>} btnText="Login" btnPath="/loginw"/>
+                        <SignNotFoundButton msg="Pelo visto você não pode acessar o chat sem uma conta... Que tal se cadastrar no sistema ou fazer login?" icon={<BiConfused size="45%"/>} btnText="Login" btnPath="/login/new"/>
                     </Flex>
                 </Flex>
 

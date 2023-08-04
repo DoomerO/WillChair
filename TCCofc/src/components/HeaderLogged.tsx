@@ -31,9 +31,6 @@ const HeaderLogged = ({name, img}: avatarProps) => {
                         <Link to="/about"><MenuItem>
                             Sobre nós
                         </MenuItem></Link>
-                        <Link to="/login"><MenuItem>
-                            Sign up/in
-                        </MenuItem></Link>
                         <Link to="/logout"><MenuItem>
                             Log Out
                         </MenuItem></Link>

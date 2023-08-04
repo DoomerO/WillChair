@@ -2,8 +2,8 @@ import '../styles/pages/Login.css';
 import { useState, useEffect, ChangeEvent } from 'react';
 import Password from '../components/Password';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
-import { Wrap, Button, Collapse, Input, useBoolean, Container, useToast, Flex, useColorMode, ButtonGroup } from '@chakra-ui/react'
+import { useNavigate, Link, useParams } from 'react-router-dom';
+import { Wrap, Button, Collapse, Input, useBoolean, Container, useToast, Flex, useColorMode, ButtonGroup, Text } from '@chakra-ui/react'
 import { FiArrowLeft, FiSun, FiMoon } from 'react-icons/fi'
 
 const Loginwip = () => {
@@ -11,9 +11,10 @@ const Loginwip = () => {
         name : "",
         email : ""
     })
+    const logOrSign = useParams()
     const [password, setPassword] = useState("")
     const [subPass, setSubPass] = useState("")
-    const [screen, setScreen] = useBoolean(false)
+    const [screen, setScreen] = useBoolean(logOrSign.screen == "new" ? true : false)
     const toast = useToast()
     const route = useNavigate()
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +91,7 @@ const Loginwip = () => {
 
    window.onkeydown = (e) => {
     switch(e.key){
-        case "Enter": screen ? handleSubmits() : handleLogin()
+        case "Enter": screen ? handleSubmits() : handleLogin();break;
     }
    }
 
@@ -113,14 +114,14 @@ const Loginwip = () => {
                         <Button type='submit' onClick={handleLogin} fontFamily="outfit">Enviar</Button>
                         </Flex>
                         <Flex alignContent="center" w="50%" h="100%" direction="column">
-                        <Button onClick={setScreen.toggle} fontFamily="outfit">Login</Button>
+                        <Button onClick={setScreen.toggle} fontFamily="outfit">Cadastro</Button>
                         </Flex>
                     </Wrap>
                 </Collapse>
                 <Collapse in={screen}>
                     <Wrap direction='row' spacing={0}>
                         <Flex alignContent="center" w="50%" h="100%" direction="column">
-                        <Button onClick={setScreen.toggle} fontFamily="outfit">Cadastro</Button>
+                        <Button onClick={setScreen.toggle} fontFamily="outfit">Login</Button>
                         </Flex>
                         <Flex alignContent="center" w="50%" h="100%" direction="column">
                         <Input className='submit' placeholder='Nome de usuário' onChange={handleChange} name="name" value={fields.name} fontFamily="outfit"/>

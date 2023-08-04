@@ -14,7 +14,7 @@ const TokenErrorPage = () => {
                     <Text fontSize={{base: "23px", sm:"25px"}}>Clique no botão abaixo para renová-lo</Text>    
                 </Flex>
                 <AiOutlineArrowDown size="5vh"/>
-                <Link to="/loginw"><Button variant="solid" colorScheme="linkedin" mt="0.5%">Login</Button></Link>
+                <Link to="/login"><Button variant="solid" colorScheme="linkedin" mt="0.5%">Login</Button></Link>
             </Flex>
        </Box>
     )
