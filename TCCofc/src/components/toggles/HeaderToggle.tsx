@@ -1,7 +1,7 @@
 import decode from "../decoderToken";
 
 import Header from "../Header";
-import HeaderLoged from "../HeaderLoged";
+import HeaderLogged from "../HeaderLogged";
 
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
