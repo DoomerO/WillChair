@@ -73,10 +73,26 @@ const Report = () => {
         }
     }
 
+    function checkInputs() {
+        if(report.den_reason == "" || report.den_content == "") {
+            toast({
+                title: 'Erro nos dados',
+                description: "Preencha todas os campos para realizar a denúncia.",
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+            })
+        }
+        else {
+            postDenounce()
+        }
+    }
+
+
     return (
         <Box w="100%" h="100%" onClick={() => {console.log(report)}} >
             <HeaderToggle/>
-            <Stack h="90vh"  direction="column" pt="5%" align="center">
+            <Stack h="95vh"  direction="column" pt="5%" align="center">
             <Image w={"20vh"} h={"10vh"}  fallbackSrc='https://img.freepik.com/vetores-gratis/desenhos-animados-minusculos-gerentes-com-alto-falante-gigante-e-laptop-ilustracao-plana_74855-16816.jpg?w=740&t=st=1691106381~exp=1691106981~hmac=bfc84e55272efbc7542a8dce04e4d6c006250fb9ea22d91323d94cdf6f672d1a' />
                 <Heading >Faça sua denúncia</Heading>
                 <Text>Qual a sua denúncia?</Text>
@@ -99,8 +115,8 @@ const Report = () => {
                 <Text>Dê detalhes sobre o ocorrido</Text>
                 <Textarea w="90vh" h="25vh" placeholder="Descreva" onChange={handleChange} name="den_content"/>
                 <ButtonGroup>
-                    <Button onClick={postDenounce} color={"blue"}>Enviar</Button>
-                    <Link to={`/offer/${offer.offer}`}><Button color={"blue"}>Cancelar</Button></Link>
+                    <Button onClick={checkInputs} color={"blue"} _dark={{color: "#fff"}}>Enviar</Button>
+                    <Link to={`/offer/${offer.offer}`}><Button color={"blue"} _dark={{color: "#fff"}}>Cancelar</Button></Link>
                 </ButtonGroup>
             </Stack>
             <Footer/>
