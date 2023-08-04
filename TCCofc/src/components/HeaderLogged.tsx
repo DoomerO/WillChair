@@ -10,7 +10,7 @@ interface avatarProps {
     img: string
 }
 
-const HeaderLoged = ({name, img}: avatarProps) => {
+const HeaderLogged = ({name, img}: avatarProps) => {
     const {toggleColorMode} = useColorMode();
     const logoImg = useColorModeValue(logo, logoLight) //muda o valor de lago a partir do modo de cor que estiver ativo
     return (
@@ -72,4 +72,4 @@ const HeaderLoged = ({name, img}: avatarProps) => {
     )
 }
 
-export default HeaderLoged;
+export default HeaderLogged;
