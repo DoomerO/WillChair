@@ -1,10 +1,11 @@
 import {useState, useEffect, ChangeEvent} from "react";
 import Footer from "../components/Footer";
 import HeaderToggle from "../components/toggles/HeaderToggle";
-import { Box, Input, Flex, Heading, Select, Button, ButtonGroup, Stack, VStack, Text, Collapse, Textarea, useToast} from '@chakra-ui/react';
+import { Box, Input, Flex, Heading, Select, Button, ButtonGroup, Stack, VStack, Text, Collapse, Textarea, useToast, Image} from '@chakra-ui/react';
 import axios from "axios";
 import decode from "../components/decoderToken";
 import { useParams, Link } from "react-router-dom";
+
 
 const Report = () => {
     const offer = useParams();
@@ -73,12 +74,13 @@ const Report = () => {
     }
 
     return (
-        <Box w="100%" h="100%" onClick={() => {console.log(report)}}>
+        <Box w="100%" h="100%" onClick={() => {console.log(report)}} >
             <HeaderToggle/>
-            <Stack h="70vh" w="100%" direction="column" pt="5%" align="center">
-                <Heading>Denúncia</Heading>
+            <Stack h="90vh"  direction="column" pt="5%" align="center">
+            <Image w={"20vh"} h={"10vh"}  fallbackSrc='https://img.freepik.com/vetores-gratis/desenhos-animados-minusculos-gerentes-com-alto-falante-gigante-e-laptop-ilustracao-plana_74855-16816.jpg?w=740&t=st=1691106381~exp=1691106981~hmac=bfc84e55272efbc7542a8dce04e4d6c006250fb9ea22d91323d94cdf6f672d1a' />
+                <Heading >Denúncia</Heading>
                 <Text>Qual a sua Denúncia?</Text>
-                <Select w="70vh" onChange={handleSelect} placeholder="selecione o tipo da denuncia">
+                <Select w="90vh" onChange={handleSelect} placeholder="selecione o tipo da denuncia">
                     <option value="Golpe">Golpe</option>
                     <option value="Abuso">Abuso</option>
                     <option value="Assédio">Assédio</option>
@@ -86,13 +88,13 @@ const Report = () => {
                     <option value="4">Outro</option>
                 </Select>
                 <Collapse in={select}>
-                    <Input placeholder='Tipo de denúncia' w="70vh" onChange={handleChange} name="den_reason"></Input>
+                    <Input placeholder='Tipo de denúncia' w="90vh" onChange={handleChange} name="den_reason"></Input>
                 </Collapse>
                 <Text>De detalhes sobre o ocorrido</Text>
-                <Textarea w="70vh" placeholder="Descreva" onChange={handleChange} name="den_content"/>
+                <Textarea w="90vh" h="30vh" placeholder="Descreva" onChange={handleChange} name="den_content"/>
                 <ButtonGroup>
-                    <Button onClick={postDenounce}>Enviar</Button>
-                    <Link to={`/offer/${offer.offer}`}><Button>Cancelar</Button></Link>
+                    <Button onClick={postDenounce} color={"blue"}>Enviar</Button>
+                    <Link to={`/offer/${offer.offer}`}><Button color={"blue"}>Cancelar</Button></Link>
                 </ButtonGroup>
             </Stack>
             <Footer/>
