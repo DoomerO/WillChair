@@ -30,14 +30,13 @@ const Loginwip = () => {
         setSubPass("")
     }
     
-    function callToast(title:string, desc:string, type:any, close:boolean){
+    function callToast(title:string, desc:string, duration:number, type?:any){
         toast({
             title: title,
             description: desc,
             status: type,
-            duration: 3000,
+            duration: duration,
             position: 'bottom',
-            isClosable: close
         })
     }
 
@@ -45,11 +44,23 @@ const Loginwip = () => {
         axios.get(`http://localhost:3344/users/login/${fields.email}/${password}`, {
         }).then(res=> {
             localStorage.setItem("token", res.data.token);
-            callToast("Usuário encontrado", "Finalizando login...", "success", false)
+            callToast("Usuário(a) encontrado(a)", "Finalizando login...", 2000, "success")
             route("../")
         }).catch(error => {
-            error ? callToast("Erro." ,error.message ? error.message : "Campos não preenchidos", "error", true) : {}
-        });
+            if(error){
+                let errorCode:Number = error.response ? error.response.status : 0
+                let errorMsg:string
+                console.log(error.response.status)
+                switch(errorCode){
+                    case 401: errorMsg = "Usuário(a) não encontrado(a)"
+                    break;
+                    case 404: errorMsg = "Todos os campos devem ser preenchidos"
+                    break;
+                    default: errorMsg = "Sem resposta do servidor"
+                    break;
+                }
+                callToast("Erro.", errorMsg, 3000, "error")
+        }});
         clearFields()
     }
 
@@ -61,26 +72,27 @@ const Loginwip = () => {
                 password: password,
                 user_level: 0}).then(res => {
                 localStorage.setItem("token", res.data.token);
-                callToast("Usuário/a registrado/a.", "Você será redirecionado/a em breve.", "loading", false)
+                callToast("Usuário(a) registrado(a).", "Você será redirecionado(a) em breve.", 2000, "loading")
                 route("../")
                 clearFields()
             }).catch(error => {
                 if(error){
                     let errorCode:Number = error.response ? error.response.status : 0
                     let errorMsg:string
+                    console.log(error.response.status)
                     switch(errorCode){
                         case 401: errorMsg = "Todos os campos devem ser preenchidos"
                         break;
                         default: errorMsg = "Sem resposta do servidor"
                         break;
                     }
-                    callToast("Erro.", errorMsg, "error", true)
+                    callToast("Erro.", errorMsg, 3000, "error")
                 }
                 clearFields()
             }); 
         }
         else{
-            callToast("Senhas diferentes.", "As senhas não conferem.", "warning", true)
+            callToast("Senhas diferentes.", "As senhas não conferem.", 2000, "warning")
             setPassword("")
             setSubPass("")
         }
@@ -109,7 +121,7 @@ const Loginwip = () => {
                     <Text fontFamily="outfit" fontSize="200%" textAlign="center" w="50%" pb="3%" pt="3%">Login</Text>
                     <Wrap direction='row' spacing={0}>
                         <Flex alignContent="center" w="46%" h="100%" direction="column" m="2%">
-                        <Input className='submit' placeholder='E-mail' onChange={handleChange} name="email" value={fields.email} fontFamily="outfit"/>
+                        <Input className='submit' placeholder='E-mail' pattern="(?=.){1,64}@([\w-]+\.)+[\w-]{2,4}" onChange={handleChange} name="email" value={fields.email} fontFamily="outfit"/>
                         <Password setTo={setPassword} value={password} placeholder='Senha'/>
                         <Button type='submit' onClick={handleLogin} fontFamily="outfit">Enviar</Button>
                         </Flex>
@@ -126,7 +138,7 @@ const Loginwip = () => {
                         </Flex>
                         <Flex alignContent="center" w="46%" h="100%" m="2%" direction="column">
                         <Input className='submit' placeholder='Nome de usuário' onChange={handleChange} name="name" value={fields.name} fontFamily="outfit"/>
-                        <Input className='submit' placeholder='E-mail' onChange={handleChange} name="email" value={fields.email} fontFamily="outfit"/>
+                        <Input className='submit' placeholder='E-mail' pattern="(?=.){1,64}@([\w-]+\.)+[\w-]{2,4}" onChange={handleChange} name="email" value={fields.email} fontFamily="outfit"/>
                         <Password setTo={setSubPass} value={subPass} placeholder='Senha'/>
                         <Password setTo={setPassword} value={password} placeholder='Confirmar senha'/>
                         <Button type='submit' onClick={handleSubmits} fontFamily="outfit">Enviar</Button>
