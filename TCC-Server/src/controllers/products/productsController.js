@@ -28,6 +28,17 @@ module.exports = {
         }
     },
 
+    async searchProductKey(req, res) {
+        try {
+            const {key} = req.params;
+            const result = await knex("Product").where("prod_key", key);
+            return res.status(201).json(result);
+        }
+        catch(error) {
+            return res.status(400).json({error : error.message});
+        }
+    },
+
     async searchProductId(req, res) {
         try {
             const {id} = req.params;
@@ -105,6 +116,11 @@ module.exports = {
             const {prod_weight} = req.body;
             const {prod_type} = req.body;
             const {prod_composition} = req.body;
+            const {prod_key} = req.body;
+
+            if(await knex("Product").where("prod_key", prod_key) != "") {
+                return res.status(401).json({msg: "There is alredy a product with this key"});
+            }
 
             await knex('Product').insert({
                 prod_img,
@@ -112,7 +128,8 @@ module.exports = {
                 prod_composition,
                 prod_status,
                 prod_type,
-                prod_weight
+                prod_weight,
+                prod_key
             });
             return res.status(201).json({msg : 'The product was properly registred'});
         }
