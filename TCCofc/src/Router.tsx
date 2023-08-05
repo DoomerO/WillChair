@@ -17,10 +17,10 @@ import ProfileToggle from "./pages/profilePages/ProfileToggle";
 
 const Router = () => {
     const toggleHome = () => {
-        return <PageToggle compError={<Home />} compSucsses={<HomeProd/>}/>
+        return <PageToggle compError={<Home />} compSuccess={<HomeProd/>}/>
     }
     const toggleOffer = () => {
-        return <PageToggle compError={<OfferPage />} compSucsses={<OfferPageLogged/>}/>
+        return <PageToggle compError={<OfferPage />} compSuccess={<OfferPageLogged/>}/>
     }
     const toggleProfile = () => {
         return <ProfileToggle/>
