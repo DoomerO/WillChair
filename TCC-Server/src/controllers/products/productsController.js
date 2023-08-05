@@ -448,7 +448,7 @@ module.exports = {
                     break;
                 }
                 await knex('Product').del().where('prod_id', id);
-                return res.status(201).json({msg : "Product deleted with sucsses"});
+                return res.status(201).json({msg : "Product deleted with success"});
             }
             else {
                 return res.status(400).json({msg : "This product does not exists"});
