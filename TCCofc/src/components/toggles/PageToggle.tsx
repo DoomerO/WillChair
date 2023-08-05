@@ -7,10 +7,10 @@ import axios from "axios";
 
 interface toggleProps {
     compError: React.ReactElement,
-    compSucsses: React.ReactElement
+    compSuccess: React.ReactElement
 }
 
-const PageToggle = ({compError, compSucsses}: toggleProps) => {
+const PageToggle = ({compError, compSuccess}: toggleProps) => {
 
     const [comp, setComp] = useState<React.ReactElement>();
 
@@ -28,8 +28,8 @@ const PageToggle = ({compError, compSucsses}: toggleProps) => {
 
             await axios.get(`http://localhost:3344/users/email/${email}`, {headers: {
                 authorization : "Bearer " + localStorage.getItem("token")
-            }}).then(res => {
-                setComp(compSucsses)
+            }}).then(() => {
+                setComp(compSuccess)
             }).catch(error => {
                console.log(error);
                setComp(<TokenErrorPage/>);
