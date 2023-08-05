@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`User` (
   `user_CEP` VARCHAR(10) NULL,
   `user_nota` INT NULL,
   `user_name` VARCHAR(45) NULL,
-  `user_img` MEDIUMBLOB NULL,
+  `user_img` BLOB NULL,
   `user_comp` VARCHAR(30) NULL,
   PRIMARY KEY (`user_id`))
 ENGINE = InnoDB;
@@ -43,9 +43,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `willchair`.`Product` (
   `prod_id` INT NOT NULL AUTO_INCREMENT,
-  `prod_img` MEDIUMBLOB NULL,
+  `prod_img` BLOB NULL,
+  `prod_key` VARCHAR(10) NOT NULL,
   `prod_status` VARCHAR(10) NOT NULL,
-  `prod_height` VARCHAR(10) NULL,
+  `prod_height` DECIMAL NULL,
   `prod_type` VARCHAR(20) NOT NULL,
   `prod_weight` DECIMAL NULL,
   `prod_composition` VARCHAR(10) NULL,
