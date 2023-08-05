@@ -55,6 +55,7 @@ routes.get('/products', auth, controllersProducts.searchProducts);
 routes.get('/products/offer/:ofr_id', controllersProducts.searchProductOffer);
 routes.get('/products/id/:id', controllersProducts.searchProductId);
 routes.get('/products/types/:type', auth, controllersProducts.searchProductsTypes);
+routes.get('/products/key/:key', auth, controllersProducts.searchProductKey);
 routes.post('/products', auth, controllersProducts.createProduct);
 routes.post('/products/cadeira-rodas', auth, controllersProducts.createCadeiraRodas);
 routes.post('/products/muleta', auth, controllersProducts.createMuleta);
