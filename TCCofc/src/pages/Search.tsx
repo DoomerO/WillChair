@@ -141,7 +141,7 @@ const Search = () => {
         return <OfferCardHorizontal
         title={item.ofr_name} 
         desc={item.ofr_desc}
-        img={item.prod_img} 
+        img={String.fromCharCode(...new Uint8Array(item.prod_img.data))} 
         value={item.ofr_value} 
         key={item.ofr_id}
         id={item.ofr_id}/>
@@ -170,7 +170,7 @@ const Search = () => {
                     <Spacer/>
                     <Flex direction="row" align="center">
                     <FormLabel fontFamily="outfit">Por onde procurar:</FormLabel>
-                    <Select variant="flushed" w="fit-content" color={colors.colorFontBlue} onChange={handleChangeSelect} mb={{base: "5%", sm:"0"}}>
+                    <Select variant="flushed" w={{base:"54vw" ,sm:"fit-content"}} color={colors.colorFontBlue} onChange={handleChangeSelect} mb={{base: "5%", sm:"0"}}>
                         <option value="name">Titúlos</option>
                         <option value="user_city">Cidades</option>
                         <option value="prod_type">Equipamentos</option>

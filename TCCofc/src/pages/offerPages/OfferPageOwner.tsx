@@ -1,4 +1,4 @@
-import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Input, Textarea, ButtonGroup, Button, useToast, Select} from "@chakra-ui/react";
+import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Input, Textarea, ButtonGroup, Button, useToast, Select, InputGroup, InputLeftAddon} from "@chakra-ui/react";
 import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -6,7 +6,6 @@ import axios from "axios";
 import HeaderToggle from "../../components/toggles/HeaderToggle";
 import Footer from "../../components/Footer";
 import colors from "../../colors/colors";
-import testImg from "../../img/home/imgHomeMiddle.png";
 import ProdInfoTableUpdt from "../../components/ProdInfoTableUpdt";
 import SignNotFound from "../../components/SignNotFound";
 import ChatBox from "../../components/ChatBox";
@@ -14,7 +13,7 @@ import "../../fonts/fonts.css";
 
 import {BsFillStarFill} from "react-icons/bs";
 import {HiOutlineUsers} from "react-icons/hi";
-import {MdOutlineContactSupport} from "react-icons/md";
+import {MdOutlineContactSupport, MdOutlinePhotoSizeSelectActual} from "react-icons/md";
 
 interface OwnerPageprops {
     offer : object;
@@ -42,21 +41,23 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
 
     useEffect(() => {
         const canceltoken = axios.CancelToken.source();
-        setUpdateOffer(prev => ({...prev,
-            prod_img: offer.prod_img,
-            ofr_name : offer.ofr_name,
-            ofr_type : offer.ofr_type,
-            ofr_status : offer.ofr_status,
-            ofr_desc : offer.ofr_desc,
-            ofr_value : offer.ofr_value,
-            ofr_parcelas : offer.ofr_parcelas
-        }));
+        if(offer.ofr_id) {
+                setUpdateOffer(prev => ({...prev,
+                prod_img: (offer.prod_img) ? String.fromCharCode(...new Uint8Array(offer.prod_img.data)) : null,
+                ofr_name : offer.ofr_name,
+                ofr_type : offer.ofr_type,
+                ofr_status : offer.ofr_status,
+                ofr_desc : offer.ofr_desc,
+                ofr_value : offer.ofr_value,
+                ofr_parcelas : offer.ofr_parcelas
+            }));
 
-        if(offer)getChats();
+            getChats();
+        }
         return () => {
             canceltoken.cancel();
         }
-    }, [offer]);
+    }, [offer.ofr_id]);
 
     useEffect(() => {
         const canceltoken = axios.CancelToken.source();
@@ -97,11 +98,21 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     }
 
     async function updateProdimg() {
-        await axios.put(`http://localhost:3344/products/${offer.Product_prod_id}`, {
-            prod_img : updateOffer.prod_img
-        },{
-            headers : {authorization : "Bearer " + localStorage.getItem("token")}
-        }).catch((error) => {
+        await axios.put(`http://localhost:3344/products/${offer.prod_id}`, {
+            prod_img : updateOffer.prod_img,
+        },
+        {headers : {authorization : "Bearer " + localStorage.getItem("token")}
+        }).then((res) => {
+            console.log(res);
+            toast({
+                position: 'bottom',
+                render: () => (
+                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Imagem atualizada com sucesso!</Text>
+                    </Stack>
+                )
+            })
+        }).catch(error => {
             console.log(error);
         })
     }
@@ -128,7 +139,6 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         await axios.delete(`http://localhost:3344/chats/ofr_id/${offer.ofr_id}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
-            console.log(res);
         }).catch((error) => {
             console.log(error);
         })
@@ -176,7 +186,11 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     }
 
     const handleImage = (e:ChangeEvent<HTMLInputElement>) => {
-        setUpdateOffer(prev => ({...prev, ofr_img: e.target.value}))
+        let reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onload = () => {
+            setUpdateOffer(prev => ({...prev, prod_img: reader.result}))
+        }
     }
 
     return (
@@ -187,8 +201,8 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     <Flex direction={{base:"column", sm:"row"}} h={{base:"fit-content", sm:"50vh"}} w="90%">
 
                     <Flex direction="column" w={{base:"100%", sm:"30%"}}>
-                        <Image src={offer.prod_img} objectFit="contain" h={{base:"40vh",sm:"95%"}}></Image>
-                        <Input type="file" onChange={handleImage} accept=".png,.jpg,.jpeg"/>
+                        <Image src={updateOffer.prod_img} objectFit="contain" h={{base:"40vh",sm:"95%"}}
+                            onClick={() => {console.log(updateOffer.prod_img)}}></Image>
                     </Flex>
                     
                     <Divider orientation="vertical" ml="2.5" mr="2.5" display={{base:"none", sm:"inherit"}}/>
@@ -233,6 +247,10 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                     </Flex>
                                 </SimpleGrid>
                             </Flex>
+                            <InputGroup display="flex" zIndex={1} w="fit-content">
+                                <InputLeftAddon children={<MdOutlinePhotoSizeSelectActual size="80%"/>}/>
+                                <Input type="file" display="inline-block" onChange={handleImage} accept=".png,.jpg,.jpeg" fontFamily="outfit"/>
+                            </InputGroup>
                         </Stack>
                     </Flex>
 
@@ -273,12 +291,11 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     </Flex>
                     <Divider/>
 
-                    <Flex w="100%" h="fit-content" mt="3%" mb="3%" align="center" direction="column"
-                    onClick={console.log(chatUser)}>
+                    <Flex w="100%" h="fit-content" mt="3%" mb="3%" align="center" direction="column">
                         <Stack mb="3%" direction={{base:"column", sm:"row"}} align="center" spacing={2} fontSize={{base:"32px", sm:"30px"}}>
                             <Heading noOfLines={1} textAlign="center" color={colors.colorFontDarkBlue}  as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>Chat com </Heading>
                             <Select placeholder="usuário interessado" variant="flushed" w="fit-content" color={colors.colorFontDarkBlue}  
-                            fontFamily="outfit" fontSize={{base:"32px", sm:"30px"}} _dark={{color: colors.colorFontDarkBlue_Dark}} fontWeight="bold" onChange={handleChangeSelect}>
+                            fontFamily="outfit" fontSize={{base:"32px", sm:"32px"}} _dark={{color: colors.colorFontDarkBlue_Dark}} fontWeight="bold" onChange={handleChangeSelect}>
                                 {optionsChat}
                             </Select>
                         </Stack>

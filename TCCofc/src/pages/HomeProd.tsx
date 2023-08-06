@@ -40,6 +40,7 @@ const HomeProd = () => {
     const navigate = useNavigate();
     let numOptRender = 0; //número de opções renderizadas
     let optionsRenderList: string[] = [];
+    let renderTest = false;
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => { //evento de change no input de pesquisa
         e.preventDefault();
@@ -75,7 +76,6 @@ const HomeProd = () => {
             authorization : "Bearer " + localStorage.getItem("token")
         }}).then(res => {
             setQuery(res.data);
-            console.log(res.data)
         }).catch(error => {
             console.log(error);
         })
@@ -95,18 +95,21 @@ const HomeProd = () => {
     }, []);
 
     useEffect(() => { //useEffect após get do usuário
-        console.log(userQuery)
         queryCloseOffers();
         queryUserOffers();
         
     }, [userQuery]);
 
     const renderCloseOffers = closeOffers.map(item => { //lista de ofertas próximas renderizadas
+        for (const offer of closeOffers) {
+            if(item.ofr_id === offer.ofr_id) return <div key={item.ofr_id}></div>
+        }
+        renderTest = true;
         return <CardOffer 
         title={item.ofr_name} 
         composition={item.prod_composition} 
         condition={item.prod_status} 
-        img={item.prod_img} 
+        img={String.fromCharCode(...new Uint8Array(item.prod_img.data))} 
         value={item.ofr_value} 
         type={item.prod_type}
         key={item.ofr_id}
@@ -118,7 +121,7 @@ const HomeProd = () => {
         title={item.ofr_name} 
         composition={item.prod_composition} 
         condition={item.prod_status} 
-        img={item.prod_img} 
+        img={String.fromCharCode(...new Uint8Array(item.prod_img.data))} 
         value={item.ofr_value} 
         type={item.prod_type}
         key={item.ofr_id}
@@ -189,7 +192,7 @@ const HomeProd = () => {
             <Flex bg={colors.bgWhite} h='fit-content' align="center" direction="column" _dark={{bg:colors.bgWhite_Dark}}>
                 <Heading color={colors.colorFontDarkBlue} as='h1' fontSize={{base: "36px", sm: "30px"}} _dark={{color:colors.colorFontDarkBlue_Dark}} mt="3%" mb="5%"
                 fontFamily="outfit" textAlign="center">Confira as ofertas perto de você</Heading>
-                {(closeOffers.length > 0) ? <OfferList component={renderCloseOffers}/> : <SignNotFound msg="Parece que não há equipamentos registrados em sua cidade..." icon={<MdOutlineSearchOff size="45%"/>}/>}
+                {(renderTest) ? <OfferList component={renderCloseOffers}/> : <SignNotFound msg="Parece que não há equipamentos registrados em sua cidade..." icon={<MdOutlineSearchOff size="45%"/>}/>}
             </Flex>
 
             <Flex bg={colors.veryLightBlue} w='100%' h='fit-content' align="center" _dark={{bg:colors.veryLightBlue_Dark}} direction="column">

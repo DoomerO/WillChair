@@ -72,7 +72,7 @@ const OfferPage = () => {
             title={item.ofr_name} 
             composition={item.prod_composition} 
             condition={item.prod_status} 
-            img={item.prod_img} 
+            img={String.fromCharCode(...new Uint8Array(item.prod_img.data))} 
             value={item.ofr_value} 
             type={item.prod_type}
             id={item.ofr_id}/>
@@ -84,7 +84,8 @@ const OfferPage = () => {
                 <Flex bg={colors.bgWhite} direction="column" align="center" h="fit-content" pt="10vh" _dark={{bg : colors.bgWhite_Dark}}>
 
                     <Flex direction={{base:"column", sm:"row"}} h={{base:"fit-content", sm:"50vh"}} w="90%">
-                        <Image src={testImg} objectFit="contain" h={{base:"40vh",sm:"95%"}} w={{base:"100%", sm:"30%"}}></Image>
+                        <Image src={(offer.prod_img) ? String.fromCharCode(...new Uint8Array(offer.prod_img.data)) : null} 
+                        objectFit="contain" h={{base:"40vh",sm:"95%"}} w={{base:"100%", sm:"30%"}}></Image>
                         <Divider orientation="vertical" ml="2.5" mr="2.5" display={{base:"none", sm:"inherit"}}/>
                         <Stack w={{base:"100%", sm:"65%"}} h="100%" spacing={8}>
                             <Heading as="h1" fontFamily="outfit" fontSize={{base: "32px", sm: "34px"}} color={colors.colorFontBlue} noOfLines={{sm:1}}>{offer.ofr_name}</Heading>
