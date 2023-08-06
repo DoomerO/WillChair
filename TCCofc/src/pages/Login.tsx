@@ -9,28 +9,37 @@ import { FiArrowLeft, FiSun, FiMoon } from 'react-icons/fi'
 const Loginwip = () => {
     const [fields, setFields] = useState({
         name : "",
-        email : ""
+        nameMissMatch: false,
+        email : "",
+        emailMissMatch : false
     })
     const logOrSign = useParams()
-    const [password, setPassword] = useState("")
+    const [password, setPassword] = useState({
+        password : "",
+        missmatch : false
+    })
     const [subPass, setSubPass] = useState("")
     const [screen, setScreen] = useBoolean(logOrSign.screen == "new" ? true : false)
     const toast = useToast()
     const route = useNavigate()
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setFields(prev => ({...prev, [e.target.name]:e.target.value}))
+
+    const handleValidity = (e: ChangeEvent<HTMLInputElement>) => {
+        setPassword(prev => ({...prev, password:e.target.value, missmatch:e.target.validity.patternMismatch}))
     }
-    
+
     function clearFields(){
         setFields(prev => ({...prev,
             name : "",
             email : ""
         }))
-        setPassword("")
+        setPassword(prev => ({...prev,
+            password : "",
+            missmatch : false
+        }))
         setSubPass("")
     }
     
-    function callToast(title:string, desc:string, duration:number, type?:any){
+    function callToast(title:string, desc:string, duration?:number, type?:any){
         toast({
             title: title,
             description: desc,
@@ -65,7 +74,9 @@ const Loginwip = () => {
     }
 
     function handleSubmits () { //Controla cadastro
-        if(subPass == password){
+        if(fields.emailMissMatch){callToast("Email inválido", "Insira um email adequado", 2000, "warning"); return}
+        if(password.missmatch){callToast("Senha inválida", "A senha deve conter Letras minúsculas e maiúsculas, número e no mínimo 8 caractéres", 5000, "warning"); return}
+        if(subPass == password.password){
             axios.post('http://localhost:3344/users', {
                 user_email: fields.email, 
                 user_name: fields.name,
@@ -93,11 +104,9 @@ const Loginwip = () => {
         }
         else{
             callToast("Senhas diferentes.", "As senhas não conferem.", 2000, "warning")
-            setPassword("")
             setSubPass("")
         }
     }
-
 
    useEffect(clearFields, [screen])
 
@@ -117,12 +126,15 @@ const Loginwip = () => {
                 <IconButton onClick={toggleColorMode} aria-label='switch lighting mode'
                 icon={localStorage.getItem("chakra-ui-color-mode") == 'light' ? <FiSun/> : <FiMoon/>}></IconButton>
                 </ButtonGroup>
+
                 <Collapse in={!screen}>
                     <Text fontFamily="outfit" fontSize="200%" textAlign="center" w="50%" pb="3%" pt="3%">Login</Text>
-                    <Wrap direction='row' spacing={0}>
+                    <Wrap direction='row' spacing={0} id='log'>
                         <Flex alignContent="center" w="46%" h="100%" direction="column" m="2%">
-                        <Input className='submit' placeholder='E-mail' pattern="(?=.){1,64}@([\w-]+\.)+[\w-]{2,4}" onChange={handleChange} name="email" value={fields.email} fontFamily="outfit"/>
-                        <Password setTo={setPassword} value={password} placeholder='Senha'/>
+                        <Input className='submit' placeholder='E-mail' pattern="(?=.){1,64}@([\w-]+\.)+[\w-]{2,4}" onChange={
+                            (e) => {setFields(prev => ({...prev, email: e.target.value, emailMissMatch: e.target.validity.patternMismatch}))}
+                        } value={fields.email} fontFamily="outfit"/>
+                        <Password onChange={handleValidity} value={password.password} placeholder='Senha'/>
                         <Button type='submit' onClick={handleLogin} fontFamily="outfit">Enviar</Button>
                         </Flex>
                         <Flex alignContent="center" w="46%" h="100%" direction="column" m="2%">
@@ -130,17 +142,22 @@ const Loginwip = () => {
                         </Flex>
                     </Wrap>
                 </Collapse>
+
                 <Collapse in={screen}>
                 <Text fontFamily="outfit" fontSize="200%" textAlign="center" w="50%" ml="50%" pb="3%" pt="3%">Cadastro</Text>
-                    <Wrap direction='row' spacing={0}>
+                    <Wrap direction='row' spacing={0} id='sign'>
                         <Flex alignContent="center" w="46%" h="100%" m="2%" direction="column">
                         <Button onClick={setScreen.toggle} fontFamily="outfit">Login</Button>
                         </Flex>
                         <Flex alignContent="center" w="46%" h="100%" m="2%" direction="column">
-                        <Input className='submit' placeholder='Nome de usuário' onChange={handleChange} name="name" value={fields.name} fontFamily="outfit"/>
-                        <Input className='submit' placeholder='E-mail' pattern="(?=.){1,64}@([\w-]+\.)+[\w-]{2,4}" onChange={handleChange} name="email" value={fields.email} fontFamily="outfit"/>
-                        <Password setTo={setSubPass} value={subPass} placeholder='Senha'/>
-                        <Password setTo={setPassword} value={password} placeholder='Confirmar senha'/>
+                        <Input className='submit' placeholder='Nome de usuário' onChange={
+                            (e) => {setFields(prev => ({...prev, name: e.target.value, nameMissMatch: e.target.validity.patternMismatch}))}
+                        } name="name" value={fields.name} fontFamily="outfit"/>
+                        <Input className='submit' placeholder='E-mail' pattern="(?=.){1,64}@([\w-]+\.)+[\w-]{2,4}" onChange={
+                            (e) => {setFields(prev => ({...prev, email: e.target.value, emailMissMatch: e.target.validity.patternMismatch}))}
+                        } value={fields.email} fontFamily="outfit"/>
+                        <Password onChange={handleValidity} value={password.password} placeholder='Senha'/>
+                        <Password onChange={(e) => {setSubPass(e.target.value)}} value={subPass} placeholder='Confirmar senha'/>
                         <Button type='submit' onClick={handleSubmits} fontFamily="outfit">Enviar</Button>
                         </Flex>
                     </Wrap>
