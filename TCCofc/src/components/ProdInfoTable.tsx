@@ -22,7 +22,7 @@ const ProdInfoTable = ({ofr_id} : prodTableProps) => {
 
     useEffect(() => {
         const canceltoken = axios.CancelToken.source();
-        queryProduct();
+        if(ofr_id)queryProduct();
         return () => {
             canceltoken.cancel();
         }

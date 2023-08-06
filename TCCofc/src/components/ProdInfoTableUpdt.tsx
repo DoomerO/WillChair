@@ -140,7 +140,7 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
 
     useEffect(() => {
         const canceltoken = axios.CancelToken.source();
-        queryProduct();
+        if(ofr_id)queryProduct();
         return () => {
             canceltoken.cancel();
         }
