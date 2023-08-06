@@ -11,10 +11,6 @@ interface passProps{
 const Password = ({placeholder, setTo, value, pattern}:passProps) => {
     //Estado do botão de mostrar senha e valor da senha
     const [showPassword, setShowPassword] = useBoolean(false)
-    const [mismatch, setMismatch] = useBoolean(true)
-    function checkMismatch(){
-        
-    }
 
     return(
         <InputGroup>
