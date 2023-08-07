@@ -52,7 +52,7 @@ const Login = () => {
     }
 
     function handleLogin(){ //Controla login
-        axios.get(`http://localhost:3344/users/login/${fields.email}/${password}`, {
+        axios.get(`http://localhost:3344/users/login/${fields.email}/${password.password}`, {
         }).then(res=> {
             localStorage.setItem("token", res.data.token);
             callToast("Usuário(a) encontrado(a)", "Finalizando login...", 2000, "success")
