@@ -26,6 +26,12 @@ const HeaderLogged = ({name, img}: avatarProps) => {
                         bg='#0000'>
                     </MenuButton>
                     <MenuList>
+                        <Link to="/"><MenuItem display={{base:"inherit", sm: "none"}}>
+                            Home
+                        </MenuItem></Link>
+                        <Link to="/search/all/all"><MenuItem display={{base:"inherit", sm: "none"}}>
+                            Pesquisar produtos
+                        </MenuItem></Link>
                         <Link to="/contact"><MenuItem>
                             Contato
                         </MenuItem></Link>
