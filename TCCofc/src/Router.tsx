@@ -7,6 +7,7 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login"
 import CreateOffer from "./pages/CreateOffer";
 import wcOffer from "./pages/wcOffer";
+import crOffer from "./pages/crOffer";
 import PageToggle from "./components/toggles/PageToggle";
 import HomeProd from "./pages/HomeProd";
 import ConfirmLogOut from "./pages/intersections/ConfirmLogOut";
@@ -14,8 +15,6 @@ import OfferPageLogged from "./pages/offerPages/OfferPageLogged";
 import OfferPage from "./pages/offerPages/OfferPage";
 import Report from "./pages/Report";
 import ProfileToggle from "./pages/profilePages/ProfileToggle";
-import CurrentChats from "./pages/CurrentChats";
-
 
 const Router = () => {
     const toggleHome = () => {
@@ -40,11 +39,10 @@ const Router = () => {
             <Route Component={toggleOffer} path="/offer/:id"/>
             <Route Component={CreateOffer} path="/createoffer"/>
             <Route Component={wcOffer} path="/wcoffer"/>
+            <Route Component={crOffer} path="/croffer"/>
             <Route Component={ConfirmLogOut} path="/logout"/>
             <Route Component={Report} path="/report/:offer"/>
             <Route Component={toggleProfile} path="/profile/:email"/>
-            <Route Component={CurrentChats} path="/currentchats"/>
-            
         </Routes>
     </BrowserRouter>
     )
