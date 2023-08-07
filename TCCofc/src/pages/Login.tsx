@@ -6,7 +6,7 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 import { Wrap, Button, IconButton, Collapse, Input, useBoolean, Container, useToast, Flex, useColorMode, ButtonGroup, Text } from '@chakra-ui/react'
 import { FiArrowLeft, FiSun, FiMoon } from 'react-icons/fi'
 
-const Loginwip = () => {
+const Login = () => {
     const [fields, setFields] = useState({
         name : "",
         nameMissMatch: false,
@@ -80,7 +80,7 @@ const Loginwip = () => {
             axios.post('http://localhost:3344/users', {
                 user_email: fields.email, 
                 user_name: fields.name,
-                password: password,
+                password: password.password,
                 user_level: 0}).then(res => {
                 localStorage.setItem("token", res.data.token);
                 callToast("Usuário(a) registrado(a).", "Você será redirecionado(a) em breve.", 2000, "loading")
@@ -131,7 +131,7 @@ const Loginwip = () => {
                     <Text fontFamily="outfit" fontSize="200%" textAlign="center" w="50%" pb="3%" pt="3%">Login</Text>
                     <Wrap direction='row' spacing={0} id='log'>
                         <Flex alignContent="center" w="46%" h="100%" direction="column" m="2%">
-                        <Input className='submit' placeholder='E-mail' pattern="(?=.){1,64}@([\w-]+\.)+[\w-]{2,4}" onChange={
+                        <Input className='submit' placeholder='E-mail' onChange={
                             (e) => {setFields(prev => ({...prev, email: e.target.value, emailMissMatch: e.target.validity.patternMismatch}))}
                         } value={fields.email} fontFamily="outfit"/>
                         <Password onChange={handleValidity} value={password.password} placeholder='Senha'/>
@@ -153,7 +153,7 @@ const Loginwip = () => {
                         <Input className='submit' placeholder='Nome de usuário' onChange={
                             (e) => {setFields(prev => ({...prev, name: e.target.value, nameMissMatch: e.target.validity.patternMismatch}))}
                         } name="name" value={fields.name} fontFamily="outfit"/>
-                        <Input className='submit' placeholder='E-mail' pattern="(?=.){1,64}@([\w-]+\.)+[\w-]{2,4}" onChange={
+                        <Input className='submit' placeholder='E-mail' pattern={`(.){1,64}@(.){1,}[.](.){2,}`} onChange={
                             (e) => {setFields(prev => ({...prev, email: e.target.value, emailMissMatch: e.target.validity.patternMismatch}))}
                         } value={fields.email} fontFamily="outfit"/>
                         <Password onChange={handleValidity} value={password.password} placeholder='Senha'/>
@@ -166,4 +166,4 @@ const Loginwip = () => {
     );
 }
 
-export default Loginwip;
+export default Login;
