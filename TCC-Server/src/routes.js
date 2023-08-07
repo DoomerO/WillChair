@@ -28,7 +28,7 @@ routes.delete('/users/:id', auth,controllersUsers.deleteUser);
 
 //Offer Routes
 routes.get('/offers', controllersOffers.searchOffers);
-routes.get('/offers/user/:email', auth, controllersOffers.searchOffersUser);
+routes.get('/offers/user/:email', controllersOffers.searchOffersUser);
 routes.get('/offers/query/:atribute/:value', controllersOffers.searchOffersAtributes);
 routes.get('/offers/id/:id', controllersOffers.searchOfferId);
 routes.post('/offers', auth, controllersOffers.createOffer);
@@ -85,6 +85,7 @@ routes.delete('/denounce/:id', auth, controllersdenounce.deleteDenounce);
 //comment routes
 
 routes.get('/comment', auth, controllerscomment.searchcomment);
+routes.get('/comment/receiver/:receiverId', controllerscomment.searchCommentReciver);
 routes.post('/comment', auth, controllerscomment.createcomment);
 routes.put('/comment/:id', auth, controllerscomment.updatecomment);
 routes.delete('/comment/:id', auth, controllerscomment.deletecomment);
