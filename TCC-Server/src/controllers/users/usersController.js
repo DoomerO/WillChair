@@ -29,6 +29,7 @@ module.exports= {
                     user_houseNum : consult[0].user_houseNum,
                     user_phone : consult[0].user_phone,
                     user_img : consult[0].user_img,
+                    user_comp : consult[0].user_comp,
                     user_email : consult[0].user_email
                 }
                 return res.status(201).json(result);
@@ -57,6 +58,7 @@ module.exports= {
                     user_houseNum : consult[0].user_houseNum,
                     user_phone : consult[0].user_phone,
                     user_img : consult[0].user_img,
+                    user_comp : consult[0].user_comp,
                     user_email : consult[0].user_email
                 }
                 return res.status(201).json(result);
@@ -156,6 +158,7 @@ module.exports= {
             const {user_houseNum} = req.body;
             const {user_img} = req.body;
             const {user_city} = req.body;
+            const {user_comp} = req.body;
 
             if (await knex('User').where("user_email", email) != "") {
                 await knex("User").update({
@@ -164,7 +167,8 @@ module.exports= {
                     user_CEP,
                     user_houseNum,
                     user_city,
-                    user_img
+                    user_img,
+                    user_comp
                 }).where('user_email', email);
             }
             else {
