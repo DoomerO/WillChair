@@ -133,7 +133,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `willchair`.`Comment` (
   `com_id` INT NOT NULL AUTO_INCREMENT,
   `com_content` VARCHAR(255) NOT NULL,
-  `com_date` DATE NOT NULL,
+  `com_date` VARCHAR(10) NOT NULL,
   `User_user_idEnv` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
