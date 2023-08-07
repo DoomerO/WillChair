@@ -30,7 +30,9 @@ const Login = () => {
     function clearFields(){
         setFields(prev => ({...prev,
             name : "",
-            email : ""
+            email : "",
+            nameMissMatch: false,   
+            emailMissMatch: false
         }))
         setPassword(prev => ({...prev,
             password : "",
@@ -83,21 +85,15 @@ const Login = () => {
                 password: password.password,
                 user_level: 0}).then(res => {
                 localStorage.setItem("token", res.data.token);
-                callToast("Usuário(a) registrado(a).", "Você será redirecionado(a) em breve.", 2000, "loading")
+                callToast("Usuário(a) registrado(a)", "Você será redirecionado(a) em breve", 2000, "loading")
                 route("../")
                 clearFields()
             }).catch(error => {
                 if(error){
-                    let errorCode:Number = error.response ? error.response.status : 0
                     let errorMsg:string
-                    console.log(error.response.status)
-                    switch(errorCode){
-                        case 401: errorMsg = "Todos os campos devem ser preenchidos"
-                        break;
-                        default: errorMsg = "Sem resposta do servidor"
-                        break;
-                    }
-                    callToast("Erro.", errorMsg, 3000, "error")
+                    console.log(error)
+                    errorMsg = error.response.data.msg ? error.response.data.msg : "Sem conexão com o servidor"
+                    callToast("Erro", errorMsg, 3000, "error")
                 }
                 clearFields()
             }); 
@@ -155,9 +151,9 @@ const Login = () => {
                         } name="name" value={fields.name} fontFamily="outfit"/>
                         <Input className='submit' placeholder='E-mail' pattern={`(.){1,64}@(.){1,}[.](.){2,}`} onChange={
                             (e) => {setFields(prev => ({...prev, email: e.target.value, emailMissMatch: e.target.validity.patternMismatch}))}
-                        } value={fields.email} fontFamily="outfit"/>
-                        <Password onChange={handleValidity} value={password.password} placeholder='Senha'/>
-                        <Password onChange={(e) => {setSubPass(e.target.value)}} value={subPass} placeholder='Confirmar senha'/>
+                        } value={fields.email} fontFamily="outfit" isInvalid={fields.emailMissMatch}/>
+                        <Password onChange={handleValidity} value={password.password} placeholder='Senha' validity={password.missmatch}/>
+                        <Password onChange={(e) => {setSubPass(e.target.value)}} value={subPass} placeholder='Confirmar senha' validity={password.password != subPass}/>
                         <Button type='submit' onClick={handleSubmits} fontFamily="outfit">Enviar</Button>
                         </Flex>
                     </Wrap>
