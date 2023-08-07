@@ -7,16 +7,17 @@ interface passProps{
     placeholder?: string,
     onChange: ChangeEventHandler<HTMLInputElement>,
     value?: string,
+    validity?: boolean,
     pattern?: string
 }
-const Password = ({placeholder, onChange, value, pattern}:passProps) => {
+const Password = ({placeholder, onChange, value, pattern, validity}:passProps) => {
     //Estado do botão de mostrar senha e valor da senha
     const [showPassword, setShowPassword] = useBoolean(false)
 
     return(
         <InputGroup>
         <Input placeholder={placeholder} type={showPassword ? 'text' : 'password'}
-        onChange={onChange} value={value}
+        onChange={onChange} value={value} isInvalid={validity ? validity : false}
         pattern={pattern ? pattern : `(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}`} fontFamily="outfit"/>
         
         <InputRightAddon bg={showPassword ? '#000' : '#fff'} color={showPassword ? '#fff' : '#000'}
