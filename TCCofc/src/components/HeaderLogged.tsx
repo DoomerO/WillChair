@@ -12,7 +12,7 @@ interface avatarProps {
 
 const HeaderLogged = ({name, img}: avatarProps) => {
     const {toggleColorMode} = useColorMode();
-    const logoImg = useColorModeValue(logo, logoLight) //muda o valor de lago a partir do modo de cor que estiver ativo
+    const logoImg = useColorModeValue(logo, logoLight) //muda o valor do logo a partir do modo de cor que estiver ativo
     return (
         <Flex w="100%" h="8.5vh" bg='#fff' position='fixed' _dark={{bg : '#131313'}} boxShadow='lg' zIndex={2}>
             
@@ -22,6 +22,7 @@ const HeaderLogged = ({name, img}: avatarProps) => {
                         as={IconButton}
                         aria-label='Options'
                         icon = {<RxHamburgerMenu size='100%'/>}
+                        variant="unstyled"
                         bg='#0000'>
                     </MenuButton>
                     <MenuList>

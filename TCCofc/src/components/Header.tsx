@@ -18,6 +18,7 @@ const Header = () => {
                         as={IconButton}
                         aria-label='Options'
                         icon = {<RxHamburgerMenu size='100%'/>}
+                        variant="unstyled"
                         bg='#0000'>
                     </MenuButton>
                     <MenuList>
