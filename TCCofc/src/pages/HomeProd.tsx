@@ -62,9 +62,7 @@ const HomeProd = () => {
     };
 
     async function queryUserOffers() { //get de ofertas do usuário no banco de dados
-        await axios.get(`http://localhost:3344/offers/user/${user.email}`, {headers: {
-            authorization : "Bearer " + localStorage.getItem("token")
-        }}).then(res => {
+        await axios.get(`http://localhost:3344/offers/user/${user.email}`).then(res => {
             setUserOffers(res.data);
         }).catch(error => {
             console.log(error);
@@ -173,7 +171,7 @@ const HomeProd = () => {
 
             <Flex bg={colors.veryLightBlue} w='100%' h='70vh' align="center" _dark={{bg:colors.veryLightBlue_Dark}}>
                 <Flex w="100%" direction="column" align="center">
-                    <Heading color={colors.colorFontDarkBlue} as='h1' fontSize={{base: "36px", sm: "30px"}} fontFamily="outfit" _dark={{color:colors.colorFontDarkBlue_Dark}} mb="5%">O que deseja encontrar?</Heading>
+                    <Heading color={colors.colorFontDarkBlue} textAlign="center" as='h1' fontSize={{base: "36px", sm: "30px"}} fontFamily="outfit" _dark={{color:colors.colorFontDarkBlue_Dark}} mb="5%">O que deseja encontrar?</Heading>
 
                     <InputGroup display="flex" zIndex={1} w={{base:"80%", sm:"50%"}}>    
                         <Input placeholder='Busque as melhores ofertas aqui!' bg="#eee" borderRightColor="#000" _dark={{bg:"#0000", borderRightColor:"#fff", color: "#fff", _placeholder : {color: "#dfdfdf"}}}
@@ -203,7 +201,7 @@ const HomeProd = () => {
             </Flex>
 
             <Flex bg={colors.bgWhite} h="fit-content" align="center" direction="column" _dark={{bg:colors.bgWhite_Dark}}>
-                <Heading color={colors.colorFontBlue} as="h1" fontSize={{base: "36px", sm:"30px"}} mt="3%" mb="5%" fontFamily="outfit">
+                <Heading color={colors.colorFontBlue} textAlign="center" as="h1" fontSize={{base: "36px", sm:"30px"}} mt="3%" mb="5%" fontFamily="outfit">
                     Dicas para você
                 </Heading>
                 <Flex w="80%" mb="3%">
