@@ -34,7 +34,7 @@ module.exports= {
                 return res.status(201).json(result);
             }
             else {
-                return res.status(401).json({msg : "There is no user with this email"})
+                return res.status(401).json({msg : "Não á usuário com este email"})
             }
         }
         catch(error) {
@@ -62,7 +62,7 @@ module.exports= {
                 return res.status(201).json(result);
             }
             else {
-                return res.status(401).json({msg : "There is no user with this id"})
+                return res.status(401).json({msg : "Não há usuário com este id"})
             }
         }
         catch(error) {
@@ -91,14 +91,14 @@ module.exports= {
                         return res.status(201).json({token : acssesToken})
                     }
                     else {
-                        return res.status(401).json({msg: "There is no user with this informations1 " + pass + " " + password});
+                        return res.status(401).json({msg: "Não há usuários com estes dados " + pass + " " + password});
                     }
                 }).catch((err) => {
                     return res.status(400).json({error: err.message})
                 });
             }
             else {
-                return res.status(401).json({msg: "There is no user with this informations"});
+                return res.status(401).json({msg: "Não há usuários com estes dados"});
             }
         }
         catch(error) {
@@ -114,11 +114,11 @@ module.exports= {
             const {user_level} = req.body;
             
             if (!user_name || !user_email || user_level < 0 || !password) {
-                return res.status(401).json({msg : "All data must be fullfiled"})
+                return res.status(401).json({msg : "Todos os campos devem ser preenchidos"})
             }
 
             if (await knex('User').where("user_email", user_email) != "") {
-                return res.status(401).json({msg: "This user alredy exists"});
+                return res.status(401).json({msg: "Esse email já está em uso"});
             }
            
             const user_password = bcrypt.hashSync(password, 10);
@@ -168,9 +168,9 @@ module.exports= {
                 }).where('user_email', email);
             }
             else {
-                return res.status(401).json({msg: "This User does not exists"});
+                return res.status(401).json({msg: "Esse usuário não existe"});
             }
-            return res.status(201).json({msg: "User Updated Properly"});
+            return res.status(201).json({msg: "Usuário atualizado!"});
         }
         catch(error) {
             return res.status(400).json({error: error.message});
@@ -184,7 +184,7 @@ module.exports= {
             const {password} = req.body;
 
             if(!email || !password) {
-                return res.status(401).json({msg : "All data must be fullfiled"})
+                return res.status(401).json({msg : "Todos os campos devem ser ppreenchidos"})
             }
 
             if (await knex('User').where("user_email", email) != "") {
@@ -195,9 +195,9 @@ module.exports= {
                 }).where('user_email', email);
             }
             else {
-                return res.status(401).json({msg: "This User does not exists"});
+                return res.status(401).json({msg: "Esse usuário não existe"});
             }
-            return res.status(201).json({msg: "Password of " + email + " Updated Properly"});
+            return res.status(201).json({msg: "Senha de " + email + " atualizada!"});
         }
         catch(error) {
             return res.status(400).json({error: error.mesage});
@@ -209,10 +209,10 @@ module.exports= {
             const {id} = req.params;
             if (await knex("User").where("user_id", id) != "") {
                 await knex('User').del().where("user_id", id);
-                return res.status(201).json({msg: "User Deleted"});
+                return res.status(201).json({msg: "Usuário deletado"});
             }
             else {
-                return res.status(401).json({msg: "This user is not registred"});
+                return res.status(401).json({msg: "Este usuário nao está registrado"});
             }
         }
         catch(error) {
