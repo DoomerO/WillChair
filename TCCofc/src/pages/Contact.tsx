@@ -4,6 +4,7 @@ import { FaPhoneAlt } from "react-icons/Fa";
 import { MdEmail } from "react-icons/md"
 import { IoLogoWhatsapp } from "react-icons/io"
 import { BsFacebook } from "react-icons/bs"
+import { ImInstagram } from "react-icons/im"
 import HeaderToggle from '../components/toggles/HeaderToggle';
 
 
@@ -22,10 +23,14 @@ const Contact = () => {
                         <Stack gap="90" direction={{base: "column", sm: "row"}} >
                             <Flex direction='column' align='center' w='30vh'  h={{base:'33%' , sm:'60vh'}}>
                                 <Flex display="flex"alignItems="center">
-                                    <FaPhoneAlt/>
+                                    
+                                    <a href='https://instagram.com/grupo_willchair?igshid=MzRIODBiNWFIZA=='><ImInstagram/></a>
                                     <MdEmail/>
-                                    <IoLogoWhatsapp/>
-                                    <BsFacebook/>
+                                    <Flex>tccwillchair@gmail.com</Flex>
+                                   
+                                    <a href='https://wa.me/5524981267889?text=Descubra+a+liberdade+da+mobilidade+com+nossas+excepcionais+cadeiras+de+rodas.+Entre+em+contato+pelo+WhatsApp+na+Willchair.'><IoLogoWhatsapp/></a>
+                                    
+                                    <a href='https://www.facebook.com/people/Tcc-Willchair/pfbid02A9rF2B2yHXVPxS4oM841TwPHz3ain5wL9Neog5iHWDsRaNBVLsbEQZkFczi5WPm8l/?mibextid=%2FZbWKwL'> <BsFacebook/> </a>
                                 </Flex>    
                                 
                             </Flex>
