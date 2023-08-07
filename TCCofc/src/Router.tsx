@@ -42,7 +42,7 @@ const Router = () => {
             <Route Component={crOffer} path="/croffer"/>
             <Route Component={ConfirmLogOut} path="/logout"/>
             <Route Component={Report} path="/report/:offer"/>
-            <Route Component={toggleProfile} path="/profile/:email"/>
+            <Route Component={toggleProfile} path="/profile/:email/view"/>
         </Routes>
     </BrowserRouter>
     )
