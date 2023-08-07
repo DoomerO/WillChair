@@ -14,6 +14,8 @@ import OfferPageLogged from "./pages/offerPages/OfferPageLogged";
 import OfferPage from "./pages/offerPages/OfferPage";
 import Report from "./pages/Report";
 import ProfileToggle from "./pages/profilePages/ProfileToggle";
+import CurrentChats from "./pages/CurrentChats";
+
 
 const Router = () => {
     const toggleHome = () => {
@@ -41,6 +43,8 @@ const Router = () => {
             <Route Component={ConfirmLogOut} path="/logout"/>
             <Route Component={Report} path="/report/:offer"/>
             <Route Component={toggleProfile} path="/profile/:email"/>
+            <Route Component={CurrentChats} path="/currentchats"/>
+            
         </Routes>
     </BrowserRouter>
     )
