@@ -2,6 +2,7 @@ import { Avatar, Divider, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import colors from "../../colors/colors";
+import { Link } from "react-router-dom";
 
 interface commentProps {
     userId : number,
@@ -30,7 +31,9 @@ const Comment = ({userId, content, date} : commentProps) => {
     return (
         <Stack pt="2.5%" w="30vw" pb="5%" align="center" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark}} borderRadius="10px">
             <Flex direction="row" w="90%" align="center">
-                <Avatar size="sm" name={userEnv.user_name} src={""} mr="2px"/>
+                <Link to={`/profile/${userEnv.user_email}/view`}>
+                    <Avatar size="sm" name={userEnv.user_name} src={""} mr="2px" _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}/>
+                </Link>
                 <Text fontWeight="bold" noOfLines={1}>{userEnv.user_name}</Text>
                 <Spacer/>
                 <Text noOfLines={1}>{date}</Text>
