@@ -17,7 +17,7 @@ import {GiUncertainty} from "react-icons/gi";
 import CardOffer from "../../components/offerCards/OfferCard";
 import OfferList from "../../components/offerCards/OfferList";
 import SignNotFound from "../../components/SignNotFound";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineReport } from "react-icons/md";
 
 interface ChatPage {
@@ -179,8 +179,8 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
 
                         <Stack w={{base:"100%", sm:"45%"}} h={{base:"20vh", sm:"100%"}} mt="2vh" fontSize={{base:"20px", sm:"18px"}}>
                             <Flex direction="row" align="center">
-                                <Avatar name={owner.user_name} src={owner.user_img} mr="2%"></Avatar>
-                                <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{base:"22px", sm:"20px"}} mr="2%">{owner.user_name}</Text>
+                            <Link to={`/profile/${owner.user_email}/view`}><Avatar name={owner.user_name} src={owner.user_img} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}></Avatar></Link>
+                                <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{base:"22px", sm:"20px"}} ml="2%" mr="2%">{owner.user_name}</Text>
                                 <BsFillStarFill fill={colors.colorFontBlue}/>
                                 <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}} fontSize={{base:"22px", sm:"20px"}}>{(owner.user_nota) ? owner.user_nota : 0.0}</Text>
                                 <Spacer/>
