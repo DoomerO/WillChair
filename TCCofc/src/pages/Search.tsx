@@ -141,7 +141,7 @@ const Search = () => {
         return <OfferCardHorizontal
         title={item.ofr_name} 
         desc={item.ofr_desc}
-        img={String.fromCharCode(...new Uint8Array(item.prod_img.data))} 
+        img={(item.prod_img) ? String.fromCharCode(...new Uint8Array(item.prod_img.data)) : ""} 
         value={item.ofr_value} 
         key={item.ofr_id}
         id={item.ofr_id}/>
