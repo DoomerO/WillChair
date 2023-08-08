@@ -1,7 +1,7 @@
 import { Input, useBoolean, InputRightAddon, InputGroup } from '@chakra-ui/react'
 import "../fonts/fonts.css"
 import { ChangeEventHandler } from 'react'
-import { FiPlus } from 'react-icons/fi'
+import { FiEye, FiEyeOff } from 'react-icons/fi'
 
 interface passProps{
     placeholder?: string,
@@ -15,15 +15,15 @@ const Password = ({placeholder, onChange, value, pattern, validity}:passProps) =
     const [showPassword, setShowPassword] = useBoolean(false)
 
     return(
-        <InputGroup>
+        <InputGroup onMouseLeave={setShowPassword.off}>
         <Input placeholder={placeholder} type={showPassword ? 'text' : 'password'}
         onChange={onChange} value={value} isInvalid={validity ? validity : false}
         pattern={pattern ? pattern : `(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}`} fontFamily="outfit"/>
         
         <InputRightAddon bg={showPassword ? '#000' : '#fff'} color={showPassword ? '#fff' : '#000'}
         _dark={showPassword ? {bg:"#F7F9FC", color:"#484A4D"} : {bg:"#2D3748", color:"#1976D2"}}
-        onClick={setShowPassword.toggle} onMouseOut={setShowPassword.off} cursor='pointer'>
-        <FiPlus/></InputRightAddon>
+        onClick={setShowPassword.toggle} cursor='pointer'>
+        {showPassword ? <FiEye/> : <FiEyeOff/>}</InputRightAddon>
         </InputGroup>
     )
 }
