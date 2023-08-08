@@ -28,7 +28,7 @@ module.exports = {
         }
     },
 
-    async searchChatUserMessages(req, res) {
+    async searchChatUserOffer(req, res) {
         try {
             const {user_id} = req.params;
             const {ofr_id} = req.params;
@@ -52,6 +52,21 @@ module.exports = {
             return res.status(400).json({error : error.message});
         }
     },
+
+    async searchChatUser(req, res) {
+        try {
+            const {user_id} = req.params;
+
+            if(await knex("User").where("user_id", user_id) != "") {
+                const result = await knex("Chat").where("User_user_id", user_id);
+                return res.status(201).json(result);
+            }
+            return res.status(401).json({msg: "There is no user with this id"})
+        }
+        catch (error) {
+            return res.status(400).json({error : error.message});
+        }
+    }, 
 
     async createChat(req, res) { //Cria um chat
         try {
