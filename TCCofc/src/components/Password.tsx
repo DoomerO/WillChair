@@ -21,7 +21,7 @@ const Password = ({placeholder, onChange, value, pattern, validity}:passProps) =
         pattern={pattern ? pattern : `(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}`} fontFamily="outfit"/>
         
         <InputRightAddon bg={showPassword ? '#000' : '#fff'} color={showPassword ? '#fff' : '#000'}
-        _dark={showPassword ? {bg:"#F7F9FC", color:"#484A4D"} : {bg:"#2D3748", color:"#1976D2"}}
+        _dark={showPassword ? {bg:"#F7F9FC", color:"#093B69"} : {bg:"#2D3748", color:"#1976D2"}}
         onClick={setShowPassword.toggle} cursor='pointer'>
         {showPassword ? <FiEye/> : <FiEyeOff/>}</InputRightAddon>
         </InputGroup>
