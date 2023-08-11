@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { Wrap, Button, IconButton, Collapse, Input, useBoolean, Container, useToast, Flex, useColorMode, ButtonGroup, Text } from '@chakra-ui/react'
 import { FiArrowLeft, FiSun, FiMoon } from 'react-icons/fi'
+import bg from "../img/bg.gif"
 
 const Login = () => {
     const [fields, setFields] = useState({
@@ -116,7 +117,7 @@ const Login = () => {
     
     return (
         <Container borderRadius='10px' h="80vh" w="100vw" border="solid #DDD 0.4vh" _dark={{border:"solid #1976D2 0.4vh"}} marginTop='10vh'
-            padding='2vh'  minH="80vh" minW="80%" maxW="fit-content">
+            padding='2vh'  minH="80vh" minW="80%" maxW="fit-content" bgImage={bg} bgPosition={screen == false ? "right" : ""} bgSize="50%, 100%" bgRepeat="repeat-y">
                 <ButtonGroup spacing="80%" w="100%" justifyContent="center" variant="ghost">
                 <Link to="../"><IconButton aria-label='Return to home' icon={<FiArrowLeft/>}></IconButton></Link>
                 <IconButton onClick={toggleColorMode} aria-label='switch lighting mode'
@@ -124,37 +125,43 @@ const Login = () => {
                 </ButtonGroup>
 
                 <Collapse in={!screen}>
-                    <Text fontFamily="outfit" fontSize="200%" textAlign="center" w="50%" pb="3%" pt="3%">Login</Text>
+                    <Wrap direction="row" spacing={0}>
+                        <Text fontFamily="outfit" fontSize="200%" textAlign="center" w="50%" pb="3%" pt="3%">Login</Text>
+                        <Text fontFamily="outfit" fontSize="200%" textAlign="center" w="50%" pb="3%" pt="3%">Ainda não fez cadastro?</Text>
+                    </Wrap>
                     <Wrap direction='row' spacing={0} id='log'>
                         <Flex alignContent="center" w="46%" h="100%" direction="column" m="2%">
                         <Input className='submit' placeholder='E-mail' onChange={
                             (e) => {setFields(prev => ({...prev, email: e.target.value, emailMissMatch: e.target.validity.patternMismatch}))}
                         } value={fields.email} fontFamily="outfit"/>
                         <Password onChange={handleValidity} value={password.password} placeholder='Senha'/>
-                        <Button type='submit' onClick={handleLogin} fontFamily="outfit">Enviar</Button>
+                        <Button mt="1%" type='submit' colorScheme='linkedin' onClick={handleLogin} fontFamily="outfit">Enviar</Button>
                         </Flex>
                         <Flex alignContent="center" w="46%" h="100%" direction="column" m="2%">
-                        <Button onClick={setScreen.toggle} fontFamily="outfit">Cadastro</Button>
+                        <Button onClick={setScreen.toggle} colorScheme='linkedin' fontFamily="outfit">Cadastro</Button>
                         </Flex>
                     </Wrap>
                 </Collapse>
 
                 <Collapse in={screen}>
-                <Text fontFamily="outfit" fontSize="200%" textAlign="center" w="50%" ml="50%" pb="3%" pt="3%">Cadastro</Text>
+                    <Wrap direction="row" spacing={0}>
+                        <Text fontFamily="outfit" fontSize="200%" textAlign="center" w="50%" pb="3%" pt="3%">Já possui uma conta?</Text>
+                        <Text fontFamily="outfit" fontSize="200%" textAlign="center" w="50%" pb="3%" pt="3%">Cadastro</Text>
+                    </Wrap>
                     <Wrap direction='row' spacing={0} id='sign'>
                         <Flex alignContent="center" w="46%" h="100%" m="2%" direction="column">
-                        <Button onClick={setScreen.toggle} fontFamily="outfit">Login</Button>
+                        <Button onClick={setScreen.toggle} colorScheme='linkedin' fontFamily="outfit">Login</Button>
                         </Flex>
                         <Flex alignContent="center" w="46%" h="100%" m="2%" direction="column">
                         <Input className='submit' placeholder='Nome de usuário' onChange={
                             (e) => {setFields(prev => ({...prev, name: e.target.value, nameMissMatch: e.target.validity.patternMismatch}))}
                         } name="name" value={fields.name} fontFamily="outfit"/>
-                        <Input className='submit' placeholder='E-mail' pattern={`(.){1,64}@(.){1,}[.](.){2,}`} onChange={
+                        <Input mt="1%" className='submit' placeholder='E-mail' pattern={`(.){1,64}@(.){1,}[.](.){2,}`} onChange={
                             (e) => {setFields(prev => ({...prev, email: e.target.value, emailMissMatch: e.target.validity.patternMismatch}))}
                         } value={fields.email} fontFamily="outfit" isInvalid={fields.emailMissMatch}/>
                         <Password onChange={handleValidity} value={password.password} placeholder='Senha' validity={password.missmatch}/>
                         <Password onChange={(e) => {setSubPass(e.target.value)}} value={subPass} placeholder='Confirmar senha' validity={password.password != subPass}/>
-                        <Button type='submit' onClick={handleSubmits} fontFamily="outfit">Enviar</Button>
+                        <Button mt="1%" type='submit' colorScheme='linkedin' onClick={handleSubmits} fontFamily="outfit">Enviar</Button>
                         </Flex>
                     </Wrap>
                 </Collapse>
