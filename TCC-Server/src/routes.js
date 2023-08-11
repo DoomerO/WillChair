@@ -53,6 +53,7 @@ routes.delete('chats/offer/:ofr_id', auth, controllersChats.deleteChatOffer);
 
 //Products Routes
 routes.get('/products', auth, controllersProducts.searchProducts);
+routes.get('/products/keys', auth, controllersProducts.searchKeysProducts);
 routes.get('/products/offer/:ofr_id', controllersProducts.searchProductOffer);
 routes.get('/products/id/:id', controllersProducts.searchProductId);
 routes.get('/products/types/:type', auth, controllersProducts.searchProductsTypes);
