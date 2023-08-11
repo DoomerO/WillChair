@@ -5,7 +5,7 @@ import { Box, Input, Flex, Heading, Select, Button, ButtonGroup, Stack, VStack, 
 import axios from "axios";
 import decode from "../components/decoderToken";
 import { useParams, Link } from "react-router-dom";
-
+import "../fonts/fonts.css"
 
 const Report = () => {
     const offer = useParams();
@@ -95,8 +95,8 @@ const Report = () => {
             <Stack h="95vh"  direction="column" pt="5%" align="center">
             <Image w={"20vh"} h={"10vh"}  fallbackSrc='https://img.freepik.com/vetores-gratis/desenhos-animados-minusculos-gerentes-com-alto-falante-gigante-e-laptop-ilustracao-plana_74855-16816.jpg?w=740&t=st=1691106381~exp=1691106981~hmac=bfc84e55272efbc7542a8dce04e4d6c006250fb9ea22d91323d94cdf6f672d1a' />
                 <Heading >Faça sua denúncia</Heading>
-                <Text>Qual a sua denúncia?</Text>
-                <Select w="90vh" onChange={handleSelect} placeholder="selecione o tipo da denuncia">
+                <Text fontFamily="atkinson">Qual a sua denúncia?</Text>
+                <Select w="90vh" onChange={handleSelect} placeholder="selecione o tipo da denuncia" fontFamily="outfit">
                     <option value="Fraudes e golpes">Fraudes e golpes</option>
                     <option value="Nudez e cnteúdo sexual">Nudez e conteúdo sexual</option>
                     <option value="Informações incorretas">Informações incorretas</option>
@@ -111,12 +111,12 @@ const Report = () => {
                 <Collapse in={select}>
                     <Input placeholder='Tipo de denúncia' w="90vh" onChange={handleChange} name="den_reason"></Input>
                 </Collapse>
-                <Heading fontSize={"25"}>Por que você está denunciando?</Heading>
-                <Text>Dê detalhes sobre o ocorrido</Text>
+                <Heading fontSize={"25"} fontFamily="atkinson">Por que você está denunciando?</Heading>
+                <Text fontFamily="outfit">Dê detalhes sobre o ocorrido</Text>
                 <Textarea w="90vh" h="25vh" placeholder="Descreva" onChange={handleChange} name="den_content"/>
                 <ButtonGroup>
-                    <Button onClick={checkInputs} color={"blue"} _dark={{color: "#fff"}}>Enviar</Button>
-                    <Link to={`/offer/${offer.offer}`}><Button color={"blue"} _dark={{color: "#fff"}}>Cancelar</Button></Link>
+                    <Button onClick={checkInputs} colorScheme="linkedin" fontFamily="outfit">Enviar</Button>
+                    <Link to={`/offer/${offer.offer}`}><Button colorScheme="linkedin" fontFamily="outfit">Cancelar</Button></Link>
                 </ButtonGroup>
             </Stack>
             <Footer/>
