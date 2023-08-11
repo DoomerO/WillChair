@@ -15,18 +15,138 @@ import { ChangeEvent, useState } from "react";
 import axios from "axios";
 
 const waOffer = () => {
+    const [products, setProducts] = useState([]);
+    const [prodOwn, setProdOwn] = useState([]);
+    const [user, setUser] = useState([]);
+    const [searchOwn, setSearch] = useState(false);
+    const [userToken, setToken] = useState(decode(localStorage.getItem("token")));
+
     const [formInputs, setInputs] = useState({
         name : "",
         desc : "",
         weight : 0,
         height : 0,
+        key : "",
         type : "",
-        photo : [],
+        photo : prodOwn.prod_img,
         width : 0,
         widthseat : 0,
         price : 0
 
     });
+
+    function generateKey() {
+        let bits = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+        let blank = "";
+
+        for (let i = 0; i < 10; i++) {
+            let rand = Math.floor(Math.random() * bits.length + 1);
+            blank = blank + bits[rand];
+        }
+        setInputs(prev => ({...prev, key : blank}));
+    }
+
+    async function getProducts() {
+        await axios.get("http://localhost:3344/products/keys", {
+            headers : {authorization : "Bearer " + localStorage.getItem("token")}
+        }).then((res) => {
+            setProducts(res.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+    async function getUser() {
+        await axios.get(`http://localhost:3344/users/email/${userToken.email}`, {
+            headers : {authorization : "Bearer " + localStorage.getItem("token")}
+        }).then((res) => {
+            setUser(res.data);
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    async function getProductKey(key : string) {
+        await axios.get(`http://localhost:3344/products/key/${key}`, {
+            headers : {authorization : "Bearer " + localStorage.getItem("token")}
+        }).then((res) => {
+            setProdOwn(res.data);
+        }).catch((error) => {
+            console.log(error);
+        })        
+    }
+
+    async function postProduct() {
+        await axios.post('http://localhost:3344/products', {
+            prod_img : formInputs.photo,
+            prod_weight : formInputs.weight,
+            prod_height : formInputs.height,
+            prod_type : "Cadeira de Rodas",
+            prod_key : formInputs.key,
+        }, { headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
+            setSearch(true);
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    async function postOffer() { 
+        await axios.post(`http://localhost:3344/offers`, {
+            ofr_name : formInputs.name,
+            ofr_desc : formInputs.desc,
+            ofr_value : formInputs.price,
+            ofr_status : "Livre",
+            User_user_id : user.user_id,
+            Product_prod_id : prodOwn[0].prod_id
+        }, {headers : {
+            authorization : "Bearer " + localStorage.getItem("token")
+        }}).then((res) => {
+
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
+    async function postChild() {
+        await axios.post(`http://localhost:3344/products/cadeira-rodas`, {
+            id : prodOwn[0].prod_id,
+            cad_width : formInputs.width,
+            cad_widthSeat : formInputs.widthseat,
+            cad_type : formInputs.type,
+        }, {headers : {
+            authorization : "Bearer " + localStorage.getItem("token")
+        }}).then((res) => {
+
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    useEffect(() => {
+        getProducts();
+        generateKey();
+        getUser();
+    }, []);
+
+    useEffect(() => {
+        if(products.length > 0) {
+            for (const prod of products) {
+                if (prod.prod_key == formInputs.key) generateKey();
+            }
+        }
+    }, [products])
+
+    useEffect(() => {
+        if(searchOwn) getProductKey(formInputs.key);
+    }, [searchOwn])
+
+    useEffect(() => {
+        if(prodOwn.length > 0) postOffer(); postChild();
+    }, [prodOwn])
+
+    const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
+        setInputs(prev => ({...prev, [e.target.name]:e.target.value }));
+    }
 
     const handleImage = (e:ChangeEvent<HTMLInputElement>) => {
         let reader = new FileReader();
@@ -34,23 +154,6 @@ const waOffer = () => {
         reader.onload = () => {
             setInputs(prev => ({...prev, photo: reader.result}))
         }
-    }
-
-    const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
-        setInputs(prev => ({...prev, [e.target.name]:e.target.value }));
-    }
-    
-    async function postOffer() {
-        await axios.post(`http://localhost:3344/offers`, {
-            ofr_name : formInputs.name,
-            ofr_desc : formInputs.desc,
-            ofr_type : formInputs.type,
-            ofr_value : formInputs.price,
-            ofr_status : "Livre",
-            ofr_parcelas : formInputs
-        }, {headers : {
-            authorization : "Bearer " + localStorage.getItem("token")
-        }})
     }
 
     return (
@@ -103,12 +206,10 @@ const waOffer = () => {
                                 </Popover> 
                                 <Input onChange={handleChange} name='widthseat' color="gray" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
                             </Flex>
-
-                            <Image src={String.fromCharCode(...new Uint8Array(formInputs.photo))}/>   
+  
                             <FormLabel fontSize={{base:"20px", sm:"18px"}}>Foto do produto
                                 <Input type="file" id="myfile" name="photo" accept="gif, .jpg, .jpeg, .png" border="hidden" padding="1vh" onChange={handleImage}/>
-                            </FormLabel>
-                            
+                            </FormLabel>                            
 
                             <Stack spacing={4}>
                                 <InputGroup>
@@ -131,3 +232,7 @@ const waOffer = () => {
 }
 
 export default waOffer;
+function useEffect(arg0: () => void, arg1: never[][]) {
+    throw new Error("Function not implemented.");
+}
+
