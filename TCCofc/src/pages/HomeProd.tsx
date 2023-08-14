@@ -23,6 +23,7 @@ import {MdOutlineSearchOff} from "react-icons/md";
 import {BsPencil} from "react-icons/bs";
 import {RiEmpathizeLine} from "react-icons/ri";
 import {GiBrokenBone} from "react-icons/gi";
+import {TbMessageCircleSearch} from "react-icons/tb";
 
 //outros
 import "../fonts/fonts.css";
@@ -37,6 +38,7 @@ const HomeProd = () => {
     const [userQuery, setQuery] = useState([]); //usuário logado pelo banco de dados, pegar cidade
     const [offerQuery, setOffer] = useState([]); //lista de ofertas no banco de dados, pesquisa por nome
     const [search, setSearch] = useState(""); //valor input de barra de pesquisa
+    const [chats, setChats] = useState([])//chats criados pelo usuários
     const navigate = useNavigate();
     let numOptRender = 0; //número de opções renderizadas
     let optionsRenderList: string[] = [];
@@ -56,6 +58,16 @@ const HomeProd = () => {
     async function queryCloseOffers() { //get de ofertas próximas no banco de dados
         await axios.get(`http://localhost:3344/offers/query/${"user_city"}/${userQuery.user_city}`).then(res => {
             setClose(res.data);
+        }).catch(error => {
+            console.log(error);
+        })
+    };
+
+    async function queryChats() { //get de ofertas próximas no banco de dados
+        await axios.get(`http://localhost:3344/chats/user/${userQuery.user_id}`, {
+            headers : {authorization : "Bearer " + localStorage.getItem("token")}
+        }).then(res => {
+            setChats(res.data);
         }).catch(error => {
             console.log(error);
         })
@@ -95,7 +107,7 @@ const HomeProd = () => {
     useEffect(() => { //useEffect após get do usuário
         queryCloseOffers();
         queryUserOffers();
-        
+        if(userQuery.user_id)queryChats();
     }, [userQuery]);
 
     const renderCloseOffers = closeOffers.map(item => { //lista de ofertas próximas renderizadas
@@ -124,6 +136,23 @@ const HomeProd = () => {
         type={item.prod_type}
         key={item.ofr_id}
         id={item.ofr_id}/>
+    });
+
+    const renderChatsOffers = offerQuery.map(item => { //lista de ofertas com chats do usuário renderizadas
+        for (const chat of chats) {
+            if(chat.Offer_ofr_id == item.ofr_id) {
+                return <CardOffer 
+                title={item.ofr_name} 
+                composition={item.prod_composition} 
+                condition={item.prod_status} 
+                img={(item.prod_img) ? String.fromCharCode(...new Uint8Array(item.prod_img.data)) : ""} 
+                value={item.ofr_value} 
+                type={item.prod_type}
+                key={item.ofr_id}
+                id={item.ofr_id}/>  
+            }
+        }
+        return <div key={item.ofr_id}></div>
     });
 
     offerQuery.map(item => {
@@ -194,13 +223,20 @@ const HomeProd = () => {
             </Flex>
 
             <Flex bg={colors.veryLightBlue} w='100%' h='fit-content' align="center" _dark={{bg:colors.veryLightBlue_Dark}} direction="column">
-                <Heading color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{base: "36px", sm: "30px"}} _dark={{color: colors.colorFontDarkBlue_Dark}} mt="3%" mb="5%">
+                <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{base: "36px", sm: "30px"}} _dark={{color: colors.colorFontDarkBlue_Dark}} mt="3%" mb="5%">
                     Ofertas criadas por você
                 </Heading>
                 {(userOffers.length > 0) ? <OfferList component={renderUserOffers}/> : <SignNotFoundButton msg="Parece que você não possui ofertas registradas...Que tal criar alguma?!" icon={<BsPencil size="45%"/>} btnText='Criar Oferta' btnPath='/createoffer'/>} 
             </Flex>
 
-            <Flex bg={colors.bgWhite} h="fit-content" align="center" direction="column" _dark={{bg:colors.bgWhite_Dark}}>
+            <Flex bg={colors.bgWhite} w='100%' h='fit-content' align="center" _dark={{bg:colors.bgWhite_Dark}} direction="column">
+                <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{base: "36px", sm: "30px"}} _dark={{color: colors.colorFontDarkBlue_Dark}} mt="3%" mb="5%">
+                    Ofertas que você se interessou
+                </Heading>
+                {(chats.length > 0) ? <OfferList component={renderChatsOffers}/> : <SignNotFoundButton msg="Acho que você não iniciou um chat ainda...Vamos lá! Basta pesquisar uma oferta interessante!" icon={<TbMessageCircleSearch size="45%"/>} btnText='Pesquisar' btnPath='/search/all/all'/>} 
+            </Flex>
+
+            <Flex bg={colors.veryLightBlue} h="fit-content" align="center" direction="column" _dark={{bg:colors.veryLightBlue_Dark}}>
                 <Heading color={colors.colorFontBlue} textAlign="center" as="h1" fontSize={{base: "36px", sm:"30px"}} mt="3%" mb="5%" fontFamily="outfit">
                     Dicas para você
                 </Heading>
