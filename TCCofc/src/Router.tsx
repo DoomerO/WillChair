@@ -13,6 +13,7 @@ import OfferPage from "./pages/offerPages/OfferPage";
 import Report from "./pages/Report";
 import ProfileToggle from "./pages/profilePages/ProfileToggle";
 import CurrentChats from "./pages/CurrentChats";
+import NotLogged from "./pages/intersections/NotLogged";
 import OfferCreationToggle from "./pages/createOfferPages/OfferCreationToggle";
 
 const Router = () => {
@@ -26,10 +27,10 @@ const Router = () => {
         return <ProfileToggle/>
     }
     const toggleCretionOffer = () => {
-        return <PageToggle compSuccess={<OfferCreationToggle/>} compError={<div>teste</div>}/>
+        return <PageToggle compSuccess={<OfferCreationToggle/>} compError={<NotLogged/>}/>
     }
     const toggleCurchats = () => {
-        return <PageToggle compError={<Login />} compSuccess={<CurrentChats/>}/>
+        return <PageToggle compError={<NotLogged/>} compSuccess={<CurrentChats/>}/>
     }
 
     return (
