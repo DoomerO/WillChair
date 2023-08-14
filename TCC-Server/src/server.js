@@ -37,6 +37,12 @@ io.on("connection", (socket) => {
             User_user_id : data.user
         })
     })
+
+    socket.on("endChat", async (data) => {
+        await knex("Chat").del().where("chat_id", data);
+        await knex("Message").del().where("Chat_chat_id", data);
+        socket.emit("Desconnect", "Chat finalizado...");
+    })
 });
 
 server.get('/', async (req, res) => {
