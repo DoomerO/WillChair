@@ -38,6 +38,9 @@ const HeaderLogged = ({name, img}: avatarProps) => {
                         <Link to="/about"><MenuItem>
                             Sobre nós
                         </MenuItem></Link>
+                        <Link to="/create-offer/all"><MenuItem>
+                            Criar Oferta
+                        </MenuItem></Link>
                         <Link to="/logout"><MenuItem>
                             Log Out
                         </MenuItem></Link>

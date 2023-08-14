@@ -13,7 +13,7 @@ const OfferList = ({component}: listProps) => {
                         height: '4px',
                         },
                         '&::-webkit-scrollbar-track': {
-                        background: '#aaaaaa',
+                        background: '#0000',
                         },
                         '&::-webkit-scrollbar-thumb': {
                         background: '#1976D2',

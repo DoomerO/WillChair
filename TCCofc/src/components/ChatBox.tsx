@@ -1,10 +1,11 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { Avatar, Box, Card, CardBody, CardFooter, Flex, Input, InputGroup, InputRightAddon, Spacer, Stack, Text } from "@chakra-ui/react";
+import { Avatar, Box, Button, Card, CardBody, CardFooter, Flex, Input, InputGroup, InputRightAddon, Spacer, Stack, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { socket } from "./socket/socket";
 
 import {IoMdSend} from "react-icons/io";
 import colors from "../colors/colors";
+import { useNavigate } from "react-router-dom";
 
 interface chatBoxProps {
     user_id : number,
@@ -15,6 +16,8 @@ interface chatBoxProps {
 const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
     socket.connect();
 
+    const navigate = useNavigate();
+    const toast = useToast();
     const [messages, setMessages] = useState([]);
     let msgRender: object[] = []
     const [msg, setMsg] = useState("");
@@ -26,6 +29,11 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
     socket.on("showMsg", (resp) => {
         setMessages(resp);
     });
+
+    socket.on("Desconnect", (resp) => {
+        navigate(0);
+        socket.close();
+    })
 
     messages.map(item => {
         msgRender.push(item)
@@ -69,15 +77,20 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
     return (
         <Card w={{base:"90%", sm:"80vw"}} bg="#f7f7f7" variant="outline" _dark={{bg : colors.colorFontDarkBlue}}>
             <Flex w="100%" align="center" direction="row" pt="1%" pb="1%">
-                <Avatar name={other.user_name} src={other.user_img} size={{base:"md", sm:"sm"}} mr="2%" ml="2%"/>
+                <Avatar name={other.user_name} src={other.user_img} size={{base:"md", sm:"sm"}} mr="1%" ml="2%"/>
                 <Text fontSize={{base:"20px", sm:"15px"}}>{other.user_name}</Text>
+                <Spacer/>
+                <Button variant="outline" mr="2%" onClick={() => {
+                        socket.emit("endChat", chat_id);
+                    }
+                } colorScheme="red">Cancelar chat</Button>
             </Flex>
             <CardBody minH={{base:"60vh" , sm:"50vh"}} maxH={{base:"60vh", sm:"50vh"}} overflowY="scroll" css={{
                         '&::-webkit-scrollbar': {
                         width: '4px',
                         },
                         '&::-webkit-scrollbar-track': {
-                        background: '#aaaaaa',
+                        background: '#0000',
                         },
                         '&::-webkit-scrollbar-thumb': {
                         background: '#1976D2',
