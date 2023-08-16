@@ -4,8 +4,8 @@
 <p>We are using React for the front-end of our application and mysql for the back-end, for the database and server, knex and express.</p>
 
 #Preview of the pages
-<img src="https://drive.google.com/file/d/1_to6cbUoLk45_gHncHGr-Vr3taCqpwVl/view"/>
-<img src=""/>
+<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/homeNotLogged.png"/>
+<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/homeNotLogged.png"/>
 <img/>
 <img/>
 <img/>
