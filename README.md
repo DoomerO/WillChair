@@ -7,7 +7,7 @@
 
 - Home without login
 <img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/homeNotLogged.png"/>
-<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/whatisHere.png"/>
+<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/whatIsHere.png"/>
 
 - Home with login
 <img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/homeLogged.png"/>
