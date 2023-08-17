@@ -1,5 +1,5 @@
 import { Flex, Text } from "@chakra-ui/react";
-import "../fonts/fonts.css";
+import "../../fonts/fonts.css";
 
 interface signProps {
     msg : string,

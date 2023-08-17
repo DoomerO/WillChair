@@ -1,6 +1,6 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import "../fonts/fonts.css";
+import "../../fonts/fonts.css";
 
 interface signProps {
     msg : string,

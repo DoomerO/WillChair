@@ -1,22 +1,28 @@
-import HeaderToggle from "../components/toggles/HeaderToggle";
-import Footer from "../components/Footer";
 import {Box, Flex, Text, Grid, Center, GridItem, Stack, Divider, Heading} from "@chakra-ui/react"
-import axios from "axios";
 import { useEffect, useState } from "react";
 import decode from "../components/code/decoderToken";
-import colors from "../colors/colors";
+import axios from "axios";
+
+import HeaderToggle from "../components/toggles/HeaderToggle";
+import Footer from "../components/Footer";
+import SignAdaptable from "../components/signs/SignAdaptable";
+import ChatSignList from "../components/chats/ChatSignList";
+import ChatSign from "../components/chats/ChatSign";
+
+import { TbMessageCircleSearch } from "react-icons/tb";
 import '../fonts/fonts.css';
-import SignNotFound from "../components/signs/SignNotFound";
+import colors from "../colors/colors";
+import { MdOutlineBusinessCenter } from "react-icons/md";
 
 const CurrentChats = () => {
 
     const [userToken, setToken] = useState(decode(localStorage.getItem("token")));
     const [user, setUser] = useState([]);
     const [chatsOthers, setChatsOthers] = useState([]);
-    const [offersInterest, setInterest] = useState([]);
+    const [selectedChat, setSlctChat] = useState(0)
 
     async function getUser() {
-        await axios.get(`http://localhost:3344/user/email/${userToken.email}`, {
+        await axios.get(`http://localhost:3344/users/email/${userToken.email}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
             setUser(res.data);
@@ -35,14 +41,6 @@ const CurrentChats = () => {
         });
     }
 
-    async function getOffersOthers(id : number) {
-        await axios.get(`http://localhost:3344/offer/id/${id}`).then((res) => {
-            setInterest(prev => ([...prev, res.data]))
-        }).catch((error) => {
-            console.log(error)
-        });
-    }
-
     useEffect(() => {
         getUser();
     }, [])
@@ -53,18 +51,8 @@ const CurrentChats = () => {
         }
     }, [user])
 
-    useEffect(() => {
-        if(chatsOthers) {
-            for (const chat of chatsOthers) {
-                getOffersOthers(chat.Offer_ofr_id)
-            }
-        }
-    }, [chatsOthers])
-
-    const renderOfferOthers = offersInterest.map(item => {
-        return <div key={item.ofr_id}>
-            {item.ofr_name}
-        </div>
+    const renderChatsOthers = chatsOthers.map(item => {
+        return <ChatSign offerId={item.Offer_ofr_id} click={() => {setSlctChat(item.chat_id)}} key={item.chat_id}/>
     }) 
 
     return (
@@ -73,11 +61,11 @@ const CurrentChats = () => {
                 <Flex direction="row" w="100%" h="100vh">
                     <Stack w="25%" bg={colors.bgWhite} pt="5%" _dark={{bg : colors.bgWhite_Dark, borderRight : "1px solid #fff"}} h="100%" borderRight="1px solid #000" align="center"> 
                         <Heading as="h2" pb="4%" fontSize={{base: "32px", sm: "29px"}} fontFamily="outfit" borderBottom="1px solid #000" w="100%" textAlign="center" _dark={{borderBottom : "1px solid #fff"}}>Suas conversas</Heading>
-                        {(offersInterest.length > 0) ? renderOfferOthers : <SignNotFound msg="Você é anti-social, vai tomar no cu" icon={<div></div>}/>}
+                        {(chatsOthers.length > 0) ? <ChatSignList component={renderChatsOthers}/> : <SignAdaptable msg="Aparentemente, você não possuí nenhuma conversa... Procure uma oferta interessnate e comece alguma!" icon={<TbMessageCircleSearch size="45%"/>} bgType="none"/>}
                     </Stack>
                     
-                    <Flex w="75%" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark}} h="100%">
-
+                    <Flex w="75%" align="center" justifyContent="center" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark}} h="100%" direction="column">
+                        {(selectedChat === 0) ? <SignAdaptable msg="Escolha alguma das ofertas que você se interessou para poder negociar com seu dono. Assim você vai poder trocar suas mensagens aqui" icon={<MdOutlineBusinessCenter size="25%"/>} bgType="none" width="95%"/> : <div>teste</div>}
                     </Flex>
                 </Flex>
             <Footer/>
