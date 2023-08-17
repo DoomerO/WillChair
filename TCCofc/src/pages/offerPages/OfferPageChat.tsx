@@ -7,7 +7,7 @@ import Footer from "../../components/Footer";
 import colors from "../../colors/colors";
 import testImg from "../../img/home/imgHomeMiddle.png";
 import ProdInfoTable from "../../components/ProdInfoTable";
-import ChatBox from "../../components/ChatBox";
+import ChatBox from "../../components/chats/ChatBox";
 import "../../fonts/fonts.css";
 
 import {BsFillStarFill} from "react-icons/bs";
