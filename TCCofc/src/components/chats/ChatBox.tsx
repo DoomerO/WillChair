@@ -1,6 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Avatar, Box, Button, Card, CardBody, CardFooter, Flex, Input, InputGroup, InputRightAddon, Spacer, Stack, Text, useToast } from "@chakra-ui/react";
-import axios from "axios";
 import { socket } from "../socket/socket";
 
 import {IoMdSend} from "react-icons/io";
