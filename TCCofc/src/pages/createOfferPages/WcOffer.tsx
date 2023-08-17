@@ -5,7 +5,7 @@ import HeaderToggle from "../../components/toggles/HeaderToggle";
 import colors from "../../colors/colors";
 import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
-import decode from "../../components/decoderToken";
+import decode from "../../components/code/decoderToken";
 
 const WcOffer = () => {
 

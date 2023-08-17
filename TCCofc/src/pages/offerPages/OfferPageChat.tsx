@@ -16,7 +16,7 @@ import {GiUncertainty} from "react-icons/gi";
 
 import CardOffer from "../../components/offerCards/OfferCard";
 import OfferList from "../../components/offerCards/OfferList";
-import SignNotFound from "../../components/SignNotFound";
+import SignNotFound from "../../components/signs/SignNotFound";
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineReport } from "react-icons/md";
 

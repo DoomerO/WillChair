@@ -11,7 +11,7 @@ import { BiSearchAlt } from "react-icons/bi";
 import colors from "../colors/colors";
 import "../fonts/fonts.css";
 import { MdOutlineSearchOff } from "react-icons/md";
-import SignNotFound from "../components/SignNotFound";
+import SignNotFound from "../components/signs/SignNotFound";
 
 const Search = () => {
     const {query} = useParams();

@@ -8,13 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 //componentes Willchair
-import decode from '../components/decoderToken';
+import decode from '../components/code/decoderToken';
 import HeaderToggle from '../components/toggles/HeaderToggle';
 import Footer from '../components/Footer';
 import CardOffer from '../components/offerCards/OfferCard';
 import OfferList from '../components/offerCards/OfferList';
-import SignNotFound from '../components/SignNotFound';
-import SignNotFoundButton from '../components/SignNotFoundButton';
+import SignNotFound from '../components/signs/SignNotFound';
+import SignNotFoundButton from '../components/signs/SignNotFoundButton';
 import SlideMsg from '../components/SlideMsg';
 
 //icons

@@ -14,10 +14,10 @@ import {BsFillStarFill} from "react-icons/bs";
 import {BiConfused} from "react-icons/bi";
 import {GiUncertainty} from "react-icons/gi";
 import {MdOutlineReport} from "react-icons/md";
-import SignNotFoundButton from "../../components/SignNotFoundButton";
+import SignNotFoundButton from "../../components/signs/SignNotFoundButton";
 import CardOffer from "../../components/offerCards/OfferCard";
 import OfferList from "../../components/offerCards/OfferList";
-import SignNotFound from "../../components/SignNotFound";
+import SignNotFound from "../../components/signs/SignNotFound";
 
 const OfferPage = () => {
     const {id} = useParams();

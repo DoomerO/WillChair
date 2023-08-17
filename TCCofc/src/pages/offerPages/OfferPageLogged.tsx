@@ -1,7 +1,7 @@
 import OfferPageChat from "./OfferPageChat";
 import { ReactElement, useEffect, useState } from "react";
 import axios from "axios";
-import decode from "../../components/decoderToken";
+import decode from "../../components/code/decoderToken";
 import { useParams } from "react-router-dom";
 import OfferPageOwner from "./OfferPageOwner";
 

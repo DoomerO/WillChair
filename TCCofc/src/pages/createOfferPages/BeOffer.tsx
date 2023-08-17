@@ -5,7 +5,7 @@ import {FormControl, FormLabel, FormErrorMessage, FormHelperText} from '@chakra-
 import HeaderToggle from "../../components/toggles/HeaderToggle";
 import axios from "axios";
 import { useState, useEffect, ChangeEvent } from "react";
-import decode from "../../components/decoderToken";
+import decode from "../../components/code/decoderToken";
 
 
 const BeOffer = () => {

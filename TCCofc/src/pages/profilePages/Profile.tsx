@@ -5,7 +5,7 @@ import axios from "axios";
 import { Box, Flex, Spacer, Heading, Stack, Text, Avatar, SimpleGrid } from '@chakra-ui/react'
 import "../../fonts/fonts.css"
 import colors from "../../colors/colors";
-import SignNotFound from "../../components/SignNotFound";
+import SignNotFound from "../../components/signs/SignNotFound";
 import CommentList from "../../components/comments/CommentList";
 import Comment from "../../components/comments/Comment";
 import OfferList from "../../components/offerCards/OfferList";

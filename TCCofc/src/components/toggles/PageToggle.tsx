@@ -1,4 +1,4 @@
-import decode from "../decoderToken";
+import decode from "../code/decoderToken";
 
 import TokenErrorPage from "../../pages/intersections/TokenErrorPage";
 

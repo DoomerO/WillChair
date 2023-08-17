@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import HeaderToggle from "../components/toggles/HeaderToggle";
 import { Box, Input, Flex, Heading, Select, Button, ButtonGroup, Stack, VStack, Text, Collapse, Textarea, useToast, Image} from '@chakra-ui/react';
 import axios from "axios";
-import decode from "../components/decoderToken";
+import decode from "../components/code/decoderToken";
 import { useParams, Link } from "react-router-dom";
 import "../fonts/fonts.css"
 import image from "../img/report/reportImg.png";

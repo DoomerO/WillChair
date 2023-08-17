@@ -1,6 +1,6 @@
 import {Flex, Spacer, Text, Heading, Button, Box} from "@chakra-ui/react";
 import "../../fonts/fonts.css";
-import logOutFunc from "../../components/logout";
+import logOutFunc from "../../components/code/logout";
 import { Link } from "react-router-dom";
 import {AiOutlineArrowDown} from "react-icons/ai"
 
