@@ -171,7 +171,6 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
 
     const handleChangeOffer = (e:ChangeEvent<HTMLInputElement>) => {
         setUpdateOffer(prev => ({...prev, [e.target.name]:e.target.value}));
-        console.log(updateOffer);
     }
 
     const handleChangeSelect = (e:ChangeEvent<HTMLInputElement>) => {

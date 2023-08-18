@@ -30,6 +30,9 @@ module.exports= {
                     user_phone : consult[0].user_phone,
                     user_img : consult[0].user_img,
                     user_comp : consult[0].user_comp,
+                    user_street : consult[0].user_street,
+                    user_district : consult[0].user_district,
+                    user_FU : consult[0].useruser_FU,
                     user_email : consult[0].user_email
                 }
                 return res.status(201).json(result);
@@ -59,6 +62,9 @@ module.exports= {
                     user_phone : consult[0].user_phone,
                     user_img : consult[0].user_img,
                     user_comp : consult[0].user_comp,
+                    user_street : consult[0].user_street,
+                    user_district : consult[0].user_district,
+                    user_FU : consult[0].useruser_FU,
                     user_email : consult[0].user_email
                 }
                 return res.status(201).json(result);
@@ -158,6 +164,9 @@ module.exports= {
             const {user_houseNum} = req.body;
             const {user_img} = req.body;
             const {user_city} = req.body;
+            const {user_street} = req.body;
+            const {user_district} = req.body;
+            const {user_FU} = req.body
             const {user_comp} = req.body;
 
             if (await knex('User').where("user_email", email) != "") {
@@ -167,6 +176,9 @@ module.exports= {
                     user_CEP,
                     user_houseNum,
                     user_city,
+                    user_street,
+                    user_FU,
+                    user_district,
                     user_img,
                     user_comp
                 }).where('user_email', email);
