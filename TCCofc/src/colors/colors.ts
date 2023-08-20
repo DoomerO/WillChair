@@ -19,7 +19,9 @@ const colors = {
     bgTableRow1: "#F1F6Fd",
     bgTableRow1_Dark: "#3a424f",
     bgTableRow2: "#F0F0F0",
-    bgTableRow2_Dark: "#3f3f3f"
+    bgTableRow2_Dark: "#3f3f3f",
+    bgProfileImg : "#f0f0f6",
+    bgProfileImg_Dark : "#404046"
 }
 
 export default colors

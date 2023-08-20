@@ -24,6 +24,7 @@ routes.get('/users/profile/:email', controllersUsers.searchUserEmail);
 routes.post('/users', controllersUsers.createUser);
 routes.put('/users/:email', auth,controllersUsers.updateUser);
 routes.put('/users/password/:email', auth,controllersUsers.updateUserPassword);
+routes.put('/users/email/:id', auth, controllersUsers.updateUserEmail);
 routes.delete('/users/:id', auth,controllersUsers.deleteUser);
 
 //Offer Routes

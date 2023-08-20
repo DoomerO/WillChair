@@ -169,7 +169,9 @@ module.exports= {
             const {user_FU} = req.body
             const {user_comp} = req.body;
 
-            if (await knex('User').where("user_email", email) != "") {
+            const consult = await knex('User').where("user_email", email);
+
+            if (consult != "") {
                 await knex("User").update({
                     user_name,
                     user_phone,
@@ -186,7 +188,15 @@ module.exports= {
             else {
                 return res.status(401).json({msg: "Esse usuário não existe"});
             }
-            return res.status(201).json({msg: "Usuário atualizado!"});
+
+            const user = {name: user_name, email: consult[0].user_email, level: consult[0].user_level}
+            
+            const acssesToken = jwt.sign( //criação de token
+            user,
+            process.env.TOKEN_KEY_ACSSES,
+            {expiresIn: '3h'});
+
+            return res.status(201).json({token: acssesToken});
         }
         catch(error) {
             return res.status(400).json({error: error.message});
@@ -214,6 +224,37 @@ module.exports= {
                 return res.status(401).json({msg: "Esse usuário não existe"});
             }
             return res.status(201).json({msg: "Senha de " + email + " atualizada!"});
+        }
+        catch(error) {
+            return res.status(400).json({error: error.mesage});
+        }
+    },
+
+    async updateUserEmail(req, res) {
+        try {
+            const {id} = req.params;
+
+            const {email} = req.body;
+
+            if(await knex("User").where("user_email", email) != "") {
+                return res.status(401).json({msg: "There is a user with this email alredy."})
+            }
+            const consult = await knex("User").where("user_id", id);
+            if(consult !="") {
+                await knex("User").update({
+                    user_email : email
+                }).where("user_id", id);
+
+                const user = {name: consult[0].user_name, email: email, level: consult[0].user_level}
+            
+                const acssesToken = jwt.sign( //criação de token
+                user,
+                process.env.TOKEN_KEY_ACSSES,
+                {expiresIn: '3h'});
+
+                return res.status(201).json({token : acssesToken});
+            }
+            return res.status(401).json({msg : "There is no user with this id"});            
         }
         catch(error) {
             return res.status(400).json({error: error.mesage});

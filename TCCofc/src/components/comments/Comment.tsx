@@ -29,7 +29,7 @@ const Comment = ({userId, content, date} : commentProps) => {
     }, [userId]);
     
     return (
-        <Stack pt="2.5%" w="30vw" pb="5%" align="center" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark}} borderRadius="10px">
+        <Stack pt="2.5%" w={{base:"80vw" ,sm:"30vw"}} pb="5%" align="center" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark}} borderRadius="10px">
             <Flex direction="row" w="90%" align="center">
                 <Link to={`/profile/${userEnv.user_email}/view`}>
                     <Avatar size="sm" name={userEnv.user_name} src={""} mr="2px" _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}/>
