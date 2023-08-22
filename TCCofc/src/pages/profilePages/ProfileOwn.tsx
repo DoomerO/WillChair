@@ -86,7 +86,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
     function discartChanges() {
         setUpdate(prev => ({...prev, 
             user_name : user.user_name,
-            user_img : (user.user_img) ? String.fromCharCode(...new Uint8Array(user.user_img)) : null,
+            user_img : (user.user_img) ? String.fromCharCode(...new Uint8Array(user.user_img.data)) : null,
             user_phone : user.user_phone,
             user_street : user.user_street,
             user_district : user.user_district,
@@ -111,7 +111,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
         if(user.user_id) {
             setUpdate(prev => ({...prev, 
                 user_name : user.user_name,
-                user_img : (user.user_img) ? String.fromCharCode(...new Uint8Array(user.user_img)) : null,
+                user_img : (user.user_img) ? String.fromCharCode(...new Uint8Array(user.user_img.data)) : null,
                 user_phone : user.user_phone,
                 user_street : user.user_street,
                 user_district : user.user_district,

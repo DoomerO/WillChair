@@ -34,9 +34,8 @@ const Contact = () => {
                         <BsFacebook size="36" color="blue" />
                         <Text color="black" mt="2">Curta-nos no Facebook</Text>
                     </Link>
-      </Flex>
-    </Box>
-     
+                  </Flex>
+                </Box>
                 
                 <Stack w="60%" h="100%"  textAlign="center" direction="column" >
                     <Heading color="blue">estamos aqui</Heading>

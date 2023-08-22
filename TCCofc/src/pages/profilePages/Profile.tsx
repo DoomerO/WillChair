@@ -70,7 +70,7 @@ const Profile = ({user} : ProfileProps) => {
       <HeaderToggle/>
         <Flex direction="column" align="center" w="100%" bg={colors.bgWhite} h="fit-content" pt={{base:"9vh", sm:"4.6%"}} _dark={{bg : colors.bgWhite_Dark}}>
           <Flex direction={{base:"column", sm:"row"}} w="90%" h="fit-content" pb="5vh" align={{base:"center", sm:"normal"}}>
-              <Avatar src="" name={user.user_name} size="2xl" w="30vh" h="30vh"/>
+              <Avatar src={(user.user_img) ? String.fromCharCode(...new Uint8Array(user.user_img.data)) : ""} name={user.user_name} size="2xl" w="30vh" h="30vh"/>
               <Spacer/>
               <Stack w={{base:"95%", sm:"80%"}}>
 

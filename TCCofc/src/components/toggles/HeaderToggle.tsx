@@ -24,7 +24,7 @@ const HeaderToggle = () => {
             await axios.get(`http://localhost:3344/users/email/${email}`, {headers: {
                 authorization : "Bearer " + localStorage.getItem("token")
             }}).then(res => {
-                setComp(<HeaderLogged name={token.name} img=""/>)
+                setComp(<HeaderLogged name={token.name} img={(res.data.user_img) ? String.fromCharCode(...new Uint8Array(res.data.user_img.data)) : ""}/>)
             }).catch(error => {
                console.log(error);
                setComp(<Header/>);

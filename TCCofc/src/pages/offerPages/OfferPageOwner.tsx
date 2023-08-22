@@ -265,7 +265,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
 
                         <Stack w={{base:"100%", sm:"45%"}} h={{base:"20vh", sm:"100%"}} fontSize={{base:"20px", sm:"18px"}} mt="2vh">
                             <Flex direction="row" align="center">
-                                <Avatar name={user.user_name} src={user.user_img} mr="2%"></Avatar>
+                                <Avatar name={user.user_name} src={(user.user_img) ? String.fromCharCode(...new Uint8Array(user.user_img.data)) : ""} mr="2%"></Avatar>
                                 <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{base:"22px", sm:"20px"}} mr="2%">{user.user_name}</Text>
                                 <BsFillStarFill fill={colors.colorFontBlue}/>
                                 <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}} fontSize={{base:"22px", sm:"20px"}}>{(user.user_nota) ? user.user_nota : 0.0}</Text>

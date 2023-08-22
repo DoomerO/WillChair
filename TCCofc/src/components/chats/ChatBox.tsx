@@ -76,7 +76,7 @@ const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
     return (
         <Card w={{base:"90%", sm:"80vw"}} bg="#f7f7f7" variant="outline" _dark={{bg : colors.colorFontDarkBlue}}>
             <Flex w="100%" align="center" direction="row" pt="1%" pb="1%">
-                <Avatar name={other.user_name} src={other.user_img} size={{base:"md", sm:"sm"}} mr="1%" ml="2%"/>
+                <Avatar name={other.user_name} src={(other.user_img) ? String.fromCharCode(...new Uint8Array(other.user_img.data)) : ""} size={{base:"md", sm:"sm"}} mr="1%" ml="2%"/>
                 <Text fontSize={{base:"20px", sm:"15px"}}>{other.user_name}</Text>
                 <Spacer/>
                 <Button variant="outline" mr="2%" onClick={() => {
