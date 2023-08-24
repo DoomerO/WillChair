@@ -16,7 +16,7 @@ const {Server} = require('socket.io');
 
 const io = new Server(3000, {
     cors : {
-        origin: "http://localhost:5173"
+        origin: "http://127.0.0.1:5173"
     }
 });
 
@@ -24,10 +24,8 @@ io.on("connection", (socket) => {
     socket.emit("message", "Funfa");
     
     socket.on("reqMsg", async (data) => {
-        console.log(2)
         const msgs = await knex("Message").where("Chat_chat_id", data)
-        socket.emit("showMsg", msgs);
-        socket.emit("ganbis", msgs);
+        io.emit("showMsg", msgs);
     })
 
     socket.on("postMessage", async (data) => {
@@ -42,6 +40,16 @@ io.on("connection", (socket) => {
         await knex("Chat").del().where("chat_id", data);
         await knex("Message").del().where("Chat_chat_id", data);
         socket.emit("Desconnect", "Chat finalizado...");
+    });
+
+    socket.on("findOther", async (data) => {
+        const consult = await knex("Chat").where("chat_id", data).join("Offer", "Offer_ofr_id", "ofr_id").join("User", "Offer.User_user_id", "user_id");
+        const result =  {
+            user_img : consult[0].user_img,
+            user_id :  consult[0].user_id,
+            user_name : consult[0].user_name
+        }
+        socket.emit("otherUser", result);
     })
 });
 
