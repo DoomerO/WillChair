@@ -77,6 +77,7 @@ const BeOffer = () => {
             prod_height : formInputs.height,
             prod_type : "Cadeira de Rodas",
             prod_key : formInputs.key,
+            prod_composition : formInputs.composition
         }, { headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
             setSearch(true);
         }).catch((error) => {
@@ -135,7 +136,10 @@ const BeOffer = () => {
     }, [searchOwn])
 
     useEffect(() => {
-        if(prodOwn.length > 0) postOffer(); postChild();
+        if(prodOwn.length > 0){ 
+            postOffer(); 
+            postChild();
+        }
     }, [prodOwn])
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {

@@ -226,7 +226,7 @@ const HomeProd = () => {
                 <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{base: "36px", sm: "30px"}} _dark={{color: colors.colorFontDarkBlue_Dark}} mt="3%" mb="5%">
                     Ofertas criadas por você
                 </Heading>
-                {(userOffers.length > 0) ? <OfferList component={renderUserOffers}/> : <SignNotFoundButton msg="Parece que você não possui ofertas registradas...Que tal criar alguma?!" icon={<BsPencil size="45%"/>} btnText='Criar Oferta' btnPath='/createoffer'/>} 
+                {(userOffers.length > 0) ? <OfferList component={renderUserOffers}/> : <SignNotFoundButton msg="Parece que você não possui ofertas registradas...Que tal criar alguma?!" icon={<BsPencil size="45%"/>} btnText='Criar Oferta' btnPath='/create-offer/any'/>} 
             </Flex>
 
             <Flex bg={colors.bgWhite} w='100%' h='fit-content' align="center" _dark={{bg:colors.bgWhite_Dark}} direction="column">

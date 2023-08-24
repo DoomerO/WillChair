@@ -1,14 +1,19 @@
 import Footer from "../../components/Footer";
-import { Box, Flex, Spacer, Text, Heading, Stack, Container, Input, Select, FormLabel,
-    InputGroup, InputLeftElement, Button, ButtonGroup, Textarea, Image } from '@chakra-ui/react';
+import { Box, Flex, Spacer, Heading, Stack, Input, Select, FormLabel,
+    InputGroup, InputLeftElement, Button, ButtonGroup, Textarea, Image, useToast, Text } from '@chakra-ui/react';
 import HeaderToggle from "../../components/toggles/HeaderToggle";
 import colors from "../../colors/colors";
 import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import decode from "../../components/code/decoderToken";
+import { useNavigate } from "react-router-dom";
+import SignAdaptable from "../../components/signs/SignAdaptable";
+import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 
 const WcOffer = () => {
 
+    const toast = useToast();
+    const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [prodOwn, setProdOwn] = useState([]);
     const [user, setUser] = useState([]);
@@ -21,12 +26,16 @@ const WcOffer = () => {
         weight : 0,
         height : 0,
         key : "",
-        type : "",
+        type : "Cadeira Manual Simples",
         photo : prodOwn.prod_img,
         width : 0,
         widthseat : 0,
-        price : 0
-
+        maxWeight : 0,
+        price : 0,
+        composition : "",
+        condition : "Boa",
+        offerType : "Doação",
+        parcelas : 0
     });
 
     function generateKey() {
@@ -77,10 +86,21 @@ const WcOffer = () => {
             prod_height : formInputs.height,
             prod_type : "Cadeira de Rodas",
             prod_key : formInputs.key,
+            prod_composition : formInputs.composition,
+            prod_status : formInputs.condition
         }, { headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
             setSearch(true);
         }).catch((error) => {
             console.log(error);
+            if(error.response.status == 413) {
+                toast({
+                    title: 'Imagem muito grande!',
+                    description: "Tente usar uma imagem menor.",
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                  })
+            }
         })
     }
 
@@ -90,12 +110,22 @@ const WcOffer = () => {
             ofr_desc : formInputs.desc,
             ofr_value : formInputs.price,
             ofr_status : "Livre",
+            ofr_type : formInputs.offerType,
+            ofr_parcelas : formInputs.parcelas,
             User_user_id : user.user_id,
             Product_prod_id : prodOwn[0].prod_id
         }, {headers : {
             authorization : "Bearer " + localStorage.getItem("token")
         }}).then((res) => {
-
+            toast({
+                position: 'bottom',
+                render: () => (
+                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Produto criado com sucesso!</Text>
+                        <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate("/")}}>Ir para home</Button>
+                    </Stack>
+                )
+            })
         }).catch((error) => {
             console.log(error)
         })
@@ -107,10 +137,11 @@ const WcOffer = () => {
             cad_width : formInputs.width,
             cad_widthSeat : formInputs.widthseat,
             cad_type : formInputs.type,
+            cad_maxWeight : formInputs.maxWeight
         }, {headers : {
             authorization : "Bearer " + localStorage.getItem("token")
         }}).then((res) => {
-
+            
         }).catch((error) => {
             console.log(error);
         })
@@ -135,7 +166,10 @@ const WcOffer = () => {
     }, [searchOwn])
 
     useEffect(() => {
-        if(prodOwn.length > 0) postOffer(); postChild();
+        if(prodOwn.length > 0){
+            postOffer(); 
+            postChild();
+        }
     }, [prodOwn])
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
@@ -152,68 +186,95 @@ const WcOffer = () => {
 
     return (
             <Box w="100%" h="100%">
-                    <HeaderToggle/>
-                    <Flex w='100%' h='30vh' bg='#F7F9FC' align='center' _dark={{bg:'#4f4f4f'}}>
-                        <Flex mt='2%' align='center' direction='column' w='100%'>
-                            <Heading color='#1976D2' as='h1' fontSize="35px">Descreva sua Cadeira de Rodas</Heading>
-                        </Flex>
-                    </Flex>
+                <HeaderToggle/>
+                <Flex w='100%' h={{base:"23vh", sm:'20vh'}} pt={{base:"5%", sm:"3%"}} bg={colors.veryLightBlue} align='center' direction="column" justifyContent="center" _dark={{bg: colors.veryLightBlue_Dark}}>
+                    <Heading color='#1976D2' textAlign="center" as='h1' fontFamily="outfit" fontSize="35px">Descreva sua Cadeira de Rodas</Heading>
+                </Flex>
 
-                    <Flex w='100%' bg={colors.veryLightBlue} h='fit-content' align='center' direction='column' _dark={{bg:colors.bgWhite_Dark}} pb={{base:"5vh", sm:"none"}}>
+                <Flex w='100%' bg={colors.veryLightBlue} h={{base:"213vh", sm:'173vh'}} align='center' direction='column' _dark={{bg:colors.bgWhite_Dark}} pb={{base:"5vh", sm:"none"}}>
+
+                    <Stack gap="90" direction={{base: "column", sm: "row"}} >
+                    <Flex direction='column' align='center' w={{base:"90vw" ,sm:'60vw'}} fontSize={{base:"20px", sm:"18px"}} h={{base:'33%' , sm:'110vh'}}>
                         
-                        <Stack gap="90" direction={{base: "column", sm: "row"}} >
-                        <Flex direction='column' align='center' w='60vw' fontSize={{base:"20px", sm:"18px"}} h={{base:'33%' , sm:'110vh'}}>
-                            <Stack spacing={3}>
-                            <FormLabel fontSize={{base:"20px", sm:"18px"}}>Nome do produto<Input type='text' fontSize={{base:"20px", sm:"18px"}} 
+                        <Stack spacing={3} align="center">
+                            <Flex w={{base:"30vh" ,sm:"40vh"}} align="center" justifyContent="center" h={{base:"30vh" ,sm:"40vh"}} direction="column" border="2px dashed #000">{(formInputs.photo) ? <Image w={{base:"98%", sm:"96%"}} h={{base:"98%", sm:"96%"}} objectFit="contain" src={formInputs.photo}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%"/>} bgType={"none"}/>}</Flex>    
+
+                            <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Imagem<Input type="file" id="myfile" name="photo" accept="gif, .jpg, .jpeg, .png" onChange={handleImage}/></FormLabel>
+
+                            <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Nome do produto<Input type='text' fontSize={{base:"20px", sm:"18px"}} 
                             placeholder='Ex.: Cadeira de Rodas 101M - CDS' name='name' onChange={handleChange}/></FormLabel>
-                            <FormLabel fontSize={{base:"20px", sm:"18px"}}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{base:"20px", sm:"18px"}} textAlign="left" verticalAlign="top" onChange={handleChange}/></FormLabel>    
-                                    
+                            
+                            <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{base:"20px", sm:"18px"}} textAlign="left" verticalAlign="top" onChange={handleChange}/></FormLabel>    
+
                             <Flex w='100%' bg='#F7F9FC' h='fit-content' align='center' direction='column' _dark={{bg:'#4f4f4f'}}>
                                 <Flex direction={{base:"column", sm:"row"}} align="center">
-                                        <FormLabel fontSize={{base:"20px", sm:"18px"}}>Peso<Input name='weight' color="gray" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
-                                        <FormLabel fontSize={{base:"20px", sm:"18px"}}>Altura<Input name='height' color="gray" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
-
-                                        <FormLabel fontSize={{base:"20px", sm:"18px"}}>Tipo de cadeira<Select name='type' color="gray"
-                                        fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}>
-                                                <option value='option1'>Cadeira manual simples</option>
-                                                <option value='option2'>Cadeira dobrável em X</option>
-                                                <option value='option3'>Cadeira monobloco</option>
-                                                <option value='option4'>Cadeira motorizada</option>
-                                                <option value='option5'>Cadeira com elevação automática</option>
-                                                <option value='option6'>Cadeira de rodas reclinável</option>
-                                                <option value='option7'>Cadeira de rodas para banho</option>
-                                                <option value='option7'>Outro</option>
-                                    </Select></FormLabel>
+                                        <FormLabel fontSize={{base:"20px", sm:"18px"}}>{'Peso (kg)'}<Input name='weight' type="number" color="gray" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
+                                        <FormLabel fontSize={{base:"20px", sm:"18px"}}>{'Altura (m)'}<Input name='height' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
+                                        <FormLabel fontSize={{base:"20px", sm:"18px"}}>{'Composição'}<Input name='composition' color="gray" type="text" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
                                 </Flex>
                             </Flex>
 
-                            <Flex w='100%' bg='#F7F9FC' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}} _dark={{bg:'#4f4f4f'}}>
-                                <FormLabel fontSize={{base:"20px", sm:"18px"}}>Largura da cadeira<Input onChange={handleChange} name='width' borderColor='gray' color="gray" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
+                            <Flex w='100%' bg={colors.veryLightBlue} h='fit-content' align='center' direction={{base:'column' ,sm:'row'}} _dark={{bg: colors.veryLightBlue_Dark}}>
+                                <FormLabel fontSize={{base:"20px", sm:"18px"}}>Tipo de cadeira<Select name='type' color="gray"
+                                                fontSize={{base:"20px", sm:"18px"}} onChange={handleChange} value={formInputs.type}>
+                                                    <option value='Cadeira manual simples'>Cadeira manual simples</option>
+                                                    <option value='Cadeira dobrável em X'>Cadeira dobrável em X</option>
+                                                    <option value='Cadeira monobloco'>Cadeira monobloco</option>
+                                                    <option value='Cadeira motorizada'>Cadeira motorizada</option>
+                                                    <option value='Cadeira com elevação automática'>Cadeira com elevação automática</option>
+                                                    <option value='Cadeira de rodas reclinável'>Cadeira de rodas reclinável</option>
+                                                    <option value='Cadeira de rodas para banho'>Cadeira de rodas para banho</option>
+                                                    <option value='Outro'>Outro</option>                                        
+                                </Select></FormLabel>
                                 <Spacer/>
-                                <FormLabel fontSize={{base:"20px", sm:"18px"}}>Largura do assento<Input onChange={handleChange} name='widthseat' color="gray" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
+                                <FormLabel w={{base:"95%", sm:"45%"}} fontSize={{base:"20px", sm:"18px"}}>Condição do Equipamento<Select name='condition' color="gray"
+                                                fontSize={{base:"20px", sm:"18px"}} onChange={handleChange} value={formInputs.status}>
+                                                    <option value='Boa'>Boa</option>
+                                                    <option value='Rasoável'>Rasoável</option>
+                                                    <option value='Ruim'>Ruim</option>                                        
+                                </Select></FormLabel> 
                             </Flex>
-   
-                            <Flex w='100%' bg='#F7F9FC' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}} _dark={{bg:'#4f4f4f'}}>
-                            <Input type="file" id="myfile" name="photo" accept="gif, .jpg, .jpeg, .png" onChange={handleImage}/>
+                            
+                            
+                            <Flex w='100%' bg={colors.veryLightBlue} h='fit-content' align='center' direction={{base:'column' ,sm:'row'}} _dark={{bg: colors.veryLightBlue_Dark}}>
+                                <FormLabel fontSize={{base:"20px", sm:"18px"}}>{'Peso (kg)'}<Input name='weight' type="number" color="gray" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
+                                <Spacer/>
+                                <FormLabel fontSize={{base:"20px", sm:"18px"}}>{'Altura (m)'}<Input name='height' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
+                                <Spacer/>
+                                <FormLabel fontSize={{base:"20px", sm:"18px"}}>{'Composição'}<Input name='composition' color="gray" type="text" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
                             </Flex>
 
-                            <Stack spacing={4}>
-                                <InputGroup>
-                                    <InputLeftElement pointerEvents='none' color='gray.440' fontSize='0.9em' children='R$'/>
-                                    <Input onChange={handleChange} fontSize={{base:"20px", sm:"18px"}} name='price' placeholder='Preço' type='number' w="98.5%" />
-                                </InputGroup>
-                            </Stack>
+                            <Flex w='100%' bg={colors.veryLightBlue} h='fit-content' align='center' direction={{base:'column' ,sm:'row'}} _dark={{bg: colors.veryLightBlue_Dark}}>
+                                <FormLabel fontSize={{base:"20px", sm:"18px"}}>{'Largura da cadeira (cm)'}<Input onChange={handleChange} name='width' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
+                                <Spacer/>
+                                <FormLabel fontSize={{base:"20px", sm:"18px"}}>{'Largura do assento (cm)'}<Input onChange={handleChange} name='widthseat' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
+                                <Spacer/>
+                                <FormLabel fontSize={{base:"20px", sm:"18px"}}>{'Peso Máximo Suportado (kg)'}<Input onChange={handleChange} name='maxWeight' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
+                            </Flex>
 
-                            </Stack>
-                                <ButtonGroup variant="outline" spacing='6' margin="5vh">
-                                    <Button colorScheme='blue' onClick={() => {postProduct();}}>Salvar</Button>
-                                    <Button>Cancelar</Button>
-                                </ButtonGroup>
-                        </Flex>
+                            <Flex w='100%' bg={colors.veryLightBlue} h='fit-content' align='center' direction={{base:'column' ,sm:'row'}} _dark={{bg: colors.veryLightBlue_Dark}}>
+                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Tipo de Oferta<Select name='offerType' color="gray"
+                                                fontSize={{base:"20px", sm:"18px"}} onChange={handleChange} value={formInputs.offerType}>
+                                                    <option value='Doação'>Doação</option>
+                                                    <option value='Venda'>Venda</option>
+                                                    <option value='Aluguél'>Aluguél</option>                              
+                                </Select></FormLabel>
+                                <Spacer/>
+                                <FormLabel display={(formInputs.offerType != "Doação") ? "block" : "none"} fontSize={{base:"20px", sm:"18px"}}>{'Preço (R$)'}<Input onChange={handleChange} name='price' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
+                                <Spacer/> 
+                                <FormLabel display={(formInputs.offerType == "Aluguél") ? "block" : "none"} fontSize={{base:"20px", sm:"18px"}}>{'Parcelas'}<Input onChange={handleChange} name='parcelas' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>  
+                            </Flex>
+
                         </Stack>
+                        <ButtonGroup variant="outline" spacing='6' mt="5vh">
+                            <Button colorScheme='blue' onClick={() => {postProduct();}}>Salvar</Button>
+                            <Button onClick={() => {navigate("/")}}>Cancelar</Button>
+                        </ButtonGroup>
                     </Flex>
-                <Footer/>
-            </Box> 
+                    </Stack>
+                </Flex>
+            <Footer/>
+        </Box> 
     )
 }
 

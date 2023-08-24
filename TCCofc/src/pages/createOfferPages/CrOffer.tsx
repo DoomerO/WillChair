@@ -133,7 +133,10 @@ const CrOffer = () => {
     }, [searchOwn])
 
     useEffect(() => {
-        if(prodOwn.length > 0) postOffer(); postChild();
+        if(prodOwn.length > 0){
+            postOffer(); 
+            postChild();
+        }
     }, [prodOwn])
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
