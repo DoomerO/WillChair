@@ -13,6 +13,8 @@ import { TbMessageCircleSearch } from "react-icons/tb";
 import '../fonts/fonts.css';
 import colors from "../colors/colors";
 import { MdOutlineBusinessCenter } from "react-icons/md";
+import ChatBox from "../components/chats/ChatBox";
+import ChatSquare from "../components/chats/ChatSquare";
 
 const CurrentChats = () => {
 
@@ -65,7 +67,7 @@ const CurrentChats = () => {
                     </Stack>
                     
                     <Flex w="75%" align="center" justifyContent="center" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark}} h="100%" direction="column">
-                        {(selectedChat === 0) ? <SignAdaptable msg="Escolha alguma das ofertas que você se interessou para poder negociar com seu dono. Assim você vai poder trocar suas mensagens aqui" icon={<MdOutlineBusinessCenter size="25%"/>} bgType="none" width="95%"/> : <div>teste</div>}
+                        {(selectedChat === 0) ? <SignAdaptable msg="Escolha alguma das ofertas que você se interessou para poder negociar com seu dono. Assim você vai poder trocar suas mensagens aqui" icon={<MdOutlineBusinessCenter size="25%"/>} bgType="none" width="95%"/> : <ChatSquare chat_id={selectedChat} user_id={user.user_id} end={() => {setSlctChat(0)}}/>}
                     </Flex>
                 </Flex>
             <Footer/>
