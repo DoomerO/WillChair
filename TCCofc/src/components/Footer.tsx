@@ -32,13 +32,13 @@ const Footer = () => {
                 <Spacer />
                 <Stack direction={{base:"column", sm:"row"}} w='fit-content' m={{base: "5%", sm:'none'}}>
                     <Container borderRadius='100%' bg='#4A4A4A' p='15px' _hover={{bg : '#3a3a3a'}}>
-                        <Link to='/'><BsWhatsapp color='#eee' size='5vh'/></Link>
+                        <a href='https://web.whatsapp.com/'><BsWhatsapp color='#eee' size='5vh'/></a>
                     </Container>
                     <Container borderRadius='100%' bg='#4A4A4A' p='15px' _hover={{bg : '#3a3a3a'}}>
-                        <Link to='https://instagram.com/grupo_willchair?igshid=MzRIODBiNWFIZA=='><AiOutlineInstagram color='#eee' size='5vh'/></Link>
+                        <a href='https://instagram.com/grupo_willchair?igshid=MzRIODBiNWFIZA=='><AiOutlineInstagram color='#eee' size='5vh'/></a>
                     </Container>
                     <Container borderRadius='100%' bg='#4A4A4A' p='15px' _hover={{bg : '#3a3a3a'}}>
-                        <Link to='https://www.facebook.com/profile.php?id=100093288588328&mibextid=/ZbWKwL'><CiFacebook color='#eee' size='5vh'/></Link>
+                        <a href='https://www.facebook.com/profile.php?id=100093288588328&mibextid=/ZbWKwL'><CiFacebook color='#eee' size='5vh'/></a>
                     </Container>
                 </Stack>
                 <Spacer />
