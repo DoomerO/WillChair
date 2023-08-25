@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CreateOffer from "./CreateOffer";
-import WcOffer from "./wcOffer";
-import WaOffer from "./waOffer";
-import CrOffer from "./crOffer";
-import BeOffer from "./BeOffer";
+import CadeiraRodasOffer from "./CaderiaRodasOffer";
+import BengalaOffer from "./BengalaOffer";
+import MuletaOffer from "./MuletaOffer";
+import AndadorOffer from "./AndadorOffer";
 
 const OfferCreationToggle = () => {
     const {type} = useParams();
@@ -13,16 +13,16 @@ const OfferCreationToggle = () => {
     useEffect(() => {
         if(type) switch (type) {
             case "cadeira-rodas":
-                setComp(<WcOffer/>)
+                setComp(<CadeiraRodasOffer/>)
             break;
             case "bengala":
-                setComp(<WaOffer/>)
+                setComp(<BengalaOffer/>)
             break;
             case "andador":
-                setComp(<BeOffer/>)
+                setComp(<AndadorOffer/>)
             break;
             case "muleta":
-                setComp(<CrOffer/>)
+                setComp(<MuletaOffer/>)
             break;
             case "other":
                 setComp(<div>Teste</div>)
