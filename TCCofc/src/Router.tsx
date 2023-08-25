@@ -15,6 +15,7 @@ import ProfileToggle from "./pages/profilePages/ProfileToggle";
 import CurrentChats from "./pages/CurrentChats";
 import NotLogged from "./pages/intersections/NotLogged";
 import OfferCreationToggle from "./pages/createOfferPages/OfferCreationToggle";
+import Avaliation from "./pages/Avaliation";
 
 const Router = () => {
     const toggleHome = () => {
@@ -48,6 +49,7 @@ const Router = () => {
             <Route Component={Report} path="/report/:offer"/>
             <Route Component={toggleProfile} path="/profile/:email/view"/>
             <Route Component={toggleCurchats} path="/current-chats"/>
+            <Route Component={Avaliation} path="/avaliation"/>
         </Routes>
     </BrowserRouter>
     )
