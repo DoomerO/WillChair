@@ -6,7 +6,7 @@ import { ImInstagram } from "react-icons/im"
 import HeaderToggle from '../components/toggles/HeaderToggle';
 import { Link } from "react-router-dom";
 import "../fonts/fonts.css"
-import colors from "../colors/colors";
+import colors from "../colors/colors"; 
 
 
 const Contact = () => {
@@ -18,28 +18,28 @@ const Contact = () => {
           <Heading as="h2" size="lg" mb="6" fontFamily="outfit">
             Entre em Contato Conosco
           </Heading>
-          <Link to="/" target="_blank" rel="noopener noreferrer">
+          <a href="https://web.whatsapp.com/" target="_blank" rel="noopener noreferrer">
             <Flex direction="row" justifyContent="center" align="center" bg="#25D366" p="4" borderRadius="md" color="white" mb="8" w="35.7vw" _hover={{bg : "#25D366d0"}}>
                 <IoLogoWhatsapp size="36"/>
                 <Text ml="3%" fontFamily="outfit">Entre em contato conosco pelo WhatsApp</Text>
             </Flex>
-          </Link>
+          </a>
         <Heading as="h2" size="lg" mb="6" fontFamily="outfit">
           Nossas Redes Sociais
         </Heading>
           <Flex direction="column" align="center">
-            <Link to="/" target="_blank" rel="noopener noreferrer">
+            <a href="https://instagram.com/grupo_willchair?igshid=MzRIODBiNWFIZA==" target="_blank" rel="noopener noreferrer">
             <Flex direction="row" justifyContent="center" align="center" bg="#dd2a7b" p="4" borderRadius="md" color="white" mb="8" w="35.7vw" _hover={{bg : "#dd2a7bd0"}}>
               <ImInstagram size="36"/>
               <Text ml="3%" fontFamily="outfit">Siga-nos no Instagram</Text>
             </Flex>
-            </Link>
-            <Link to="/" target="_blank" rel="noopener noreferrer">
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=100093288588328&mibextid=/ZbWKwL" target="_blank" rel="noopener noreferrer">
               <Flex direction="row" justifyContent="center" align="center" bg="#2618F2" p="4" borderRadius="md" color="white" mb="8" w="35.7vw" _hover={{bg : "#2618F2d0"}}>
                 <BsFacebook size="36"/>
                 <Text ml="3%" fontFamily="outfit">Curta-nos no Facebook</Text>
               </Flex>
-            </Link>
+            </a>
         </Flex>
       </Box>
       <Stack w="60%" h="100%" pt="5%" textAlign="center" direction="column" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark}}>
