@@ -68,7 +68,8 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
                     ben_maxHeight : prodUpdate.append1,
                     ben_minHeight: prodUpdate.append2,
                     ben_type: prodUpdate.append3,
-                    ben_regulator: prodUpdate.append4
+                    ben_regulator: prodUpdate.append4,
+                    ben_color: prodUpdate.append5
                 },
                 {
                     headers : {authorization : "Bearer " + localStorage.getItem("token")}
@@ -176,13 +177,15 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
                     append1: prod.ben_maxHeight,
                     append2: prod.ben_minHeight,
                     append3: prod.ben_type,
-                    append4: prod.ben_regulator
+                    append4: prod.ben_regulator,
+                    append5: prod.ben_color
                 }))
                 setChildInp(prev => ({...prev,
                     title1: "Altura Miníma(metros)",
                     title2: "Altura Máxima(metros)",
                     title3: "Tipo de Bengala",
-                    title4: "Possui Regulador"
+                    title4: "Possui Regulador",
+                    title5: "Cor"
                 }))
             break;
             case "Andador":
@@ -278,9 +281,9 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
                         <Td><Input placeholder={prodUpdate.append4} name="append4" onChange={handleChange}/></Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}
-                    display={(prod.prod_type == "Andador") ? 0 : "none"}>
+                    display={(prod.prod_type == "Andador" || prod.prod_type == "Bengala") ? 0 : "none"}>
                         <Td fontWeight="bold">{prodChildInp.title5}</Td>
-                        <Td><Input placeholder={prodUpdate.append5} name="append3" onChange={handleChange}/></Td>
+                        <Td><Input placeholder={prodUpdate.append5} name="append5" onChange={handleChange}/></Td>
                     </Tr>
                 </Tbody>
             </Table>

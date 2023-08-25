@@ -13,7 +13,7 @@ interface HorizontalOfferCard {
 const OfferCardHorizontal = ({img, title, value, desc, id}: HorizontalOfferCard) => {
     return (
         <Card w="90%" h={{base:"60vh",sm:"40vh"}} variant="filled" size="sm" direction={{base:"column" ,sm:"row"}}>
-            <Image src={img} objectFit="auto" w={{base:"100%" ,sm:"22.5%"}} h={{base:"50%", sm:"100%"}}/>
+            <Image src={img} objectFit="contain" w={{base:"100%" ,sm:"22.5%"}} h={{base:"50%", sm:"100%"}}/>
             <Stack w={{base:"100%" ,sm:"77.5%"}} h={{base:"50%", sm:"100%"}}>
                 <CardBody>
                         <Flex direction="column">

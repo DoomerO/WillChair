@@ -19,7 +19,7 @@ const CardOffer = ({img, title, condition, composition, type, value, id}: OfferC
                 <Heading as='h3' fontSize={{base:"24px", sm:"20px"}} noOfLines={1}>{title}</Heading>
             </CardHeader>
             <CardBody flexDirection="column" w="100%">
-                <Image src={img} objectFit="auto" w="100%" h="20vh"/>
+                <Image src={img} objectFit="contain" w="100%" h="20vh"/>
                 <Flex direction="column" mt="3%">
                    <Flex direction="row">
                         <Text color={colors.colorFontBlue} fontSize={{base:"20px", sm:"18px"}}>Condição:</Text>

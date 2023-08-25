@@ -80,6 +80,15 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
             })
         }).catch((error) => {
             console.log(error);
+            if(error.response.status == 413) {
+                toast({
+                    title: 'Imagem muito pesada!',
+                    description: "Tente usar uma imagem mais leve.",
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                  })
+            }
         })
     }
 

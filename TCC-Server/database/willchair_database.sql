@@ -202,6 +202,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Bengala` (
   `ben_regulator` TINYINT NULL,
   `ben_maxHeight` DECIMAL NULL,
   `ben_minHeight` DECIMAL NULL,
+  `ben_color` VARCHAR(20) NULL,
   `Product_prod_id` INT NULL REFERENCES `willchair`.`Product` (`prod_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,

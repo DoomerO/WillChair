@@ -52,20 +52,24 @@ const ProdInfoTable = ({ofr_id} : prodTableProps) => {
              case "Bengala":
                 return <Tbody>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
+                        <Td fontWeight="bold">Possui regulador</Td>
+                        <Td>{(prod.ben_regulator == 1) ? "Sim" : "Não"}</Td>
+                    </Tr>
+                    <Tr display={(prod.ben_regulator == 1) ? "0" : "none"} bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
                         <Td fontWeight="bold">Altura máxima</Td>
                         <Td>{prod.ben_maxHeight}m</Td>
                     </Tr>
-                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
+                    <Tr display={(prod.ben_regulator == 1) ? "0" : "none"} bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
                         <Td fontWeight="bold">Altura mínima</Td>
                         <Td>{prod.ben_minHeight}m</Td>
                     </Tr>
-                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
+                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
                         <Td fontWeight="bold">Tipo de Bengala</Td>
                         <Td>{prod.ben_type}</Td>
                     </Tr>
-                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Possui regulador</Td>
-                        <Td>{prod.ben_regulator}</Td>
+                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
+                        <Td fontWeight="bold">Cor</Td>
+                        <Td>{prod.ben_color}</Td>
                     </Tr>
                 </Tbody>
              case "Andador":

@@ -1,21 +1,18 @@
-import Footer from "../../components/Footer";
-import { Box, Flex, Spacer, Heading, Stack, Input, Select, FormLabel, InputGroup, InputLeftElement, Button, ButtonGroup, 
-    Textarea, Image, Popover,
-    PopoverTrigger,
-    PopoverContent,
-    PopoverHeader,
-    PopoverBody,
-    PopoverFooter,
-    PopoverArrow,
-    PopoverCloseButton,
-    PopoverAnchor, } from '@chakra-ui/react';
-import HeaderToggle from "../../components/toggles/HeaderToggle";
+import { Flex, Heading, Stack, FormLabel, Input, Text, Textarea, Select, Image, Spacer, ButtonGroup, Button, Box, useToast, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger } from "@chakra-ui/react";
+import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 import colors from "../../colors/colors";
-import { ChangeEvent, useEffect, useState } from "react";
+import Footer from "../../components/Footer";
+import SignAdaptable from "../../components/signs/SignAdaptable";
+import HeaderToggle from "../../components/toggles/HeaderToggle";
 import axios from "axios";
+import { useState, useEffect, ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import decode from "../../components/code/decoderToken";
 
 const BengalaOffer = () => {
+
+    const toast = useToast();
+    const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [prodOwn, setProdOwn] = useState([]);
     const [user, setUser] = useState([]);
@@ -28,12 +25,17 @@ const BengalaOffer = () => {
         weight : 0,
         height : 0,
         key : "",
-        type : "",
+        type : "Simples",
         photo : prodOwn.prod_img,
-        width : 0,
-        widthseat : 0,
-        price : 0
-
+        hasRegulator : 0,
+        minHeight : 0,
+        color : "",
+        maxHeight : 0,
+        price : 0,
+        composition : "",
+        condition : "Boa",
+        offerType : "Doação",
+        parcelas : 0
     });
 
     function generateKey() {
@@ -82,12 +84,23 @@ const BengalaOffer = () => {
             prod_img : formInputs.photo,
             prod_weight : formInputs.weight,
             prod_height : formInputs.height,
-            prod_type : "Cadeira de Rodas",
+            prod_type : "Bengala",
             prod_key : formInputs.key,
+            prod_composition : formInputs.composition,
+            prod_status : formInputs.condition
         }, { headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
             setSearch(true);
         }).catch((error) => {
             console.log(error);
+            if(error.response.status == 413) {
+                toast({
+                    title: 'Imagem muito pesada!',
+                    description: "Tente usar uma imagem mais leve.",
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                  })
+            }
         })
     }
 
@@ -97,27 +110,39 @@ const BengalaOffer = () => {
             ofr_desc : formInputs.desc,
             ofr_value : formInputs.price,
             ofr_status : "Livre",
+            ofr_type : formInputs.offerType,
+            ofr_parcelas : formInputs.parcelas,
             User_user_id : user.user_id,
             Product_prod_id : prodOwn[0].prod_id
         }, {headers : {
             authorization : "Bearer " + localStorage.getItem("token")
         }}).then((res) => {
-
+            toast({
+                position: 'bottom',
+                render: () => (
+                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Produto criado com sucesso!</Text>
+                        <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate("/")}}>Ir para home</Button>
+                    </Stack>
+                )
+            })
         }).catch((error) => {
             console.log(error)
         })
     }
 
     async function postChild() {
-        await axios.post(`http://localhost:3344/products/cadeira-rodas`, {
+        await axios.post(`http://localhost:3344/products/bengala`, {
             id : prodOwn[0].prod_id,
-            cad_width : formInputs.width,
-            cad_widthSeat : formInputs.widthseat,
-            cad_type : formInputs.type,
+            ben_regulator : formInputs.hasRegulator,
+            ben_minHeight : formInputs.minHeight,
+            ben_maxHeight : formInputs.maxHeight,
+            ben_color : formInputs.color,
+            ben_type : formInputs.type
         }, {headers : {
             authorization : "Bearer " + localStorage.getItem("token")
         }}).then((res) => {
-
+            
         }).catch((error) => {
             console.log(error);
         })
@@ -159,79 +184,113 @@ const BengalaOffer = () => {
             setInputs(prev => ({...prev, photo: reader.result}))
         }
     }
-
+    
     return (
-            <Box w="100%" h="100%">
-                    <HeaderToggle/>
-                    <Flex w='100%' h='30vh' bg='#F7F9FC' align='center' _dark={{bg:'#4f4f4f'}}>
-                        <Flex mt='2%' align='center' direction='column' w='100%'>
-                            <Heading color='#1976D2' as='h1' fontSize="35px">Descreva sua Bengala</Heading>
-                        </Flex>
-                    </Flex>
+        <Box w="100%" h="100%">
+                <HeaderToggle/>
+                <Flex w='100%' h={{base:"23vh", sm:'20vh'}} pt={{base:"5%", sm:"3%"}} bg={colors.veryLightBlue} align='center' direction="column" justifyContent="center" _dark={{bg: colors.veryLightBlue_Dark}}>
+                    <Heading color={colors.colorFontBlue} textAlign="center" as='h1' fontFamily="outfit" fontSize="35px">Descreva sua Bengala</Heading>
+                </Flex>
 
-                    <Flex w='100%' bg={colors.veryLightBlue} h='fit-content' align='center' direction='column' _dark={{bg:colors.bgWhite_Dark}} pb={{base:"5vh", sm:"none"}}>
+                <Flex w='100%' bg={colors.veryLightBlue} h={{base:"195vh", sm:'173vh'}} align='center' direction='column' _dark={{bg:colors.veryLightBlue_Dark}} pb={{base:"5vh", sm:"none"}}>
+
+                    <Stack gap="90" direction={{base: "column", sm: "row"}} >
+                    <Flex direction='column' align='center' w={{base:"90vw" ,sm:'60vw'}} fontSize={{base:"20px", sm:"18px"}} h={{base:'33%' , sm:'110vh'}}>
                         
-                        <Stack gap="90" direction={{base: "column", sm: "row"}} >
-                        <Flex direction='column' align='center' w='60vw' fontSize={{base:"20px", sm:"18px"}} h={{base:'33%' , sm:'110vh'}}>
-                            <Stack spacing={3}>
-                            <FormLabel fontSize={{base:"20px", sm:"18px"}}>Nome do produto<Input type='text' fontSize={{base:"20px", sm:"18px"}} 
-                            placeholder='Ex.: Bengala 4 Pontas D9 Dellamed' name='name' onChange={handleChange}/></FormLabel>
-                            <FormLabel fontSize={{base:"20px", sm:"18px"}}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{base:"20px", sm:"18px"}} textAlign="left" verticalAlign="top" placeholder="...." onChange={handleChange} required/></FormLabel>    
-                                    
-                            <Flex w='100%' bg='#F7F9FC' h='fit-content' align='center' direction='column' _dark={{bg:'#4f4f4f'}}>
-                                <Flex direction={{base:"column", sm:"row"}} align="center">
-                                        <FormLabel fontSize={{base:"20px", sm:"18px"}}>Dimenções<Input name='weight' color="gray" fontSize={{base:"20px", sm:"18px"}} padding="0 100px" onChange={handleChange}/></FormLabel>
+                        <Stack spacing={3} align="center">
+                            <Flex w={{base:"30vh" ,sm:"40vh"}} align="center" justifyContent="center" h={{base:"30vh" ,sm:"40vh"}} direction="column" border="2px dashed #000" _dark={{border : "2px dashed #fff"}}>{(formInputs.photo) ? <Image w={{base:"98%", sm:"96%"}} h={{base:"98%", sm:"96%"}} objectFit="contain" src={formInputs.photo}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%"/>} bgType={"none"}/>}</Flex>    
 
-                                        <FormLabel fontSize={{base:"20px", sm:"18px"}}>Modelos<Select name='type' color="gray"
-                                        fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}>
-                                                <option value='option1'>Bengala 4 pontas</option>
-                                                <option value='option2'>Bengala Bastão tipo T</option>
-                                                <option value='option3'>Bengala Dobrável</option>
-                                    </Select></FormLabel>
-                                </Flex>
-                            </Flex>
+                            <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Imagem<Input type="file" id="myfile" name="photo" accept="gif, .jpg, .jpeg, .png" onChange={handleImage}/></FormLabel>
+                            
+                            <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Título da oferta<Input type='text' fontSize={{base:"20px", sm:"18px"}} 
+                            placeholder='Ex.: Bengala de 4 pontas' name='name' onChange={handleChange}/></FormLabel>
+                            
+                            <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{base:"20px", sm:"18px"}} textAlign="left" verticalAlign="top" onChange={handleChange}/></FormLabel>    
 
-                            <Flex w='100%' bg='#F7F9FC' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}} _dark={{bg:'#4f4f4f'}}>
-                                <FormLabel fontSize={{base:"20px", sm:"18px"}}>Material da bengala<Input onChange={handleChange} name='width' borderColor='gray' color="gray" fontSize={{base:"20px", sm:"18px"}} placeholder="Ex: Alumínio"/></FormLabel>
+                            <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}}>
+                            
+                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Modelos<Select name='type' color="gray" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}>
+                                            <option value="Simples">Bengala Simples</option>
+                                            <option value='4 pontas'>Bengala 4 pontas</option>
+                                            <option value='Tipo T'>Bengala Bastão tipo T</option>
+                                            <option value='Dobrável'>Bengala Dobrável</option>
+                                </Select></FormLabel>                                                
                                 <Spacer/>
+                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Condição do Equipamento<Select name='condition' color="gray"
+                                                fontSize={{base:"20px", sm:"18px"}} onChange={handleChange} value={formInputs.status}>
+                                                    <option value='Boa'>Boa</option>
+                                                    <option value='Rasoável'>Rasoável</option>
+                                                    <option value='Ruim'>Ruim</option>                                        
+                                </Select></FormLabel>
 
-                                <FormLabel fontSize={{base:"20px", sm:"18px"}} _hover={{
+                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Cores
+                                    <Popover placement='top-start'>
+                                    <PopoverTrigger><Input onChange={handleChange} name='widthseat' name="color" color="gray" fontSize={{base:"20px", sm:"18px"}}/></PopoverTrigger>
+                                    <PopoverContent w='50vw' bg='blue.800' color='white'>
+                                    <PopoverHeader fontWeight='semibold'>O que as cores sinalizam?</PopoverHeader>
+                                    <PopoverArrow /><PopoverCloseButton />
+                                    <PopoverBody >
+                                        <Flex direction="row">
+                                           <Text bg="#fff" h="fit-content" color="#000" p="1%" m="1" borderRadius="10px">Branca</Text><Text textAlign="justify">{"pessoa cega, perca total da visão."}</Text>
+                                        </Flex>
+                                        <Flex direction="row">
+                                            <Text bg="green.300" h="fit-content" color="#fff" p="1%" m="1" borderRadius="10px">Verde</Text><Text textAlign="justify">{"pessoas com baixa visão. Enxergam com maior dificuldade, mas possuem visão parcial."}</Text>
+                                        </Flex>
+                                        <Flex direction="row">
+                                            <Text bg="red.300" h="fit-content" pt="1%" pb="1%" borderLeftRadius="10px" pl="1%" mt="1" mb="1" ml="1">Branc</Text><Text bg="white" color="#000" pt="1%" pb="1%" mt="1" h="fit-content" mb="1">a e Ver</Text><Text bg="red.300" pt="1%" pb="1%" pr="1%" h="fit-content" borderRightRadius="10px" mt="1" mb="1" mr="1">merlha</Text>
+                                            <Text textAlign="justify" w="70%">{"pessoa surda e cega. Normalmente pode ser sinalizado apenas com um adesivo vermelho sobre a bengala branca."}</Text>
+                                        </Flex>
+                                    </PopoverBody>
+                                    </PopoverContent>
+                                    </Popover> 
+                                </FormLabel>
                                 
-                                }}>Cores
-                                <Popover placement='top-start'>
-                                <PopoverTrigger><Button colorScheme='twitter' ml='65%' variant='link'>Saiba mais</Button></PopoverTrigger><PopoverContent w='50vw' bg='blue.800' color='white'>
-                                <PopoverHeader fontWeight='semibold'>O que as cores sinalizam?</PopoverHeader>
-                                <PopoverArrow /><PopoverCloseButton />
-                                <PopoverBody >Branca: pessoa cega, perca total da visão. <br/><br/>
-                                Verde: pessoas com baixa visão. Enxergam com maior dificuldade, mas possuem visão parcial.<br/><br/>
-                                Branca e Vermelha: pessoa surda e cega. Normalmente pode ser sinalizado apenas com um adesivo vermelho sobre a bengala branca.
-                                </PopoverBody>
-                                </PopoverContent>
-                                </Popover> 
-                                <Input onChange={handleChange} name='widthseat' color="gray" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
                             </Flex>
-  
-                            <FormLabel fontSize={{base:"20px", sm:"18px"}}>Foto do produto
-                                <Input type="file" id="myfile" name="photo" accept="gif, .jpg, .jpeg, .png" border="hidden" padding="1vh" onChange={handleImage}/>
-                            </FormLabel>                            
+                            
+                            
+                            <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}}>
+                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Peso (kg)'}<Input name='weight' type="number" color="gray" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
+                                <Spacer/>
+                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Altura (m)'}<Input name='height' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
+                                <Spacer/>
+                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Composição'}<Input name='composition' color="gray" type="text" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
+                            </Flex>
 
-                            <Stack spacing={4}>
-                                <InputGroup>
-                                    <InputLeftElement pointerEvents='none' color='gray.440' fontSize='0.9em' children='R$'/>
-                                    <Input onChange={handleChange} fontSize={{base:"20px", sm:"18px"}} name='price' placeholder='Preço' type='number' w="98.5%" />
-                                </InputGroup>
-                            </Stack>
+                            <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}}>
+                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Possui Regulador de Altura?'}
+                                    <Select color="gray" fontSize={{base:"20px", sm:"18px"}} name="hasRegulator" onChange={handleChange}>
+                                        <option value={0}>Não</option>
+                                        <option value={1}>Sim</option>
+                                    </Select></FormLabel>
+                                <Spacer/>
+                                <FormLabel display={(formInputs.hasRegulator == 1) ? "block" : "none"} w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Altura Mínima (m)'}<Input onChange={handleChange} name='minHeight' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
+                                <Spacer/>
+                                <FormLabel display={(formInputs.hasRegulator == 1) ? "block" : "none"} w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Altura Máxima (m)'}<Input onChange={handleChange} name='maxHeight' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
+                            </Flex>
 
-                            </Stack>
-                                <ButtonGroup variant="outline" spacing='6' margin="5vh">
-                                    <Button colorScheme='blue'>Salvar</Button>
-                                    <Button>Cancelar</Button>
-                                </ButtonGroup>
-                        </Flex>
+                            <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}} >
+                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Tipo de Oferta<Select name='offerType' color="gray"
+                                                fontSize={{base:"20px", sm:"18px"}} onChange={handleChange} value={formInputs.offerType}>
+                                                    <option value='Doação'>Doação</option>
+                                                    <option value='Venda'>Venda</option>
+                                                    <option value='Aluguél'>Aluguél</option>                              
+                                </Select></FormLabel>
+                                <Spacer/>
+                                <FormLabel w={{base:"100%", sm:"fit-content"}} display={(formInputs.offerType != "Doação") ? "block" : "none"} fontSize={{base:"20px", sm:"18px"}}>{'Preço (R$)'}<Input onChange={handleChange} name='price' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
+                                <Spacer/> 
+                                <FormLabel w={{base:"100%", sm:"fit-content"}} display={(formInputs.offerType == "Aluguél") ? "block" : "none"} fontSize={{base:"20px", sm:"18px"}}>{'Parcelas'}<Input onChange={handleChange} name='parcelas' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>  
+                            </Flex>
+
                         </Stack>
+                        <ButtonGroup variant="outline" spacing='6' mt="5vh">
+                            <Button colorScheme='blue' onClick={() => {postProduct();}}>Salvar</Button>
+                            <Button onClick={() => {navigate("/")}}>Cancelar</Button>
+                        </ButtonGroup>
                     </Flex>
-                <Footer/>
-            </Box> 
+                    </Stack>
+                </Flex>
+            <Footer/>
+        </Box>
     )
 }
 

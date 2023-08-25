@@ -226,6 +226,7 @@ module.exports = {
             const {ben_maxHeight} = req.body;
             const {ben_regulator}= req.body;
             const {ben_type} = req.body;
+            const {ben_color} = req.body;
 
             const consult = await knex('Product').where('prod_id', id);
             if(consult != '') {
@@ -235,6 +236,7 @@ module.exports = {
                         ben_minHeight,
                         ben_regulator,
                         ben_type,
+                        ben_color,
                         Product_prod_id: id
                     });
                     return res.status(201).json({msg : "Product created as 'Bengala'"})
@@ -395,6 +397,7 @@ module.exports = {
             const {ben_maxHeight} = req.body;
             const {ben_regulator}= req.body;
             const {ben_type} = req.body;
+            const {ben_color} = req.body
 
             const consult = await knex('Product').where('prod_id', id);
             if(consult != '') {
@@ -404,6 +407,7 @@ module.exports = {
                         ben_minHeight,
                         ben_regulator,
                         ben_type,
+                        ben_color,
                         Product_prod_id: id
                     }).where('Product_prod_id', id);
                     return res.status(201).json({msg : "Product updated as 'Bengala'"})

@@ -114,6 +114,15 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
             })
         }).catch(error => {
             console.log(error);
+            if(error.response.status == 413) {
+                toast({
+                    title: 'Imagem muito grande!',
+                    description: "Tente usar uma imagem menor.",
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                  })
+            }
         })
     }
 
@@ -126,7 +135,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                 render: () => (
                     <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                         <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Oferta apagada com sucesso!</Text>
-                        <Button onClick={() => {navigate("/")}}>Voltar para a Home</Button>
+                        <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate("/")}}>Voltar para a Home</Button>
                     </Stack>
                 )
             })
@@ -312,8 +321,8 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                     <Stack bg="red.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                                         <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Certeza que deseja apagar sua Oferta?</Text>
                                         <Stack direction="row">
-                                            <Button onClick={() => {deleteChatsOffer(); deleteOfferOprt(); toast.closeAll()}}>Sim</Button>
-                                            <Button onClick={() => {toast.closeAll()}}>Não</Button>    
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {deleteChatsOffer(); deleteOfferOprt(); toast.closeAll()}}>Sim</Button>
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toast.closeAll()}}>Não</Button>    
                                         </Stack>
                                     </Stack>
                                 )

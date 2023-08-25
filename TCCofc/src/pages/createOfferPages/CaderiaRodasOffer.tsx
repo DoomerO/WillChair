@@ -26,7 +26,7 @@ const CadeiraRodasOffer = () => {
         weight : 0,
         height : 0,
         key : "",
-        type : "Cadeira Manual Simples",
+        type : "Manual",
         photo : prodOwn.prod_img,
         width : 0,
         widthseat : 0,
@@ -94,8 +94,8 @@ const CadeiraRodasOffer = () => {
             console.log(error);
             if(error.response.status == 413) {
                 toast({
-                    title: 'Imagem muito grande!',
-                    description: "Tente usar uma imagem menor.",
+                    title: 'Imagem muito pesada!',
+                    description: "Tente usar uma imagem mais leve.",
                     status: 'error',
                     duration: 9000,
                     isClosable: true,
@@ -201,7 +201,7 @@ const CadeiraRodasOffer = () => {
 
                             <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Imagem<Input type="file" id="myfile" name="photo" accept="gif, .jpg, .jpeg, .png" onChange={handleImage}/></FormLabel>
                             
-                            <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Nome do produto<Input type='text' fontSize={{base:"20px", sm:"18px"}} 
+                            <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Título da oferta<Input type='text' fontSize={{base:"20px", sm:"18px"}} 
                             placeholder='Ex.: Cadeira de Rodas 101M - CDS' name='name' onChange={handleChange}/></FormLabel>
                             
                             <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{base:"20px", sm:"18px"}} textAlign="left" verticalAlign="top" onChange={handleChange}/></FormLabel>    
@@ -209,13 +209,13 @@ const CadeiraRodasOffer = () => {
                             <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}}>
                                 <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Tipo de cadeira<Select name='type' color="gray"
                                                 fontSize={{base:"20px", sm:"18px"}} onChange={handleChange} value={formInputs.type}>
-                                                    <option value='Cadeira manual simples'>Cadeira manual simples</option>
-                                                    <option value='Cadeira dobrável em X'>Cadeira dobrável em X</option>
-                                                    <option value='Cadeira monobloco'>Cadeira monobloco</option>
-                                                    <option value='Cadeira motorizada'>Cadeira motorizada</option>
-                                                    <option value='Cadeira com elevação automática'>Cadeira com elevação automática</option>
-                                                    <option value='Cadeira de rodas reclinável'>Cadeira de rodas reclinável</option>
-                                                    <option value='Cadeira de rodas para banho'>Cadeira de rodas para banho</option>
+                                                    <option value='Manual'>Cadeira manual simples</option>
+                                                    <option value='Dobrável em X'>Cadeira dobrável em X</option>
+                                                    <option value='Monobloco'>Cadeira monobloco</option>
+                                                    <option value='Motorizada'>Cadeira motorizada</option>
+                                                    <option value='Elevação automática'>Cadeira com elevação automática</option>
+                                                    <option value='Reclinável'>Cadeira de rodas reclinável</option>
+                                                    <option value='Banho'>Cadeira de rodas para banho</option>
                                                     <option value='Outro'>Outro</option>                                        
                                 </Select></FormLabel>
                                 <Spacer/>

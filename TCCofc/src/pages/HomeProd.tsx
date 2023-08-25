@@ -111,7 +111,7 @@ const HomeProd = () => {
     }, [userQuery]);
 
     const renderCloseOffers = closeOffers.map(item => { //lista de ofertas próximas renderizadas
-        for (const offer of closeOffers) {
+        for (const offer of userOffers) {
             if(item.ofr_id === offer.ofr_id) return <div key={item.ofr_id}></div>
         }
         renderTest = true;
