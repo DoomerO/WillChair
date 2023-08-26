@@ -188,7 +188,7 @@ module.exports = {
         try {
             const {id} = req.body;
 
-            const {mul_maxWidth} = req.body;
+            const {mul_minHeight} = req.body;
             const {mul_maxHeight} = req.body;
             const {mul_regulator}= req.body;
             const {mul_maxWeight} = req.body;
@@ -199,7 +199,8 @@ module.exports = {
                     await knex('Muleta').insert({
                         mul_maxHeight,
                         mul_maxWeight,
-                        mul_maxWidth,
+                        mul_minHeight,
+                        mul_type,
                         mul_regulator,
                         Product_prod_id: id
                     });
@@ -337,8 +338,7 @@ module.exports = {
                         cad_width,
                         cad_widthSeat,
                         cad_type,
-                        cad_maxWeight,
-                        Product_prod_id: id
+                        cad_maxWeight
                     }).where("Product_prod_id", id);
                     return res.status(201).json({msg : "Product updated as 'Cadeira de Rodas'"})
                 }
@@ -372,7 +372,7 @@ module.exports = {
                         mul_maxWeight,
                         mul_maxWidth,
                         mul_regulator,
-                        Product_prod_id: id
+                        mul_type
                     }).where('Product_prod_cod',id);
                     return res.status(201).json({msg : "Product updated as 'Muleta'"})
                 }
@@ -407,8 +407,7 @@ module.exports = {
                         ben_minHeight,
                         ben_regulator,
                         ben_type,
-                        ben_color,
-                        Product_prod_id: id
+                        ben_color
                     }).where('Product_prod_id', id);
                     return res.status(201).json({msg : "Product updated as 'Bengala'"})
                 }
@@ -443,8 +442,7 @@ module.exports = {
                         and_maxHeight,
                         and_minHeight,
                         and_regulator,
-                        and_width,
-                        Product_prod_id: id
+                        and_width
                     }).where("Product_prod_id", id);
                     return res.status(201).json({msg : "Product updated as 'Andador'"})
                 }

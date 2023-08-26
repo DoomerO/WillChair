@@ -184,6 +184,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `willchair`.`Muleta` (
   `mul_maxHeight` DECIMAL NULL,
+  `mul_type` VARCHAR(10) NULL,
   `mul_minHeight` DECIMAL NULL,
   `mul_regulator` TINYINT NULL,
   `mul_maxWeight` DECIMAL NULL,

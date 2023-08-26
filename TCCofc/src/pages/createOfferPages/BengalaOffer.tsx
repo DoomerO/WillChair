@@ -174,7 +174,12 @@ const BengalaOffer = () => {
     }, [prodOwn])
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
-        setInputs(prev => ({...prev, [e.target.name]:e.target.value }));
+        if(e.target.name == "weight" ||e.target.name == "height" ||e.target.name == "maxHeight" ||e.target.name == "minHeight" || e.target.name == "maxWeight" || e.target.name == "price") {
+            setInputs(prev => ({...prev, [e.target.name]: e.target.value.replace(",", ".") }));
+        }
+        else {
+            setInputs(prev => ({...prev, [e.target.name]:e.target.value }));
+        }
     }
 
     const handleImage = (e:ChangeEvent<HTMLInputElement>) => {
@@ -217,7 +222,7 @@ const BengalaOffer = () => {
                                 </Select></FormLabel>                                                
                                 <Spacer/>
                                 <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Condição do Equipamento<Select name='condition' color="gray"
-                                                fontSize={{base:"20px", sm:"18px"}} onChange={handleChange} value={formInputs.status}>
+                                                fontSize={{base:"20px", sm:"18px"}} onChange={handleChange} value={formInputs.condition}>
                                                     <option value='Boa'>Boa</option>
                                                     <option value='Rasoável'>Rasoável</option>
                                                     <option value='Ruim'>Ruim</option>                                        
@@ -283,7 +288,18 @@ const BengalaOffer = () => {
 
                         </Stack>
                         <ButtonGroup variant="outline" spacing='6' mt="5vh">
-                            <Button colorScheme='blue' onClick={() => {postProduct();}}>Salvar</Button>
+                            <Button colorScheme='blue' onClick={() => {if(user.user_city) {
+                                    postProduct();
+                                }
+                                else {
+                                    toast({
+                                        title: 'Perfil incompleto!',
+                                        description: "Termine de configurar o seu perfil antes de postar uma oferta!",
+                                        status: 'error',
+                                        duration: 9000,
+                                        isClosable: true,
+                                    })
+                                }}}>Salvar</Button>
                             <Button onClick={() => {navigate("/")}}>Cancelar</Button>
                         </ButtonGroup>
                     </Flex>

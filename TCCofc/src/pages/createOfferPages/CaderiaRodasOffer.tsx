@@ -29,7 +29,7 @@ const CadeiraRodasOffer = () => {
         type : "Manual",
         photo : prodOwn.prod_img,
         width : 0,
-        widthseat : 0,
+        widthSeat : 0,
         maxWeight : 0,
         price : 0,
         composition : "",
@@ -135,7 +135,7 @@ const CadeiraRodasOffer = () => {
         await axios.post(`http://localhost:3344/products/cadeira-rodas`, {
             id : prodOwn[0].prod_id,
             cad_width : formInputs.width,
-            cad_widthSeat : formInputs.widthseat,
+            cad_widthSeat : formInputs.widthSeat,
             cad_type : formInputs.type,
             cad_maxWeight : formInputs.maxWeight
         }, {headers : {
@@ -173,7 +173,12 @@ const CadeiraRodasOffer = () => {
     }, [prodOwn])
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
-        setInputs(prev => ({...prev, [e.target.name]:e.target.value }));
+        if(e.target.name == "weight" ||e.target.name == "height" || e.target.name == "maxWeight" || e.target.name == "price" || e.target.name == "widthSeat") {
+            setInputs(prev => ({...prev, [e.target.name]: e.target.value.replace(",", ".") }));
+        }
+        else {
+            setInputs(prev => ({...prev, [e.target.name]:e.target.value }));
+        }
     }
 
     const handleImage = (e:ChangeEvent<HTMLInputElement>) => {
@@ -220,7 +225,7 @@ const CadeiraRodasOffer = () => {
                                 </Select></FormLabel>
                                 <Spacer/>
                                 <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Condição do Equipamento<Select name='condition' color="gray"
-                                                fontSize={{base:"20px", sm:"18px"}} onChange={handleChange} value={formInputs.status}>
+                                                fontSize={{base:"20px", sm:"18px"}} onChange={handleChange} value={formInputs.condition}>
                                                     <option value='Boa'>Boa</option>
                                                     <option value='Rasoável'>Rasoável</option>
                                                     <option value='Ruim'>Ruim</option>                                        
@@ -239,7 +244,7 @@ const CadeiraRodasOffer = () => {
                             <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}}>
                                 <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Largura da cadeira (cm)'}<Input onChange={handleChange} name='width' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
                                 <Spacer/>
-                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Largura do assento (cm)'}<Input onChange={handleChange} name='widthseat' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
+                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Largura do assento (cm)'}<Input onChange={handleChange} name='widthSeat' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
                                 <Spacer/>
                                 <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Peso Máximo Suportado (kg)'}<Input onChange={handleChange} name='maxWeight' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
                             </Flex>
@@ -259,7 +264,18 @@ const CadeiraRodasOffer = () => {
 
                         </Stack>
                         <ButtonGroup variant="outline" spacing='6' mt="5vh">
-                            <Button colorScheme='blue' onClick={() => {postProduct();}}>Salvar</Button>
+                            <Button colorScheme='blue' onClick={() => {if(user.user_city) {
+                                    postProduct();
+                                }
+                                else {
+                                    toast({
+                                        title: 'Perfil incompleto!',
+                                        description: "Termine de configurar o seu perfil antes de postar uma oferta!",
+                                        status: 'error',
+                                        duration: 9000,
+                                        isClosable: true,
+                                    })
+                                }}}>Salvar</Button>
                             <Button onClick={() => {navigate("/")}}>Cancelar</Button>
                         </ButtonGroup>
                     </Flex>

@@ -116,10 +116,10 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
     }
 
     const [prodUpdate, setProdUpdate] = useState({
-        prod_status : prod.prod_status,
-        prod_composition : prod.prod_composition,
-        prod_height : prod.prod_height,
-        prod_weight: prod.prod_weight,
+        prod_status : "",
+        prod_composition : "",
+        prod_height : 0,
+        prod_weight: 0,
         append1 : "",
         append2 : "",
         append3 : "",
@@ -241,23 +241,23 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
                 <Tbody>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
                         <Td fontWeight="bold">Tipo de Equipamento</Td>
-                        <Td>{prod.prod_type}</Td>
+                        <Td>{(prod.prod_type) ? prod.prod_type : ""}</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
                         <Td fontWeight="bold">Condição</Td>
-                        <Td><Input placeholder={prod.prod_status} name="prod_status" onChange={handleChange}/></Td>
+                        <Td><Input placeholder={prodUpdate.prod_status} name="prod_status" onChange={handleChange}/></Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
                         <Td fontWeight="bold">Composição</Td>
-                        <Td><Input placeholder={prod.prod_composition} name="prod_composition" onChange={handleChange}/></Td>
+                        <Td><Input placeholder={prodUpdate.prod_composition} name="prod_composition" onChange={handleChange}/></Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
                         <Td fontWeight="bold">Altura{"(metros)"}</Td>
-                        <Td><Input placeholder={prod.prod_height} type="number" name="prod_height" onChange={handleChange}/></Td>
+                        <Td><Input placeholder={"" + prodUpdate.prod_height} type="number" name="prod_height" onChange={handleChange}/></Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
                         <Td fontWeight="bold">Peso{"(quilos)"}</Td>
-                        <Td><Input placeholder={prod.prod_weight} type="number" name="prod_weight" onChange={handleChange}/></Td>
+                        <Td><Input placeholder={"" + prodUpdate.prod_weight} type="number" name="prod_weight" onChange={handleChange}/></Td>
                     </Tr>
 
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}
