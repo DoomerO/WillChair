@@ -1,13 +1,14 @@
-import Footer from "../../components/Footer";
 import { Box, Flex, Spacer, Heading, Stack, Input, Select, FormLabel, Text, Button, ButtonGroup, Textarea, Image, useToast } from '@chakra-ui/react';
+import { ChangeEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer";
 import HeaderToggle from "../../components/toggles/HeaderToggle";
 import colors from "../../colors/colors";
-import { ChangeEvent, useEffect, useState } from "react";
+import SignAdaptable from "../../components/signs/SignAdaptable";
 import axios from "axios";
 import decode from "../../components/code/decoderToken";
-import { useNavigate } from "react-router-dom";
+
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
-import SignAdaptable from "../../components/signs/SignAdaptable";
 
 const MuletaOffer = () => {
     const toast = useToast();

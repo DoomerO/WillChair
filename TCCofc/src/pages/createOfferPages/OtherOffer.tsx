@@ -1,17 +1,15 @@
-import { Box, Flex, Spacer, Heading, Stack, Input, Select, FormLabel, Button, ButtonGroup, Textarea, Image, useToast, Text } from '@chakra-ui/react';
-import { ChangeEvent, useEffect, useState } from "react";
+import { Box, Button, ButtonGroup, Flex, FormLabel, Heading, Input, Text, Image, Select, Spacer, Stack, Textarea, useToast } from "@chakra-ui/react";
+import { useState, useEffect, ChangeEvent } from "react";
+import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
-import HeaderToggle from "../../components/toggles/HeaderToggle";
 import SignAdaptable from "../../components/signs/SignAdaptable";
+import HeaderToggle from "../../components/toggles/HeaderToggle";
 import colors from "../../colors/colors";
-import axios from "axios";
 import decode from "../../components/code/decoderToken";
+import axios from "axios";
 
-import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
-
-const CadeiraRodasOffer = () => {
-
+const OtherOffer = () => {
     const toast = useToast();
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
@@ -26,11 +24,8 @@ const CadeiraRodasOffer = () => {
         weight : 0,
         height : 0,
         key : "",
-        type : "Manual",
+        type : "",
         photo : prodOwn.prod_img,
-        width : 0,
-        widthSeat : 0,
-        maxWeight : 0,
         price : 0,
         composition : "",
         condition : "Boa",
@@ -84,7 +79,7 @@ const CadeiraRodasOffer = () => {
             prod_img : formInputs.photo,
             prod_weight : formInputs.weight,
             prod_height : formInputs.height,
-            prod_type : "Cadeira de Rodas",
+            prod_type : formInputs.type,
             prod_key : formInputs.key,
             prod_composition : formInputs.composition,
             prod_status : formInputs.condition
@@ -130,35 +125,12 @@ const CadeiraRodasOffer = () => {
                 render: () => (
                     <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                         <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Produto criado com sucesso!</Text>
-                        <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate("/")}}>Ir para home</Button>
+                        <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate("/"); navigate(0)}}>Ir para home</Button>
                     </Stack>
                 )
             })
         }).catch((error) => {
             console.log(error)
-        })
-    }
-
-    async function postChild() {
-        await axios.post(`http://localhost:3344/products/cadeira-rodas`, {
-            id : prodOwn[0].prod_id,
-            cad_width : formInputs.width,
-            cad_widthSeat : formInputs.widthSeat,
-            cad_type : formInputs.type,
-            cad_maxWeight : formInputs.maxWeight
-        }, {headers : {
-            authorization : "Bearer " + localStorage.getItem("token")
-        }}).then((res) => {
-            toast({
-                position: 'bottom',
-                render: () => (
-                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Cadeira de Rodas criada com sucesso!</Text>
-                    </Stack>
-                )
-            })
-        }).catch((error) => {
-            console.log(error);
         })
     }
 
@@ -182,13 +154,12 @@ const CadeiraRodasOffer = () => {
 
     useEffect(() => {
         if(prodOwn.length > 0){
-            postChild();
             postOffer(); 
         }
     }, [prodOwn])
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
-        if(e.target.name == "weight" ||e.target.name == "height" || e.target.name == "maxWeight" || e.target.name == "price" || e.target.name == "widthSeat") {
+        if(e.target.name == "weight" ||e.target.name == "height" || e.target.name == "price") {
             setInputs(prev => ({...prev, [e.target.name]: e.target.value.replace(",", ".") }));
         }
         else {
@@ -208,10 +179,10 @@ const CadeiraRodasOffer = () => {
             <Box w="100%" h="100%">
                 <HeaderToggle/>
                 <Flex w='100%' h={{base:"23vh", sm:'20vh'}} pt={{base:"5%", sm:"3%"}} bg={colors.veryLightBlue} align='center' direction="column" justifyContent="center" _dark={{bg: colors.veryLightBlue_Dark}}>
-                    <Heading color={colors.colorFontBlue} textAlign="center" as='h1' fontFamily="outfit" fontSize="35px">Descreva sua Cadeira de Rodas</Heading>
+                    <Heading color={colors.colorFontBlue} textAlign="center" as='h1' fontFamily="outfit" fontSize="35px">Descreva seu Equipamento</Heading>
                 </Flex>
 
-                <Flex w='100%' bg={colors.veryLightBlue} h={{base:"190vh", sm:'173vh'}} align='center' direction='column' _dark={{bg:colors.veryLightBlue_Dark}} pb={{base:"5vh", sm:"none"}}>
+                <Flex w='100%' bg={colors.veryLightBlue} h={{base:"160vh", sm:'150vh'}} align='center' direction='column' _dark={{bg:colors.veryLightBlue_Dark}} pb={{base:"5vh", sm:"none"}}>
 
                     <Stack gap="90" direction={{base: "column", sm: "row"}} >
                     <Flex direction='column' align='center' w={{base:"90vw" ,sm:'60vw'}} fontSize={{base:"20px", sm:"18px"}} h={{base:'33%' , sm:'110vh'}}>
@@ -222,29 +193,19 @@ const CadeiraRodasOffer = () => {
                             <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Imagem<Input type="file" id="myfile" name="photo" accept="gif, .jpg, .jpeg, .png" onChange={handleImage}/></FormLabel>
                             
                             <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Título da oferta<Input type='text' fontSize={{base:"20px", sm:"18px"}} 
-                            placeholder='Ex.: Cadeira de Rodas 101M - CDS' name='name' onChange={handleChange}/></FormLabel>
+                            placeholder='Dica: Diga o nome do equipamento ofertado aqui!' name='name' onChange={handleChange}/></FormLabel>
                             
-                            <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{base:"20px", sm:"18px"}} textAlign="left" verticalAlign="top" onChange={handleChange}/></FormLabel>    
+                            <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{base:"20px", sm:"18px"}} textAlign="left" verticalAlign="top" placeholder="Dica: Dê detalhes importantes sobre o equipamento aqui, pois eles podem não estar constados no formulário." onChange={handleChange}/></FormLabel>    
 
                             <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}}>
-                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Tipo de cadeira<Select name='type' color="gray"
-                                                fontSize={{base:"20px", sm:"18px"}} onChange={handleChange} value={formInputs.type}>
-                                                    <option value='Manual'>Cadeira manual simples</option>
-                                                    <option value='Dobrável em X'>Cadeira dobrável em X</option>
-                                                    <option value='Monobloco'>Cadeira monobloco</option>
-                                                    <option value='Motorizada'>Cadeira motorizada</option>
-                                                    <option value='Elevação automática'>Cadeira com elevação automática</option>
-                                                    <option value='Reclinável'>Cadeira de rodas reclinável</option>
-                                                    <option value='Banho'>Cadeira de rodas para banho</option>
-                                                    <option value='Outro'>Outro</option>                                        
-                                </Select></FormLabel>
-                                <Spacer/>
                                 <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Condição do Equipamento<Select name='condition' color="gray"
                                                 fontSize={{base:"20px", sm:"18px"}} onChange={handleChange} value={formInputs.condition}>
                                                     <option value='Boa'>Boa</option>
                                                     <option value='Rasoável'>Rasoável</option>
                                                     <option value='Ruim'>Ruim</option>                                        
-                                </Select></FormLabel> 
+                                </Select></FormLabel>
+                                <Spacer/>
+                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Tipo de Equipamento'}<Input name='type' color="gray" type="text" placeholder="Qual é o seu equipamento?" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
                             </Flex>
                             
                             
@@ -254,14 +215,6 @@ const CadeiraRodasOffer = () => {
                                 <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Altura (m)'}<Input name='height' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
                                 <Spacer/>
                                 <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Composição'}<Input name='composition' color="gray" type="text" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
-                            </Flex>
-
-                            <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}}>
-                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Largura da cadeira (cm)'}<Input onChange={handleChange} name='width' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
-                                <Spacer/>
-                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Largura do assento (cm)'}<Input onChange={handleChange} name='widthSeat' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
-                                <Spacer/>
-                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Peso Máximo Suportado (kg)'}<Input onChange={handleChange} name='maxWeight' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
                             </Flex>
 
                             <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}} >
@@ -301,4 +254,4 @@ const CadeiraRodasOffer = () => {
     )
 }
 
-export default CadeiraRodasOffer;
+export default OtherOffer;

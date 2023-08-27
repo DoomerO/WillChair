@@ -135,7 +135,24 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                 render: () => (
                     <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                         <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Oferta apagada com sucesso!</Text>
-                        <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate("/")}}>Voltar para a Home</Button>
+                        <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate("/"); navigate(0)}}>Voltar para a Home</Button>
+                    </Stack>
+                )
+            })
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    async function deleteProductOffer() {
+        await axios.delete(`http://localhost:3344/products/${offer.Product_prod_id}`, {
+            headers : {authorization : "Bearer " + localStorage.getItem("token")}
+        }).then((res) => {
+            toast({
+                position: 'bottom',
+                render: () => (
+                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Equipamento apagado com sucesso!</Text>
                     </Stack>
                 )
             })
@@ -224,13 +241,15 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                 <SimpleGrid spacing={3} fontSize={{base:"20px", sm:"18px"}} mb="3%">
                                     <Flex direction="row" align="center">
                                         <Text fontFamily="atkinson" mr="5px">Tipo de Oferta:</Text>
-                                        <Input type="text" fontFamily="atkinson" fontSize={{base:"20px", sm:"18px"}} placeholder={offer.ofr_type} name="ofr_type"
-                                        _placeholder={{color : colors.colorFontBlue}} variant={{base:"outline", sm:"flushed"}} onChange={handleChangeOffer} w={{base:"50%" ,sm:"24%"}}/>
+                                        <Select color="gray" fontSize={{base:"20px", sm:"18px"}} onChange={handleChangeOffer} value={updateOffer.ofr_type} name="ofr_type" w={{base:"50%" ,sm:"60%"}} variant={{base:"outline", sm:"flushed"}}>
+                                            <option value='Boa'>Doação</option>
+                                            <option value='Rasoável'>Venda</option>
+                                            <option value='Ruim'>Aluguél</option>                                        
+                                        </Select>
                                     </Flex>
                                     <Flex direction="row" align="center">
-                                         <Text fontFamily="atkinson" mr="5px">Status da Oferta:</Text>
-                                        <Input type="text" fontFamily="atkinson" fontSize={{base:"20px", sm:"18px"}} placeholder={offer.ofr_status} name="ofr_status"
-                                        _placeholder={{color : colors.colorFontBlue}} variant={{base:"outline", sm:"flushed"}} onChange={handleChangeOffer} w={{base:"50%" ,sm:"24%"}}/>
+                                        <Text fontFamily="atkinson" mr="5px">Status da Oferta:</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontBlue}>{offer.ofr_status}</Text>
                                     </Flex>
                                     <Flex direction="row" align="center">
                                         <Text fontFamily="atkinson" mr="5px">Cidade:</Text>
@@ -240,8 +259,8 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                 <Spacer/>
                                 <SimpleGrid spacing={3} fontSize={{base:"20px", sm:"18px"}}>
                                     <Flex direction="row" align="center">
-                                        <Text fontFamily="atkinson" mr="5px">Valor:</Text>
-                                        <Input type="number" fontFamily="atkinson" fontSize={{base:"20px", sm:"18px"}} name="ofr_value" placeholder={(offer.ofr_type == "Doação") ? "Grátis" : `R$${offer.ofr_value}`}
+                                        <Text fontFamily="atkinson" mr="5px">{'Valor (R$):'}</Text>
+                                        <Input type="number" fontFamily="atkinson" fontSize={{base:"20px", sm:"18px"}} name="ofr_value" placeholder={(offer.ofr_type == "Doação") ? "Grátis" : offer.ofr_value}
                                         _placeholder={{color : colors.colorFontBlue}} variant={{base:"outline", sm:"flushed"}} onChange={handleChangeOffer} w={{base:"50%", sm:"24%"}}/>
                                     </Flex>
                                     <Flex direction="row" align="center">
@@ -250,7 +269,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                     </Flex>
                                     <Flex direction="row" align="center">
                                         <Text fontFamily="atkinson" mr="5px">Parcelas:</Text>
-                                        <Input type="number" fontFamily="atkinson" fontSize={{base:"20px", sm:"18px"}} placeholder={offer.ofr_parcelas} name="ofr_parcelas"
+                                        <Input type="number" fontFamily="atkinson" fontSize={{base:"20px", sm:"18px"}} placeholder={offer.ofr_parcelas} name="ofr_parcelas" 
                                         _placeholder={{color : colors.colorFontBlue}} variant={{base:"outline", sm:"flushed"}} onChange={handleChangeOffer} w={{base:"50%" ,sm:"24%"}}/>
                                     </Flex>
                                 </SimpleGrid>
@@ -267,7 +286,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     <Flex direction={{base:"column", sm:"row"}} h={{base:"fit_content",sm:"50vh"}} w="90%">
                         <Stack w={{base:"100%", sm:"45%"}} h={{base:"50vh", sm:"100%"}} mt="2vh">
                             <Heading as="h3" fontFamily="outfit" fontSize={{base: "32px", sm: "34px"}} color={colors.colorFontBlue}>Descrição</Heading>
-                            <Textarea placeholder={offer.ofr_desc} fontSize={{base:"20px", sm:"18px"}} name="ofr_desc" onChange={handleChangeOffer} fontFamily="atkinson" w="100%" resize="vertical" h={{base:"80%",sm:"70%"}}/>
+                            <Textarea placeholder={offer.ofr_desc} fontSize={{base:"20px", sm:"18px"}} value={updateOffer.ofr_desc} name="ofr_desc" onChange={handleChangeOffer} fontFamily="atkinson" w="100%" resize="vertical" h={{base:"80%",sm:"70%"}}/>
                         </Stack>
 
                         <Divider orientation="vertical" mr="5%" ml="5%" display={{base:"none", sm:"inherit"}}/>
@@ -321,7 +340,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                     <Stack bg="red.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                                         <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Certeza que deseja apagar sua Oferta?</Text>
                                         <Stack direction="row">
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {deleteChatsOffer(); deleteOfferOprt(); toast.closeAll()}}>Sim</Button>
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {deleteChatsOffer(); deleteProductOffer(); deleteOfferOprt(); toast.closeAll()}}>Sim</Button>
                                             <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toast.closeAll()}}>Não</Button>    
                                         </Stack>
                                     </Stack>

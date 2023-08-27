@@ -5,6 +5,7 @@ import CadeiraRodasOffer from "./CaderiaRodasOffer";
 import BengalaOffer from "./BengalaOffer";
 import MuletaOffer from "./MuletaOffer";
 import AndadorOffer from "./AndadorOffer";
+import OtherOffer from "./OtherOffer";
 
 const OfferCreationToggle = () => {
     const {type} = useParams();
@@ -25,7 +26,7 @@ const OfferCreationToggle = () => {
                 setComp(<MuletaOffer/>)
             break;
             case "other":
-                setComp(<div>Teste</div>)
+                setComp(<OtherOffer/>)
             break;
             default:
                 setComp(<CreateOffer/>)

@@ -1,5 +1,5 @@
 //Componentes externos e React
-import {Box, Heading, Flex, Input, InputGroup, InputRightAddon, Stack, Text} from '@chakra-ui/react';
+import {Box, Heading, Flex, Input, InputGroup, InputRightAddon, Stack} from '@chakra-ui/react';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import '../styles/alice-carousel.css';
@@ -32,8 +32,6 @@ import { Link } from 'react-router-dom';
 
 const HomeProd = () => {
 
-    const [closeOffers, setClose] = useState([]); //Lista de ofertas próxiams por cidade
-    const [userOffers, setUserOffers] = useState([]); //Lista de ofertas do usuário logado
     const [user, setUser] = useState(decode(localStorage.getItem("token"))); //usuário do token decodificado
     const [userQuery, setQuery] = useState([]); //usuário logado pelo banco de dados, pegar cidade
     const [offerQuery, setOffer] = useState([]); //lista de ofertas no banco de dados, pesquisa por nome
@@ -43,6 +41,7 @@ const HomeProd = () => {
     let numOptRender = 0; //número de opções renderizadas
     let optionsRenderList: string[] = [];
     let renderTest = false;
+    let renderTestUser = false;
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => { //evento de change no input de pesquisa
         e.preventDefault();
@@ -55,27 +54,11 @@ const HomeProd = () => {
         }
     }
 
-    async function queryCloseOffers() { //get de ofertas próximas no banco de dados
-        await axios.get(`http://localhost:3344/offers/query/${"user_city"}/${userQuery.user_city}`).then(res => {
-            setClose(res.data);
-        }).catch(error => {
-            console.log(error);
-        })
-    };
-
     async function queryChats() { //get de ofertas próximas no banco de dados
         await axios.get(`http://localhost:3344/chats/user/${userQuery.user_id}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then(res => {
             setChats(res.data);
-        }).catch(error => {
-            console.log(error);
-        })
-    };
-
-    async function queryUserOffers() { //get de ofertas do usuário no banco de dados
-        await axios.get(`http://localhost:3344/offers/user/${user.email}`).then(res => {
-            setUserOffers(res.data);
         }).catch(error => {
             console.log(error);
         })
@@ -105,37 +88,41 @@ const HomeProd = () => {
     }, []);
 
     useEffect(() => { //useEffect após get do usuário
-        queryCloseOffers();
-        queryUserOffers();
         if(userQuery.user_id)queryChats();
     }, [userQuery]);
 
-    const renderCloseOffers = closeOffers.map(item => { //lista de ofertas próximas renderizadas
-        for (const offer of userOffers) {
-            if(item.ofr_id === offer.ofr_id) return <div key={item.ofr_id}></div>
+    const renderCloseOffers = offerQuery.map(item => { //lista de ofertas próximas renderizadas
+        if(item.User_user_id === userQuery.user_id) return <div key={item.ofr_id}></div>
+        if (item.ofr_city == userQuery.user_city) {
+            renderTest = true;
+            return <CardOffer 
+            title={item.ofr_name} 
+            composition={item.prod_composition} 
+            condition={item.prod_status} 
+            img={(item.prod_img) ? String.fromCharCode(...new Uint8Array(item.prod_img.data)) : ""} 
+            value={item.ofr_value} 
+            type={item.prod_type}
+            key={item.ofr_id}
+            id={item.ofr_id}/>
         }
-        renderTest = true;
-        return <CardOffer 
-        title={item.ofr_name} 
-        composition={item.prod_composition} 
-        condition={item.prod_status} 
-        img={(item.prod_img) ? String.fromCharCode(...new Uint8Array(item.prod_img.data)) : ""} 
-        value={item.ofr_value} 
-        type={item.prod_type}
-        key={item.ofr_id}
-        id={item.ofr_id}/>
+        return <div key={item.ofr_id}></div>
     });
 
-    const renderUserOffers = userOffers.map(item => { //lista de ofertas do usuário renderizadas
-        return <CardOffer 
-        title={item.ofr_name} 
-        composition={item.prod_composition} 
-        condition={item.prod_status} 
-        img={(item.prod_img) ? String.fromCharCode(...new Uint8Array(item.prod_img.data)) : ""} 
-        value={item.ofr_value} 
-        type={item.prod_type}
-        key={item.ofr_id}
-        id={item.ofr_id}/>
+    const renderUserOffers = offerQuery.map(item => { //lista de ofertas do usuário renderizadas
+
+        if(item.User_user_id === userQuery.user_id) {
+            renderTestUser = true;
+            return <CardOffer 
+            title={item.ofr_name} 
+            composition={item.prod_composition} 
+            condition={item.prod_status} 
+            img={(item.prod_img) ? String.fromCharCode(...new Uint8Array(item.prod_img.data)) : ""} 
+            value={item.ofr_value} 
+            type={item.prod_type}
+            key={item.ofr_id}
+            id={item.ofr_id}/>
+        }
+        return <div key={item.ofr_id}></div>
     });
 
     const renderChatsOffers = offerQuery.map(item => { //lista de ofertas com chats do usuário renderizadas
@@ -226,7 +213,7 @@ const HomeProd = () => {
                 <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{base: "36px", sm: "30px"}} _dark={{color: colors.colorFontDarkBlue_Dark}} mt="3%" mb="5%">
                     Ofertas criadas por você
                 </Heading>
-                {(userOffers.length > 0) ? <OfferList component={renderUserOffers}/> : <SignNotFoundButton msg="Parece que você não possui ofertas registradas...Que tal criar alguma?!" icon={<BsPencil size="45%"/>} btnText='Criar Oferta' btnPath='/create-offer/any'/>} 
+                {(renderTestUser) ? <OfferList component={renderUserOffers}/> : <SignNotFoundButton msg="Parece que você não possui ofertas registradas...Que tal criar alguma?!" icon={<BsPencil size="45%"/>} btnText='Criar Oferta' btnPath='/create-offer/any'/>} 
             </Flex>
 
             <Flex bg={colors.bgWhite} w='100%' h='fit-content' align="center" _dark={{bg:colors.bgWhite_Dark}} direction="column">
