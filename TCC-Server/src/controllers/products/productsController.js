@@ -59,16 +59,16 @@ module.exports = {
             if(consult != "") {
                 switch(consult[0].prod_type) {
                     case "Cadeira de Rodas":
-                        result = await knex("Cadeira de Rodas").join("Product", "Product_prod_id", "prod_id");
+                        result = await knex("Cadeira de Rodas").where("Product_prod_id", id).join("Product", "Product_prod_id", "prod_id");
                     break;
                     case "Andador":
-                        result = await knex("Andador").join("Product", "Product_prod_id", "prod_id");
+                        result = await knex("Andador").where("Product_prod_id", id).join("Product", "Product_prod_id", "prod_id");
                     break;
                     case "Muleta":
-                        result = await knex("Muleta").join("Product", "Product_prod_id", "prod_id");
+                        result = await knex("Muleta").where("Product_prod_id", id).join("Product", "Product_prod_id", "prod_id");
                     break;
                     case "Bengala":
-                        result = await knex("Bengala").join("Product", "Product_prod_id", "prod_id");
+                        result = await knex("Bengala").where("Product_prod_id", id).join("Product", "Product_prod_id", "prod_id");
                     break;
                 }
                 return res.status(201).json(result);
@@ -96,16 +96,16 @@ module.exports = {
 
                 switch(product[0].prod_type) {
                     case "Cadeira de Rodas":
-                        result = await knex("Cadeira de Rodas").join("Product", "Product_prod_id", "prod_id");
+                        result = await knex("Cadeira de Rodas").where("Product_prod_id", product[0].prod_id).join("Product", "Product_prod_id", "prod_id");
                     break;
                     case "Andador":
-                        result = await knex("Andador").join("Product", "Product_prod_id", "prod_id");
+                        result = await knex("Andador").where("Product_prod_id", product[0].prod_id).join("Product", "Product_prod_id", "prod_id");
                     break;
                     case "Muleta":
-                        result = await knex("Muleta").join("Product", "Product_prod_id", "prod_id");
+                        result = await knex("Muleta").where("Product_prod_id", product[0].prod_id).join("Product", "Product_prod_id", "prod_id");
                     break;
                     case "Bengala":
-                        result = await knex("Bengala").join("Product", "Product_prod_id", "prod_id");
+                        result = await knex("Bengala").where("Product_prod_id", product[0].prod_id).join("Product", "Product_prod_id", "prod_id");
                     break;
                 }
 
@@ -192,6 +192,7 @@ module.exports = {
             const {mul_maxHeight} = req.body;
             const {mul_regulator}= req.body;
             const {mul_maxWeight} = req.body;
+            const {mul_type} = req.body;
 
             const consult = await knex('Product').where('prod_id', id);
             if(consult != '') {
@@ -363,6 +364,7 @@ module.exports = {
             const {mul_maxHeight} = req.body;
             const {mul_regulator}= req.body;
             const {mul_maxWeight} = req.body;
+            const {mul_type} = req.body;
 
             const consult = await knex('Product').where('prod_id', id);
             if(consult != '') {

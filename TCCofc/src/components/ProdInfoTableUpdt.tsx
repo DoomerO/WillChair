@@ -1,4 +1,4 @@
-import {Table, TableContainer, TableCaption, Tbody, Tr, Td, Input, useToast, Stack, Text} from "@chakra-ui/react";
+import {Table, TableContainer, TableCaption, Tbody, Tr, Td, Input, useToast, Stack, Text, Select} from "@chakra-ui/react";
 import { useState, useEffect, ChangeEvent } from "react";
 
 import axios from "axios";
@@ -15,7 +15,7 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
 
     async function queryProduct() {
         await axios.get(`http://localhost:3344/products/offer/${ofr_id}`).then(res => {
-            console.log(res.data[0])
+            console.log(res.data)
             setProd(res.data[0]);
         }).catch(error => {
             console.log(error);
@@ -241,11 +241,15 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
                 <Tbody>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
                         <Td fontWeight="bold">Tipo de Equipamento</Td>
-                        <Td>{(prod.prod_type) ? prod.prod_type : ""}</Td>
+                        <Td>{prod.prod_type}</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
                         <Td fontWeight="bold">Condição</Td>
-                        <Td><Input placeholder={prodUpdate.prod_status} name="prod_status" onChange={handleChange}/></Td>
+                        <Td><Select name='prod_status' onChange={handleChange} value={prodUpdate.prod_status}>
+                            <option value='Boa'>Boa</option>
+                            <option value='Rasoável'>Rasoável</option>
+                            <option value='Ruim'>Ruim</option>                                        
+                        </Select></Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
                         <Td fontWeight="bold">Composição</Td>

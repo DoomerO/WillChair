@@ -90,6 +90,14 @@ const BengalaOffer = () => {
             prod_status : formInputs.condition
         }, { headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
             setSearch(true);
+            toast({
+                position: 'bottom',
+                render: () => (
+                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Produto criado com sucesso!</Text>
+                    </Stack>
+                )
+            })
         }).catch((error) => {
             console.log(error);
             if(error.response.status == 413) {
@@ -142,7 +150,14 @@ const BengalaOffer = () => {
         }, {headers : {
             authorization : "Bearer " + localStorage.getItem("token")
         }}).then((res) => {
-            
+            toast({
+                position: 'bottom',
+                render: () => (
+                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Bengala criada com sucesso!</Text>
+                    </Stack>
+                )
+            })
         }).catch((error) => {
             console.log(error);
         })
@@ -168,8 +183,8 @@ const BengalaOffer = () => {
 
     useEffect(() => {
         if(prodOwn.length > 0){
-            postOffer(); 
             postChild();
+            postOffer(); 
         }
     }, [prodOwn])
 

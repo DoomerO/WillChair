@@ -83,12 +83,20 @@ const MuletaOffer = () => {
             prod_img : formInputs.photo,
             prod_weight : formInputs.weight,
             prod_height : formInputs.height,
-            prod_type : "Cadeira de Rodas",
+            prod_type : "Muleta",
             prod_key : formInputs.key,
             prod_composition : formInputs.composition,
             prod_status : formInputs.condition
         }, { headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
             setSearch(true);
+            toast({
+                position: 'bottom',
+                render: () => (
+                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Produto criado com sucesso!</Text>
+                    </Stack>
+                )
+            })
         }).catch((error) => {
             console.log(error);
             if(error.response.status == 413) {
@@ -141,7 +149,14 @@ const MuletaOffer = () => {
         }, {headers : {
             authorization : "Bearer " + localStorage.getItem("token")
         }}).then((res) => {
-            
+            toast({
+                position: 'bottom',
+                render: () => (
+                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Muleta criada com sucesso!</Text>
+                    </Stack>
+                )
+            })
         }).catch((error) => {
             console.log(error);
         })
@@ -167,8 +182,8 @@ const MuletaOffer = () => {
 
     useEffect(() => {
         if(prodOwn.length > 0){
-            postOffer(); 
             postChild();
+            postOffer(); 
         }
     }, [prodOwn])
 

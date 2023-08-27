@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import { Flex, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button, useColorMode, Avatar, useColorModeValue } from '@chakra-ui/react';
 import { RxHamburgerMenu } from 'react-icons/rx';
+import { AiOutlineHome, AiOutlineInfoCircle, AiOutlineSearch, AiOutlineLogout } from "react-icons/ai";
+import { CgDarkMode } from "react-icons/cg";
+import { FiPhoneForwarded } from "react-icons/fi";
+import {MdOutlineCreate} from "react-icons/md";
 //imagens
 import logo from '../img/home/logoDark.png';
 import logoLight from '../img/home/logo.png';
@@ -13,6 +17,7 @@ interface avatarProps {
 const HeaderLogged = ({name, img}: avatarProps) => {
     const {toggleColorMode} = useColorMode();
     const logoImg = useColorModeValue(logo, logoLight) //muda o valor do logo a partir do modo de cor que estiver ativo
+    const colorMode = useColorModeValue("Modo escuro", "Modo claro");
     return (
         <Flex w="100%" h="8.5vh" bg='#fff' position='fixed' _dark={{bg : '#131313'}} boxShadow='lg' zIndex={2}>
             
@@ -25,27 +30,27 @@ const HeaderLogged = ({name, img}: avatarProps) => {
                         variant="unstyled"
                         bg='#0000'>
                     </MenuButton>
-                    <MenuList>
+                    <MenuList fontSize={{base:"20px", sm:"15px"}}>
                         <Link to="/"><MenuItem display={{base:"inherit", sm: "none"}}>
-                            Home
+                            <Flex direction="row" align="center" w={{base:"40%" ,sm:"95%"}}>Home<Spacer/><AiOutlineHome size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/search/all/all"><MenuItem display={{base:"inherit", sm: "none"}}>
-                            Pesquisar produtos
+                            <Flex direction="row" align="center" w={{base:"40%" ,sm:"95%"}}>Pesquisar equipamentos<Spacer/><AiOutlineSearch size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/contact"><MenuItem>
-                            Contato
+                            <Flex direction="row" w={{base:"40%" ,sm:"95%"}} align="center">Contato<Spacer/><FiPhoneForwarded size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/about"><MenuItem>
-                            Sobre nós
+                            <Flex direction="row" w={{base:"40%" ,sm:"95%"}} align="center">Sobre nós<Spacer/><AiOutlineInfoCircle size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/create-offer/all"><MenuItem>
-                            Criar Oferta
+                            <Flex direction="row" w={{base:"40%" ,sm:"95%"}} align="center">Criar oferta<Spacer/><MdOutlineCreate size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/logout"><MenuItem>
-                            Log Out
+                            <Flex direction="row" w={{base:"40%" ,sm:"95%"}} align="center">Logout<Spacer/><AiOutlineLogout size="6%"/></Flex>
                         </MenuItem></Link>
                         <MenuItem onClick={toggleColorMode}>
-                            Dark Mode
+                            <Flex direction="row" w={{base:"40%" ,sm:"95%"}} align="center">{colorMode}<Spacer/><CgDarkMode size="6%"/></Flex>
                         </MenuItem>
                     </MenuList>
                 </Menu>

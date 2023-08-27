@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { Flex, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { RxHamburgerMenu } from 'react-icons/rx';
+import {AiOutlineHome, AiOutlineInfoCircle, AiOutlineLogin, AiOutlineUserAdd, AiOutlineSearch} from "react-icons/ai";
+import {FiPhoneForwarded} from "react-icons/fi";
+import {CgDarkMode} from "react-icons/cg";
 //imagens
 import logo from '../img/home/logoDark.png'
 import logoLight from '../img/home/logo.png'
@@ -9,6 +12,7 @@ const Header = () => {
 
     const {toggleColorMode} = useColorMode();
     const logoImg = useColorModeValue(logo, logoLight)
+    const colorMode = useColorModeValue("Modo escuro", "Modo claro");
     return (
         <Flex w="100%" h="8.5vh" bg='#fff' position='fixed' _dark={{bg : '#131313'}} boxShadow='lg' zIndex={2}>
             
@@ -21,27 +25,27 @@ const Header = () => {
                         variant="unstyled"
                         bg='#0000'>
                     </MenuButton>
-                    <MenuList>
+                    <MenuList fontSize={{base:"20px", sm:"15px"}}>
                         <Link to="/"><MenuItem display={{base:"inherit", sm: "none"}}>
-                            Home
+                            <Flex direction="row" align="center" w={{base:"40%" ,sm:"95%"}}>Home<Spacer/><AiOutlineHome size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/search/all/all"><MenuItem display={{base:"inherit", sm: "none"}}>
-                            Pesquisar produtos
+                            <Flex direction="row" align="center" w={{base:"40%" ,sm:"95%"}}>Pesquisar equipamentos<Spacer/><AiOutlineSearch size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/contact"><MenuItem>
-                            Contato
+                            <Flex direction="row" w={{base:"40%" ,sm:"95%"}} align="center">Contato<Spacer/><FiPhoneForwarded size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/about"><MenuItem>
-                            Sobre nós
+                            <Flex direction="row" w={{base:"40%" ,sm:"95%"}} align="center">Sobre nós<Spacer/><AiOutlineInfoCircle size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/login"><MenuItem>
-                            Entrar
+                            <Flex direction="row" w={{base:"40%" ,sm:"95%"}} align="center">Entrar<Spacer/><AiOutlineLogin size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/login/new"><MenuItem>
-                            Cadastrar
+                            <Flex direction="row" w={{base:"40%" ,sm:"95%"}} align="center">Cadastrar<Spacer/><AiOutlineUserAdd size="6%"/></Flex>
                         </MenuItem></Link>
                         <MenuItem onClick={toggleColorMode}>
-                            Dark Mode
+                            <Flex direction="row" w={{base:"40%" ,sm:"95%"}} align="center">{colorMode}<Spacer/><CgDarkMode size="6%"/></Flex>
                         </MenuItem>
                     </MenuList>
                 </Menu>

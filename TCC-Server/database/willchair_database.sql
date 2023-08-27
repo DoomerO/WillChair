@@ -49,9 +49,9 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Product` (
   `prod_img` BLOB NULL,
   `prod_key` VARCHAR(10) NOT NULL,
   `prod_status` VARCHAR(10) NOT NULL,
-  `prod_height` DECIMAL NULL,
+  `prod_height` FLOAT NULL,
   `prod_type` VARCHAR(20) NOT NULL,
-  `prod_weight` DECIMAL NULL,
+  `prod_weight` FLOAT NULL,
   `prod_composition` VARCHAR(10) NULL,
   PRIMARY KEY (`prod_id`))
 ENGINE = InnoDB;
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Offer` (
   `ofr_name` VARCHAR(45) NOT NULL,
   `ofr_type` VARCHAR(20) NOT NULL,
   `ofr_desc` VARCHAR(255) NULL,
-  `ofr_value` DECIMAL NULL,
+  `ofr_value` FLOAT NULL,
   `ofr_status` VARCHAR(10) NOT NULL,
   `ofr_city` VARCHAR(30) NOT NULL,
   `ofr_user_name` VARCHAR(45) NOT NULL,
@@ -168,10 +168,10 @@ ENGINE = InnoDB;
 -- Table `willchair`.`Cadeira de Rodas`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `willchair`.`Cadeira de Rodas` (
-  `cad_width` DECIMAL NULL,
-  `cad_widthSeat` DECIMAL NULL,
+  `cad_width` FLOAT NULL,
+  `cad_widthSeat` FLOAT NULL,
   `cad_type` VARCHAR(20) NULL,
-  `cad_maxWeight` DECIMAL NULL,
+  `cad_maxWeight` FLOAT NULL,
   `Product_prod_id` INT NULL REFERENCES `willchair`.`Product` (`prod_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
@@ -183,11 +183,11 @@ ENGINE = InnoDB;
 -- Table `willchair`.`Muleta`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `willchair`.`Muleta` (
-  `mul_maxHeight` DECIMAL NULL,
+  `mul_maxHeight` FLOAT NULL,
   `mul_type` VARCHAR(10) NULL,
-  `mul_minHeight` DECIMAL NULL,
+  `mul_minHeight` FLOAT NULL,
   `mul_regulator` TINYINT NULL,
-  `mul_maxWeight` DECIMAL NULL,
+  `mul_maxWeight` FLOAT NULL,
   `Product_prod_id` INT NULL  REFERENCES `willchair`.`Product` (`prod_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
@@ -201,8 +201,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `willchair`.`Bengala` (
   `ben_type` VARCHAR(10) NULL,
   `ben_regulator` TINYINT NULL,
-  `ben_maxHeight` DECIMAL NULL,
-  `ben_minHeight` DECIMAL NULL,
+  `ben_maxHeight` FLOAT NULL,
+  `ben_minHeight` FLOAT NULL,
   `ben_color` VARCHAR(20) NULL,
   `Product_prod_id` INT NULL REFERENCES `willchair`.`Product` (`prod_id`)
     ON DELETE NO ACTION
@@ -215,10 +215,10 @@ ENGINE = InnoDB;
 -- Table `willchair`.`Andador`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `willchair`.`Andador` (
-  `and_lenght` DECIMAL NULL,
-  `and_width` DECIMAL NULL,
-  `and_maxHeight` DECIMAL NULL,
-  `and_minHeight` DECIMAL NULL,
+  `and_lenght` FLOAT NULL,
+  `and_width` FLOAT NULL,
+  `and_maxHeight` FLOAT NULL,
+  `and_minHeight` FLOAT NULL,
   `and_regulator` TINYINT NULL,
   `Product_prod_id` INT NULL  REFERENCES `willchair`.`Product` (`prod_id`)
     ON DELETE NO ACTION
