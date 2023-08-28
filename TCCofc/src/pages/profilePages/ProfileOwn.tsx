@@ -11,6 +11,7 @@ import OfferList from "../../components/offerCards/OfferList";
 import SignNotFoundButton from "../../components/signs/SignNotFoundButton";
 import colors from "../../colors/colors";
 import axios from "axios";
+import cep from "cep-promise";
 
 import { BsFillStarFill, BsPencil } from "react-icons/bs";
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
@@ -54,6 +55,17 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
           console.log(error);
         })
     };
+
+    async function getEndereco() {
+        cep(userUpdate.user_CEP, { timeout: 5000}).then((res) => {
+            setUpdate(prev => ({...prev, 
+                user_FU : res.state,
+                user_street : res.street,
+                user_district : res.neighborhood,
+                user_city : res.city
+            }))
+        });
+    }
 
     async function updateProfile() {
         await axios.put(`http://localhost:3344/users/${user.user_email}`, {
@@ -244,7 +256,8 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">CEP:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_CEP} name="user_CEP" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_CEP}/>
+                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_CEP} name="user_CEP" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_CEP}
+                            onBlur={getEndereco}/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Número da casa:</Text>

@@ -14,7 +14,8 @@ import '../fonts/fonts.css';
 import colors from "../colors/colors";
 import { MdOutlineBusinessCenter } from "react-icons/md";
 import ChatBox from "../components/chats/ChatBox";
-import ChatSquare from "../components/chats/ChatSquare";
+import ChatSquare from "../components/chats/ChatSquare";  
+
 
 const CurrentChats = () => {
 
@@ -61,9 +62,9 @@ const CurrentChats = () => {
         <Box w="100%" h="100%">
             <HeaderToggle/>
                 <Flex direction="row" w="100%" h="100vh">
-                    <Stack w="25%" bg={colors.bgWhite} pt="5%" _dark={{bg : colors.bgWhite_Dark, borderRight : "1px solid #fff"}} h="100%" borderRight="1px solid #000" align="center"> 
-                        <Heading as="h2" pb="4%" fontSize={{base: "32px", sm: "29px"}} fontFamily="outfit" borderBottom="1px solid #000" w="100%" textAlign="center" _dark={{borderBottom : "1px solid #fff"}}>Suas conversas</Heading>
-                        {(chatsOthers.length > 0) ? <ChatSignList component={renderChatsOthers}/> : <SignAdaptable msg="Aparentemente, você não possuí nenhuma conversa... Procure uma oferta interessnate e comece alguma!" icon={<TbMessageCircleSearch size="45%"/>} bgType="none"/>}
+                    <Stack w="25%" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark, borderRight : "1px solid #fff"}} h="100%" borderRight="1px solid #1972d6" align="center"> 
+                        <Heading as="h2" pb="4%" pt="10vh" fontSize={{base: "32px", sm: "29px"}} fontFamily="outfit" w="100%" textAlign="center" bg="#1972d6" color="#fff">Suas conversas</Heading>
+                        {(chatsOthers.length > 0) ? <ChatSignList component={renderChatsOthers}/> : <SignAdaptable msg="Aparentemente, você não possuí nenhuma conversa... Procure uma oferta interessante e comece alguma!" icon={<TbMessageCircleSearch size="45%"/>} bgType="none"/>}
                     </Stack>
                     
                     <Flex w="75%" align="center" justifyContent="center" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark}} h="100%" direction="column">

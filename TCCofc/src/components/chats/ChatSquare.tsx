@@ -1,9 +1,11 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { Avatar, Box, Button, Flex, Input, InputGroup, InputRightAddon, Spacer, Stack, Text, useToast } from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, IconButton, Input, InputGroup, InputRightAddon, Menu, MenuButton, MenuItem, MenuList, Spacer, Stack, Text} from "@chakra-ui/react";
 import { socket } from "../socket/socket";
 
 import {IoMdSend} from "react-icons/io";
 import colors from "../../colors/colors";
+import { BiDotsHorizontal } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 interface chatSquareProps {
     user_id : number,
@@ -13,12 +15,11 @@ interface chatSquareProps {
 
 const ChatSquare = ({chat_id, user_id, end} : chatSquareProps) => {
     socket.connect();
-
-    const toast = useToast();
     const [messages, setMessages] = useState([]);
     const [other, setOther] = useState([]);
     let msgRender: object[] = []
     const [msg, setMsg] = useState("");
+    const navigate = useNavigate();
 
     socket.on("message", (message) => {
         console.log(message); 
@@ -80,7 +81,26 @@ const ChatSquare = ({chat_id, user_id, end} : chatSquareProps) => {
                 <Avatar name={other.user_name} src={(other.user_img) ? String.fromCharCode(...new Uint8Array(other.user_img)) : ""} size={{base:"md", sm:"sm"}} mr="1%" ml="2%"/>
                 <Text fontSize={{base:"20px", sm:"15px"}}>{other.user_name}</Text>
                 <Spacer/>
-                <Button variant="outline" mr="2%" onClick={end} colorScheme="red">Fechar chat</Button>
+                <Menu>
+                    <MenuButton  
+                        as={IconButton}
+                        aria-label='Options'
+                        icon = {<BiDotsHorizontal size='80%'/>}
+                        variant="unstyled"
+                        bg='#0000'>
+                    </MenuButton>
+                    <MenuList fontSize={{base:"20px", sm:"15px"}}>
+                       <MenuItem onClick={end}>
+                            Fechar chat
+                       </MenuItem>
+                       <MenuItem onClick={() => {
+                        socket.emit("endChat", chat_id);
+                        navigate(0);
+                        }}> 
+                            Cancelar chat
+                       </MenuItem>
+                    </MenuList>
+                </Menu>
             </Flex>
             <Flex w="95%" pr="2%" pl="2%" minH={{base:"60vh" , sm:"70%"}} maxH={{base:"60vh", sm:"70%"}} overflowY="scroll" css={{
                         '&::-webkit-scrollbar': {

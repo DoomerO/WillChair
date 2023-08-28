@@ -57,7 +57,8 @@ const Login = () => {
         }).then(res=> {
             localStorage.setItem("token", res.data.token);
             callToast("Usuário(a) encontrado(a)", "Finalizando login...", 2000, "success")
-            route("../")
+            route("/");
+            route(0);
         }).catch(error => {
             if(error){
                 let errorCode:Number = error.response ? error.response.status : 0

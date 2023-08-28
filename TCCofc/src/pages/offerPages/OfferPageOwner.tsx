@@ -242,9 +242,9 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                     <Flex direction="row" align="center">
                                         <Text fontFamily="atkinson" mr="5px">Tipo de Oferta:</Text>
                                         <Select color="gray" fontSize={{base:"20px", sm:"18px"}} onChange={handleChangeOffer} value={updateOffer.ofr_type} name="ofr_type" w={{base:"50%" ,sm:"60%"}} variant={{base:"outline", sm:"flushed"}}>
-                                            <option value='Boa'>Doação</option>
-                                            <option value='Rasoável'>Venda</option>
-                                            <option value='Ruim'>Aluguél</option>                                        
+                                            <option value='Doação'>Doação</option>
+                                            <option value='Venda'>Venda</option>
+                                            <option value='Aluguél'>Aluguél</option>                                        
                                         </Select>
                                     </Flex>
                                     <Flex direction="row" align="center">
