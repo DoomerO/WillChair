@@ -204,27 +204,27 @@ const HomeProd = () => {
             </Flex>
 
             <Flex bg={colors.bgWhite} h='fit-content' align="center" direction="column" _dark={{bg:colors.bgWhite_Dark}}>
-                <Heading color={colors.colorFontDarkBlue} as='h1' fontSize={{base: "36px", sm: "30px"}} _dark={{color:colors.colorFontDarkBlue_Dark}} mt="3%" mb="5%"
+                <Heading color={colors.colorFontDarkBlue} as='h1' fontSize={{base: "36px", sm: "30px"}} _dark={{color:colors.colorFontDarkBlue_Dark}} mt="3%" mb="3%"
                 fontFamily="outfit" textAlign="center">Confira as ofertas perto de você</Heading>
                 {(renderTest) ? <OfferList component={renderCloseOffers}/> : <SignNotFound msg="Parece que não há equipamentos registrados em sua cidade..." icon={<MdOutlineSearchOff size="45%"/>}/>}
             </Flex>
 
             <Flex bg={colors.veryLightBlue} w='100%' h='fit-content' align="center" _dark={{bg:colors.veryLightBlue_Dark}} direction="column">
-                <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{base: "36px", sm: "30px"}} _dark={{color: colors.colorFontDarkBlue_Dark}} mt="3%" mb="5%">
+                <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{base: "36px", sm: "30px"}} _dark={{color: colors.colorFontDarkBlue_Dark}} mt="3%" mb="3%">
                     Ofertas criadas por você
                 </Heading>
                 {(renderTestUser) ? <OfferList component={renderUserOffers}/> : <SignNotFoundButton msg="Parece que você não possui ofertas registradas...Que tal criar alguma?!" icon={<BsPencil size="45%"/>} btnText='Criar Oferta' btnPath='/create-offer/any'/>} 
             </Flex>
 
             <Flex bg={colors.bgWhite} w='100%' h='fit-content' align="center" _dark={{bg:colors.bgWhite_Dark}} direction="column">
-                <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{base: "36px", sm: "30px"}} _dark={{color: colors.colorFontDarkBlue_Dark}} mt="3%" mb="5%">
+                <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{base: "36px", sm: "30px"}} _dark={{color: colors.colorFontDarkBlue_Dark}} mt="3%" mb="3%">
                     Ofertas que você se interessou
                 </Heading>
                 {(chats.length > 0) ? <OfferList component={renderChatsOffers}/> : <SignNotFoundButton msg="Acho que você não iniciou um chat ainda...Vamos lá! Basta pesquisar uma oferta interessante!" icon={<TbMessageCircleSearch size="45%"/>} btnText='Pesquisar' btnPath='/search/all/all'/>} 
             </Flex>
 
             <Flex bg={colors.veryLightBlue} h="fit-content" align="center" direction="column" _dark={{bg:colors.veryLightBlue_Dark}}>
-                <Heading color={colors.colorFontBlue} textAlign="center" as="h1" fontSize={{base: "36px", sm:"30px"}} mt="3%" mb="5%" fontFamily="outfit">
+                <Heading color={colors.colorFontBlue} textAlign="center" as="h1" fontSize={{base: "36px", sm:"30px"}} mt="3%" mb="3%" fontFamily="outfit">
                     Dicas para você
                 </Heading>
                 <Flex w="80%" mb="3%">

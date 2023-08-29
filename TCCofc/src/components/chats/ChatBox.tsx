@@ -13,8 +13,9 @@ interface chatBoxProps {
 }
 
 const ChatBox = ({chat_id, user_id, other} : chatBoxProps) => {
-    socket.connect();
-
+    if(socket.disconnected) {
+        socket.connect();
+    }
     const navigate = useNavigate();
     const toast = useToast();
     const [messages, setMessages] = useState([]);

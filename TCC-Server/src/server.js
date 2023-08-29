@@ -16,7 +16,7 @@ const {Server} = require('socket.io');
 
 const io = new Server(3000, {
     cors : {
-        origin: "http://127.0.0.1:5173"
+        origin: "http://localhost:5173"
     }
 });
 
@@ -42,12 +42,26 @@ io.on("connection", (socket) => {
         socket.emit("Desconnect", "Chat finalizado...");
     });
 
-    socket.on("findOther", async (data) => {
+    socket.on("findOwner", async (data) => {
         const consult = await knex("Chat").where("chat_id", data).join("Offer", "Offer_ofr_id", "ofr_id").join("User", "Offer.User_user_id", "user_id");
         const result =  {
             user_img : consult[0].user_img,
             user_id :  consult[0].user_id,
-            user_name : consult[0].user_name
+            user_email : consult[0].user_email,
+            user_name : consult[0].user_name,
+            ofr_id : consult[0].ofr_id
+        }
+        socket.emit("otherUser", result);
+    })
+
+    socket.on("findOther", async (data) => {
+        const consult = await knex("Chat").where("chat_id", data).join("Offer", "Offer_ofr_id", "ofr_id").join("User", "Chat.User_user_id", "user_id");
+        const result =  {
+            user_img : consult[0].user_img,
+            user_id :  consult[0].user_id,
+            user_email : consult[0].user_email,
+            user_name : consult[0].user_name,
+            ofr_id : consult[0].ofr_id
         }
         socket.emit("otherUser", result);
     })

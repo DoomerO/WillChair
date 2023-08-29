@@ -50,7 +50,7 @@ routes.get('/chats/user/offer/:user_id/:ofr_id', auth, controllersChats.searchCh
 routes.get('/chats/user/:user_id', auth, controllersChats.searchChatUser);
 routes.post('/chats', auth, controllersChats.createChat);
 routes.delete('/chats/:id', auth, controllersChats.deleteChat);
-routes.delete('chats/offer/:ofr_id', auth, controllersChats.deleteChatOffer);
+routes.delete('/chats/offer/:ofr_id', auth, controllersChats.deleteChatOffer);
 
 //Products Routes
 routes.get('/products', auth, controllersProducts.searchProducts);

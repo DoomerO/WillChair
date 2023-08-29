@@ -5,6 +5,7 @@ import { AiOutlineHome, AiOutlineInfoCircle, AiOutlineSearch, AiOutlineLogout } 
 import { CgDarkMode } from "react-icons/cg";
 import { FiPhoneForwarded } from "react-icons/fi";
 import {MdOutlineCreate} from "react-icons/md";
+import {PiChatsFill} from "react-icons/pi";
 //imagens
 import logo from '../img/home/logoDark.png';
 import logoLight from '../img/home/logo.png';
@@ -48,6 +49,9 @@ const HeaderLogged = ({name, img}: avatarProps) => {
                         </MenuItem></Link>
                         <Link to="/logout"><MenuItem>
                             <Flex direction="row" w={{base:"40%" ,sm:"95%"}} align="center">Logout<Spacer/><AiOutlineLogout size="6%"/></Flex>
+                        </MenuItem></Link>
+                        <Link to="/current-chats"><MenuItem>
+                            <Flex direction="row" w={{base:"40%" ,sm:"95%"}} align="center">Seus Chats<Spacer/><PiChatsFill size="6%"/></Flex>
                         </MenuItem></Link>
                         <MenuItem onClick={toggleColorMode}>
                             <Flex direction="row" w={{base:"40%" ,sm:"95%"}} align="center">{colorMode}<Spacer/><CgDarkMode size="6%"/></Flex>

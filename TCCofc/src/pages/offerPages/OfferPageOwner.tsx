@@ -162,7 +162,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     }
 
     async function deleteChatsOffer() {
-        await axios.delete(`http://localhost:3344/chats/ofr_id/${offer.ofr_id}`, {
+        await axios.delete(`http://localhost:3344/chats/offer/${offer.ofr_id}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
         }).catch((error) => {

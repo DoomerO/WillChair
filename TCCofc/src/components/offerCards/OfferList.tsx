@@ -24,7 +24,7 @@ const OfferList = ({component}: listProps) => {
                             borderRadius: '50px',
                         },
                     }}>
-                    <Stack direction="row" w="fit-content" spacing={25} mb="5vh">
+                    <Stack direction="row" w="fit-content" spacing={2} justifyContent="center" align="center" mb="5vh">
                         {component}
                     </Stack>  
                 </TabPanel>

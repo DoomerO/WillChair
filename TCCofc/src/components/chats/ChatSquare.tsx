@@ -5,16 +5,22 @@ import { socket } from "../socket/socket";
 import {IoMdSend} from "react-icons/io";
 import colors from "../../colors/colors";
 import { BiDotsHorizontal } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+import {BsTrash} from "react-icons/bs";
+import { Link, useNavigate } from "react-router-dom";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { MdOutlineLocalOffer } from "react-icons/md";
 
 interface chatSquareProps {
     user_id : number,
     chat_id : number,
+    isOwner : boolean,
     end : React.MouseEventHandler<HTMLButtonElement>
 }
 
-const ChatSquare = ({chat_id, user_id, end} : chatSquareProps) => {
-    socket.connect();
+const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
+    if(socket.disconnected) {
+        socket.connect();
+    }
     const [messages, setMessages] = useState([]);
     const [other, setOther] = useState([]);
     let msgRender: object[] = []
@@ -31,7 +37,6 @@ const ChatSquare = ({chat_id, user_id, end} : chatSquareProps) => {
 
     socket.on("otherUser", (resp) => {
         setOther(resp);
-        console.log(resp);
     })
 
     messages.map(item => {
@@ -39,7 +44,7 @@ const ChatSquare = ({chat_id, user_id, end} : chatSquareProps) => {
     })
 
     useEffect(() => {
-        socket.emit("findOther", chat_id);
+        (isOwner) ? socket.emit("findOther", chat_id) : socket.emit("findOwner", chat_id);
         socket.emit("reqMsg", chat_id);
     }, [chat_id])
     
@@ -75,11 +80,13 @@ const ChatSquare = ({chat_id, user_id, end} : chatSquareProps) => {
     });
 
     return (
-        <Flex w={{base:"100%", sm:"100%"}} bg="#f7f7f7" _dark={{bg : colors.colorFontDarkBlue}} h="100%" direction="column" justifyContent="center">
+        <Flex w={{base:"100%", sm:"100%"}} bg="#f7f7f7" _dark={{bg : colors.veryLightBlue_Dark}} h="100%" direction="column" justifyContent="center" align="center">
             <Spacer />
-            <Flex mt="8" w="100%" align="center" direction="row" pt="1%" pb="1%">
-                <Avatar name={other.user_name} src={(other.user_img) ? String.fromCharCode(...new Uint8Array(other.user_img)) : ""} size={{base:"md", sm:"sm"}} mr="1%" ml="2%"/>
-                <Text fontSize={{base:"20px", sm:"15px"}}>{other.user_name}</Text>
+            <Flex mt="8vh" w="100%" mb="1%" align="center" direction="row" pt="1%" pb="1%" bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}} pl="2%" >
+                <Link to={`/profile/${other.user_email}/view`}>
+                    <Avatar name={other.user_name} src={(other.user_img) ? String.fromCharCode(...new Uint8Array(other.user_img)) : ""} size={{base:"md", sm:"sm"}} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}/>
+                </Link>
+                <Text fontSize={{base:"20px", sm:"18px"}} ml="1%" fontWeight="bold">{other.user_name}</Text>
                 <Spacer/>
                 <Menu>
                     <MenuButton  
@@ -91,18 +98,23 @@ const ChatSquare = ({chat_id, user_id, end} : chatSquareProps) => {
                     </MenuButton>
                     <MenuList fontSize={{base:"20px", sm:"15px"}}>
                        <MenuItem onClick={end}>
-                            Fechar chat
+                            <Flex direction="row" align="center" onClick={() => {console.log("cu")}} w={{base:"40%" ,sm:"95%"}}>Fechar Chat<Spacer/><AiOutlineCloseCircle size="6%"/></Flex>
                        </MenuItem>
                        <MenuItem onClick={() => {
                         socket.emit("endChat", chat_id);
                         navigate(0);
                         }}> 
-                            Cancelar chat
+                            <Flex direction="row" align="center" w={{base:"40%" ,sm:"95%"}}>Cancelar conversa<Spacer/><BsTrash size="6%"/></Flex>
                        </MenuItem>
+                       <Link to={`/offer/${other.ofr_id}`}><MenuItem onClick={() => {
+                        socket.close();
+                        }}> 
+                            <Flex direction="row" align="center" w={{base:"40%" ,sm:"95%"}}>Ir para a oferta<Spacer/><MdOutlineLocalOffer size="6%"/></Flex>
+                       </MenuItem></Link>
                     </MenuList>
                 </Menu>
             </Flex>
-            <Flex w="95%" pr="2%" pl="2%" minH={{base:"60vh" , sm:"70%"}} maxH={{base:"60vh", sm:"70%"}} overflowY="scroll" css={{
+            <Flex w="100%" pr="2%" pl="2%" minH={{base:"60vh" , sm:"70%"}} maxH={{base:"60vh", sm:"70%"}} overflowY="scroll" css={{
                         '&::-webkit-scrollbar': {
                         width: '4px',
                         },
@@ -123,8 +135,8 @@ const ChatSquare = ({chat_id, user_id, end} : chatSquareProps) => {
                 </Stack>
             </Flex>
             <Spacer/>
-            <Flex align="center" direction="column">
-                <InputGroup w="95%" pb="2%">
+            <Flex align="center" direction="column" bg={colors.bgTableRow1} w="100%" _dark={{bg : colors.bgTableRow1_Dark}}>
+                <InputGroup w="95%" pb="2%" pt="2%">
                     <Input maxLength={255} type="text" fontSize={{base:"20px", sm:"15px"}} onKeyDown={handleKeyPress} onChange={handleChange} value={msg}></Input>
                     <InputRightAddon children={<IoMdSend/>} bg="#eee" _dark={{bg:"#0000"}} _hover={{bg:"#aaa", _dark:{bg:"#555"}}}
                     onClick={() => {

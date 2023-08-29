@@ -123,7 +123,6 @@ module.exports = {
 
             const now = new Date();
             const ofr_postDate =  now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
-            console.log(ofr_postDate)
 
             const user = await knex("User").where('user_id', User_user_id);
 
