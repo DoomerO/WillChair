@@ -32,7 +32,7 @@ module.exports= {
                     user_comp : consult[0].user_comp,
                     user_street : consult[0].user_street,
                     user_district : consult[0].user_district,
-                    user_FU : consult[0].useruser_FU,
+                    user_FU : consult[0].user_FU,
                     user_email : consult[0].user_email
                 }
                 return res.status(201).json(result);
@@ -64,7 +64,7 @@ module.exports= {
                     user_comp : consult[0].user_comp,
                     user_street : consult[0].user_street,
                     user_district : consult[0].user_district,
-                    user_FU : consult[0].useruser_FU,
+                    user_FU : consult[0].user_FU,
                     user_email : consult[0].user_email
                 }
                 return res.status(201).json(result);
