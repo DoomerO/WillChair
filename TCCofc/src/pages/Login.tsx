@@ -88,7 +88,8 @@ const Login = () => {
                 user_level: 0}).then(res => {
                 localStorage.setItem("token", res.data.token);
                 callToast("Usuário(a) registrado(a)", "Você será redirecionado(a) em breve", 2000, "loading")
-                route("../")
+                route(`/profile/${fields.email}/view`);
+                route(0);
                 clearFields()
             }).catch(error => {
                 if(error){

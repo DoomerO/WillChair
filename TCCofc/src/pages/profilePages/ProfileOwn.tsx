@@ -56,52 +56,73 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
         })
     };
 
-    async function getEndereco() {
-        cep(userUpdate.user_CEP, { timeout: 5000}).then((res) => {
+    async function getEndereco(CEP : string) {
+        cep(CEP, { timeout: 5000}).then((res) => {
             setUpdate(prev => ({...prev, 
                 user_FU : res.state,
                 user_street : res.street,
                 user_district : res.neighborhood,
                 user_city : res.city
             }))
+        }).catch((error) => {
+            error = {error}
+            if(error.error.message == "Todos os serviços de CEP retornaram erro." && CEP.length <= 7){
+                setUpdate(prev => ({...prev,
+                    user_FU : "",
+                    user_street : "",
+                    user_district : "",
+                    user_city : ""
+                }))
+            }
         });
     }
 
     async function updateProfile() {
-        await axios.put(`http://localhost:3344/users/${user.user_email}`, {
-            user_name :  userUpdate.user_name,
-            user_img :  userUpdate.user_img,
-            user_phone :  userUpdate.user_phone,
-            user_street :  userUpdate.user_street,
-            user_district : userUpdate.user_district,
-            user_FU :  userUpdate.user_FU,
-            user_city : userUpdate.user_city,
-            user_CEP : userUpdate.user_CEP,
-            user_houseNum : userUpdate.user_houseNum,
-            user_comp :  userUpdate.user_comp
-        }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
-            localStorage.setItem("token", res.data.token);
-            toast({
-                position: 'bottom',
-                render: () => (
-                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Perfil atualizado com sucesso!</Text>
-                        <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate(0)}}>Atualizar a página</Button>
-                    </Stack>
-                )
-            })
-        }).catch((error) => {
-            console.log(error);
-            if(error.response.status == 413) {
+        if(userUpdate.user_city && userUpdate.user_name && userUpdate.user_phone) {
+            await axios.put(`http://localhost:3344/users/${user.user_email}`, {
+                user_name :  userUpdate.user_name,
+                user_img :  userUpdate.user_img,
+                user_phone :  userUpdate.user_phone,
+                user_street :  userUpdate.user_street,
+                user_district : userUpdate.user_district,
+                user_FU :  userUpdate.user_FU,
+                user_city : userUpdate.user_city,
+                user_CEP : userUpdate.user_CEP,
+                user_houseNum : userUpdate.user_houseNum,
+                user_comp :  userUpdate.user_comp
+            }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
+                localStorage.setItem("token", res.data.token);
                 toast({
-                    title: 'Imagem muito pesada!',
-                    description: "Tente usar uma imagem mais leve.",
-                    status: 'error',
-                    duration: 9000,
-                    isClosable: true,
-                  })
-            }
-        })
+                    position: 'bottom',
+                    render: () => (
+                        <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                            <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Perfil atualizado com sucesso!</Text>
+                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate(0)}}>Atualizar a página</Button>
+                        </Stack>
+                    )
+                })
+            }).catch((error) => {
+                console.log(error);
+                if(error.response.status == 413) {
+                    toast({
+                        title: 'Imagem muito pesada!',
+                        description: "Tente usar uma imagem mais leve.",
+                        status: 'error',
+                        duration: 9000,
+                        isClosable: true,
+                    })
+                }
+            })
+        }
+        else {
+            toast({
+                title: 'Existem dados que devem ser preenchidos',
+                description: "Certifique-se de informar seu telefone, cidade e nome de usuário!",
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+              }) 
+        }
     }
 
     function discartChanges() {
@@ -144,10 +165,33 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
             }))
             getComments();
             getOffers();
+
+            if(!user.user_city || !user.user_phone) {
+                toast({
+                    title: 'Perfil incompleto',
+                    description: "Informe seu telefone e cidade!",
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                  }) 
+            }
         }
     }, [user.user_id]);
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
+        if(e.target.name == "user_CEP") {
+            if(e.target.value.length >= 7) {
+                getEndereco(e.target.value);
+            }
+            else {
+                setUpdate(prev => ({...prev, 
+                    user_FU : "",
+                    user_street : "",
+                    user_district : "",
+                    user_city : ""
+                }))
+            }
+        }
         setUpdate(prev => ({...prev, [e.target.name] : e.target.value}));
     }
 
@@ -225,7 +269,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Telefone:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_phone} name="user_phone" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_phone}/>
+                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_phone} name="user_phone" onChange={handleChange} maxLength={11} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_phone ? user.user_phone : "Digite seu número de telefone"} pattern={`[0-9]{8,11}`}/>
                             </Flex>
                             
 
@@ -234,35 +278,34 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             <Divider orientation="horizontal"/>
 
                             <Flex direction="row" align="center">
+                            <Text fontFamily="atkinson" mr="5px">CEP:</Text>
+                            <Spacer/>
+                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_CEP} name="user_CEP" maxLength={8} onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={(user.user_CEP) ? user.user_CEP : "Digite seu CEP aqui para preencher o endereço."}/>
+                            </Flex>
+                            <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Cidade:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_city} name="user_city" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_city}/>
+                            <Input type="text" readOnly fontFamily="atkinson" value={userUpdate.user_city} name="user_city" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_city}/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Rua:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_street} name="user_street" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_street}/>
+                            <Input type="text" readOnly fontFamily="atkinson" value={userUpdate.user_street} name="user_street" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_street}/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Bairro:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_district} name="user_district" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_district}/>
+                            <Input type="text" readOnly fontFamily="atkinson" value={userUpdate.user_district} name="user_district" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_district}/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">UF:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_FU} name="user_FU" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_FU}/>
-                            </Flex>
-                            <Flex direction="row" align="center">
-                            <Text fontFamily="atkinson" mr="5px">CEP:</Text>
-                            <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_CEP} name="user_CEP" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_CEP}
-                            onBlur={getEndereco}/>
+                            <Input type="text" readOnly fontFamily="atkinson" value={userUpdate.user_FU} name="user_FU" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_FU}/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Número da casa:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_houseNum} name="user_houseNum" onChange={handleChange} w={{base:"55%", sm:"70%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_houseNum}/>
+                            <Input type="number" fontFamily="atkinson" value={userUpdate.user_houseNum} name="user_houseNum" onChange={handleChange} w={{base:"55%", sm:"70%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_houseNum}/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Complemento:</Text>
