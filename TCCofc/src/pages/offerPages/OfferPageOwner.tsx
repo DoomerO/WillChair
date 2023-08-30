@@ -13,7 +13,7 @@ import "../../fonts/fonts.css";
 
 import {BsFillStarFill} from "react-icons/bs";
 import {HiOutlineUsers} from "react-icons/hi";
-import {MdOutlineContactSupport, MdOutlinePhotoSizeSelectActual} from "react-icons/md";
+import {MdOutlineContactSupport, MdOutlinePhotoSizeSelectActual, MdOutlineReportProblem} from "react-icons/md";
 
 interface OwnerPageprops {
     offer : object;
@@ -27,6 +27,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     const toast = useToast();
     const [chats, setChats] = useState([]);
     const [others, setOthers] = useState([]);
+    const [reports, setReports] = useState(false);
     const [ updateOffer, setUpdateOffer ] = useState({
         prod_img : offer.prod_img,
         ofr_name : offer.ofr_name,
@@ -51,7 +52,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                 ofr_value : offer.ofr_value,
                 ofr_parcelas : offer.ofr_parcelas
             }));
-
+            getReports();
             getChats();
         }
         return () => {
@@ -93,6 +94,14 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                 )
             })
         }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    async function getReports() {
+        await axios.get(`http://localhost:3344/denounce/offer/${offer.ofr_id}`).then(res => {
+            if(res.data.length > 0) setReports(true);
+        }).catch(error => {
             console.log(error);
         })
     }
@@ -218,6 +227,38 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         }
     }
 
+    function deleteOfferFunc() {
+        if(reports) { toast({
+            title: 'O oferta não pode ser apagada!',
+            description: "As denúncias ainda precisam ser analizadas antes que seja possível alterar a oferta ou apagá-la!",
+            status: 'error',
+            duration: 9000,
+            isClosable: true})
+        }
+        else {
+            deleteChatsOffer();
+            deleteProductOffer();
+            deleteOfferOprt();
+            toast.closeAll();
+        }
+       
+    }
+
+    function updateOfferFunc() {
+        if(reports) {
+            toast({
+                title: 'O oferta não pode ser apagada!',
+                description: "As denúncias ainda precisam ser analizadas antes que seja possível alterar a oferta ou apagá-la!",
+                status: 'error',
+                duration: 9000,
+                isClosable: true});
+        }
+        else {
+            updateOfferOprt();
+            updateProdimg();
+        }
+    }
+
     return (
         <Box w="100%" h="100%">
             <HeaderToggle/>
@@ -310,6 +351,11 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                 <Text fontFamily="atkinson" mr="5px">CEP:</Text>
                                 <Text fontFamily="atkinson" color={colors.colorFontBlue}>{user.user_CEP}</Text>
                             </Flex>
+                            {(reports) ? <Flex zIndex="1" right="0" top="15vh" position={{base:"absolute", sm:"initial"}} bg="red.500" color="#fff" direction={{base:"column",sm:"row"}} maxW="100%" align="center" w="fit-content" p={{base:"1%", sm:"10px 20px 10px 5px"}} borderRadius="10px">
+                                    <MdOutlineReportProblem size="60%"/>
+                                    <Spacer/>
+                                    <Text textAlign={{base:"center", sm:"justify"}} fontSize={{base: "22px", sm: "18px"}}>Sua oferta possuí denúncias! A situação está sendo avaliada! Em breve uma atitude será tomada! Enquanto isso a oferta não poderá ser alterada ou apagada.</Text>
+                                </Flex> : ""}
                         </Stack>
                     </Flex>
                     <Divider/>
@@ -333,14 +379,14 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.veryLightBlue} _dark={{bg : colors.veryLightBlue_Dark}} pb="5vh">
                         <Heading mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "32px", sm: "30px"}} noOfLines={{base:2, sm:1}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>O que deseja fazer com a Oferta?</Heading>
                         <ButtonGroup gap={5}>
-                            <Button colorScheme="linkedin" variant="solid" onClick={() => {updateOfferOprt(), updateProdimg()}}>Atualizar</Button>
+                            <Button colorScheme="linkedin" variant="solid" onClick={() => {updateOfferFunc()}}>Atualizar</Button>
                             <Button colorScheme="linkedin" variant="solid" onClick={() => { toast({
                                 position: 'bottom',
                                 render: () => (
-                                    <Stack bg="red.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                                    <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                                         <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Certeza que deseja apagar sua Oferta?</Text>
                                         <Stack direction="row">
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {deleteChatsOffer(); deleteProductOffer(); deleteOfferOprt(); toast.closeAll()}}>Sim</Button>
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {deleteOfferFunc()}}>Sim</Button>
                                             <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toast.closeAll()}}>Não</Button>    
                                         </Stack>
                                     </Stack>

@@ -18,7 +18,7 @@ import CardOffer from "../../components/offerCards/OfferCard";
 import OfferList from "../../components/offerCards/OfferList";
 import SignNotFound from "../../components/signs/SignNotFound";
 import { Link, useNavigate } from "react-router-dom";
-import { MdOutlineReport } from "react-icons/md";
+import { MdOutlineReport, MdOutlineReportProblem } from "react-icons/md";
 
 interface ChatPage {
     offer : object;
@@ -30,6 +30,7 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
     const [owner, setOwner] = useState([]);
     const [recomended, setRecom] = useState([]);
     const [chat, setChat] = useState([]);
+    const [reports, setReports] = useState(false);
     const [chatBool, setChatBool] = useState(false);
     const toast = useToast();
     const navigate = useNavigate();
@@ -58,6 +59,14 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
         })
     }
 
+    async function getReports() {
+        await axios.get(`http://localhost:3344/denounce/offer/${offer.ofr_id}`).then(res => {
+            if(res.data.length > 0) setReports(true);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
     async function queryOffersRecomended() {
         await axios.get(`http://localhost:3344/offers/query/${"prod_type"}/${offer.prod_type}`).then(res => {
             setRecom(res.data);
@@ -80,7 +89,8 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
         if(offer.ofr_id){
             queryOffersRecomended();
             queryOwner();
-            getChat();
+            if(user.user_id)getChat();
+            getReports();
         }
         
         return () => {
@@ -164,6 +174,11 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
                                     </Flex>
                                 </SimpleGrid>
                             </Flex>
+                            {(reports) ? <Flex bg="red.500" color="#fff" direction={{base:"column",sm:"row"}} maxW={{base:"100%", sm:"68%"}} align="center" w="fit-content" p={{base:"1%", sm:"0px 20px 0px 5px"}} borderRadius="10px">
+                                    <MdOutlineReportProblem size="60%"/>
+                                    <Spacer/>
+                                    <Text textAlign={{base:"center", sm:"justify"}} fontSize={{base: "22px", sm: "18px"}}>Essa oferta possui denúncias! Estamos avaliando-a para evitar danos à comunidade. Não recomendamos interações...</Text>
+                                </Flex> : ""}
                         </Stack>
                     </Flex>
 

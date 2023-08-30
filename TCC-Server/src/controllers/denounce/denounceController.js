@@ -18,9 +18,24 @@ module.exports = {
 
       const user = await knex('User').where('user_email', email);
       if (user) {
-        const denounces = await knex('denounce').where('User_user_id', user.user_id);
+        const denounces = await knex('Denounce').where('User_user_id', user[0].user_id);
         return res.status(201).json(denounces);
       }
+    } catch(error) {
+      return res.status(400).json({ error: error.message });
+    }
+  },
+
+  async searchDenounceOffer(req, res) {
+    try {
+      const { ofrId } = req.params; 
+
+      const offer = await knex('Offer').where('ofr_id', ofrId);
+      if (offer) {
+        const denounces = await knex('Denounce').where('Offer_ofr_id', offer[0].ofr_id);
+        return res.status(201).json(denounces);
+      }
+      return res.status(401).json({msg : "This offer does not exists."});
     } catch(error) {
       return res.status(400).json({ error: error.message });
     }

@@ -81,6 +81,7 @@ routes.delete('/avaliation/:id', auth, controllersavaliation.deleteavaliation);
 
 routes.get('/denounce', auth, controllersdenounce.searchdenounce);
 routes.get('/denounce/user/:email', auth, controllersdenounce.searchdenounceByEmail);
+routes.get('/denounce/offer/:ofrId', controllersdenounce.searchDenounceOffer);
 routes.post('/denounce', auth, controllersdenounce.createDenounce);
 routes.put('/denounce/:id', auth, controllersdenounce.updateDenounce);
 routes.delete('/denounce/:id', auth, controllersdenounce.deleteDenounce);

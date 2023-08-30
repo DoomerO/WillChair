@@ -26,6 +26,7 @@ const OfferPage = () => {
     const toast = useToast();
     const [offer, setOffer] = useState([""]);
     const [owner, setOwner] = useState([]);
+    const [reports, setReports] = useState(false);
     const [recomended, setRecom] = useState([]);
     let renderTest = false;
 
@@ -36,6 +37,14 @@ const OfferPage = () => {
             console.log(error);
         })
     };
+
+    async function getReports() {
+        await axios.get(`http://localhost:3344/denounce/offer/${offer.ofr_id}`).then(res => {
+            if(res.data.length > 0) setReports(true);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
 
     async function queryOffersRecomended() {
         await axios.get(`http://localhost:3344/offers/query/${"prod_type"}/${offer.prod_type}`).then(res => {
@@ -61,6 +70,7 @@ const OfferPage = () => {
         if (offer[0] != "") {
             queryOwner();
             queryOffersRecomended();
+            getReports();
         }
     }, [offer]);
 
@@ -120,6 +130,11 @@ const OfferPage = () => {
                                     </Flex>
                                 </SimpleGrid>
                             </Flex>
+                            {(reports) ? <Flex bg="red.400" color="#fff" direction={{base:"column",sm:"row"}} maxW={{base:"100%", sm:"68%"}} align="center" w="fit-content" p={{base:"1%", sm:"0px 20px 0px 5px"}} borderRadius="10px">
+                                    <MdOutlineReportProblem size="60%"/>
+                                    <Spacer/>
+                                    <Text textAlign={{base:"center", sm:"justify"}} fontSize={{base: "22px", sm: "18px"}}>Essa oferta possui denúncias! Estamos avaliando-a para evitar danos à comunidade. Não recomendamos interações...</Text>
+                                </Flex> : ""}
                         </Stack>
                     </Flex>
 
@@ -144,7 +159,7 @@ const OfferPage = () => {
                                 toast({
                                     position: 'bottom',
                                     render: () => (
-                                        <Stack bg="red.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                                        <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                                             <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Para denunciar a oferta é necessário estar logado...</Text>
                                             <Stack direction="row">
                                                 <Button color="#fff" _hover={{bg:"#fff2"}} variant="outline" onClick={() => {navigate("/login"), toast.closeAll()}}>Realizar Login</Button>

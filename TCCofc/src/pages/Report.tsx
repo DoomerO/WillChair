@@ -3,7 +3,6 @@ import Footer from "../components/Footer";
 import HeaderToggle from "../components/toggles/HeaderToggle";
 import { Box, Input, Flex, Heading, Select, Button, ButtonGroup, Stack, VStack, Text, Collapse, Textarea, useToast, Image} from '@chakra-ui/react';
 import axios from "axios";
-import decode from "../components/code/decoderToken";
 import { useParams, Link } from "react-router-dom";
 import "../fonts/fonts.css"
 import image from "../img/report/reportImg.png";
@@ -12,9 +11,7 @@ import colors from "../colors/colors";
 const Report = () => {
     const offer = useParams();
     const toast = useToast();
-    const [select, setSelect] = useState (false)
-    const [user, setUser] = useState(decode(localStorage.getItem("token")));
-    const [userQuery, setQuery] = useState([]);
+    const [select, setSelect] = useState (false);
 
     const [report, setReport] = useState({
         den_reason: "",
@@ -23,23 +20,19 @@ const Report = () => {
         Offer_ofr_id: offer
     });
 
-    async function getUser() {
-        await axios.get(`http://localhost:3344/users/email/${user.email}`, {headers: {
-            authorization : "Bearer " + localStorage.getItem("token")
-        }}).then((res) => {
-            setQuery(res.data);
-            console.log(res);
-            setReport(prev => ({...prev, User_user_id:res.data.user_id}))
+    async function getOffer() {
+        await axios.get(`http://localhost:3344/offers/id/${offer}`).then((res) => {
+            setReport(prev => ({...prev, User_user_id : res.data.User_user_id}));
         }).catch((error) => {
           console.log(error);
         })
     }
 
     useEffect(() => {
-        setReport(prev => ({...prev,
-            Offer_ofr_id: offer,
-        }))
-        getUser();
+        if(offer) {
+            setReport(prev => ({...prev, Offer_ofr_id: offer}))
+            getOffer();
+        }
     }, [offer])
 
     async function postDenounce() {
@@ -51,7 +44,7 @@ const Report = () => {
         }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
             toast({
                 title: 'Denuncia realiada',
-                description: "Cadastramos sua denuncia em breve voce tera una resposta",
+                description: "Cadastramos sua denuncia em breve você terá uma resposta!",
                 status: 'success',
                 duration: 9000,
                 isClosable: true,
