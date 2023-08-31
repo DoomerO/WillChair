@@ -241,7 +241,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                         <Divider orientation="horizontal"/>
                             <Heading as="h4" fontFamily="outfit" fontSize={{base: "24px", sm: "26px"}}>Segurança</Heading>
                         <Divider orientation="horizontal"/>
-                        <Text textAlign="center">Caso necessário, <Button variant="link" colorScheme="linkedin">clique aqui</Button> para mudar sua senha...</Text>
+                        <Text textAlign="center">Caso necessário, <Button variant="link" colorScheme="linkedin" onClick={() => {navigate("/pass-change")}}>clique aqui</Button> para mudar sua senha...</Text>
                     </Stack>
                     
                     <Stack w={{base:"100%", sm:"72%"}} pb="5vh">

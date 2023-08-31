@@ -16,6 +16,7 @@ const controllerscomment = require('./controllers/comment/commentController');
 const routes = express.Router();
 
 //User Routes
+routes.get('/email/confirm/:toWho', controllersUsers.sendConfirmationEmailPasswordChange);
 routes.get('/users', auth,controllersUsers.searchUsers);
 routes.get('/users/login/:email/:password', controllersUsers.searchUserEmailPassword);
 routes.get('/users/email/:email', auth, controllersUsers.searchUserEmail);
