@@ -305,7 +305,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Número da casa:</Text>
                             <Spacer/>
-                            <Input type="number" fontFamily="atkinson" value={userUpdate.user_houseNum} name="user_houseNum" onChange={handleChange} w={{base:"55%", sm:"70%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_houseNum}/>
+                            <Input type="number" onChange={(e) => {if(e.target.value.length > 6){e.target.value = e.target.value.slice(0, 6)}}} fontFamily="atkinson" value={userUpdate.user_houseNum} name="user_houseNum" onChange={handleChange} w={{base:"55%", sm:"70%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_houseNum}/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Complemento:</Text>
