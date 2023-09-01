@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Offer` (
   `ofr_user_name` VARCHAR(45) NOT NULL,
   `ofr_parcelas` INT NULL,
   `ofr_postDate` VARCHAR(10) NULL,
-  `User_comp_id` INT NULL,
+  `user_comp_id` INT NULL,
   `User_user_id` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,

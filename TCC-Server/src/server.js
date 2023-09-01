@@ -34,6 +34,8 @@ io.on("connection", (socket) => {
             Chat_chat_id : data.chat,
             User_user_id : data.user
         })
+        const msgs = await knex("Message").where("Chat_chat_id", data.chat);
+        io.emit("showMsg", msgs);
     })
 
     socket.on("endChat", async (data) => {
@@ -49,7 +51,8 @@ io.on("connection", (socket) => {
             user_id :  consult[0].user_id,
             user_email : consult[0].user_email,
             user_name : consult[0].user_name,
-            ofr_id : consult[0].ofr_id
+            ofr_id : consult[0].ofr_id,
+            ofr_owner_id : consult[0].User_user_id
         }
         socket.emit("otherUser", result);
     })
@@ -61,9 +64,24 @@ io.on("connection", (socket) => {
             user_id :  consult[0].user_id,
             user_email : consult[0].user_email,
             user_name : consult[0].user_name,
-            ofr_id : consult[0].ofr_id
+            ofr_id : consult[0].ofr_id,
+            ofr_owner_id : consult[0].User_user_id
         }
         socket.emit("otherUser", result);
+    })
+
+    socket.on("setIntrest", async (data) => {
+        const consult = await knex("Offer").where("ofr_id", data.offerId);
+        if (!consult[0].user_comp_id) { //interesse própriamente iniciado
+            await knex("Offer").update({
+                ofr_status : "Ocupada",
+                user_comp_id : data.userId
+            }).where("ofr_id", data.offerId); 
+            return socket.emit("intrestOprRes", 201);  
+        }
+        else { //Já existe um usuário interessado nesta oferta
+            return socket.emit("intrestOprRes", 401);  
+        }
     })
 });
 

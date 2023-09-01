@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { Avatar, Box, Button, ButtonGroup, Flex, IconButton, Input, InputGroup, InputRightAddon, Menu, MenuButton, MenuItem, MenuList, Spacer, Stack, Text} from "@chakra-ui/react";
+import { Avatar, Box, Button, ButtonGroup, useToast, Flex, IconButton, Input, InputGroup, InputRightAddon, Menu, MenuButton, MenuItem, MenuList, Spacer, Stack, Text} from "@chakra-ui/react";
 import { socket } from "../socket/socket";
 
 import {IoMdSend} from "react-icons/io";
@@ -27,6 +27,8 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
     let msgRender: object[] = []
     const [msg, setMsg] = useState("");
     const navigate = useNavigate();
+    const [codeSent, setSent] = useState<number>();
+    const toast = useToast();
 
     socket.on("message", (message) => {
         console.log(message); 
@@ -40,6 +42,10 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
         setOther(resp);
     })
 
+    socket.on("intrestOprRes", (resp) => {
+        setSent(resp);
+    })
+
     messages.map(item => {
         msgRender.push(item)
     })
@@ -48,6 +54,31 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
         (isOwner) ? socket.emit("findOther", chat_id) : socket.emit("findOwner", chat_id);
         socket.emit("reqMsg", chat_id);
     }, [chat_id])
+
+    useEffect(() => {
+        if(codeSent){ switch(codeSent) {
+            case 201:
+                if(codeSent) toast({
+                    title: 'Interesse declarado!',
+                    description: "Agora você está compromissado nesta oferta! Um importante passo para receber o equipamento.",
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                });
+                socket.emit("postMessage", {chat: chat_id, msg : `Compromisso fechado com ${other.user_name}`, user: user_id});
+            break;
+            case 401:
+                if(codeSent) toast({
+                    title: 'Já existe um interesse nessa oferta!',
+                    description: "Não há como iniciar um compromisso na oferta se já há um existente!",
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                });
+                socket.emit("postMessage", {chat: chat_id, msg : "Já existe um compromisso fechado nessa oferta!", user: user_id});
+            break;
+        } setSent(0)}
+    }, [codeSent])
     
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         setMsg(e.target.value);
@@ -56,7 +87,6 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
     const handleKeyPress = (e:React.KeyboardEvent<HTMLInputElement>) => { //evento de input de enter na barra de pesquisa
         if (e.key == "Enter") {
             socket.emit("postMessage", {chat: chat_id, msg : msg, user: user_id});
-            socket.emit("reqMsg", chat_id);
             setMsg("");
         }
     }
@@ -65,16 +95,24 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
         if(item.User_user_id == other.user_id) {
             switch (item.msg_content) {
                 case codes.compromisseCode:
-                    return <Flex w="100%" key={item.msg_id}>
+                    if(other.ofr_owner_id == item.User_user_id) return <Flex w="100%" key={item.msg_id}>
                         <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.colorFontBlue}>
-                            <Text textAlign="justify" color="#fff" fontSize={{base:"20px", sm:"15px"}}>Deseja iniciar compromisso nesta oferta.</Text>
-                            <ButtonGroup>
-                                <Button variant="outline" >Sim</Button>
-                                <Button variant="outline" >Não</Button>
+                            <Text textAlign="justify" mb="3%" color="#fff" fontSize={{base:"20px", sm:"15px"}} fontWeight="bold">Deseja iniciar um compromisso nesta oferta?</Text>
+                            <ButtonGroup >
+                                <Button color="#fff" variant="outline" onClick={() => {socket.emit("setIntrest", {userId : user_id, offerId : other.ofr_id})}}>Sim</Button>
+                                <Button color="#fff" variant="outline" onClick={() => {socket.emit("postMessage", {chat: chat_id, msg : "Eu não quero começar um compromisso em sua oferta!", user: user_id});}}>Não</Button>
                             </ButtonGroup>
                         </Flex>
                         <Spacer/>
                     </Flex>
+                    else {
+                        return <Flex w="100%" key={item.msg_id}>
+                            <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.colorFontBlue} >
+                                <Text mb="3%" color="#fff" fontSize={{base:"20px", sm:"15px"}} textAlign="justify" fontWeight="bold">{`${other.user_name} deseja começar um compromisso em sua oferta!`}</Text>
+                            </Flex>
+                        <Spacer/>
+                        </Flex>
+                    }
                 default :
                     return <Flex w="100%" key={item.msg_id}>
                         <Box minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.colorFontBlue}>
@@ -85,12 +123,22 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
             }
         }
         else {
-            return <Flex w="100%" key={item.msg_id}>
-            <Spacer/>
-            <Box minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
-                <Text fontSize={{base:"20px", sm:"15px"}} textAlign="justify">{item.msg_content}</Text>
-            </Box>
-            </Flex>
+            switch (item.msg_content) {
+                case codes.compromisseCode: 
+                    return <Flex w="100%" key={item.msg_id}>
+                    <Spacer/>
+                        <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
+                                <Text mb="3%" fontSize={{base:"20px", sm:"15px"}} textAlign="justify" fontWeight="bold">{`Você requisitou o começo de um compromisso para ${other.user_name}`}</Text>
+                            </Flex>
+                    </Flex>
+                default :
+                    return <Flex w="100%" key={item.msg_id}>
+                    <Spacer/>
+                    <Box minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
+                        <Text fontSize={{base:"20px", sm:"15px"}} textAlign="justify">{item.msg_content}</Text>
+                    </Box>
+                    </Flex>
+            }
         }
     });
 
@@ -157,7 +205,6 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
                     onClick={() => {
                         setMsg("");
                         socket.emit("postMessage", {chat: chat_id, msg : msg, user: user_id});
-                        socket.emit("reqMsg", chat_id);
                     }}/>
                 </InputGroup>
                 

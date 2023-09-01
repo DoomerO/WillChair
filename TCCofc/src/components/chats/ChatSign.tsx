@@ -40,7 +40,7 @@ const ChatSign =  ({offerId, chat, click} : chatSignProps) => {
     }, [offer])
 
     useEffect(() => {
-        if(chat.chat_id) getUser(chat.User_user_id);
+        if(chat) getUser(chat.User_user_id);
     }, [chat])
 
     return (

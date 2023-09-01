@@ -104,8 +104,8 @@ const CurrentChats = () => {
             <HeaderToggle/>
                 <Flex direction="row" w="100%" h="100vh">
                     <Stack w="25%" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark, borderRight : "1px solid #fff"}} h="100%" borderRight="1px solid #1972d6" align="center"> 
-                        <Flex pb="4%" direction="row" justifyContent="center" align="center" pt="10vh" w="100%" textAlign="center" bg="#1972d6" color="#fff">
-                            <Select onChange={handleSlctChange} w="80%" variant="flushed" fontSize={{base: "32px", sm: "29px"}} fontFamily="outfit">
+                        <Flex pb="4%" direction="row" justifyContent="center" align="center" pt="10vh" w="100%" textAlign="center" bg="#1972d6">
+                            <Select onChange={handleSlctChange} w="80%" variant="flushed" fontSize={{base: "32px", sm: "29px"}} fontFamily="outfit" color="#fff">
                                 <option value={0}>Suas Conversas</option>
                                 {renderOfferOptions}
                             </Select>

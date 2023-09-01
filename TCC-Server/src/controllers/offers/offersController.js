@@ -165,7 +165,6 @@ module.exports = {
             const {ofr_name} = req.body;
             const {ofr_desc} = req.body;
             const {ofr_value} = req.body;
-            const {ofr_status} = req.body;
             const {ofr_type} = req.body;
             const {ofr_parcelas} = req.body;
 
@@ -173,7 +172,6 @@ module.exports = {
                 await knex("Offer").update({
                     ofr_desc,
                     ofr_name,
-                    ofr_status,
                     ofr_type,
                     ofr_value,
                     ofr_parcelas
