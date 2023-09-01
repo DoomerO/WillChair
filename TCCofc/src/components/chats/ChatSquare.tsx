@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { Avatar, Box, Button, Flex, IconButton, Input, InputGroup, InputRightAddon, Menu, MenuButton, MenuItem, MenuList, Spacer, Stack, Text} from "@chakra-ui/react";
+import { Avatar, Box, Button, ButtonGroup, Flex, IconButton, Input, InputGroup, InputRightAddon, Menu, MenuButton, MenuItem, MenuList, Spacer, Stack, Text} from "@chakra-ui/react";
 import { socket } from "../socket/socket";
 
 import {IoMdSend} from "react-icons/io";
@@ -9,6 +9,7 @@ import {BsTrash} from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { MdOutlineLocalOffer } from "react-icons/md";
+import codes from "../../components/code/codes";
 
 interface chatSquareProps {
     user_id : number,
@@ -62,12 +63,26 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
 
     const renderMessages = msgRender.map(item => {
         if(item.User_user_id == other.user_id) {
-            return <Flex w="100%" key={item.msg_id}>
-                <Box minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.colorFontBlue}>
-                <Text textAlign="justify" color="#fff" fontSize={{base:"20px", sm:"15px"}}>{item.msg_content}</Text>
-                </Box>
-                <Spacer/>
-                </Flex>
+            switch (item.msg_content) {
+                case codes.compromisseCode:
+                    return <Flex w="100%" key={item.msg_id}>
+                        <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.colorFontBlue}>
+                            <Text textAlign="justify" color="#fff" fontSize={{base:"20px", sm:"15px"}}>Deseja iniciar compromisso nesta oferta.</Text>
+                            <ButtonGroup>
+                                <Button variant="outline" >Sim</Button>
+                                <Button variant="outline" >Não</Button>
+                            </ButtonGroup>
+                        </Flex>
+                        <Spacer/>
+                    </Flex>
+                default :
+                    return <Flex w="100%" key={item.msg_id}>
+                        <Box minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.colorFontBlue}>
+                        <Text textAlign="justify" color="#fff" fontSize={{base:"20px", sm:"15px"}}>{item.msg_content}</Text>
+                        </Box>
+                        <Spacer/>
+                    </Flex>
+            }
         }
         else {
             return <Flex w="100%" key={item.msg_id}>

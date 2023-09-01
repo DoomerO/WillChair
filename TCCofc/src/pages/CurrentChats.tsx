@@ -111,10 +111,13 @@ const CurrentChats = () => {
                             </Select>
                             <Popover placement='top-start'>
                                 <PopoverTrigger><Flex p="1%" _hover={{bg : "#fff3"}} borderRadius="20px"><AiOutlineQuestionCircle size="5vh" color="#fff"/></Flex></PopoverTrigger>
-                                <PopoverContent w='50vw' bg='blue.800' color='white'>
-                                <PopoverHeader fontWeight='semibold'>Como usar a aba de chats?</PopoverHeader>
-                                <PopoverArrow /><PopoverCloseButton />
-                                <PopoverBody >
+                                <PopoverContent w={{base:"100vw", sm:'50vw'}} bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark, border : "2px solid #fff"}} border="2px solid #000">
+                                <PopoverHeader fontWeight='semibold' bg={colors.colorFontBlue} color="#fff" borderBottom="2px solid #000" _dark={{borderBottom : "2px solid #fff"}}><Flex direction="row" align="center">
+                                        <Box borderRadius="100%" w="1px" h="1px" p="1.5%" bg="#fff" mr="1.5%"/>
+                                        Como usar a página de chat?
+                                </Flex></PopoverHeader>
+                                <PopoverArrow bg={colors.colorFontBlue} borderTop="2px solid #000" borderLeft="2px solid #000"/><PopoverCloseButton />
+                                <PopoverBody color="#000" _dark={{color : "#fff"}}>
                                     <Text textAlign="justify">
                                         Clique na esquerda deste botão e você poderá selecionar uma de suas ofertas para acompanhar as conversas iniciadas nela. Caso deseje ver as conversas iniciadas por você em demais ofertas selecione "Suas Conversas", e você as verá! Clique em uma das caixas geradas abaixo para abrir uma tela de chat. Lá você poderá enviar mensagens!
                                     </Text>
