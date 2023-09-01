@@ -241,7 +241,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                         <Divider orientation="horizontal"/>
                             <Heading as="h4" fontFamily="outfit" fontSize={{base: "24px", sm: "26px"}}>Segurança</Heading>
                         <Divider orientation="horizontal"/>
-                        <Text textAlign="center">Caso necessário, <Button variant="link" colorScheme="linkedin" onClick={() => {navigate("/pass-change")}}>clique aqui</Button> para mudar sua senha...</Text>
+                        <Text textAlign="center">Caso necessário,<Spacer/><Button variant="link" colorScheme="linkedin" onClick={() => {navigate("/pass-change")}}>clique aqui</Button><Spacer/> para mudar sua senha...</Text>
                     </Stack>
                     
                     <Stack w={{base:"100%", sm:"72%"}} pb="5vh">
@@ -305,12 +305,14 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Número da casa:</Text>
                             <Spacer/>
-                            <Input type="number" onChange={(e) => {if(e.target.value.length > 6){e.target.value = e.target.value.slice(0, 6)}}} fontFamily="atkinson" value={userUpdate.user_houseNum} name="user_houseNum" onChange={handleChange} w={{base:"55%", sm:"70%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_houseNum}/>
+                            <Input type="number" fontFamily="atkinson" value={userUpdate.user_houseNum} name="user_houseNum" onChange={(e) => {
+                                if(e.target.value.length > 6){e.target.value = e.target.value.slice(0, 6)} handleChange}
+                            } w={{base:"55%", sm:"70%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_houseNum}/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Complemento:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_comp} name="user_comp" onChange={handleChange} w={{base:"60%", sm:"70%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_comp}/>
+                            <Input type="text" maxLength={30} fontFamily="atkinson" value={userUpdate.user_comp} name="user_comp" onChange={handleChange} w={{base:"60%", sm:"70%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_comp}/>
                             </Flex>
                         </SimpleGrid>
                     </Stack>
