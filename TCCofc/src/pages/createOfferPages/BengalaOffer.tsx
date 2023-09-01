@@ -245,20 +245,29 @@ const BengalaOffer = () => {
 
                                 <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Cores
                                     <Popover placement='top-start'>
-                                    <PopoverTrigger><Input onChange={handleChange} name='widthseat' name="color" color="gray" fontSize={{base:"20px", sm:"18px"}}/></PopoverTrigger>
-                                    <PopoverContent w='50vw' bg='blue.800' color='white'>
-                                    <PopoverHeader fontWeight='semibold'>O que as cores sinalizam?</PopoverHeader>
-                                    <PopoverArrow /><PopoverCloseButton />
+                                    <PopoverTrigger><Input onChange={handleChange} name='color' color="gray" fontSize={{base:"20px", sm:"18px"}}/></PopoverTrigger>
+                                    <PopoverContent w={{base:"100vw", sm:'50vw'}} bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark, border : "2px solid #fff"}} border="2px solid #000">
+                                    <PopoverHeader bg={colors.colorFontBlue} color="#fff" fontWeight='semibold' borderBottom="2px solid #000" _dark={{borderBottom : "2px solid #fff"}}>
+                                        <Flex direction="row" align="center">
+                                            <Box borderRadius="100%" w="1px" h="1px" p="1.5%" bg="#fff" mr="1.5%"/>
+                                            O que as cores sinalizam?
+                                        </Flex>
+                                    </PopoverHeader>
+                                    <PopoverArrow bg={colors.bgWhite} borderBottom="2px solid #000" borderRight="2px solid #000" _dark={{borderBottom : "2px solid #fff", borderRight : "2px solid #fff"}}/><PopoverCloseButton color="#fff" />
                                     <PopoverBody >
-                                        <Flex direction="row">
-                                           <Text bg="#fff" h="fit-content" color="#000" p="1%" m="1" borderRadius="10px">Branca</Text><Text textAlign="justify">{"pessoa cega, perca total da visão."}</Text>
+                                        <Flex direction="column" align="center">
+                                           <Text bg="#fff" h="fit-content" color="#000" p="1%" m="1" borderRadius="10px">Branca</Text><Text textAlign="justify">{"Pessoa completamente cega, indica perca total da visão."}</Text>
                                         </Flex>
-                                        <Flex direction="row">
-                                            <Text bg="green.300" h="fit-content" color="#fff" p="1%" m="1" borderRadius="10px">Verde</Text><Text textAlign="justify">{"pessoas com baixa visão. Enxergam com maior dificuldade, mas possuem visão parcial."}</Text>
+                                        <Flex direction="column" align="center" mt="3%" mb="3%">
+                                            <Text bg="green.300" h="fit-content" color="#fff" p="1%" m="1" borderRadius="10px">Verde</Text><Text textAlign="justify">{"Pessoas com baixa visão. Enxergam com maior dificuldade, mas possuem visão parcial."}</Text>
                                         </Flex>
-                                        <Flex direction="row">
-                                            <Text bg="red.300" h="fit-content" pt="1%" pb="1%" borderLeftRadius="10px" pl="1%" mt="1" mb="1" ml="1">Branc</Text><Text bg="white" color="#000" pt="1%" pb="1%" mt="1" h="fit-content" mb="1">a e Ver</Text><Text bg="red.300" pt="1%" pb="1%" pr="1%" h="fit-content" borderRightRadius="10px" mt="1" mb="1" mr="1">merlha</Text>
-                                            <Text textAlign="justify" w="70%">{"pessoa surda e cega. Normalmente pode ser sinalizado apenas com um adesivo vermelho sobre a bengala branca."}</Text>
+                                        <Flex direction="column" align="center" mb="3%">
+                                            <Flex direction="row" w="50vw" justifyContent="center">
+                                                <Text bg="red.300" h="fit-content" pt="1%" pb="1%" borderLeftRadius="10px" pl="1%" mt="1" mb="1" ml="1">Branc</Text>
+                                                <Text bg="white" color="#000" pt="1%" pb="1%" mt="1" mb="1">a e Ver</Text>
+                                                <Text bg="red.300" pt="1%" pb="1%" pr="1%" h="fit-content" borderRightRadius="10px" mt="1" mb="1" mr="1">merlha</Text>
+                                            </Flex>                                            
+                                            <Text textAlign="justify" w="70%">{"Pessoa surda e cega. Normalmente pode ser sinalizado apenas com um adesivo vermelho sobre a bengala branca."}</Text>
                                         </Flex>
                                     </PopoverBody>
                                     </PopoverContent>
