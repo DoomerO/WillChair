@@ -6,14 +6,13 @@ import axios from "axios";
 import HeaderToggle from "../../components/toggles/HeaderToggle";
 import Footer from "../../components/Footer";
 import colors from "../../colors/colors";
-import testImg from "../../img/home/imgHomeMiddle.png";
 import ProdInfoTable from "../../components/ProdInfoTable";
 import "../../fonts/fonts.css";
 
 import {BsFillStarFill} from "react-icons/bs";
 import {BiConfused} from "react-icons/bi";
 import {GiUncertainty} from "react-icons/gi";
-import {MdOutlineReport} from "react-icons/md";
+import {MdOutlineReport, MdOutlineReportProblem} from "react-icons/md";
 import SignNotFoundButton from "../../components/signs/SignNotFoundButton";
 import CardOffer from "../../components/offerCards/OfferCard";
 import OfferList from "../../components/offerCards/OfferList";
@@ -82,7 +81,7 @@ const OfferPage = () => {
             title={item.ofr_name} 
             composition={item.prod_composition} 
             condition={item.prod_status} 
-            img={String.fromCharCode(...new Uint8Array(item.prod_img.data))} 
+            img={(item.prod_img) ? String.fromCharCode(...new Uint8Array(item.prod_img.data)) : ""} 
             value={item.ofr_value} 
             type={item.prod_type}
             id={item.ofr_id}/>
@@ -103,30 +102,30 @@ const OfferPage = () => {
                                 <SimpleGrid spacing={3} fontSize={{base:"20px", sm:"18px"}}>
                                     <Flex direction="row">
                                         <Text fontFamily="atkinson" mr="5px">Tipo de Oferta:</Text>
-                                        <Text fontFamily="atkinson" color={colors.colorFontBlue}>{offer.ofr_type}</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{offer.ofr_type}</Text>
                                     </Flex>
                                     <Flex direction="row">
                                         <Text fontFamily="atkinson" mr="5px">Status da Oferta:</Text>
-                                        <Text fontFamily="atkinson" color={colors.colorFontBlue}>{offer.ofr_status}</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{offer.ofr_status}</Text>
                                     </Flex>
                                     <Flex direction="row">
                                         <Text fontFamily="atkinson" mr="5px">Cidade:</Text>
-                                        <Text fontFamily="atkinson" color={colors.colorFontBlue}>{offer.ofr_city}</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{offer.ofr_city}</Text>
                                     </Flex>
                                 </SimpleGrid>
                                 <Spacer/>
                                 <SimpleGrid spacing={3} fontSize={{base:"20px", sm:"18px"}}>
                                     <Flex direction="row">
                                         <Text fontFamily="atkinson" mr="5px">Valor:</Text>
-                                        <Text fontFamily="atkinson" color={colors.colorFontBlue}>{(offer.ofr_type == "Doação") ? "Grátis" : `R$${offer.ofr_value}`}</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{(offer.ofr_type == "Doação") ? "Grátis" : `R$${offer.ofr_value}`}</Text>
                                     </Flex>
                                     <Flex>
                                         <Text fontFamily="atkinson" mr="5px">Data:</Text>
-                                        <Text fontFamily="atkinson" color={colors.colorFontBlue}>{offer.ofr_postDate}</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{offer.ofr_postDate}</Text>
                                     </Flex>
                                     <Flex>
                                         <Text fontFamily="atkinson" mr="5px">Parcelas:</Text>
-                                        <Text fontFamily="atkinson" color={colors.colorFontBlue}>{offer.ofr_parcelas}</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{offer.ofr_parcelas}</Text>
                                     </Flex>
                                 </SimpleGrid>
                             </Flex>
@@ -171,15 +170,15 @@ const OfferPage = () => {
                             </Flex>
                             <Flex direction="row">
                                 <Text fontFamily="atkinson" mr="5px">Email:</Text>
-                                <Text fontFamily="atkinson" color={colors.colorFontBlue}>{owner.user_email}</Text>
+                                <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{owner.user_email}</Text>
                             </Flex>
                             <Flex direction="row">
                                 <Text fontFamily="atkinson" mr="5px">Telefone:</Text>
-                                <Text fontFamily="atkinson" color={colors.colorFontBlue}>{owner.user_phone}</Text>
+                                <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{owner.user_phone}</Text>
                             </Flex>
                             <Flex direction="row">
                                 <Text fontFamily="atkinson" mr="5px">CEP:</Text>
-                                <Text fontFamily="atkinson" color={colors.colorFontBlue}>{owner.user_CEP}</Text>
+                                <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{owner.user_CEP}</Text>
                             </Flex>
                         </Stack>
                     </Flex>

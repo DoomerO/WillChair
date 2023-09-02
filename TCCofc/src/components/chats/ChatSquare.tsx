@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { MdOutlineLocalOffer } from "react-icons/md";
 import codes from "../../components/code/codes";
+import { PiHandshake } from "react-icons/pi";
 
 interface chatSquareProps {
     user_id : number,
@@ -65,7 +66,7 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
                     duration: 5000,
                     isClosable: true,
                 });
-                socket.emit("postMessage", {chat: chat_id, msg : `Compromisso fechado com ${other.user_name}`, user: user_id});
+                socket.emit("postMessage", {chat: chat_id, msg : codes.compSucsses, user: user_id});
             break;
             case 401:
                 if(codeSent) toast({
@@ -75,7 +76,7 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
                     duration: 5000,
                     isClosable: true,
                 });
-                socket.emit("postMessage", {chat: chat_id, msg : "Já existe um compromisso fechado nessa oferta!", user: user_id});
+                socket.emit("postMessage", {chat: chat_id, msg : codes.compError, user: user_id});
             break;
         } setSent(0)}
     }, [codeSent])
@@ -100,7 +101,7 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
                             <Text textAlign="justify" mb="3%" color="#fff" fontSize={{base:"20px", sm:"15px"}} fontWeight="bold">Deseja iniciar um compromisso nesta oferta?</Text>
                             <ButtonGroup >
                                 <Button color="#fff" variant="outline" onClick={() => {socket.emit("setIntrest", {userId : user_id, offerId : other.ofr_id})}}>Sim</Button>
-                                <Button color="#fff" variant="outline" onClick={() => {socket.emit("postMessage", {chat: chat_id, msg : "Eu não quero começar um compromisso em sua oferta!", user: user_id});}}>Não</Button>
+                                <Button color="#fff" variant="outline" onClick={() => {socket.emit("postMessage", {chat: chat_id, msg : codes.compNot, user: user_id});}}>Não</Button>
                             </ButtonGroup>
                         </Flex>
                         <Spacer/>
@@ -110,9 +111,30 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
                             <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.colorFontBlue} >
                                 <Text mb="3%" color="#fff" fontSize={{base:"20px", sm:"15px"}} textAlign="justify" fontWeight="bold">{`${other.user_name} deseja começar um compromisso em sua oferta!`}</Text>
                             </Flex>
-                        <Spacer/>
+                            <Spacer/>
                         </Flex>
                     }
+                case codes.compSucsses:
+                    return <Flex w="100%" key={item.msg_id}>
+                            <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.colorFontBlue} >
+                                <Text mb="3%" color="#fff" fontSize={{base:"20px", sm:"15px"}} textAlign="justify" fontWeight="bold">{`${other.user_name} começou um compromisso em sua oferta!`}</Text>
+                            </Flex>
+                        <Spacer/>
+                    </Flex>
+                case codes.compError:
+                    return <Flex w="100%" key={item.msg_id}>
+                            <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.colorFontBlue} >
+                                <Text mb="3%" color="#fff" fontSize={{base:"20px", sm:"15px"}} textAlign="justify" fontWeight="bold">{`Já existe um compromisso nesta oferta! Logo outro não pode ser iniciado por ${other.user_name}`}</Text>
+                            </Flex>
+                        <Spacer/>
+                    </Flex>
+                case codes.compNot:
+                    return <Flex w="100%" key={item.msg_id}>
+                            <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.colorFontBlue} >
+                                <Text mb="3%" color="#fff" fontSize={{base:"20px", sm:"15px"}} textAlign="justify" fontWeight="bold">{`${other.user_name} não quer iniciar um compromisso em sua oferta!`}</Text>
+                            </Flex>
+                        <Spacer/>
+                    </Flex>
                 default :
                     return <Flex w="100%" key={item.msg_id}>
                         <Box minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.colorFontBlue}>
@@ -129,6 +151,27 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
                     <Spacer/>
                         <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
                                 <Text mb="3%" fontSize={{base:"20px", sm:"15px"}} textAlign="justify" fontWeight="bold">{`Você requisitou o começo de um compromisso para ${other.user_name}`}</Text>
+                            </Flex>
+                    </Flex>
+                case codes.compSucsses:
+                    return <Flex w="100%" key={item.msg_id}>
+                    <Spacer/>
+                        <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
+                                <Text mb="3%" fontSize={{base:"20px", sm:"15px"}} textAlign="justify" fontWeight="bold">{`Você iniciou um compromisso na oferta de ${other.user_name}`}</Text>
+                            </Flex>
+                    </Flex>
+                case codes.compError:
+                    return <Flex w="100%" key={item.msg_id}>
+                    <Spacer/>
+                        <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
+                                <Text mb="3%" fontSize={{base:"20px", sm:"15px"}} textAlign="justify" fontWeight="bold">{`Você não pode iniciar um compromisso nessa oferta! Já há um existente!`}</Text>
+                            </Flex>
+                    </Flex>
+                case codes.compNot:
+                    return <Flex w="100%" key={item.msg_id}>
+                    <Spacer/>
+                        <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", sm:"60%"}} p={{base:"4%" ,sm:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
+                                <Text mb="3%" fontSize={{base:"20px", sm:"15px"}} textAlign="justify" fontWeight="bold">{`Você recusou iniciar um compromisso na oferta de ${other.user_name}`}</Text>
                             </Flex>
                     </Flex>
                 default :
@@ -174,6 +217,9 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
                         }}> 
                             <Flex direction="row" align="center" w={{base:"40%" ,sm:"95%"}}>Ir para a oferta<Spacer/><MdOutlineLocalOffer size="6%"/></Flex>
                        </MenuItem></Link>
+                       <MenuItem onClick={() => {socket.emit("postMessage", {chat: chat_id, msg : codes.compromisseCode, user: user_id});}}>
+                            <Flex direction="row" align="center" w={{base:"40%" ,sm:"95%"}}>Iniciar compromisso<Spacer/><PiHandshake size="6%"/></Flex>
+                       </MenuItem>
                     </MenuList>
                 </Menu>
             </Flex>

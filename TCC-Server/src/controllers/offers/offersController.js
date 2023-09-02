@@ -187,6 +187,24 @@ module.exports = {
         }
     },
 
+    async removeIntrest(req, res) {
+        try {
+            const {id} = req.params;
+
+            if(await knex("Offer").where("ofr_id", id) != "") {
+                await knex("Offer").update({
+                    ofr_status : "Livre",
+                    user_comp_id : null
+                }).where('ofr_id', id);
+                return res.status(201).json({msg : "Intrested removed properly"});
+            }
+            return res.status(401).json({msg : "This offer does not exists"})
+        }
+        catch(error) {
+            return res.status(400).json({error: error.message});
+        }
+    },
+
     async deleteOffer(req, res) { // deleta uma oferta pelo id
         try {
             const {id} = req.params;

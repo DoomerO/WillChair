@@ -1,4 +1,4 @@
-import {Box, Flex, Text, Grid, Center, GridItem, Stack, Divider, Heading, Select, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Container} from "@chakra-ui/react"
+import {Box, Flex, Text, Grid, Center, GridItem, Stack, Divider, Heading, Select, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Container, UnorderedList, ListItem} from "@chakra-ui/react"
 import { ChangeEvent, useEffect, useState } from "react";
 import decode from "../components/code/decoderToken";
 import axios from "axios";
@@ -116,10 +116,14 @@ const CurrentChats = () => {
                                         <Box borderRadius="100%" w="1px" h="1px" p="1.5%" bg="#fff" mr="1.5%"/>
                                         Como usar a página de chat?
                                 </Flex></PopoverHeader>
-                                <PopoverArrow bg={colors.colorFontBlue} borderTop="2px solid #000" borderLeft="2px solid #000"/><PopoverCloseButton />
+                                <PopoverArrow bg={colors.colorFontBlue} borderTop="2px solid #000" borderLeft="2px solid #000"/><PopoverCloseButton color="#fff"/>
                                 <PopoverBody color="#000" _dark={{color : "#fff"}}>
                                     <Text textAlign="justify">
-                                        Clique na esquerda deste botão e você poderá selecionar uma de suas ofertas para acompanhar as conversas iniciadas nela. Caso deseje ver as conversas iniciadas por você em demais ofertas selecione "Suas Conversas", e você as verá! Clique em uma das caixas geradas abaixo para abrir uma tela de chat. Lá você poderá enviar mensagens!
+                                        <UnorderedList>
+                                            <ListItem>Clique na esquerda deste botão e você poderá selecionar uma de suas ofertas para acompanhar as conversas iniciadas nela.</ListItem>
+                                            <ListItem>Caso deseje ver as conversas iniciadas por você em demais ofertas selecione "Suas Conversas", e você as verá! </ListItem>
+                                            <ListItem>Clique em uma das caixas geradas abaixo para abrir uma tela de chat. Lá você poderá enviar mensagens!</ListItem>
+                                        </UnorderedList>
                                     </Text>
                                 </PopoverBody>
                                 </PopoverContent>

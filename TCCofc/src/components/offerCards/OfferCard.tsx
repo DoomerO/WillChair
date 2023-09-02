@@ -1,5 +1,5 @@
 import { Text, Card, CardBody, CardFooter, CardHeader, Flex, Heading, Image, Button} from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import colors from "../../colors/colors";
 
 interface OfferCard {
@@ -13,6 +13,7 @@ interface OfferCard {
 }
 
 const CardOffer = ({img, title, condition, composition, type, value, id}: OfferCard) => {
+    const navigate = useNavigate();
     return (
         <Card w={{base:"70vw", sm:"23vw"}} boxShadow="lg" h="fit-content" align='center' variant="outline" size="sm"> 
             <CardHeader>
@@ -37,7 +38,7 @@ const CardOffer = ({img, title, condition, composition, type, value, id}: OfferC
                 </Flex>
             </CardBody>
             <CardFooter>
-                <Link to={`/offer/${id}`}><Button variant="solid" colorScheme="linkedin" fontSize={{base:"22px", sm:"20px"}}>Ver mais</Button></Link>
+                <Button variant="solid" colorScheme="linkedin" fontSize={{base:"22px", sm:"20px"}} onClick={() => {navigate(`/offer/${id}`); navigate(0)}}>Ver mais</Button>
             </CardFooter>
         </Card>
     )

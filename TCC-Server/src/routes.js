@@ -35,6 +35,7 @@ routes.get('/offers/query/:atribute/:value', controllersOffers.searchOffersAtrib
 routes.get('/offers/id/:id', controllersOffers.searchOfferId);
 routes.post('/offers', auth, controllersOffers.createOffer);
 routes.put('/offers/:id', auth, controllersOffers.updateOffer);
+routes.put('/offers/remove-intrest/:id', auth, controllersOffers.removeIntrest);
 routes.delete('/offers/:id', auth, controllersOffers.deleteOffer);
 
 //Messages Routes

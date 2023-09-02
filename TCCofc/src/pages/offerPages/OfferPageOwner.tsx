@@ -1,6 +1,6 @@
 import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Input, Textarea, ButtonGroup, Button, useToast, Select, InputGroup, InputLeftAddon} from "@chakra-ui/react";
 import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import HeaderToggle from "../../components/toggles/HeaderToggle";
@@ -39,6 +39,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     });
     const [chatUser, setChatUser] = useState([]);
     const [selected, setSelected] = useState(false);
+    const [compUser, setCompUser] = useState([]);
 
     useEffect(() => {
         const canceltoken = axios.CancelToken.source();
@@ -54,6 +55,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
             }));
             getReports();
             getChats();
+            if (offer.user_comp_id) getUserIntrested(offer.user_comp_id);
         }
         return () => {
             canceltoken.cancel();
@@ -179,6 +181,33 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         })
     }
 
+    async function endComprisse() {
+        await axios.put(`http://localhost:3344/offers/remove-intrest/${offer.ofr_id}`,{
+        }, {headers : {
+            authorization : "Bearer " + localStorage.getItem("token")
+        }}).then((res) => {
+            toast({
+                position: 'bottom',
+                render: () => (
+                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Compromisso apagado com sucesso!</Text>
+                    </Stack>
+                )
+            })
+            navigate(0);
+        }).catch((error) => {
+            console.log(error);
+        }) 
+    }
+
+    async function getUserIntrested(id : number) {
+        await axios.get(`http://localhost:3344/users/id/${id}`).then((res) => {
+            setCompUser(res.data);
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
     async function getOther(id:number, chat_id:number) {
         await axios.get(`http://localhost:3344/users/id/${id}`).then((res) => {
             const chatId = {chatId : chat_id};
@@ -235,6 +264,14 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
             duration: 9000,
             isClosable: true})
         }
+        else if(offer.ofr_status != "Livre") {
+            toast({
+                title: 'O oferta não pode ser apagada!',
+                description: "Um compromisso foi estabelecido, logo não será possível apagar essa oferta.",
+                status: 'error',
+                duration: 9000,
+                isClosable: true})
+        }
         else {
             deleteChatsOffer();
             deleteProductOffer();
@@ -247,8 +284,16 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     function updateOfferFunc() {
         if(reports) {
             toast({
-                title: 'O oferta não pode ser apagada!',
+                title: 'O oferta não pode ser atualizada!',
                 description: "As denúncias ainda precisam ser analizadas antes que seja possível alterar a oferta ou apagá-la!",
+                status: 'error',
+                duration: 9000,
+                isClosable: true});
+        }
+        else if(offer.ofr_status != "Livre") {
+            toast({
+                title: 'O oferta não pode ser atualizada!',
+                description: "Como foi estabelecido um compromisso, é importante que as informações da oferta seja mantidas como antes.",
                 status: 'error',
                 duration: 9000,
                 isClosable: true});
@@ -282,7 +327,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                 <SimpleGrid spacing={3} fontSize={{base:"20px", sm:"18px"}} mb="3%">
                                     <Flex direction="row" align="center">
                                         <Text fontFamily="atkinson" mr="5px">Tipo de Oferta:</Text>
-                                        <Select color="gray" fontSize={{base:"20px", sm:"18px"}} onChange={handleChangeOffer} value={updateOffer.ofr_type} name="ofr_type" w={{base:"50%" ,sm:"60%"}} variant={{base:"outline", sm:"flushed"}}>
+                                        <Select color={colors.colorFontDarkBlue} fontSize={{base:"20px", sm:"18px"}} onChange={handleChangeOffer} value={updateOffer.ofr_type} name="ofr_type" w={{base:"50%" ,sm:"60%"}} variant={{base:"outline", sm:"flushed"}} _dark={{color : colors.colorFontDarkBlue_Dark}}>
                                             <option value='Doação'>Doação</option>
                                             <option value='Venda'>Venda</option>
                                             <option value='Aluguél'>Aluguél</option>                                        
@@ -290,11 +335,11 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                     </Flex>
                                     <Flex direction="row" align="center">
                                         <Text fontFamily="atkinson" mr="5px">Status da Oferta:</Text>
-                                        <Text fontFamily="atkinson" color={colors.colorFontBlue}>{offer.ofr_status}</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{offer.ofr_status}</Text>
                                     </Flex>
                                     <Flex direction="row" align="center">
                                         <Text fontFamily="atkinson" mr="5px">Cidade:</Text>
-                                        <Text fontFamily="atkinson" color={colors.colorFontBlue}>{offer.ofr_city}</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{offer.ofr_city}</Text>
                                     </Flex>
                                 </SimpleGrid>
                                 <Spacer/>
@@ -302,23 +347,31 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                     <Flex direction="row" align="center">
                                         <Text fontFamily="atkinson" mr="5px">{'Valor (R$):'}</Text>
                                         <Input type="number" fontFamily="atkinson" fontSize={{base:"20px", sm:"18px"}} name="ofr_value" placeholder={(offer.ofr_type == "Doação") ? "Grátis" : offer.ofr_value}
-                                        _placeholder={{color : colors.colorFontBlue}} variant={{base:"outline", sm:"flushed"}} onChange={handleChangeOffer} w={{base:"50%", sm:"24%"}}/>
+                                        _placeholder={{color : colors.colorFontDarkBlue}} variant={{base:"outline", sm:"flushed"}} onChange={handleChangeOffer} w={{base:"50%", sm:"24%"}} _dark={{_placeholder : {color : colors.colorFontDarkBlue_Dark}}}/>
                                     </Flex>
                                     <Flex direction="row" align="center">
                                         <Text fontFamily="atkinson" mr="5px">Data:</Text>
-                                        <Text fontFamily="atkinson" color={colors.colorFontBlue}>{offer.ofr_postDate}</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{offer.ofr_postDate}</Text>
                                     </Flex>
                                     <Flex direction="row" align="center">
                                         <Text fontFamily="atkinson" mr="5px">Parcelas:</Text>
                                         <Input type="number" fontFamily="atkinson" fontSize={{base:"20px", sm:"18px"}} placeholder={offer.ofr_parcelas} name="ofr_parcelas" 
-                                        _placeholder={{color : colors.colorFontBlue}} variant={{base:"outline", sm:"flushed"}} onChange={handleChangeOffer} w={{base:"50%" ,sm:"24%"}}/>
+                                        _placeholder={{color : colors.colorFontDarkBlue}} variant={{base:"outline", sm:"flushed"}} onChange={handleChangeOffer} w={{base:"50%" ,sm:"24%"}} _dark={{_placeholder : {color : colors.colorFontDarkBlue_Dark}}}/>
                                     </Flex>
-                                </SimpleGrid>
+                                </SimpleGrid>                                
                             </Flex>
-                            <InputGroup display="flex" zIndex={1} w="fit-content">
-                                <InputLeftAddon children={<MdOutlinePhotoSizeSelectActual size="80%"/>}/>
-                                <Input type="file" display="inline-block" onChange={handleImage} accept=".png,.jpg,.jpeg" fontFamily="outfit"/>
-                            </InputGroup>
+                            <Flex direction={{base: "column", sm: "row"}} align="center">
+                                <InputGroup display="flex" zIndex={1} w="fit-content">
+                                    <InputLeftAddon children={<MdOutlinePhotoSizeSelectActual size="80%"/>}/>
+                                    <Input type="file" display="inline-block" onChange={handleImage} accept=".png,.jpg,.jpeg" fontFamily="outfit"/>
+                                </InputGroup>
+                                <Spacer/>
+                                {(offer.ofr_status != "Livre") ? <Flex bg={colors.bgTableRow1} p="1%" direction="row" align="center" ml={{base:0, sm:"2%"}} w={{base:"100%", sm:"68%"}} borderRadius="15px" mt={{base:"3%" , sm:0}} _dark={{bg : colors.bgTableRow1_Dark}}>
+                                    <Link to={`/profile/${compUser.user_email}/view`}><Avatar name={compUser.user_name} src={(compUser.user_img) ? String.fromCharCode(...new Uint8Array(compUser.user_img.data)) : ""} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}/></Link>
+                                    <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{base:"19px", sm:"20px"}} mr="2%" ml="1%">{compUser.user_name}</Text>
+                                    <Text fontFamily="atkinson" fontSize={{base:"19px", sm:"20px"}}>fechou com essa oferta!</Text>
+                                </Flex> : ""}
+                            </Flex>
                         </Stack>
                     </Flex>
 
@@ -341,15 +394,15 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                             </Flex>
                             <Flex direction="row">
                                 <Text fontFamily="atkinson" mr="5px">Email:</Text>
-                                <Text fontFamily="atkinson" color={colors.colorFontBlue}>{user.user_email}</Text>
+                                <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{user.user_email}</Text>
                             </Flex>
                             <Flex direction="row">
                                 <Text fontFamily="atkinson" mr="5px">Telefone:</Text>
-                                <Text fontFamily="atkinson" color={colors.colorFontBlue}>{user.user_phone}</Text>
+                                <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{user.user_phone}</Text>
                             </Flex>
                             <Flex direction="row">
                                 <Text fontFamily="atkinson" mr="5px">CEP:</Text>
-                                <Text fontFamily="atkinson" color={colors.colorFontBlue}>{user.user_CEP}</Text>
+                                <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{user.user_CEP}</Text>
                             </Flex>
                             {(reports) ? <Flex zIndex="1" right="0" top="15vh" position={{base:"absolute", sm:"initial"}} bg="red.500" color="#fff" direction={{base:"column",sm:"row"}} maxW="100%" align="center" w="fit-content" p={{base:"1%", sm:"10px 20px 10px 5px"}} borderRadius="10px">
                                     <MdOutlineReportProblem size="60%"/>
@@ -378,7 +431,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
 
                     <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.veryLightBlue} _dark={{bg : colors.veryLightBlue_Dark}} pb="5vh">
                         <Heading mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "32px", sm: "30px"}} noOfLines={{base:2, sm:1}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>O que deseja fazer com a Oferta?</Heading>
-                        <ButtonGroup gap={5}>
+                        <ButtonGroup gap={5} flexDirection={{base:"column", sm:"row"}}>
                             <Button colorScheme="linkedin" variant="solid" onClick={() => {updateOfferFunc()}}>Atualizar</Button>
                             <Button colorScheme="linkedin" variant="solid" onClick={() => { toast({
                                 position: 'bottom',
@@ -392,6 +445,18 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                     </Stack>
                                 )
                             })}}>Apagar</Button>
+                            {(offer.ofr_status != "Livre") ? <Button colorScheme="linkedin" variant="solid" onClick={() => { toast({
+                                position: 'bottom',
+                                render: () => (
+                                    <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Certeza que deseja apagar esse compromisso?</Text>
+                                        <Stack direction="row">
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {endComprisse()}}>Sim</Button>
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toast.closeAll()}}>Não</Button>    
+                                        </Stack>
+                                    </Stack>
+                                )
+                            })}}>Finalizar Compromisso</Button> : ""}
                         </ButtonGroup>
                     </Flex>
                 </Flex>
