@@ -200,6 +200,25 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         }) 
     }
 
+    async function confirmEquipament() {
+        await axios.put(`http://localhost:3344/offers/confirm-equipament/${offer.ofr_id}/${"Env"}`,{
+        }, {headers : {
+            authorization : "Bearer " + localStorage.getItem("token")
+        }}).then((res) => {
+            toast({
+                position: 'bottom',
+                render: () => (
+                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Envio do equipamento confirmado!</Text>
+                    </Stack>
+                )
+            })
+            navigate(0);
+        }).catch((error) => {
+            console.log(error);
+        }) 
+    }
+
     async function getUserIntrested(id : number) {
         await axios.get(`http://localhost:3344/users/id/${id}`).then((res) => {
             setCompUser(res.data);
@@ -426,7 +445,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                             </Select>
                         </Stack>
                         {(chats.length == 0) ? <SignNotFound msg="Parece que não há nenhum contato iniciado nessa oferta..." icon={<MdOutlineContactSupport size="45%"/>}/> :
-                        (selected) ? <ChatBox chat_id={chatUser.chatId.chatId} other={chatUser.data} user_id={offer.User_user_id}/> : <SignNotFound msg="Selecione um usuário interessado para acessar o chat com ele!" icon={<HiOutlineUsers size="45%"/>}></SignNotFound>}
+                        (selected) ? <ChatBox offer={offer} chat_id={chatUser.chatId.chatId} other={chatUser.data} user_id={offer.User_user_id}/> : <SignNotFound msg="Selecione um usuário interessado para acessar o chat com ele!" icon={<HiOutlineUsers size="45%"/>}></SignNotFound>}
                     </Flex>
 
                     <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.veryLightBlue} _dark={{bg : colors.veryLightBlue_Dark}} pb="5vh">
@@ -445,20 +464,38 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                     </Stack>
                                 )
                             })}}>Apagar</Button>
-                            {(offer.ofr_status != "Livre") ? <Button colorScheme="linkedin" variant="solid" onClick={() => { toast({
+                        </ButtonGroup>
+                    </Flex>
+                    {(offer.ofr_status != "Livre") ? <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark}} pb="5vh">
+                        <Heading mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "32px", sm: "30px"}} noOfLines={{base:2, sm:1}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>O que deseja fazer com o Compromisso?</Heading>
+                        <ButtonGroup gap={5} flexDirection={{base:"column", sm:"row"}}>
+                            <Button colorScheme="linkedin" variant="solid" onClick={() => { toast({
                                 position: 'bottom',
                                 render: () => (
                                     <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                                         <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Certeza que deseja apagar esse compromisso?</Text>
                                         <Stack direction="row">
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {endComprisse()}}>Sim</Button>
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {(offer.ofr_status == "Conclusão") ? toast({
+                                                title: 'O compromisso não pode ser encerrado!',
+                                                description: "O equipamento já foi enviado.",
+                                                status: 'error',
+                                                duration: 9000,
+                                                isClosable: true})
+                                             : endComprisse()}}>Sim</Button>
                                             <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toast.closeAll()}}>Não</Button>    
                                         </Stack>
                                     </Stack>
                                 )
-                            })}}>Finalizar Compromisso</Button> : ""}
-                        </ButtonGroup>
-                    </Flex>
+                            })}}>Encerrar Compromisso</Button>
+                            <Button colorScheme="linkedin" variant="solid" onClick={() => {(offer.ofr_env_conf) ? toast({
+                                title: 'Você já confirmou o envio do equipamento!',
+                                description: "Não é necessário confirmar mais de uma vez!",
+                                status: 'error',
+                                duration: 9000,
+                                isClosable: true}) : confirmEquipament();
+                            }}>Equipamento Enviado</Button>
+                        </ButtonGroup> 
+                    </Flex>: ""}
                 </Flex>
             <Footer/>
         </Box>

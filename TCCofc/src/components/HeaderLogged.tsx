@@ -31,7 +31,8 @@ const HeaderLogged = ({user}: avatarProps) => {
                         aria-label='Options'
                         icon = {<RxHamburgerMenu size='100%'/>}
                         variant="unstyled"
-                        bg='#0000'>
+                        bg='#0000'
+                        _hover={{bg : "#0002", _dark:{bg : "#fff3"}}}>
                     </MenuButton>
                     <MenuList fontSize={{base:"20px", sm:"15px"}}>
                         <Link to="/"><MenuItem display={{base:"inherit", sm: "none"}}>

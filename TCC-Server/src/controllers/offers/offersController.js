@@ -205,6 +205,34 @@ module.exports = {
         }
     },
 
+    async confirmEquipOprt(req, res) {
+        try {
+            const {user} = req.params;
+            const {id} = req.params;
+
+            if(await knex("Offer").where("ofr_id", id) != "") {
+                if (user == "Env") {
+                    await knex("Offer").update({
+                        ofr_status : "Conclusão",
+                        ofr_env_conf : 1
+                    }).where('ofr_id', id);
+                    return res.status(201).json({msg : "Product sended"});
+                }
+                else {
+                    await knex("Offer").update({
+                        ofr_status : "Conclusão",
+                        ofr_rec_conf : 1
+                    }).where('ofr_id', id);
+                    return res.status(201).json({msg : "Product recieved"});
+                }
+            }
+            return res.status(401).json({msg : "This offer does not exists"})
+        }
+        catch(error) {
+            return res.status(400).json({error: error.message});
+        }
+    },
+
     async deleteOffer(req, res) { // deleta uma oferta pelo id
         try {
             const {id} = req.params;

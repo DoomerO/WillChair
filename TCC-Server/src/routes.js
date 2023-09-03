@@ -36,6 +36,7 @@ routes.get('/offers/id/:id', controllersOffers.searchOfferId);
 routes.post('/offers', auth, controllersOffers.createOffer);
 routes.put('/offers/:id', auth, controllersOffers.updateOffer);
 routes.put('/offers/remove-intrest/:id', auth, controllersOffers.removeIntrest);
+routes.put('/offers/confirm-equipament/:id/:user', auth, controllersOffers.confirmEquipOprt);
 routes.delete('/offers/:id', auth, controllersOffers.deleteOffer);
 
 //Messages Routes

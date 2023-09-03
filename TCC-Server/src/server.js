@@ -25,7 +25,7 @@ io.on("connection", (socket) => {
     
     socket.on("reqMsg", async (data) => {
         const msgs = await knex("Message").where("Chat_chat_id", data)
-        io.emit("showMsg", msgs);
+        io.emit(`showMsg:${data}`, msgs);
     })
 
     socket.on("postMessage", async (data) => {
@@ -35,7 +35,7 @@ io.on("connection", (socket) => {
             User_user_id : data.user
         })
         const msgs = await knex("Message").where("Chat_chat_id", data.chat);
-        io.emit("showMsg", msgs);
+        io.emit(`showMsg:${data.chat}`, msgs);
     })
 
     socket.on("endChat", async (data) => {

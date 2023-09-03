@@ -72,6 +72,8 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Offer` (
   `ofr_parcelas` INT NULL,
   `ofr_postDate` VARCHAR(10) NULL,
   `user_comp_id` INT NULL,
+  `ofr_env_conf` TINYINT NULL,
+  `ofr_rec_conf` TINYINT NULL,
   `User_user_id` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
