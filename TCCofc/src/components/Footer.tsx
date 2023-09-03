@@ -11,11 +11,11 @@ import colors from '../colors/colors';
 const Footer = () => {
     return (
         <Flex w="100%" h="fit-content" bg={colors.footerBg} direction='column'>
-            <Stack w='100%' mt='3%' direction={{base:'column', sm:'row'}}>
-                <Image src={logo} w={{base:'20vh', sm:'18vw'}} h='16vh' objectFit='contain'></Image>
+            <Stack w='100%' mt='3%' direction={{base:'column', md:'row'}}>
+                <Image src={logo} w={{base:'20vh', md:'18vw'}} h='16vh' objectFit='contain'></Image>
                 <Spacer />
-                <Stack align='center' w='30vw' direction={{base:'column', sm:'row'}}>
-                    <SimpleGrid columns={1} spacing={{base: 2, sm :5}} h='20vh'>
+                <Stack align='center' w='30vw' direction={{base:'column', md:'row'}}>
+                    <SimpleGrid columns={1} spacing={{base: 2, md :5}} h='20vh'>
                         <Text color='#BFBFBF' fontSize='20px'>Empresa</Text>
                         <Text color='#fff' _hover={{color: '#ddd'}}><Link to='/'>Sobre</Link></Text>
                         <Text color='#fff' _hover={{color: '#ddd'}}><Link to='/'>Marca</Link></Text>
@@ -30,7 +30,7 @@ const Footer = () => {
                     </SimpleGrid>
                 </Stack>
                 <Spacer />
-                <Stack direction={{base:"column", sm:"row"}} w='fit-content' m={{base: "5%", sm:'none'}}>
+                <Stack direction={{base:"column", md:"row"}} w='fit-content' m={{base: "5%", md:'none'}}>
                     <Container borderRadius='100%' bg='#4A4A4A' p='15px' _hover={{bg : '#3a3a3a'}}>
                         <a href='https://web.whatsapp.com/'><BsWhatsapp color='#eee' size='5vh'/></a>
                     </Container>

@@ -24,50 +24,50 @@ const Home = () => {
             <HeaderToggle/>
 
             <Flex w='100%' h='70vh' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
-                <Flex align='center' direction='column' ml={{base: "none", sm: '8%'}} w={{base: "inherit", sm :'50%'}}>
-                    <Heading fontFamily="outfit"  color='#2D3748' as='h1' fontSize={{base: "36px", sm: "30px"}} _dark={{color:"#8f9bbc"}}>O seu sonho acessível</Heading>
-                    <Heading color='#1976D2' as='h1' fontSize={{base: "36px", sm: "30px"}} >perto de você!</Heading>
-                    <Text fontFamily="atkinson" noOfLines={2} fontSize={{base: '22px',sm:'20px'}} mt='20px' align="center">
+                <Flex align='center' direction='column' ml={{base: "none", md: '8%'}} w={{base: "inherit", md :'50%'}}>
+                    <Heading fontFamily="outfit"  color='#2D3748' as='h1' fontSize={{base: "36px", md: "30px"}} _dark={{color:"#8f9bbc"}}>O seu sonho acessível</Heading>
+                    <Heading color='#1976D2' as='h1' fontSize={{base: "36px", md: "30px"}} >perto de você!</Heading>
+                    <Text fontFamily="atkinson" noOfLines={2} fontSize={{base: '22px',md:'20px'}} mt='20px' align="center">
                         Compre, negocie ou anuncie equipamentos de acessibilidade
                     </Text>
                 </Flex>
-                <Image src={topImage} w='50%' h='100%' objectFit='contain' display={{base: "none", sm: "inherit"}}/>
+                <Image src={topImage} w='50%' h='100%' objectFit='contain' display={{base: "none", md: "inherit"}}/>
             </Flex>
 
-            <Flex w='100%' bg='#fff' h='fit-content' align='center' direction='column' _dark={{bg:'#4f4f4f'}} pb={{base:"5vh", sm:"none"}}>
-                <Heading fontFamily="outfit" as='h1' noOfLines={{base: 2, sm: 1}} color='#2D3748' mt={{base:'10%', sm:'3%'}} _dark={{color:"#0D87d8"}} fontSize={{base: "32px", sm: "34px"}} align='center' w={{base:'98vw', sm:'fit-content'}}>
+            <Flex w='100%' bg='#fff' h='fit-content' align='center' direction='column' _dark={{bg:'#4f4f4f'}} pb={{base:"5vh", md:"none"}}>
+                <Heading fontFamily="outfit" as='h1' noOfLines={{base: 2, md: 1}} color='#2D3748' mt={{base:'10%', md:'3%'}} _dark={{color:"#0D87d8"}} fontSize={{base: "32px", md: "34px"}} align='center' w={{base:'98vw', md:'fit-content'}}>
                     O que você pode encontrar por aqui
                 </Heading>
-                <Stack mt='8%' gap="50" direction={{base: "column", sm: "row"}} >
-                    <Flex direction='column' align='center' w='30vh'  h={{base:'33%' , sm:'30vh'}}>
+                <Stack mt='8%' gap="50" direction={{base: "column", md: "row"}} >
+                    <Flex direction='column' align='center' w='30vh'  h={{base:'33%' , md:'30vh'}}>
                         <Box w='fit-content'>
                             <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}}>
                                 <BsCreditCard size='8vh'/>
                             </Container>
                         </Box>
-                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', sm:'15px'}}>
+                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', md:'15px'}}>
                             Compras ou vendas de produtos
                         </Text>
                     </Flex>
                     <Spacer />
-                    <Flex direction='column' align='center' w='30vh' h={{base:'33%' , sm:'30vh'}}>
+                    <Flex direction='column' align='center' w='30vh' h={{base:'33%' , md:'30vh'}}>
                         <Box w='fit-content'>
                             <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}}>
                                 <BiDonateHeart size='8vh'/>
                             </Container>
                         </Box>
-                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', sm:'15px'}}>
+                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', md:'15px'}}>
                             Doações de equipamentos
                         </Text>
                     </Flex>
                     <Spacer />
-                    <Flex direction='column' align='center' w='30vh'  h={{base:'33%' , sm:'30vh'}}>
+                    <Flex direction='column' align='center' w='30vh'  h={{base:'33%' , md:'30vh'}}>
                         <Box w='fit-content'>
                             <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}}>
                                 <MdWheelchairPickup size='8vh'/>
                             </Container>
                         </Box>
-                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', sm:'15px'}}>
+                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', md:'15px'}}>
                             Aluguéis por preços acessíveis
                         </Text>
                     </Flex>
@@ -75,15 +75,15 @@ const Home = () => {
             </Flex>
 
             <Flex w='100%' h='fit-content' bg='#F7F9FC' align='center' direction='column' _dark={{bg:'#484A4D'}}>
-                <Box h='20%' alignContent='center' mt={{base:'10%', sm:'3%'}}>
-                <Heading fontFamily="outfit" as='h2' noOfLines={{base: 2, sm: 1}} color='#1963D2' _dark={{color:'#1983D2'}} fontSize={{base: "32px", sm: "34px"}} align='center' w={{base:'98vw', sm:'fit-content'}}>
+                <Box h='20%' alignContent='center' mt={{base:'10%', md:'3%'}}>
+                <Heading fontFamily="outfit" as='h2' noOfLines={{base: 2, md: 1}} color='#1963D2' _dark={{color:'#1983D2'}} fontSize={{base: "32px", md: "34px"}} align='center' w={{base:'98vw', md:'fit-content'}}>
                     Confira abaixo algumas de nossas categorias
                 </Heading>
                 </Box>
                 
                 <Flex h="80%" direction='row' align='center'>
-                    <Image src={bottomImage} w="30%" h='100%' objectFit='contain' display={{base: "none", sm: "inherit"}}></Image>
-                    <Flex direction={{base:'column', sm :'row'}} w='60%'>
+                    <Image src={bottomImage} w="30%" h='100%' objectFit='contain' display={{base: "none", md: "inherit"}}></Image>
+                    <Flex direction={{base:'column', md :'row'}} w='60%'>
                         <Category name='Cadeira de Rodas' icon={cadeiraRodas} path="/search/prod_type/Cadeira de Rodas"/>
                         <Spacer />
                         <Category name='Muleta' icon={muleta} path="/search/prod_type/Muleta"/>

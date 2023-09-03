@@ -105,13 +105,13 @@ const CurrentChats = () => {
                 <Flex direction="row" w="100%" h="100vh">
                     <Stack w="25%" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark, borderRight : "1px solid #fff"}} h="100%" borderRight="1px solid #1972d6" align="center"> 
                         <Flex pb="4%" direction="row" justifyContent="center" align="center" pt="10vh" w="100%" textAlign="center" bg="#1972d6">
-                            <Select onChange={handleSlctChange} w="80%" variant="flushed" fontSize={{base: "32px", sm: "29px"}} fontFamily="outfit" color="#fff">
+                            <Select onChange={handleSlctChange} w="80%" variant="flushed" fontSize={{base: "32px", md: "29px"}} fontFamily="outfit" color="#fff">
                                 <option value={0}>Suas Conversas</option>
                                 {renderOfferOptions}
                             </Select>
                             <Popover placement='top-start'>
                                 <PopoverTrigger><Flex p="1%" _hover={{bg : "#fff3"}} borderRadius="20px"><AiOutlineQuestionCircle size="5vh" color="#fff"/></Flex></PopoverTrigger>
-                                <PopoverContent w={{base:"100vw", sm:'50vw'}} bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark, border : "2px solid #fff"}} border="2px solid #000">
+                                <PopoverContent w={{base:"100vw", md:'50vw'}} bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark, border : "2px solid #fff"}} border="2px solid #000">
                                 <PopoverHeader fontWeight='semibold' bg={colors.colorFontBlue} color="#fff" borderBottom="2px solid #000" _dark={{borderBottom : "2px solid #fff"}}><Flex direction="row" align="center">
                                         <Box borderRadius="100%" w="1px" h="1px" p="1.5%" bg="#fff" mr="1.5%"/>
                                         Como usar a página de chat?

@@ -4,7 +4,6 @@ import { IoLogoWhatsapp } from "react-icons/io"
 import { BsFacebook } from "react-icons/bs"
 import { ImInstagram } from "react-icons/im"
 import HeaderToggle from '../components/toggles/HeaderToggle';
-import { Link } from "react-router-dom";
 import "../fonts/fonts.css"
 import colors from "../colors/colors"; 
 

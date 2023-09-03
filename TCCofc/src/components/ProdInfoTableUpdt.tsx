@@ -37,7 +37,7 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
                 position: 'bottom',
                 render: () => (
                     <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Produto atualizado com sucesso!</Text>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Produto atualizado com sucesso!</Text>
                     </Stack>
                 )
             })
@@ -235,7 +235,7 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
     }, [update])
 
     return (
-        <TableContainer w={{base:"100%", sm:"80%"}}>
+        <TableContainer w={{base:"100%", md:"80%"}}>
             <Table variant="unstyled">
                 <TableCaption>Informações sobre o Equipamento</TableCaption>
                 <Tbody>

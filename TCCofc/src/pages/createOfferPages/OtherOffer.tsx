@@ -89,7 +89,7 @@ const OtherOffer = () => {
                 position: 'bottom',
                 render: () => (
                     <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Produto criado com sucesso!</Text>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Produto criado com sucesso!</Text>
                     </Stack>
                 )
             })
@@ -124,7 +124,7 @@ const OtherOffer = () => {
                 position: 'bottom',
                 render: () => (
                     <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Produto criado com sucesso!</Text>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Produto criado com sucesso!</Text>
                         <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate("/"); navigate(0)}}>Ir para home</Button>
                     </Stack>
                 )
@@ -178,56 +178,56 @@ const OtherOffer = () => {
     return (
             <Box w="100%" h="100%">
                 <HeaderToggle/>
-                <Flex w='100%' h={{base:"23vh", sm:'20vh'}} pt={{base:"5%", sm:"3%"}} bg={colors.veryLightBlue} align='center' direction="column" justifyContent="center" _dark={{bg: colors.veryLightBlue_Dark}}>
+                <Flex w='100%' h={{base:"23vh", md:'20vh'}} pt={{base:"5%", md:"3%"}} bg={colors.veryLightBlue} align='center' direction="column" justifyContent="center" _dark={{bg: colors.veryLightBlue_Dark}}>
                     <Heading color={colors.colorFontBlue} textAlign="center" as='h1' fontFamily="outfit" fontSize="35px">Descreva seu Equipamento</Heading>
                 </Flex>
 
-                <Flex w='100%' bg={colors.veryLightBlue} h={{base:"160vh", sm:'150vh'}} align='center' direction='column' _dark={{bg:colors.veryLightBlue_Dark}} pb={{base:"5vh", sm:"none"}}>
+                <Flex w='100%' bg={colors.veryLightBlue} h={{base:"160vh", md:'150vh'}} align='center' direction='column' _dark={{bg:colors.veryLightBlue_Dark}} pb={{base:"5vh", md:"none"}}>
 
-                    <Stack gap="90" direction={{base: "column", sm: "row"}} >
-                    <Flex direction='column' align='center' w={{base:"90vw" ,sm:'60vw'}} fontSize={{base:"20px", sm:"18px"}} h={{base:'33%' , sm:'110vh'}}>
+                    <Stack gap="90" direction={{base: "column", md: "row"}} >
+                    <Flex direction='column' align='center' w={{base:"90vw" ,md:'60vw'}} fontSize={{base:"20px", md:"18px"}} h={{base:'33%' , md:'110vh'}}>
                         
                         <Stack spacing={3} align="center">
-                            <Flex w={{base:"30vh" ,sm:"40vh"}} align="center" justifyContent="center" h={{base:"30vh" ,sm:"40vh"}} direction="column" border="2px dashed #000" _dark={{border : "2px dashed #fff"}}>{(formInputs.photo) ? <Image w={{base:"98%", sm:"96%"}} h={{base:"98%", sm:"96%"}} objectFit="contain" src={formInputs.photo}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%"/>} bgType={"none"}/>}</Flex>    
+                            <Flex w={{base:"30vh" ,md:"40vh"}} align="center" justifyContent="center" h={{base:"30vh" ,md:"40vh"}} direction="column" border="2px dashed #000" _dark={{border : "2px dashed #fff"}}>{(formInputs.photo) ? <Image w={{base:"98%", md:"96%"}} h={{base:"98%", md:"96%"}} objectFit="contain" src={formInputs.photo}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%"/>} bgType={"none"}/>}</Flex>    
 
-                            <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Imagem<Input type="file" id="myfile" name="photo" accept="gif, .jpg, .jpeg, .png" onChange={handleImage}/></FormLabel>
+                            <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>Imagem<Input type="file" id="myfile" name="photo" accept="gif, .jpg, .jpeg, .png" onChange={handleImage}/></FormLabel>
                             
-                            <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Título da oferta<Input type='text' fontSize={{base:"20px", sm:"18px"}} 
+                            <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>Título da oferta<Input type='text' fontSize={{base:"20px", md:"18px"}} 
                             placeholder='Dica: Diga o nome do equipamento ofertado aqui!' name='name' onChange={handleChange}/></FormLabel>
                             
-                            <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{base:"20px", sm:"18px"}} textAlign="left" verticalAlign="top" placeholder="Dica: Dê detalhes importantes sobre o equipamento aqui, pois eles podem não estar constados no formulário." onChange={handleChange}/></FormLabel>    
+                            <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{base:"20px", md:"18px"}} textAlign="left" verticalAlign="top" placeholder="Dica: Dê detalhes importantes sobre o equipamento aqui, pois eles podem não estar constados no formulário." onChange={handleChange}/></FormLabel>    
 
-                            <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}}>
-                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Condição do Equipamento<Select name='condition' color="gray"
-                                                fontSize={{base:"20px", sm:"18px"}} onChange={handleChange} value={formInputs.condition}>
+                            <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,md:'row'}}>
+                                <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>Condição do Equipamento<Select name='condition' color="gray"
+                                                fontSize={{base:"20px", md:"18px"}} onChange={handleChange} value={formInputs.condition}>
                                                     <option value='Boa'>Boa</option>
                                                     <option value='Rasoável'>Rasoável</option>
                                                     <option value='Ruim'>Ruim</option>                                        
                                 </Select></FormLabel>
                                 <Spacer/>
-                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Tipo de Equipamento'}<Input name='type' color="gray" type="text" placeholder="Qual é o seu equipamento?" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
+                                <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>{'Tipo de Equipamento'}<Input name='type' color="gray" type="text" placeholder="Qual é o seu equipamento?" fontSize={{base:"20px", md:"18px"}} onChange={handleChange}/></FormLabel>
                             </Flex>
                             
                             
-                            <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}}>
-                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Peso (kg)'}<Input name='weight' type="number" color="gray" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
+                            <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,md:'row'}}>
+                                <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>{'Peso (kg)'}<Input name='weight' type="number" color="gray" fontSize={{base:"20px", md:"18px"}} onChange={handleChange}/></FormLabel>
                                 <Spacer/>
-                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Altura (m)'}<Input name='height' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
+                                <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>{'Altura (m)'}<Input name='height' color="gray" type="number" fontSize={{base:"20px", md:"18px"}} onChange={handleChange}/></FormLabel>
                                 <Spacer/>
-                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>{'Composição'}<Input name='composition' color="gray" type="text" fontSize={{base:"20px", sm:"18px"}} onChange={handleChange}/></FormLabel>
+                                <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>{'Composição'}<Input name='composition' color="gray" type="text" fontSize={{base:"20px", md:"18px"}} onChange={handleChange}/></FormLabel>
                             </Flex>
 
-                            <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,sm:'row'}} >
-                                <FormLabel w="100%" fontSize={{base:"20px", sm:"18px"}}>Tipo de Oferta<Select name='offerType' color="gray"
-                                                fontSize={{base:"20px", sm:"18px"}} onChange={handleChange} value={formInputs.offerType}>
+                            <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,md:'row'}} >
+                                <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>Tipo de Oferta<Select name='offerType' color="gray"
+                                                fontSize={{base:"20px", md:"18px"}} onChange={handleChange} value={formInputs.offerType}>
                                                     <option value='Doação'>Doação</option>
                                                     <option value='Venda'>Venda</option>
                                                     <option value='Aluguél'>Aluguél</option>                              
                                 </Select></FormLabel>
                                 <Spacer/>
-                                <FormLabel w={{base:"100%", sm:"fit-content"}} display={(formInputs.offerType != "Doação") ? "block" : "none"} fontSize={{base:"20px", sm:"18px"}}>{'Preço (R$)'}<Input onChange={handleChange} name='price' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>
+                                <FormLabel w={{base:"100%", md:"fit-content"}} display={(formInputs.offerType != "Doação") ? "block" : "none"} fontSize={{base:"20px", md:"18px"}}>{'Preço (R$)'}<Input onChange={handleChange} name='price' color="gray" type="number" fontSize={{base:"20px", md:"18px"}}/></FormLabel>
                                 <Spacer/> 
-                                <FormLabel w={{base:"100%", sm:"fit-content"}} display={(formInputs.offerType == "Aluguél") ? "block" : "none"} fontSize={{base:"20px", sm:"18px"}}>{'Parcelas'}<Input onChange={handleChange} name='parcelas' color="gray" type="number" fontSize={{base:"20px", sm:"18px"}}/></FormLabel>  
+                                <FormLabel w={{base:"100%", md:"fit-content"}} display={(formInputs.offerType == "Aluguél") ? "block" : "none"} fontSize={{base:"20px", md:"18px"}}>{'Parcelas'}<Input onChange={handleChange} name='parcelas' color="gray" type="number" fontSize={{base:"20px", md:"18px"}}/></FormLabel>  
                             </Flex>
 
                         </Stack>

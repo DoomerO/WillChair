@@ -120,7 +120,7 @@ const ProdInfoTable = ({ofr_id} : prodTableProps) => {
     }
 
     return (
-        <TableContainer w={{base:"100%", sm:"80%"}}>
+        <TableContainer w={{base:"100%", md:"80%"}}>
             <Table variant="unstyled">
                 <TableCaption>Informações sobre o Equipamento</TableCaption>
                 <Tbody>

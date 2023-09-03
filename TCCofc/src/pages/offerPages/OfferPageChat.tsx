@@ -93,7 +93,7 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
                 position: 'bottom',
                 render: () => (
                     <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Compromisso apagado com sucesso!</Text>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Compromisso apagado com sucesso!</Text>
                     </Stack>
                 )
             })
@@ -112,7 +112,7 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
                 position: 'bottom',
                 render: () => (
                     <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Recebimento do equipamento confirmado!</Text>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Recebimento do equipamento confirmado!</Text>
                     </Stack>
                 )
             })
@@ -185,14 +185,14 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
             <HeaderToggle/>
                 <Flex bg={colors.bgWhite} direction="column" align="center" h="fit-content" pt="10vh" _dark={{bg : colors.bgWhite_Dark}}>
 
-                <Flex direction={{base:"column", sm:"row"}} h={{base:"fit-content", sm:"50vh"}} w="90%">
+                <Flex direction={{base:"column", md:"row"}} h={{base:"fit-content", md:"50vh"}} w="90%">
                         <Image src={(offer.prod_img) ? String.fromCharCode(...new Uint8Array(offer.prod_img.data)) : null} 
-                        objectFit="contain" h={{base:"40vh",sm:"95%"}} w={{base:"100%", sm:"30%"}}></Image>
-                        <Divider orientation="vertical" ml="2.5" mr="2.5" display={{base:"none", sm:"inherit"}}/>
-                        <Stack w={{base:"100%", sm:"65%"}} h="100%" spacing={8}>
-                            <Heading as="h1" fontFamily="outfit" fontSize={{base: "32px", sm: "34px"}} color={colors.colorFontBlue} noOfLines={{sm:1}}>{offer.ofr_name}</Heading>
-                            <Flex direction={{base:"column" , sm:"row"}} w="100%">
-                                <SimpleGrid spacing={3} fontSize={{base:"20px", sm:"18px"}}>
+                        objectFit="contain" h={{base:"40vh",md:"95%"}} w={{base:"100%", md:"30%"}}></Image>
+                        <Divider orientation="vertical" ml="2.5" mr="2.5" display={{base:"none", md:"inherit"}}/>
+                        <Stack w={{base:"100%", md:"65%"}} h="100%" spacing={8}>
+                            <Heading as="h1" fontFamily="outfit" fontSize={{base: "32px", md: "34px"}} color={colors.colorFontBlue} noOfLines={{md:1}}>{offer.ofr_name}</Heading>
+                            <Flex direction={{base:"column" , md:"row"}} w="100%">
+                                <SimpleGrid spacing={3} fontSize={{base:"20px", md:"18px"}}>
                                     <Flex direction="row">
                                         <Text fontFamily="atkinson" mr="5px">Tipo de Oferta:</Text>
                                         <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{offer.ofr_type}</Text>
@@ -207,7 +207,7 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
                                     </Flex>
                                 </SimpleGrid>
                                 <Spacer/>
-                                <SimpleGrid spacing={3} fontSize={{base:"20px", sm:"18px"}}>
+                                <SimpleGrid spacing={3} fontSize={{base:"20px", md:"18px"}}>
                                     <Flex direction="row">
                                         <Text fontFamily="atkinson" mr="5px">Valor:</Text>
                                         <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{(offer.ofr_type == "Doação") ? "Grátis" : `R$${offer.ofr_value}`}</Text>
@@ -222,41 +222,41 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
                                     </Flex>
                                 </SimpleGrid>
                                 <Spacer/>
-                                {(compUser.user_id) ? <Flex bg={colors.bgTableRow1} p="1%" justifyContent="center" direction="row" align="center" ml={{base:0, sm:"2%"}} w="fit-content" borderRadius="15px" mt={{base:"3%" , sm:0}} _dark={{bg : colors.bgTableRow1_Dark}}>
-                                    <Text fontFamily="atkinson" fontSize={{base:"19px", sm:"20px"}}>Você fechou com essa oferta!</Text>
+                                {(compUser.user_id) ? <Flex bg={colors.bgTableRow1} p="1%" justifyContent="center" direction="row" align="center" ml={{base:0, md:"2%"}} w="fit-content" borderRadius="15px" mt={{base:"3%" , md:0}} _dark={{bg : colors.bgTableRow1_Dark}}>
+                                    <Text fontFamily="atkinson" fontSize={{base:"19px", md:"20px"}}>Você fechou com essa oferta!</Text>
                                 </Flex>: ""}
                             </Flex>
-                            {(reports) ? <Flex bg="red.500" color="#fff" direction={{base:"column",sm:"row"}} maxW={{base:"100%", sm:"68%"}} align="center" w="fit-content" p={{base:"1%", sm:"0px 20px 0px 5px"}} borderRadius="10px">
+                            {(reports) ? <Flex bg="red.500" color="#fff" direction={{base:"column",md:"row"}} maxW={{base:"100%", md:"68%"}} align="center" w="fit-content" p={{base:"1%", md:"0px 20px 0px 5px"}} borderRadius="10px">
                                     <MdOutlineReportProblem size="60%"/>
                                     <Spacer/>
-                                    <Text textAlign={{base:"center", sm:"justify"}} fontSize={{base: "22px", sm: "18px"}}>Essa oferta possui denúncias! Estamos avaliando-a para evitar danos à comunidade. Não recomendamos interações...</Text>
+                                    <Text textAlign={{base:"center", md:"justify"}} fontSize={{base: "22px", md: "18px"}}>Essa oferta possui denúncias! Estamos avaliando-a para evitar danos à comunidade. Não recomendamos interações...</Text>
                             </Flex> : ""}
                         </Stack>
                     </Flex>
 
                     <Divider/>
 
-                    <Flex direction={{base:"column", sm:"row"}} h={{base:"fit_content",sm:"50vh"}} w="90%">
-                        <Stack w={{base:"100%", sm:"45%"}} h={{base:"50vh", sm:"100%"}} mt="2vh">
-                            <Heading as="h3" fontFamily="outfit" fontSize={{base: "32px", sm: "30px"}} color={colors.colorFontBlue}>Descrição</Heading>
-                            <Text textAlign="justify" fontSize={{base:"22px", sm:"19px"}}>{offer.ofr_desc}</Text>
+                    <Flex direction={{base:"column", md:"row"}} h={{base:"fit_content",md:"50vh"}} w="90%">
+                        <Stack w={{base:"100%", md:"45%"}} h={{base:"50vh", md:"100%"}} mt="2vh">
+                            <Heading as="h3" fontFamily="outfit" fontSize={{base: "32px", md: "30px"}} color={colors.colorFontBlue}>Descrição</Heading>
+                            <Text textAlign="justify" fontSize={{base:"22px", md:"19px"}}>{offer.ofr_desc}</Text>
                         </Stack>
 
-                        <Divider orientation="vertical" mr="5%" ml="5%" display={{base:"none", sm:"inherit"}}/>
+                        <Divider orientation="vertical" mr="5%" ml="5%" display={{base:"none", md:"inherit"}}/>
 
-                        <Stack w={{base:"100%", sm:"45%"}} h={{base:"20vh", sm:"100%"}} mt="2vh" fontSize={{base:"20px", sm:"18px"}}>
+                        <Stack w={{base:"100%", md:"45%"}} h={{base:"20vh", md:"100%"}} mt="2vh" fontSize={{base:"20px", md:"18px"}}>
                             <Flex direction="row" align="center">
                             <Link to={`/profile/${owner.user_email}/view`}><Avatar name={owner.user_name} src={(owner.user_img) ? String.fromCharCode(...new Uint8Array(owner.user_img.data)) : ""} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}></Avatar></Link>
-                                <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{base:"22px", sm:"20px"}} ml="2%" mr="2%">{owner.user_name}</Text>
+                                <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{base:"22px", md:"20px"}} ml="2%" mr="2%">{owner.user_name}</Text>
                                 <BsFillStarFill fill={colors.colorFontBlue}/>
-                                <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}} fontSize={{base:"22px", sm:"20px"}}>{(owner.user_nota) ? owner.user_nota : 0.0}</Text>
+                                <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}} fontSize={{base:"22px", md:"20px"}}>{(owner.user_nota) ? owner.user_nota : 0.0}</Text>
                                 <Spacer/>
                                 <Button variant="ghost" w="fit-content" onClick={() => {
                                 toast({
                                     position: 'bottom',
                                     render: () => (
                                         <Stack bg="red.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                                            <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Certeza que deseja denunciar essa oferta?</Text>
+                                            <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja denunciar essa oferta?</Text>
                                             <Stack direction="row">
                                                 <Button color="#fff" _hover={{bg:"#fff2"}} variant="outline" onClick={() => {navigate(`/report/${offer.ofr_id}`), toast.closeAll()}}>Sim</Button>
                                                 <Button color="#fff" _hover={{bg:"#fff2"}} variant="outline" onClick={() => {toast.closeAll()}}>Não</Button>    
@@ -286,23 +286,23 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
                     <Divider/>
 
                     <Flex w="100%" h="fit-content" mt="3%" mb="3%" align="center" direction="column">
-                        <Heading noOfLines={1} mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "36px", sm: "30px"}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>Chat com {owner.user_name}</Heading>
+                        <Heading noOfLines={1} mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "36px", md: "30px"}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>Chat com {owner.user_name}</Heading>
                         {(chat) ? <ChatBox other={owner} user_id={user.user_id} chat_id={chat.chat_id} offer={offer}/> : <SignButton/>}
                     </Flex>
                 </Flex>
 
                 <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.veryLightBlue} _dark={{bg : colors.veryLightBlue_Dark}}>
-                    <Heading noOfLines={1} mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "36px", sm: "30px"}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>Ofertas Recomendadas</Heading>
+                    <Heading noOfLines={1} mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "36px", md: "30px"}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>Ofertas Recomendadas</Heading>
                     {(renderTest) ? <OfferList component={renderRecom}/> : <SignNotFound icon={<GiUncertainty size="45%"/>} msg="Parece que não há o que recomendar à partir dessa oferta...Considere realiazar uma pesquisa com mais detalhes!"/>}
                 </Flex>
                 {(compUser.user_id) ? <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark}} pb="5vh">
-                        <Heading mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "32px", sm: "30px"}} noOfLines={{base:2, sm:1}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>O que deseja fazer com o Compromisso?</Heading>
-                        <ButtonGroup gap={5} flexDirection={{base:"column", sm:"row"}}>
+                        <Heading mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "32px", md: "30px"}} noOfLines={{base:2, md:1}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>O que deseja fazer com o Compromisso?</Heading>
+                        <ButtonGroup gap={5} flexDirection={{base:"column", md:"row"}}>
                             <Button colorScheme="linkedin" variant="solid" onClick={() => { toast({
                                 position: 'bottom',
                                 render: () => (
                                     <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Certeza que deseja apagar esse compromisso?</Text>
+                                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja apagar esse compromisso?</Text>
                                         <Stack direction="row">
                                             <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {(offer.ofr_status == "Conclusão") ? toast({
                                                 title: 'O compromisso não pode ser encerrado!',

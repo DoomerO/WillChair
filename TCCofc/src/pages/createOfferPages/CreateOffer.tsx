@@ -20,13 +20,13 @@ const CreateOffer = () => {
             <Flex w='100%' h='55vh' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
                 <Flex align='center' direction='column' w='100%'>
                     <Heading color='#000' as='h1' fontSize="55px" _dark={{color:"#fff"}}>Faça aqui a sua oferta!</Heading>
-                    <Heading color='#646E73' fontSize="25px" textAlign='center' w={{base: "98%", sm:"37%"}} _dark={{color:"#8f9bbc"}}>Selecione a categoria 
+                    <Heading color='#646E73' fontSize="25px" textAlign='center' w={{base: "98%", md:"37%"}} _dark={{color:"#8f9bbc"}}>Selecione a categoria 
                     em que seu equipamento melhor se encaixa</Heading>
                 </Flex>
             </Flex>
 
                 <Flex h="80%" direction='row' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
-                    <Flex direction={{base:'column', sm :'row'}} w='80%' ml='10%' mb='5%'>
+                    <Flex direction={{base:'column', md :'row'}} w='80%' ml='10%' mb='5%'>
                         <Category name='Cadeira de Rodas' icon={cadeiraRodas} path="/create-offer/cadeira-rodas"/>
                         <Spacer />
                         <Category name='Muleta' icon={muleta} path="/create-offer/muleta"/>

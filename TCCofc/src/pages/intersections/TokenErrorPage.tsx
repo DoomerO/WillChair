@@ -10,12 +10,12 @@ const TokenErrorPage = () => {
                 <Heading as='h1' >Sua conexão expirou!</Heading>
                 <Spacer/>
                 <Flex direction="column" align="center" mt="3%" mb="0.5%">
-                    <Text fontSize={{base: "23px", sm:"25px"}}>Clique no botão abaixo para renová-la</Text>    
+                    <Text fontSize={{base: "23px", md:"25px"}}>Clique no botão abaixo para renová-la</Text>    
                 </Flex>
                 <AiOutlineArrowDown size="5vh"/>
                 <Link to="/login"><Button variant="solid" colorScheme="linkedin" mt="0.5%">Login</Button></Link>
                 <Flex direction="column" align="center" mt="3%" mb="0.5%">
-                    <Text fontSize={{base: "23px", sm:"25px"}}>Ou desconecte</Text>   
+                    <Text fontSize={{base: "23px", md:"25px"}}>Ou desconecte</Text>   
                 </Flex>
                 <AiOutlineArrowDown size="5vh"/>
                 <Link to="/logout"><Button variant="solid" colorScheme="linkedin" mt="0.5%">Logout</Button></Link>

@@ -11,7 +11,7 @@ import colors from "../colors/colors";
 const Report = () => {
     const offer = useParams();
     const toast = useToast();
-    const [select, setSelect] = useState (false);
+    const [select, setSelect] = useState(false);
 
     const [report, setReport] = useState({
         den_reason: "",
@@ -87,11 +87,11 @@ const Report = () => {
     return (
         <Box w="100%" h="100%" onClick={() => {console.log(report)}} >
             <HeaderToggle/>
-            <Flex w="100%" h="100%" direction={{base:"column-reverse" ,sm:"row"}} align="center" _dark={{bg: colors.bgWhite_Dark}} bg={colors.bgWhite}>
-                <Stack h={{base:"70vh", sm:"95vh"}} w={{base:"100%", sm:"fit-content"}} direction="column" pt="5%" align="center" pl="2vw" pr="2vw" bg={colors.veryLightBlue} _dark={{bg : colors.veryLightBlue_Dark}}>
-                    <Heading fontFamily="outfit" as="h1" fontSize={{base:"34px", sm:"32"}}>Faça sua denúncia</Heading>
-                    <Text fontFamily="atkinson" fontSize={{base:"20px", sm:"18px"}}>Qual o motivo de sua denúncia?</Text>
-                    <Select w={{base:"90%", sm:"90vh"}} fontSize={{base:"20px", sm:"18px"}} onChange={handleSelect} placeholder="selecione o tipo da denuncia" fontFamily="outfit">
+            <Flex w="100%" h="100%" direction={{base:"column-reverse" ,md:"row"}} align="center" _dark={{bg: colors.bgWhite_Dark}} bg={colors.bgWhite}>
+                <Stack h={{base:"70vh", md:"95vh"}} w={{base:"100%", md:"fit-content"}} direction="column" pt="5%" align="center" pl="2vw" pr="2vw" bg={colors.veryLightBlue} _dark={{bg : colors.veryLightBlue_Dark}}>
+                    <Heading fontFamily="outfit" as="h1" fontSize={{base:"34px", md:"32"}}>Faça sua denúncia</Heading>
+                    <Text fontFamily="atkinson" fontSize={{base:"20px", md:"18px"}}>Qual o motivo de sua denúncia?</Text>
+                    <Select w={{base:"90%", md:"90vh"}} fontSize={{base:"20px", md:"18px"}} onChange={handleSelect} placeholder="selecione o tipo da denuncia" fontFamily="outfit">
                         <option value="Fraudes e golpes">Fraudes e golpes</option>
                         <option value="Nudez e cnteúdo sexual">Nudez e conteúdo sexual</option>
                         <option value="Informações incorretas">Informações incorretas</option>
@@ -104,17 +104,17 @@ const Report = () => {
                         <option value="4">Outro</option>
                     </Select>
                     <Collapse in={select}>
-                        <Input placeholder='Tipo de denúncia' w={{base:"90%", sm:"90vh"}} onChange={handleChange} name="den_reason"></Input>
+                        <Input placeholder='Tipo de denúncia' w={{base:"90%", md:"90vh"}} onChange={handleChange} name="den_reason"></Input>
                     </Collapse>
-                    <Heading textAlign="center" fontSize={{base:"30px", sm:"25"}} fontFamily="atkinson">Por que você está denunciando?</Heading>
-                    <Text fontFamily="outfit" fontSize={{base:"20px", sm:"18px"}}>Dê detalhes sobre o ocorrido</Text>
-                    <Textarea w={{base:"90%", sm:"90vh"}} fontSize={{base:"20px", sm:"18px"}} h="25vh" placeholder="Descreva aqui" onChange={handleChange} name="den_content"/>
+                    <Heading textAlign="center" fontSize={{base:"30px", md:"25"}} fontFamily="atkinson">Por que você está denunciando?</Heading>
+                    <Text fontFamily="outfit" fontSize={{base:"20px", md:"18px"}}>Dê detalhes sobre o ocorrido</Text>
+                    <Textarea w={{base:"90%", md:"90vh"}} fontSize={{base:"20px", md:"18px"}} h="25vh" placeholder="Descreva aqui" onChange={handleChange} name="den_content"/>
                     <ButtonGroup >
-                        <Button fontSize={{base:"20px", sm:"15px"}} onClick={checkInputs} colorScheme="linkedin" fontFamily="outfit">Enviar</Button>
-                        <Link to={`/offer/${offer.offer}`}><Button fontSize={{base:"20px", sm:"15px"}} colorScheme="linkedin" fontFamily="outfit">Cancelar</Button></Link>
+                        <Button fontSize={{base:"20px", md:"15px"}} onClick={checkInputs} colorScheme="linkedin" fontFamily="outfit">Enviar</Button>
+                        <Link to={`/offer/${offer.offer}`}><Button fontSize={{base:"20px", md:"15px"}} colorScheme="linkedin" fontFamily="outfit">Cancelar</Button></Link>
                     </ButtonGroup>
                 </Stack>
-                <Image w={{base:"100%", sm:"48%"}} h="100%" src={image}/>
+                <Image w={{base:"100%", md:"48%"}} h="100%" src={image}/>
             </Flex>
             <Footer/>
         </Box> 
