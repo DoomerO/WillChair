@@ -1,4 +1,4 @@
-import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Button, useToast, ButtonGroup} from "@chakra-ui/react";
+import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Button, useToast, ButtonGroup, useDisclosure} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -17,6 +17,7 @@ import {GiUncertainty} from "react-icons/gi";
 import CardOffer from "../../components/offerCards/OfferCard";
 import OfferList from "../../components/offerCards/OfferList";
 import SignNotFound from "../../components/signs/SignNotFound";
+import Avaliation from "../../components/Avaliation";
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineReport, MdOutlineReportProblem } from "react-icons/md";
 
@@ -33,6 +34,7 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
     const [reports, setReports] = useState(false);
     const [chatBool, setChatBool] = useState(false);
     const [compUser, setCompUser] = useState([]);
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const toast = useToast();
     const navigate = useNavigate();
     let renderTest = false;
@@ -321,9 +323,19 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
                                 description: "Não é necessário confirmar mais de uma vez!",
                                 status: 'error',
                                 duration: 9000,
-                                isClosable: true}) : confirmEquipament();
+                                isClosable: true}) : (offer.ofr_env_conf) ? confirmEquipament() :
+                                toast({
+                                    title: 'O envio do equipamento não foi confirmado!',
+                                    description: "Não é possível confirmar a chegada do produto sem ele ter sido enviado.",
+                                    status: 'error',
+                                    duration: 9000,
+                                    isClosable: true});
                             }}>Equipamento Recebido</Button>
-                        </ButtonGroup> 
+                            {(offer.ofr_env_conf && offer.ofr_rec_conf) ? <Button colorScheme="linkedin" variant="solid" onClick={() => {
+                                onOpen();
+                            }}>Avaliar</Button>: ""}
+                        </ButtonGroup>
+                        <Avaliation isOpen={isOpen} setClose={onClose}/>
                     </Flex>: ""}
             <Footer/>
         </Box>
