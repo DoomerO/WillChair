@@ -14,5 +14,5 @@
 - About us
 <img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/aboutUs.jpeg"/>
 
--Profile(Your)
+- Profile(Your)
 <img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/profileOwn.jpeg/>
