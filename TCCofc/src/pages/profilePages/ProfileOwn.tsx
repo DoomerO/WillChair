@@ -57,6 +57,12 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
     };
 
     async function getEndereco(CEP : string) {
+        setUpdate(prev => ({...prev, 
+            user_FU : "",
+            user_street : "",
+            user_district : "",
+            user_city : ""
+        }))
         cep(CEP, { timeout: 5000}).then((res) => {
             setUpdate(prev => ({...prev, 
                 user_FU : res.state,
@@ -64,17 +70,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                 user_district : res.neighborhood,
                 user_city : res.city
             }))
-        }).catch((error) => {
-            error = {error}
-            if(error.error.message == "Todos os serviços de CEP retornaram erro." && CEP.length <= 7){
-                setUpdate(prev => ({...prev,
-                    user_FU : "",
-                    user_street : "",
-                    user_district : "",
-                    user_city : ""
-                }))
-            }
-        });
+        })
     }
 
     async function updateProfile() {
@@ -121,7 +117,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                 status: 'error',
                 duration: 9000,
                 isClosable: true,
-              }) 
+              })
         }
     }
 
@@ -173,26 +169,20 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                     status: 'error',
                     duration: 9000,
                     isClosable: true,
-                  }) 
+                  }); console.log("this one")
             }
         }
-    }, [user.user_id]);
+    }, [0]);
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         if(e.target.name == "user_CEP") {
-            if(e.target.value.length >= 7) {
+            if(e.target.value.length >= 7){
                 getEndereco(e.target.value);
             }
-            else {
-                setUpdate(prev => ({...prev, 
-                    user_FU : "",
-                    user_street : "",
-                    user_district : "",
-                    user_city : ""
-                }))
-            }
         }
-        setUpdate(prev => ({...prev, [e.target.name] : e.target.value}));
+        if(!e.target.validity.patternMismatch){
+            setUpdate(prev => ({...prev, [e.target.name] : e.target.value}));}
+        else{e.target.value = ""}
     }
 
     const handleImage = (e:ChangeEvent<HTMLInputElement>) => {
@@ -269,7 +259,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Telefone:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_phone} name="user_phone" onChange={handleChange} maxLength={11} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_phone ? user.user_phone : "Digite seu número de telefone"} pattern={`[0-9]{8,11}`}/>
+                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_phone} name="user_phone" onChange={handleChange} maxLength={11} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_phone ? user.user_phone : "Digite seu número de telefone"} pattern="[0-9]{0,}"/>
                             </Flex>
                             
 
@@ -280,7 +270,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">CEP:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_CEP} name="user_CEP" maxLength={8} onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={(user.user_CEP) ? user.user_CEP : "Digite seu CEP aqui para preencher o endereço."}/>
+                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_CEP} name="user_CEP" maxLength={9} onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={(user.user_CEP) ? user.user_CEP : "Digite seu CEP aqui para preencher o endereço."} pattern="[0-9]{0,}"/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Cidade:</Text>
