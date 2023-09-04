@@ -12,7 +12,7 @@
 <img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/homeLogged.png"/>
 
 - About us
-<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/aboutUs.jpg"/>
+<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/aboutUs.jpeg"/>
 
 -Profile(Your)
-<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/profileOwn.jpg"/>
+<img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/profileOwn.jpeg/>
