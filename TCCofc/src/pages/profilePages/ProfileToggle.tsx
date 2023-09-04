@@ -8,7 +8,7 @@ import ProfileOwn from "./ProfileOwn"
 const ProfileToggle = () => {
     const {email} = useParams();
     const [comp, setComp] = useState<React.ReactElement>()
-    const [user, setUser] = useState(decode(localStorage.getItem("token")));
+    const [user, setUser] = useState({});
     const [profile, setProfile] = useState([]);
 
     async function getUser() {
@@ -20,6 +20,11 @@ const ProfileToggle = () => {
     }
 
     useEffect(() => {
+        try{
+            setUser(decode(localStorage.getItem("token")))
+        }catch{
+            setUser({})
+        }
         if(email) getUser();
     }, [email]);
 

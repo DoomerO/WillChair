@@ -96,7 +96,7 @@ const Profile = ({user} : ProfileProps) => {
                     </Flex>
                     <Flex direction="row">
                       <Text fontFamily="atkinson" mr="5px">Endereço:</Text>
-                      <Text fontFamily="atkinson" color={colors.colorFontBlue}>{(user.user_CEP || user.user_street || user.user_district || user.user_houseNum) ? user.user_street + ", " + user.user_houseNum + " " + user.user_comp + ", " + user.user_district + ". " + user.user_CEP : "Endereço não disponibilizado."}</Text>
+                      <Text fontFamily="atkinson" color={colors.colorFontBlue}>{(user.user_CEP) ? user.user_street + ", " + (user.user_houseNum ? "n° " + user.user_houseNum + " " + (user.user_comp ? user.user_comp : "Não informado") + "," : "") + " " + user.user_district + ". " + user.user_CEP : "Endereço não disponibilizado."}</Text>
                     </Flex>
                 </SimpleGrid>
               </Stack>

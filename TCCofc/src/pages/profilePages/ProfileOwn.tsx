@@ -1,6 +1,6 @@
 import { Flex, Box, Stack, Input, Avatar, Heading, SimpleGrid, Spacer, Text, Divider, Button, InputGroup, useToast, InputLeftAddon } from "@chakra-ui/react"
 import { ChangeEvent, useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import HeaderToggle from "../../components/toggles/HeaderToggle";
 import SignNotFound from "../../components/signs/SignNotFound";
@@ -96,7 +96,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                         title: 'Imagem muito pesada!',
                         description: "Tente usar uma imagem mais leve.",
                         status: 'error',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     })
                 }
@@ -104,10 +104,10 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
         }
         else {
             toast({
-                title: 'Erro',
-                description: "Certifique-se de que todos os dados estão preenchidos",
-                status: 'error',
-                duration: 9000,
+                title: 'Sem alterações',
+                description: "Não há alterações para se atualizar",
+                status: 'warning',
+                duration: 3000,
                 isClosable: true,
               })
         }
@@ -126,14 +126,12 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
             user_houseNum : user.user_houseNum,
             user_comp : user.user_comp
         }))
-
         toast({
-            position: 'bottom',
-            render: () => (
-                <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                    <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Mudanças revertidas!</Text>
-                </Stack>
-            )
+            title: '',
+            description: "Mudanças revertidas",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
         })
     }
 
@@ -156,10 +154,10 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
 
             if(!user.user_city || !user.user_phone) {
                 toast({
-                    title: 'Perfil incompleto',
-                    description: "Informe seu telefone e cidade!",
+                    title: 'Termine seu perfil',
+                    description: "Preencha seu telefone e cidade para concluir seu perfil",
                     status: 'warning',
-                    duration: 9000,
+                    duration: 5000,
                     isClosable: true,
                   });
             }}
@@ -179,6 +177,12 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                     user_city : ""
                 }))
             }
+        }
+        if(e.target.name == "user_phone"){
+            if(e.target.validity.patternMismatch){e.target.value = ""; return}
+            let val = e.target.value.replace("(", "")
+            setUpdate(prev => ({...prev, [e.target.name] : val.replace(")", "")}));
+            return
         }
         if(!e.target.validity.patternMismatch){
             setUpdate(prev => ({...prev, [e.target.name] : e.target.value}));}
@@ -259,7 +263,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Telefone:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_phone} name="user_phone" onChange={handleChange} maxLength={11} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_phone ? user.user_phone : "Digite seu número de telefone"} pattern="[0-9]{0,}"/>
+                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_phone ? `(${userUpdate.user_phone.slice(0,2)})${userUpdate.user_phone.slice(2,15)}` : ""} name="user_phone" onChange={handleChange} maxLength={15} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_phone ? user.user_phone : "Digite seu número de telefone"} pattern="[(]?[0]?[0-9]{0,2}[)]?[0-9]{0,}"/>
                             </Flex>
                             
 
@@ -295,9 +299,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Número da casa:</Text>
                             <Spacer/>
-                            <Input type="number" fontFamily="atkinson" value={userUpdate.user_houseNum} name="user_houseNum" onChange={(e) => {
-                                if(e.target.value.length > 6){e.target.value = e.target.value.slice(0, 6)} handleChange}
-                            } w={{base:"55%", sm:"70%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_houseNum}/>
+                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_houseNum} name="user_houseNum" onChange={handleChange} w={{base:"55%", sm:"70%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_houseNum}/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Complemento:</Text>
