@@ -6,12 +6,13 @@
 # Preview of the pages
 
 - Home without login
-<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/homeNotLogged.png"/>
-<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/whatIsHere.png"/>
+<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/homeNotLogged.jpeg"/>
 
 - Home with login
 <img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/homeLogged.png"/>
 
 - About us
-<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/aboutUs.png"/>
-<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/whoWeAre.png"/>
+<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/aboutUs.jpg"/>
+
+-Profile(Your)
+<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/profileOwn.jpg"/>
