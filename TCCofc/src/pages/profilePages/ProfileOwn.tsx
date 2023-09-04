@@ -1,6 +1,6 @@
 import { Flex, Box, Stack, Input, Avatar, Heading, SimpleGrid, Spacer, Text, Divider, Button, InputGroup, useToast, InputLeftAddon } from "@chakra-ui/react"
 import { ChangeEvent, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import HeaderToggle from "../../components/toggles/HeaderToggle";
 import SignNotFound from "../../components/signs/SignNotFound";
@@ -27,18 +27,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
     const navigate = useNavigate();
     const [comments, setComments] = useState([]);
     const [userOffers, setUserOffers] = useState([]);
-    const [userUpdate, setUpdate] = useState({
-        user_name : user.user_name,
-        user_img : user.user_img,
-        user_phone : user.user_phone,
-        user_street : user.user_street,
-        user_district : user.user_district,
-        user_FU : user.user_FU,
-        user_city : user.user_city,
-        user_CEP : user.user_CEP,
-        user_houseNum : user.user_houseNum,
-        user_comp : user.user_comp
-    });
+    const [userUpdate, setUpdate] = useState({});
 
     async function getComments() {
         await axios.get(`http://localhost:3344/comment/receiver/${user.user_id}`).then((res) => {
@@ -47,6 +36,17 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
           console.log(error);
         })
     };
+    
+    function checkChange(){
+        let check = false
+        check = user.user_name == userUpdate.user_name ? check : true
+        check = user.user_img == userUpdate.user_img ? check : true
+        check = user.user_phone == userUpdate.user_phone ? check : true
+        check = user.user_city == userUpdate.user_city ? check : true
+        check = user.user_houseNum == userUpdate.user_houseNum ? check : true
+        check = user.user_comp == userUpdate.user_comp ? check : true
+        return check
+    }
     
     async function getOffers() {
         await axios.get(`http://localhost:3344/offers/user/${user.user_email}`).then((res) => {
@@ -74,7 +74,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
     }
 
     async function updateProfile() {
-        if(userUpdate.user_city && userUpdate.user_name && userUpdate.user_phone) {
+        if(userUpdate.user_city && userUpdate.user_name && userUpdate.user_phone && checkChange()) {
             await axios.put(`http://localhost:3344/users/${user.user_email}`, {
                 user_name :  userUpdate.user_name,
                 user_img :  userUpdate.user_img,
@@ -88,15 +88,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                 user_comp :  userUpdate.user_comp
             }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
                 localStorage.setItem("token", res.data.token);
-                toast({
-                    position: 'bottom',
-                    render: () => (
-                        <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                            <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", sm:"20px"}}>Perfil atualizado com sucesso!</Text>
-                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate(0)}}>Atualizar a página</Button>
-                        </Stack>
-                    )
-                })
+                navigate(0)
             }).catch((error) => {
                 console.log(error);
                 if(error.response.status == 413) {
@@ -112,8 +104,8 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
         }
         else {
             toast({
-                title: 'Existem dados que devem ser preenchidos',
-                description: "Certifique-se de informar seu telefone, cidade e nome de usuário!",
+                title: 'Erro',
+                description: "Certifique-se de que todos os dados estão preenchidos",
                 status: 'error',
                 duration: 9000,
                 isClosable: true,
@@ -166,18 +158,26 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                 toast({
                     title: 'Perfil incompleto',
                     description: "Informe seu telefone e cidade!",
-                    status: 'error',
+                    status: 'warning',
                     duration: 9000,
                     isClosable: true,
-                  }); console.log("this one")
-            }
-        }
-    }, [0]);
+                  });
+            }}
+    }, [user]);
+
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         if(e.target.name == "user_CEP") {
             if(e.target.value.length >= 7){
                 getEndereco(e.target.value);
+            }
+            else{
+                setUpdate(prev => ({...prev, 
+                    user_FU : "",
+                    user_street : "",
+                    user_district : "",
+                    user_city : ""
+                }))
             }
         }
         if(!e.target.validity.patternMismatch){
@@ -224,7 +224,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                         <Avatar src={userUpdate.user_img} name={user.user_name} size="2xl" w="30vh" h="30vh"/>
                         <InputGroup display="flex" zIndex={1} w="77.5%">
                                 <InputLeftAddon children={<MdOutlinePhotoSizeSelectActual size="80%"/>}/>
-                                <Input type="file" onChange={handleImage} display="inline-block" accept=".png,.jpg,.jpeg" fontFamily="outfit"/>
+                                <Input type="file" color='#0000' onChange={handleImage} display="inline-block" accept=".png,.jpg,.jpeg" fontFamily="outfit"/>
                         </InputGroup>
                         <Button w="77.5%" colorScheme="green" onClick={updateProfile}>Salvar Mudanças</Button>
                         <Button w="77.5%" colorScheme="red" onClick={discartChanges}>Descartar Mudanças</Button>
