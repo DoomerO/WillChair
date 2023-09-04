@@ -88,7 +88,6 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
     const handleKeyPress = (e:React.KeyboardEvent<HTMLInputElement>) => { //evento de input de enter na barra de pesquisa
         if (e.key == "Enter") {
             socket.emit("postMessage", {chat: chat_id, msg : msg, user: user_id});
-            socket.emit("reqMsg", chat_id);
             setMsg("");
         }
     }

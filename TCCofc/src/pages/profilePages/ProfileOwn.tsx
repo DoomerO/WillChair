@@ -25,13 +25,13 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
 
     const toast = useToast();
     const navigate = useNavigate();
-    const [comments, setComments] = useState([]);
+    const [avaliations, setAvaliations] = useState([]);
     const [userOffers, setUserOffers] = useState([]);
     const [userUpdate, setUpdate] = useState({});
 
     async function getComments() {
-        await axios.get(`http://localhost:3344/comment/receiver/${user.user_id}`).then((res) => {
-          setComments(res.data);
+        await axios.get(`http://localhost:3344/avaliation/receiver/${user.user_id}`).then((res) => {
+          setAvaliations(res.data);
         }).catch((error) => {
           console.log(error);
         })
@@ -209,12 +209,14 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
         id={item.ofr_id}/>
       });
     
-      const renderComments = comments.map(item => {
+      const renderComments = avaliations.map(item => {
         return <Comment 
-          userId={item.User_user_idEnv}
-          content={item.com_content}
-          date={item.com_date}
-          key={item.com_id}
+          user_email={item.user_email}
+          user_img={item.user_img}
+          user_name={item.user_name}
+          content={item.ava_content}
+          date={item.ava_date}
+          key={item.ava_id}
         />
       }) 
 
@@ -313,7 +315,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
 
             <Flex bg={colors.veryLightBlue} h="fit-content" direction="column" align="center" pb="5vh" _dark={{bg : colors.veryLightBlue_Dark}}>
             <Heading as="h1" mt="3%" fontSize={{base: "34px", sm: "30px"}} textAlign="center" color={colors.colorFontDarkBlue} mb="3%" _dark={{color: colors.colorFontDarkBlue_Dark}}>Comentários sobre você</Heading>
-            {(comments.length > 0) ? <CommentList component={renderComments}/> : <SignNotFound msg={`As coisas estão meio quietas por aqui...Não há comentários sobre ${user.user_name}`} icon={<TbMoodSilence size="45%"/>}/>}
+            {(avaliations.length > 0) ? <CommentList component={renderComments}/> : <SignNotFound msg={`As coisas estão meio quietas por aqui...Não há avaliações sobre ${user.user_name}`} icon={<TbMoodSilence size="45%"/>}/>}
             </Flex>
 
             <Flex bg={colors.bgWhite} h="fit-content" direction="column" align="center" pb="5vh" _dark={{bg : colors.bgWhite_Dark}}>

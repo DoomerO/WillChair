@@ -9,9 +9,8 @@ const controllersOffers = require('./controllers/offers/offersController');
 const controllersMessages = require('./controllers/messages/messagesController');
 const controllersChats = require('./controllers/chats/chatsController');
 const controllersProducts = require('./controllers/products/productsController');
-const controllersavaliation = require('./controllers/avaliation/avaliationController');
 const controllersdenounce = require('./controllers/denounce/denounceController');
-const controllerscomment = require('./controllers/comment/commentController');
+const controllersAvaliation = require('./controllers/avaliation/avaliationController');
 
 const routes = express.Router();
 
@@ -74,12 +73,6 @@ routes.put('/products/bengala/:id', auth, controllersProducts.updateBengala);
 routes.put('/products/andador/:id', auth, controllersProducts.updateAndador);
 routes.delete('/products/:id', auth, controllersProducts.deleteProduct);
 
-//avaliation routes
-
-routes.get('/avaliation', auth, controllersavaliation.searchavaliation);
-routes.post('/avaliation', auth, controllersavaliation.createavaliation);
-routes.delete('/avaliation/:id', auth, controllersavaliation.deleteavaliation);
-
 //denounce routes
 
 routes.get('/denounce', auth, controllersdenounce.searchdenounce);
@@ -89,13 +82,13 @@ routes.post('/denounce', auth, controllersdenounce.createDenounce);
 routes.put('/denounce/:id', auth, controllersdenounce.updateDenounce);
 routes.delete('/denounce/:id', auth, controllersdenounce.deleteDenounce);
 
-//comment routes
+//avaliation routes
 
-routes.get('/comment', auth, controllerscomment.searchcomment);
-routes.get('/comment/receiver/:receiverId', controllerscomment.searchCommentReciver);
-routes.post('/comment', auth, controllerscomment.createcomment);
-routes.put('/comment/:id', auth, controllerscomment.updatecomment);
-routes.delete('/comment/:id', auth, controllerscomment.deletecomment);
+routes.get('/avaliation', auth, controllersAvaliation.searchAvaliation);
+routes.get('/avaliation/receiver/:receiverId', controllersAvaliation.searchAvaliationReciver);
+routes.post('/avaliation', auth, controllersAvaliation.createAvaliation);
+routes.put('/avaliation/:id', auth, controllersAvaliation.updateAvaliation);
+routes.delete('/avaliation/:id', auth, controllersAvaliation.deleteAvaliation);
 
 
 module.exports = routes;

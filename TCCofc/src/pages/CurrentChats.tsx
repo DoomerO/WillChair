@@ -24,6 +24,7 @@ const CurrentChats = () => {
     const [userOffer, setOffers] = useState([]);
     const [chatsOthers, setChatsOthers] = useState([]);
     const [chatsOwn, setChatsOwn] = useState([]);
+    const [erase, setErase] = useState(false);
     const [selectedChat, setSlctChat] = useState(0);
     const [selectedOffer, setSlctOffer] = useState(0);
 
@@ -87,12 +88,16 @@ const CurrentChats = () => {
         setSlctOffer(parseInt(e.target.value));
     }
 
+    useEffect(() => {
+        if(erase) setErase(false);
+    }, [erase])
+
     const renderChatsOthers = chatsOthers.map(item => {
-        return <ChatSign offerId={item.Offer_ofr_id} click={() => {setSlctChat(item.chat_id)}} key={item.chat_id}/>
+        return <ChatSign offerId={item.Offer_ofr_id} click={() => {setSlctChat(item.chat_id); setErase(!erase)}} key={item.chat_id}/>
     })
 
     const renderChatsOwner = chatsOwn.map(item => {
-        return <ChatSign chat={item} click={() => {setSlctChat(item.chat_id)}} key={item.chat_id}/>
+        return <ChatSign chat={item} click={() => {setSlctChat(item.chat_id); setErase(!erase)}} key={item.chat_id}/>
     })
     
     const renderOfferOptions = userOffer.map(item => {
@@ -118,13 +123,13 @@ const CurrentChats = () => {
                                 </Flex></PopoverHeader>
                                 <PopoverArrow bg={colors.colorFontBlue} borderTop="2px solid #000" borderLeft="2px solid #000"/><PopoverCloseButton color="#fff"/>
                                 <PopoverBody color="#000" _dark={{color : "#fff"}}>
-                                    <Text textAlign="justify">
+                                    <Flex textAlign="justify">
                                         <UnorderedList>
                                             <ListItem>Clique na esquerda deste botão e você poderá selecionar uma de suas ofertas para acompanhar as conversas iniciadas nela.</ListItem>
                                             <ListItem>Caso deseje ver as conversas iniciadas por você em demais ofertas selecione "Suas Conversas", e você as verá! </ListItem>
                                             <ListItem>Clique em uma das caixas geradas abaixo para abrir uma tela de chat. Lá você poderá enviar mensagens!</ListItem>
                                         </UnorderedList>
-                                    </Text>
+                                    </Flex>
                                 </PopoverBody>
                                 </PopoverContent>
                                 </Popover> 
@@ -136,7 +141,7 @@ const CurrentChats = () => {
                     
                     <Flex w="75%" align="center" justifyContent="center" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark}} h="100%" direction="column">
                         {(selectedChat === 0) ? <SignAdaptable msg="Escolha alguma das ofertas que você se interessou para poder negociar com seu dono. Assim você vai poder trocar suas mensagens aqui" icon={<MdOutlineBusinessCenter size="25%"/>} bgType="none" width="95%"/> 
-                        : <ChatSquare chat_id={selectedChat} user_id={user.user_id} isOwner={(selectedOffer == 0) ? false : true} end={() => {setSlctChat(0)}}/>}
+                        : (erase) ?  null : <ChatSquare chat_id={selectedChat} user_id={user.user_id} isOwner={(selectedOffer == 0) ? false : true} end={() => {setSlctChat(0)}}/>}
                     </Flex>
                 </Flex>
             <Footer/>

@@ -136,28 +136,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `willchair`.`Comment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `willchair`.`Comment` (
-  `com_id` INT NOT NULL AUTO_INCREMENT,
-  `com_content` VARCHAR(255) NOT NULL,
-  `com_date` VARCHAR(10) NOT NULL,
-  `User_user_idEnv` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  `User_user_idRec` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  PRIMARY KEY (`com_id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `willchair`.`Avaliation`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `willchair`.`Avaliation` (
   `ava_id` INT NOT NULL AUTO_INCREMENT,
+  `ava_content` VARCHAR(255) NOT NULL,
   `ava_value` INT NOT NULL,
-  `ava_data` DATE NOT NULL,
-  `User_user_idEnv` INT NOT NULL  REFERENCES `willchair`.`User` (`user_id`)
+  `ava_date` VARCHAR(10) NOT NULL,
+  `User_user_idEnv` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   `User_user_idRec` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
@@ -165,7 +149,6 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Avaliation` (
     ON UPDATE NO ACTION,
   PRIMARY KEY (`ava_id`))
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `willchair`.`Cadeira de Rodas`

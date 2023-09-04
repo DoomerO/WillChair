@@ -15,7 +15,6 @@ import ProfileToggle from "./pages/profilePages/ProfileToggle";
 import CurrentChats from "./pages/CurrentChats";
 import NotLogged from "./pages/intersections/NotLogged";
 import OfferCreationToggle from "./pages/createOfferPages/OfferCreationToggle";
-import Avaliation from "./pages/Avaliation";
 import EmailConfirmation from "./pages/intersections/EmailConfirmation";
 import PasswordChange from "./pages/intersections/PasswordChange";
 
@@ -54,7 +53,6 @@ const Router = () => {
             <Route Component={Report} path="/report/:offer"/>
             <Route Component={toggleProfile} path="/profile/:email/view"/>
             <Route Component={toggleCurchats} path="/current-chats"/>
-            <Route Component={Avaliation} path="/avaliation"/>
             <Route Component={EmailConfirmation} path="/confirmation/:email/:path"/>
             <Route Component={togglePasswordUpdate} path="/pass-change"/>
         </Routes>
