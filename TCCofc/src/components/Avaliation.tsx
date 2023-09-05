@@ -1,6 +1,6 @@
 import { Button, Container, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, Textarea, useToast } from "@chakra-ui/react";
 import axios from "axios";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import {RiStarSLine, RiStarSFill} from "react-icons/ri"
 import colors from "../colors/colors";
 import "../fonts/fonts.css";
@@ -10,9 +10,10 @@ interface avaliationProps {
     setClose : () => void;
     recUserId : number;
     envUserId : number;
+    user_name : string;
 }
 
-const Avaliation = ({isOpen, setClose, recUserId, envUserId} : avaliationProps) => {
+const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name} : avaliationProps) => {
   const toast = useToast();
     const [avaliation, setAvaliation] = useState({
         value : 0,
@@ -51,11 +52,15 @@ const Avaliation = ({isOpen, setClose, recUserId, envUserId} : avaliationProps) 
         setAvaliation(prev => ({...prev, value : 0}));
     }
 
+    const handleContentChange = (e:ChangeEvent<HTMLInputElement>) => {
+      setAvaliation(prev => ({...prev, content : e.target.value}));
+    }
+
     return (
         <Modal isOpen={isOpen}  onClose={setClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Avaliação</ModalHeader>
+          <ModalHeader>Avaliar {user_name}</ModalHeader>
           <ModalCloseButton onClick={() => {setClose(); clearValue()}}/>
           <ModalBody>
             <Stack spacing={5} direction="row" align="center" justifyContent="center" mb="3%">
@@ -78,7 +83,7 @@ const Avaliation = ({isOpen, setClose, recUserId, envUserId} : avaliationProps) 
 
             <Stack direction="column" align="center" justifyContent="center" w="100%" h="20vh">
                 <Text>Deixe um comentário sobre a sua avaliação!</Text>
-                <Textarea w="100%" h="100%" placeholder="Digite aqui (Opcional)" borderColor="gray"/>
+                <Textarea onChange={handleContentChange} w="100%" h="100%" placeholder="Digite aqui (Opcional)" borderColor="gray"/>
             </Stack>
 
           </ModalBody>

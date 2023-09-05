@@ -52,6 +52,7 @@ const Profile = ({user} : ProfileProps) => {
       user_name={item.user_name}
       content={item.ava_content}
       date={item.ava_date}
+      points={item.ava_value}
       key={item.ava_id}/>
   })
 

@@ -74,7 +74,8 @@ module.exports= {
                     user_street : consult[0].user_street,
                     user_district : consult[0].user_district,
                     user_FU : consult[0].user_FU,
-                    user_email : consult[0].user_email
+                    user_email : consult[0].user_email,
+                    user_nota : consult[0].user_nota
                 }
                 return res.status(201).json(result);
             }
@@ -106,7 +107,8 @@ module.exports= {
                     user_street : consult[0].user_street,
                     user_district : consult[0].user_district,
                     user_FU : consult[0].user_FU,
-                    user_email : consult[0].user_email
+                    user_email : consult[0].user_email,
+                    user_nota : consult[0].user_nota
                 }
                 return res.status(201).json(result);
             }
@@ -225,6 +227,13 @@ module.exports= {
                     user_img,
                     user_comp
                 }).where('user_email', email);
+
+                if (await knex("Offer").where("User_user_id", consult[0].user_id)) {
+                    await knex("Offer").update({
+                        ofr_city : user_city,
+                        ofr_user_name : user_name      
+                    }).where('User_user_id', consult[0].user_id);
+                }
             }
             else {
                 return res.status(401).json({msg: "This user does not exists"});

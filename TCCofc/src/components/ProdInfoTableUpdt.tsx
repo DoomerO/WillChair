@@ -47,6 +47,7 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
     }
 
     async function updateProductChild() {
+        console.log(prod.prod_id)
         switch(prod.prod_type) {
             case "Cadeira de Rodas":
                 await axios.put(`http://localhost:3344/products/cadeira-rodas/${prod.prod_id}`, {
@@ -65,10 +66,10 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
             break;
             case "Bengala":
                 await axios.put(`http://localhost:3344/products/bengala/${prod.prod_id}`, {
-                    ben_maxHeight : prodUpdate.append1,
+                    ben_regulator: parseInt(prodUpdate.append1),
                     ben_minHeight: prodUpdate.append2,
-                    ben_type: prodUpdate.append3,
-                    ben_regulator: prodUpdate.append4,
+                    ben_maxHeight : prodUpdate.append3,
+                    ben_type: prodUpdate.append4,
                     ben_color: prodUpdate.append5
                 },
                 {
@@ -81,11 +82,11 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
             break;
             case "Andador":
                 await axios.put(`http://localhost:3344/products/andador/${prod.prod_id}`, {
-                        and_width : prodUpdate.append1,
-                        and_lenght: prodUpdate.append2,
-                        and_minHeight: prodUpdate.append3,
-                        and_maxHeight: prodUpdate.append4,
-                        and_regulator: prodUpdate.append5
+                        and_regulator: parseInt(prodUpdate.append1),
+                        and_minHeight: prodUpdate.append2,
+                        and_maxHeight: prodUpdate.append3,
+                        and_width : prodUpdate.append4,
+                        and_lenght: prodUpdate.append5
                     },
                     {
                         headers : {authorization : "Bearer " + localStorage.getItem("token")}
@@ -97,9 +98,9 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
             break;
             case "Muleta":
                 await axios.put(`http://localhost:3344/products/muleta/${prod.prod_id}`, {
-                    mul_maxHeight : prodUpdate.append1,
+                    mul_regulator: parseInt(prodUpdate.append1),
                     mul_minHeight: prodUpdate.append2,
-                    mul_regulator: prodUpdate.append3,
+                    mul_maxHeight : prodUpdate.append3,
                     mul_maxWeight: prodUpdate.append4
                 },
                 {
@@ -137,6 +138,9 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         setProdUpdate(prev => ({...prev, [e.target.name]: e.target.value}));
+        if(e.target.name == "append1" && prod.prod_type != "Cadeira de Rodas" && parseInt(e.target.value) == 0) {
+            setProdUpdate(prev => ({...prev, append2: "0", append3: "0"}));
+        }
     }
 
     useEffect(() => {
@@ -174,47 +178,47 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
             break;
             case "Bengala":
                 setProdUpdate(prev => ({...prev,
-                    append1: prod.ben_maxHeight,
+                    append1: prod.ben_regulator,
                     append2: prod.ben_minHeight,
-                    append3: prod.ben_type,
-                    append4: prod.ben_regulator,
+                    append3: prod.ben_maxHeight,
+                    append4: prod.ben_type,
                     append5: prod.ben_color
                 }))
                 setChildInp(prev => ({...prev,
-                    title1: "Altura Miníma(metros)",
-                    title2: "Altura Máxima(metros)",
-                    title3: "Tipo de Bengala",
-                    title4: "Possui Regulador",
+                    title1: "Possui Regulador",
+                    title2: "Altura Miníma(metros)",
+                    title3: "Altura Máxima(metros)",
+                    title4: "Tipo de Bengala",
                     title5: "Cor"
                 }))
             break;
             case "Andador":
                 setProdUpdate(prev => ({...prev,
-                    append1: prod.and_width,
-                    append2: prod.and_lenght,
-                    append3: prod.and_minHeight,
-                    append4: prod.and_maxHeight,
-                    append5: prod.and_regulator
+                    append1: prod.and_regulator,
+                    append2: prod.and_minHeight,
+                    append3: prod.and_maxHeight,
+                    append4: prod.and_width,
+                    append5: prod.and_lenght
                 }))
                 setChildInp(prev => ({...prev,
-                    title1: "Largura(centímetros)",
-                    title2: "Comprimento(centímetros)",
-                    title3: "Altura Miníma(metros)",
-                    title4: "Altura Máxima(metros)",
-                    title5: "Possui Regulador"
+                    title1: "Possui Regulador",
+                    title2: "Altura Miníma(metros)",
+                    title3: "Altura Máxima(metros)",
+                    title4: "Comprimento(centímetros)",
+                    title5: "Largura(centímetros)"
                 }))
             break;
             case "Muleta":
                 setProdUpdate(prev => ({...prev,
-                    append1: prod.mul_maxHeight,
+                    append1: prod.mul_regulator,
                     append2: prod.mul_minHeight,
-                    append3: prod.mul_regulator,
+                    append3: prod.mul_maxHeight,
                     append4: prod.mul_maxWeight
                 }))
                 setChildInp(prev => ({...prev,
-                    title1: "Altura Máxima(metros)",
+                    title1: "Possui Regulador",
                     title2: "Altura Miníma(metros)",
-                    title3: "Possui Regulador",
+                    title3: "Altura Máxima(metros)",
                     title4: "Peso Máximo(quilos)"
                 }))
             break;
@@ -267,27 +271,31 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}
                     display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" || prod.prod_type == "Muleta" || prod.prod_type == "Bengala") ? 0 : "none"}>
                         <Td fontWeight="bold">{prodChildInp.title1}</Td>
-                        <Td><Input placeholder={prodUpdate.append1} name="append1" onChange={handleChange}/></Td>
+                        <Td>{(prod.prod_type != "Cadeira de Rodas") ? <Select name='append1' onChange={handleChange} value={prodUpdate.append1}>
+                            <option value={0}>Não</option>
+                            <option value={1}>Sim</option>                                  
+                        </Select> : 
+                        <Input placeholder={prodUpdate.append1} name="append1" onChange={handleChange}/>}</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}
-                    display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" || prod.prod_type == "Muleta" || prod.prod_type == "Bengala") ? 0 : "none"}>
+                    display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" && parseInt(prodUpdate.append1) == 1|| prod.prod_type == "Muleta" && parseInt(prodUpdate.append1) == 1|| prod.prod_type == "Bengala" && parseInt(prodUpdate.append1) == 1) ? 0 : "none"}>
                         <Td fontWeight="bold">{prodChildInp.title2}</Td>
-                        <Td><Input placeholder={prodUpdate.append2} name="append2" onChange={handleChange}/></Td>
+                        <Td><Input placeholder={prodUpdate.append2} name="append2" value={prodUpdate.append2} onChange={handleChange}/></Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}
-                    display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" || prod.prod_type == "Muleta" || prod.prod_type == "Bengala") ? 0 : "none"}>
+                    display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" && parseInt(prodUpdate.append1) == 1|| prod.prod_type == "Muleta" && parseInt(prodUpdate.append1) == 1|| prod.prod_type == "Bengala" && parseInt(prodUpdate.append1) == 1) ? 0 : "none"}>
                         <Td fontWeight="bold">{prodChildInp.title3}</Td>
-                        <Td><Input placeholder={prodUpdate.append3} name="append3" onChange={handleChange}/></Td>
+                        <Td><Input placeholder={prodUpdate.append3} name="append3" value={prodUpdate.append3} onChange={handleChange}/></Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}
                     display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" || prod.prod_type == "Muleta" || prod.prod_type == "Bengala") ? 0 : "none"}>
                         <Td fontWeight="bold">{prodChildInp.title4}</Td>
-                        <Td><Input placeholder={prodUpdate.append4} name="append4" onChange={handleChange}/></Td>
+                        <Td><Input placeholder={prodUpdate.append4} name="append4" value={prodUpdate.append4} onChange={handleChange}/></Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}
                     display={(prod.prod_type == "Andador" || prod.prod_type == "Bengala") ? 0 : "none"}>
                         <Td fontWeight="bold">{prodChildInp.title5}</Td>
-                        <Td><Input placeholder={prodUpdate.append5} name="append5" onChange={handleChange}/></Td>
+                        <Td><Input placeholder={prodUpdate.append5} name="append5" value={prodUpdate.append5} onChange={handleChange}/></Td>
                     </Tr>
                 </Tbody>
             </Table>

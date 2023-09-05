@@ -56,12 +56,12 @@ const ProdInfoTable = ({ofr_id} : prodTableProps) => {
                         <Td>{(prod.ben_regulator == 1) ? "Sim" : "Não"}</Td>
                     </Tr>
                     <Tr display={(prod.ben_regulator == 1) ? "0" : "none"} bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Altura máxima</Td>
-                        <Td>{prod.ben_maxHeight}m</Td>
-                    </Tr>
-                    <Tr display={(prod.ben_regulator == 1) ? "0" : "none"} bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
                         <Td fontWeight="bold">Altura mínima</Td>
                         <Td>{prod.ben_minHeight}m</Td>
+                    </Tr>
+                    <Tr display={(prod.ben_regulator == 1) ? "0" : "none"} bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
+                        <Td fontWeight="bold">Altura máxima</Td>
+                        <Td>{prod.ben_maxHeight}m</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
                         <Td fontWeight="bold">Tipo de Bengala</Td>
@@ -75,39 +75,39 @@ const ProdInfoTable = ({ofr_id} : prodTableProps) => {
              case "Andador":
                 return <Tbody>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Largura</Td>
-                        <Td>{prod.and_width}m</Td>
+                        <Td fontWeight="bold">Possui regulador</Td>
+                        <Td>{(prod.and_regulator == 1) ? "Sim" : "Não"}</Td>
                     </Tr>
-                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
-                        <Td fontWeight="bold">Comprimento</Td>
-                        <Td>{prod.and_length}m</Td>
-                    </Tr>
-                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
+                    <Tr bg={colors.bgTableRow1} display={(prod.and_regulator == 1) ? "0" : "none"} _dark={{bg : colors.bgTableRow1_Dark}}>
                         <Td fontWeight="bold">Altura Miníma</Td>
                         <Td>{prod.and_minHeight}</Td>
                     </Tr>
-                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
+                    <Tr bg={colors.bgTableRow2} display={(prod.and_regulator == 1) ? "0" : "none"} _dark={{bg : colors.bgTableRow2_Dark}}>
                         <Td fontWeight="bold">Altura Máxima</Td>
                         <Td>{prod.and_maxHeight}</Td>
                     </Tr>
+                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
+                        <Td fontWeight="bold">Largura</Td>
+                        <Td>{prod.and_width}m</Td>
+                    </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Possui regulador</Td>
-                        <Td>{prod.and_regulator}</Td>
+                        <Td fontWeight="bold">Comprimento</Td>
+                        <Td>{prod.and_length}m</Td>
                     </Tr>
                 </Tbody>
              case "Muleta":
                 return <Tbody>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Altura Máxima</Td>
-                        <Td>{prod.mul_maxHeight}cm</Td>
+                        <Td fontWeight="bold">Possui regulador</Td>
+                        <Td>{(prod.mul_regulator == 1) ? "Sim" : "Não"}</Td>
                     </Tr>
-                    <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
+                    <Tr bg={colors.bgTableRow1} display={(prod.mul_regulator == 1) ? "0" : "none"} _dark={{bg : colors.bgTableRow1_Dark}}>
                         <Td fontWeight="bold">Altura Miníma</Td>
                         <Td>{prod.mul_minHeigth}cm</Td>
                     </Tr>
-                    <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
-                        <Td fontWeight="bold">Possui regulador</Td>
-                        <Td>{prod.mul_regulator}</Td>
+                    <Tr bg={colors.bgTableRow2} display={(prod.mul_regulator == 1) ? "0" : "none"} _dark={{bg : colors.bgTableRow2_Dark}}>
+                        <Td fontWeight="bold">Altura Máxima</Td>
+                        <Td>{prod.mul_maxHeight}cm</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
                         <Td fontWeight="bold">Peso Máximo</Td>

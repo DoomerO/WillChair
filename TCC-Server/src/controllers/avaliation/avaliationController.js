@@ -18,18 +18,23 @@ module.exports = {
             const {receiverId} = req.params;
 
             if(await knex("User").where("user_id", receiverId) != "") {
-                const consult = await knex("Avaliation").where("User_user_idRec", receiverId).join("User", "User_user_idRec", "user_id");
-                const result = {
-                    user_name : consult[0].user_name,
-                    user_img : consult[0].user_img,
-                    user_email : consult[0].user_email,
-                    ava_content : consult[0].ava_content,
-                    ava_date : consult[0].ava_date,
-                    ava_content : consult[0].ava_content,
-                    ava_id : consult[0].ava_id,
-                    User_user_idEnv : consult[0].User_user_idEnv,
-                    User_user_idRec : consult[0].User_user_idRec,
+                const consult = await knex("Avaliation").where("User_user_idRec", receiverId).join("User", "User_user_idEnv", "user_id");
+                let result = [];
+                for(let i = 0; i < consult.length; i++) {
+                    result.push({
+                        user_name : consult[i].user_name,
+                        user_img : consult[i].user_img,
+                        user_email : consult[i].user_email,
+                        ava_content : consult[i].ava_content,
+                        ava_date : consult[i].ava_date,
+                        ava_content : consult[i].ava_content,
+                        ava_id : consult[i].ava_id,
+                        ava_value : consult[i].ava_value,
+                        User_user_idEnv : consult[i].User_user_idEnv,
+                        User_user_idRec : consult[i].User_user_idRec,
+                    })
                 }
+                console.log(result)
                 return res.status(201).json(result);
             }
             else {
@@ -59,6 +64,13 @@ module.exports = {
                     User_user_idEnv,
                     User_user_idRec
                 });
+
+                let newNota = (userRecExists[0].user_nota + ava_value) / 2;
+
+                await knex("User").update({
+                    user_nota : newNota
+                }).where("user_id", userRecExists[0].user_id);
+
                 return res.status(201).json({msg : "Avaliação criada com sucesso."});
             }
             else {

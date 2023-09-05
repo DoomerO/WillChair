@@ -1,4 +1,4 @@
-import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Input, Textarea, ButtonGroup, Button, useToast, Select, InputGroup, InputLeftAddon} from "@chakra-ui/react";
+import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Input, Textarea, ButtonGroup, Button, useToast, Select, InputGroup, InputLeftAddon, useDisclosure} from "@chakra-ui/react";
 import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -14,6 +14,7 @@ import "../../fonts/fonts.css";
 import {BsFillStarFill} from "react-icons/bs";
 import {HiOutlineUsers} from "react-icons/hi";
 import {MdOutlineContactSupport, MdOutlinePhotoSizeSelectActual, MdOutlineReportProblem} from "react-icons/md";
+import Avaliation from "../../components/Avaliation";
 
 interface OwnerPageprops {
     offer : object;
@@ -28,6 +29,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     const [chats, setChats] = useState([]);
     const [others, setOthers] = useState([]);
     const [reports, setReports] = useState(false);
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const [ updateOffer, setUpdateOffer ] = useState({
         prod_img : offer.prod_img,
         ofr_name : offer.ofr_name,
@@ -494,7 +496,11 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                 duration: 9000,
                                 isClosable: true}) : confirmEquipament();
                             }}>Equipamento Enviado</Button>
+                            {(offer.ofr_env_conf && offer.ofr_rec_conf) ? <Button colorScheme="linkedin" variant="solid" onClick={() => {
+                                onOpen();
+                            }}>Avaliar</Button>: ""}
                         </ButtonGroup> 
+                        <Avaliation user_name={compUser.user_name} isOpen={isOpen} setClose={onClose} recUserId={compUser.user_id} envUserId={offer.User_user_id}/>
                     </Flex>: ""}
                 </Flex>
             <Footer/>

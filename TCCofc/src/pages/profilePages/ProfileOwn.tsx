@@ -211,13 +211,13 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
     
       const renderComments = avaliations.map(item => {
         return <Comment 
-          user_email={item.user_email}
-          user_img={item.user_img}
-          user_name={item.user_name}
-          content={item.ava_content}
-          date={item.ava_date}
-          key={item.ava_id}
-        />
+            user_email={item.user_email}
+            user_img={item.user_img}
+            user_name={item.user_name}
+            content={item.ava_content}
+            date={item.ava_date}
+            points={item.ava_value}
+            key={item.ava_id}/>
       }) 
 
     return(

@@ -375,7 +375,7 @@ module.exports = {
                         mul_maxWidth,
                         mul_regulator,
                         mul_type
-                    }).where('Product_prod_cod',id);
+                    }).where('Product_prod_id',id);
                     return res.status(201).json({msg : "Product updated as 'Muleta'"})
                 }
                 else {
