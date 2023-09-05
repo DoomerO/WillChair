@@ -1,4 +1,4 @@
-import { Button, Container, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, Textarea } from "@chakra-ui/react";
+import { Button, Container, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, Textarea, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import {RiStarSLine, RiStarSFill} from "react-icons/ri"
@@ -8,13 +8,44 @@ import "../fonts/fonts.css";
 interface avaliationProps {
     isOpen : boolean,
     setClose : () => void;
+    recUserId : number;
+    envUserId : number;
 }
 
-const Avaliation = ({isOpen, setClose} : avaliationProps) => {
+const Avaliation = ({isOpen, setClose, recUserId, envUserId} : avaliationProps) => {
+  const toast = useToast();
     const [avaliation, setAvaliation] = useState({
         value : 0,
         content : "",
     });
+
+    async function postAvaliation() {
+      await axios.post("http://localhost:3344/avaliation", {
+        ava_value :  avaliation.value,
+        ava_content: avaliation.content,
+        User_user_idEnv: envUserId, 
+        User_user_idRec: recUserId
+      }, {headers : {
+        authorization : "Bearer " + localStorage.getItem("token")
+      }}).then((res) => {
+        toast({
+          title: 'Avaliação realizada com sucesso',
+          description: `Parabens! Você avaliou!`,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        })
+      }).catch((error) => {
+        toast({
+          title: 'Ocorreu um erro!',
+          description: "Ah não",
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+        console.log(error)
+      });
+    }
 
     function clearValue (){
         setAvaliation(prev => ({...prev, value : 0}));
@@ -52,7 +83,9 @@ const Avaliation = ({isOpen, setClose} : avaliationProps) => {
 
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme='linkedin' mr={3}>Enviar</Button>
+            <Button colorScheme='linkedin' mr={3} onClick={() => {
+              postAvaliation();
+            }}>Enviar</Button>
             <Button variant='ghost' colorScheme="linkedin" onClick={() => {setClose(); clearValue()}}>Cancelar</Button>
           </ModalFooter>
         </ModalContent>

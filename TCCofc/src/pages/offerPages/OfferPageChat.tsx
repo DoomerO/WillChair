@@ -335,7 +335,7 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
                                 onOpen();
                             }}>Avaliar</Button>: ""}
                         </ButtonGroup>
-                        <Avaliation isOpen={isOpen} setClose={onClose}/>
+                        <Avaliation isOpen={isOpen} setClose={onClose} recUserId={offer.User_user_id} envUserId={compUser.user_id}/>
                     </Flex>: ""}
             <Footer/>
         </Box>

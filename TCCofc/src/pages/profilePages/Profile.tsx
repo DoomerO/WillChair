@@ -20,12 +20,13 @@ interface ProfileProps{
 
 const Profile = ({user} : ProfileProps) => {
 
-  const [avaliation, setAvaliation] = useState([]);
+  const [avaliationQuery, setAvaliation] = useState([]);
   const [userOffers, setUserOffers] = useState([]);
 
   async function getComments() {
     await axios.get(`http://localhost:3344/avaliation/receiver/${user.user_id}`).then((res) => {
       setAvaliation(res.data);
+      console.log(res.data)
     }).catch((error) => {
       console.log(error);
     })
@@ -43,6 +44,16 @@ const Profile = ({user} : ProfileProps) => {
     if(user.user_id) getComments();
     if(user.user_email)getOffers();
   }, [user]);
+  
+  const renderComments = avaliationQuery.flatMap(item => {
+    return <Comment 
+      user_email={item.user_email}
+      user_img={item.user_img}
+      user_name={item.user_name}
+      content={item.ava_content}
+      date={item.ava_date}
+      key={item.ava_id}/>
+  })
 
   const renderUserOffers = userOffers.map(item => { //lista de ofertas do usuário renderizadas
     return <CardOffer 
@@ -56,16 +67,6 @@ const Profile = ({user} : ProfileProps) => {
     id={item.ofr_id}/>
   });
 
-  const renderComments = avaliation.map(item => {
-    return <Comment 
-      user_email={item.user_email}
-      user_img={item.user_img}
-      user_name={item.user_name}
-      content={item.com_content}
-      date={item.com_date}
-      key={item.com_id}
-    />
-  }) 
 
   return (
     <Box w="100%" h="100%">
@@ -107,7 +108,7 @@ const Profile = ({user} : ProfileProps) => {
 
         <Flex bg={colors.veryLightBlue} h="fit-content" direction="column" align="center" pb="5vh" _dark={{bg : colors.veryLightBlue_Dark}}>
           <Heading as="h1" mt="3%" fontSize={{base: "34px", sm: "30px"}} textAlign="center" color={colors.colorFontDarkBlue} mb="2%" _dark={{color: colors.colorFontDarkBlue_Dark}}>Comentários sobre {user.user_name}</Heading>
-          {(avaliation.length > 0) ? <CommentList component={renderComments}/> : <SignNotFound msg={`As coisas estão meio quietas por aqui...Não há avaliações sobre ${user.user_name}`} icon={<TbMoodSilence size="45%"/>}/>}
+          {(avaliationQuery.length > 0) ? <CommentList component={renderComments}/> : <SignNotFound msg={`As coisas estão meio quietas por aqui...Não há avaliações sobre ${user.user_name}`} icon={<TbMoodSilence size="45%"/>}/>}
         </Flex>
 
         <Flex bg={colors.bgWhite} h="fit-content" direction="column" align="center" pb="5vh" _dark={{bg : colors.bgWhite_Dark}}>
