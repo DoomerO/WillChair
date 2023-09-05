@@ -19,7 +19,6 @@ module.exports = {
 
             if(await knex("User").where("user_id", receiverId) != "") {
                 const consult = await knex("Avaliation").where("User_user_idRec", receiverId).join("User", "User_user_idRec", "user_id");
-                console.log(consult)
                 const result = {
                     user_name : consult[0].user_name,
                     user_img : consult[0].user_img,
