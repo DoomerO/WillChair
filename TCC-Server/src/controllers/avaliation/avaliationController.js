@@ -34,7 +34,6 @@ module.exports = {
                         User_user_idRec : consult[i].User_user_idRec,
                     })
                 }
-                console.log(result)
                 return res.status(201).json(result);
             }
             else {

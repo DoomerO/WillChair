@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`User` (
   `user_CEP` VARCHAR(10) NULL,
   `user_nota` FLOAT DEFAULT 5,
   `user_name` VARCHAR(45) NULL,
-  `user_img` BLOB NULL,
+  `user_img` VARCHAR(15) NULL,
   `user_comp` VARCHAR(30) NULL,
   PRIMARY KEY (`user_id`))
 ENGINE = InnoDB;

@@ -27,6 +27,7 @@ const OfferPage = () => {
     const [owner, setOwner] = useState([]);
     const [reports, setReports] = useState(false);
     const [recomended, setRecom] = useState([]);
+    const [imgOwner, setImgOwner] = useState<any>();
     let renderTest = false;
 
     async function queryOffer() { 
@@ -61,6 +62,20 @@ const OfferPage = () => {
         })
     };
 
+    async function getImgOwner() {
+        await axios.get(`http://localhost:3344/users/profile/photo/${owner.user_img}`, {responseType : "arraybuffer"}).then(res => {
+            const buffer = new Uint8Array(res.data);
+            const blob = new Blob([buffer], { type: res.headers.contentType });
+            let reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = () => {
+                setImgOwner(reader.result);
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
     useEffect(() => {
         queryOffer();
     }, []);
@@ -72,6 +87,10 @@ const OfferPage = () => {
             getReports();
         }
     }, [offer]);
+
+    useEffect(() => {
+        if(owner.user_img) getImgOwner();
+    }, [owner])
 
     const renderRecom = recomended.map(item => {
         if(item.ofr_city != offer.ofr_city || item.ofr_id == offer.ofr_id) return <div key={item.ofr_id}></div>
@@ -149,7 +168,7 @@ const OfferPage = () => {
 
                         <Stack w={{base:"100%", md:"45%"}} h={{base:"20vh", md:"100%"}} mt="2vh" fontSize={{base:"20px", md:"18px"}}>
                             <Flex direction="row" align="center">
-                            <Link to={`/profile/${owner.user_email}/view`}><Avatar name={owner.user_name} src={(owner.user_img) ? String.fromCharCode(...new Uint8Array(owner.user_img.data)) : ""} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}></Avatar></Link>
+                            <Link to={`/profile/${owner.user_email}/view`}><Avatar name={owner.user_name} src={(owner.user_img) ? imgOwner : ""} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}></Avatar></Link>
                                 <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{base:"22px", md:"20px"}} mr="2%">{owner.user_name}</Text>
                                 <BsFillStarFill fill={colors.colorFontBlue}/>
                                 <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}} fontSize={{base:"22px", md:"20px"}}>{(owner.user_nota) ? owner.user_nota : 0.0}</Text>

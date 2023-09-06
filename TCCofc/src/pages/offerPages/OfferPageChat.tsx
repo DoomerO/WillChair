@@ -1,4 +1,4 @@
-import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Button, useToast, ButtonGroup, useDisclosure} from "@chakra-ui/react";
+import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Button, useToast, ButtonGroup, useDisclosure, others} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -34,7 +34,8 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
     const [reports, setReports] = useState(false);
     const [chatBool, setChatBool] = useState(false);
     const [compUser, setCompUser] = useState([]);
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [img, setImg] = useState<any>();
     const toast = useToast();
     const navigate = useNavigate();
     let renderTest = false;
@@ -131,6 +132,24 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
             console.log(error);
         })
     };
+
+    async function getImg() {
+        await axios.get(`http://localhost:3344/users/profile/photo/${owner.user_img}`, {responseType : "arraybuffer"}).then(res => {
+            const buffer = new Uint8Array(res.data);
+            const blob = new Blob([buffer], { type: res.headers.contentType });
+            let reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = () => {
+                setImg(reader.result);
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    useEffect(() => {
+        if(owner.user_img) getImg();
+    }, [owner])
 
     useEffect(() => {
         const canceltoken = axios.CancelToken.source();
@@ -248,7 +267,7 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
 
                         <Stack w={{base:"100%", md:"45%"}} h={{base:"20vh", md:"100%"}} mt="2vh" fontSize={{base:"20px", md:"18px"}}>
                             <Flex direction="row" align="center">
-                            <Link to={`/profile/${owner.user_email}/view`}><Avatar name={owner.user_name} src={(owner.user_img) ? String.fromCharCode(...new Uint8Array(owner.user_img.data)) : ""} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}></Avatar></Link>
+                            <Link to={`/profile/${owner.user_email}/view`}><Avatar name={owner.user_name} src={(owner.user_img) ? img : ""} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}></Avatar></Link>
                                 <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{base:"22px", md:"20px"}} ml="2%" mr="2%">{owner.user_name}</Text>
                                 <BsFillStarFill fill={colors.colorFontBlue}/>
                                 <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}} fontSize={{base:"22px", md:"20px"}}>{(owner.user_nota) ? owner.user_nota : 0.0}</Text>

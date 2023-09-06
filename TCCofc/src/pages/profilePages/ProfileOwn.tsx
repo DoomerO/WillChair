@@ -28,6 +28,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
     const [avaliations, setAvaliations] = useState([]);
     const [userOffers, setUserOffers] = useState([]);
     const [userUpdate, setUpdate] = useState({});
+    const [showImg, setImg] = useState<any>();
 
     async function getComments() {
         await axios.get(`http://localhost:3344/avaliation/receiver/${user.user_id}`).then((res) => {
@@ -77,7 +78,6 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
         if(userUpdate.user_city && userUpdate.user_name && userUpdate.user_phone && checkChange()) {
             await axios.put(`http://localhost:3344/users/${user.user_email}`, {
                 user_name :  userUpdate.user_name,
-                user_img :  userUpdate.user_img,
                 user_phone :  userUpdate.user_phone,
                 user_street :  userUpdate.user_street,
                 user_district : userUpdate.user_district,
@@ -88,18 +88,10 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                 user_comp :  userUpdate.user_comp
             }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
                 localStorage.setItem("token", res.data.token);
-                navigate(0)
+                if(userUpdate.user_img != "") postImage();
+                else navigate(0)
             }).catch((error) => {
                 console.log(error);
-                if(error.response.status == 413) {
-                    toast({
-                        title: 'Imagem muito pesada!',
-                        description: "Tente usar uma imagem mais leve.",
-                        status: 'error',
-                        duration: 3000,
-                        isClosable: true,
-                    })
-                }
             })
         }
         else {
@@ -113,11 +105,26 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
         }
     }
 
+    async function postImage() {
+        const data = new FormData();
+        data.append("avatar", userUpdate.user_img);  
+        await axios.put("http://localhost:3344/users/profile/photo", data, 
+        {headers : {authorization : "Bearer " + localStorage.getItem("token"), user_id : user.user_id}}).then((res) => {
+            navigate(0);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+    function updtProfileOpr() {
+        updateProfile();
+    }
+
     function discartChanges() {
         setUpdate(prev => ({...prev, 
             user_name : user.user_name,
-            user_img : (user.user_img) ? String.fromCharCode(...new Uint8Array(user.user_img.data)) : null,
             user_phone : user.user_phone,
+            user_img : "",
             user_street : user.user_street,
             user_district : user.user_district,
             user_FU : user.user_FU,
@@ -139,8 +146,8 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
         if(user.user_id) {
             setUpdate(prev => ({...prev, 
                 user_name : user.user_name,
-                user_img : (user.user_img) ? String.fromCharCode(...new Uint8Array(user.user_img.data)) : null,
                 user_phone : user.user_phone,
+                user_img : "",
                 user_street : user.user_street,
                 user_district : user.user_district,
                 user_FU : user.user_FU,
@@ -190,10 +197,11 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
     }
 
     const handleImage = (e:ChangeEvent<HTMLInputElement>) => {
+        setUpdate(prev => ({...prev, user_img: e.target.files[0]}));
         let reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
         reader.onload = () => {
-            setUpdate(prev => ({...prev, user_img: reader.result}))
+            setImg(reader.result);
         }
     }
 
@@ -227,12 +235,12 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                 <Flex direction={{base:"column-reverse", sm: "row"}} w="100%"  h="fit-content">
 
                     <Stack w={{base:"100%", sm:"22%"}} align="center" bg={colors.bgProfileImg} spacing={4} _dark={{bg : colors.bgProfileImg_Dark}} mr={{base:"0", sm:"2%"}} pt={{base:"5vh", sm:"0"}} pb={{base:"5vh", sm:"0"}}>
-                        <Avatar src={userUpdate.user_img} name={user.user_name} size="2xl" w="30vh" h="30vh"/>
+                        <Avatar src={(userUpdate.user_img != "") ? showImg : (user.user_img) ? user.user_img : ""} name={user.user_name} size="2xl" w="30vh" h="30vh"/>
                         <InputGroup display="flex" zIndex={1} w="77.5%">
                                 <InputLeftAddon children={<MdOutlinePhotoSizeSelectActual size="80%"/>}/>
                                 <Input type="file" color='#0000' onChange={handleImage} display="inline-block" accept=".png,.jpg,.jpeg" fontFamily="outfit"/>
                         </InputGroup>
-                        <Button w="77.5%" colorScheme="green" onClick={updateProfile}>Salvar Mudanças</Button>
+                        <Button w="77.5%" colorScheme="green" onClick={updtProfileOpr}>Salvar Mudanças</Button>
                         <Button w="77.5%" colorScheme="red" onClick={discartChanges}>Descartar Mudanças</Button>
                         <Divider orientation="horizontal"/>
                             <Heading as="h4" fontFamily="outfit" fontSize={{base: "24px", sm: "26px"}}>Segurança</Heading>

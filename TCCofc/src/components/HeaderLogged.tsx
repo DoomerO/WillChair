@@ -11,6 +11,8 @@ import colors from "../colors/colors";
 import logo from '../img/home/logoDark.png';
 import logoLight from '../img/home/logo.png';
 import { BsFillStarFill } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 interface avatarProps {
     user : object;
@@ -21,6 +23,26 @@ const HeaderLogged = ({user}: avatarProps) => {
     const logoImg = useColorModeValue(logo, logoLight) //muda o valor do logo a partir do modo de cor que estiver ativo
     const colorMode = useColorModeValue("Modo escuro", "Modo claro");
     const {isOpen, onOpen, onClose} = useDisclosure();
+    const [img, setImg] = useState<any>();
+
+    async function getImg() {
+        await axios.get(`http://localhost:3344/users/profile/photo/${user.user_img}`, {responseType : "arraybuffer"}).then(res => {
+            const buffer = new Uint8Array(res.data);
+            const blob = new Blob([buffer], { type: res.headers.contentType });
+            let reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = () => {
+                setImg(reader.result);
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+    
+    useEffect(() => {
+        if(user.user_img) getImg();
+    }, [user]);
+
     return (
         <Flex w="100%" h="8.5vh" bg='#fff' position='fixed' _dark={{bg : '#131313'}} boxShadow='lg' zIndex={2}>
             
@@ -79,7 +101,7 @@ const HeaderLogged = ({user}: avatarProps) => {
             <Spacer/>
             <Spacer/>
             <HStack>
-                <Avatar name={user.user_name} src={(user.user_img) ? String.fromCharCode(...new Uint8Array(user.user_img.data)) : ""} size={{base: "md", md:"md"}} mr="1vw" _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}} onClick={() => {onOpen()}}/>
+                <Avatar name={user.user_name} src={(user.user_img) ? img : ""} size={{base: "md", md:"md"}} mr="1vw" _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}} onClick={() => {onOpen()}}/>
             </HStack>
             <Drawer onClose={onClose} isOpen={isOpen} size={{base:"full", md:"md"}}>
                 <DrawerOverlay />
@@ -89,7 +111,7 @@ const HeaderLogged = ({user}: avatarProps) => {
                 <DrawerBody>
                     <Divider orientation="horizontal" mt="3"/>
                     <Flex direction="row" align="end" mt="3" mb="3">
-                        <Avatar name={user.user_name} src={(user.user_img) ? String.fromCharCode(...new Uint8Array(user.user_img.data)) : ""} size="2xl" mr="1vw"/>
+                        <Avatar name={user.user_name} src={(user.user_img) ? img : ""} size="2xl" mr="1vw"/>
                         <Heading as="h1" fontFamily="outfit">
                             {user.user_name}
                         </Heading>

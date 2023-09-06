@@ -5,12 +5,11 @@ import { socket } from "../socket/socket";
 import {IoMdSend} from "react-icons/io";
 import colors from "../../colors/colors";
 import codes from "../code/codes";
-import { Link, useNavigate } from "react-router-dom";
-import { AiOutlineCloseCircle } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 import { BiDotsHorizontal } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
-import { MdOutlineLocalOffer } from "react-icons/md";
 import { PiHandshake } from "react-icons/pi";
+import axios from "axios";
 
 interface chatBoxProps {
     user_id : number,
@@ -29,6 +28,21 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
     const [codeSent, setSent] = useState<number>();
     let msgRender: object[] = []
     const [msg, setMsg] = useState("");
+    const [img, setImg] = useState<any>();
+
+    async function getImg() {
+        await axios.get(`http://localhost:3344/users/profile/photo/${other.user_img}`, {responseType : "arraybuffer"}).then(res => {
+            const buffer = new Uint8Array(res.data);
+            const blob = new Blob([buffer], { type: res.headers.contentType });
+            let reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = () => {
+                setImg(reader.result);
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
 
     socket.on("message", (message) => {
         console.log(message); 
@@ -55,6 +69,9 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
         msgRender.push(item)
     })
 
+    useEffect(() => {
+        if(other.user_img) getImg();
+    }, [other]);
 
     useEffect(() => {
         if(codeSent){ switch(codeSent) {
@@ -188,7 +205,7 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
     return (
         <Card w={{base:"90%", md:"80vw"}} bg="#f7f7f7" variant="outline" _dark={{bg : colors.colorFontDarkBlue}}>
             <Flex w="100%" align="center" direction="row" pt="1%" pb="1%">
-                <Avatar name={other.user_name} src={(other.user_img) ? String.fromCharCode(...new Uint8Array(other.user_img.data)) : ""} size={{base:"md", md:"sm"}} mr="1%" ml="2%"/>
+                <Avatar name={other.user_name} src={(other.user_img) ? img : ""} size={{base:"md", md:"sm"}} mr="1%" ml="2%"/>
                 <Text fontSize={{base:"20px", md:"15px"}}>{other.user_name}</Text>
                 <Spacer/>
                 <Menu>

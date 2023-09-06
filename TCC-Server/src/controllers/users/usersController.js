@@ -4,6 +4,20 @@ const bcrypt = require('bcrypt');
 const mailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 
+const path = require("path");
+const fs = require('fs');
+
+//multer
+const multer = require('multer');
+const storageUser = multer.diskStorage({
+    destination : "./userProfile",
+    filename : function (req, file, cb) {
+        const fileName = "dummy" + path.extname(file.originalname);
+        cb(null, fileName);
+    }
+})
+const uploadUser = multer({storage : storageUser});
+
 module.exports= {
 
     async sendConfirmationEmailPasswordChange(req, res) {
@@ -60,6 +74,7 @@ module.exports= {
             const {email} = req.params;
 
             const consult = await knex('User').where('user_email', email);
+
             if(consult != "") {
                 const result = {
                     user_id : consult[0].user_id,
@@ -119,6 +134,22 @@ module.exports= {
         catch(error) {
             return res.status(400).json({error: error.message})
         }
+    },
+
+    async returnImage(req, res) {
+        const {filename} = req.params;
+
+        const imagePath = path.resolve(__dirname, '..', '..', '..', 'userProfile', filename);
+
+        fs.readFile(imagePath, (err, data) => {
+            if (err) {
+                return res.status(500).json({ error: 'Error in image reading' });
+            }
+
+            res.setHeader('contentType',`image/${path.extname(filename)}`);
+
+            res.end(data);
+        });
     },
 
     async searchUserEmailPassword(req, res) { //Autentica um usuário existente
@@ -197,6 +228,39 @@ module.exports= {
         }
     },
 
+    async uploadImg(req, res) {
+        try {
+            const id = req.headers['user_id'];
+            
+            uploadUser.single("avatar")(req, res, async function(error) {
+                if (error instanceof multer.MulterError) {
+                    return res.status(400).json({error : error.message})
+                  } else if (error) {
+                    return res.status(500).json({error : error.message})
+                  }
+
+                  if (!req.file) {
+                    return res.status(400).json({error: 'There is no file provided'});
+                  }
+    
+                  fs.renameSync(req.file.path, req.file.path.replace('dummy', `user${id}`));
+                try {
+                    await knex("User").update({
+                        user_img : `user${id}${path.extname(req.file.originalname)}`
+                    }).where("user_id", id);
+          
+                    return res.status(201).json({msg : "The image was succesfully uploaded"});
+                }
+                catch(error) {
+                    return res.status(400).json({error: error.message});
+                }
+            })
+        }
+        catch(error) {
+            return res.status(400).json({error: error.message});
+        }
+    },
+
     async updateUser(req, res) { //atualiza parâmetros do usuário
         try {
             const {email} = req.params;
@@ -205,7 +269,6 @@ module.exports= {
             const {user_phone} = req.body;
             const {user_CEP} = req.body;
             const {user_houseNum} = req.body;
-            const {user_img} = req.body;
             const {user_city} = req.body;
             const {user_street} = req.body;
             const {user_district} = req.body;
@@ -224,7 +287,6 @@ module.exports= {
                     user_street,
                     user_FU,
                     user_district,
-                    user_img,
                     user_comp
                 }).where('user_email', email);
 

@@ -21,8 +21,10 @@ routes.get('/users/login/:email/:password', controllersUsers.searchUserEmailPass
 routes.get('/users/email/:email', auth, controllersUsers.searchUserEmail);
 routes.get('/users/id/:id', controllersUsers.searchUserId); 
 routes.get('/users/profile/:email', controllersUsers.searchUserEmail);
+routes.get('/users/profile/photo/:filename', controllersUsers.returnImage);
 routes.post('/users', controllersUsers.createUser);
 routes.put('/users/:email', auth,controllersUsers.updateUser);
+routes.put('/users/profile/photo', auth, controllersUsers.uploadImg);
 routes.put('/users/password/:email', auth,controllersUsers.updateUserPassword);
 routes.put('/users/email/:id', auth, controllersUsers.updateUserEmail);
 routes.delete('/users/:id', auth,controllersUsers.deleteUser);

@@ -11,6 +11,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { MdOutlineLocalOffer } from "react-icons/md";
 import codes from "../../components/code/codes";
 import { PiHandshake } from "react-icons/pi";
+import axios from "axios";
 
 interface chatSquareProps {
     user_id : number,
@@ -30,6 +31,21 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
     const navigate = useNavigate();
     const [codeSent, setSent] = useState<number>();
     const toast = useToast();
+    const [img, setImg] = useState<any>();
+
+    async function getImg() {
+        await axios.get(`http://localhost:3344/users/profile/photo/${other.user_img}`, {responseType : "arraybuffer"}).then(res => {
+            const buffer = new Uint8Array(res.data);
+            const blob = new Blob([buffer], { type: res.headers.contentType });
+            let reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = () => {
+                setImg(reader.result);
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
 
     socket.on("message", (message) => {
         console.log(message); 
@@ -60,6 +76,10 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
         (isOwner) ? socket.emit("findOther", chat_id) : socket.emit("findOwner", chat_id);
         if(chat_id) socket.emit("reqMsg", chat_id);
     }, [chat_id])
+
+    useEffect(() => {
+        if(other.user_img)getImg();
+    }, [other])
 
     useEffect(() => {
         if(codeSent){ switch(codeSent) {
@@ -195,7 +215,7 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
             <Spacer />
             <Flex mt="8vh" w="100%" mb="1%" align="center" direction="row" pt="1%" pb="1%" bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}} pl="2%" >
                 <Link to={`/profile/${other.user_email}/view`}>
-                    <Avatar name={other.user_name} src={(other.user_img) ? String.fromCharCode(...new Uint8Array(other.user_img)) : ""} size={{base:"md", md:"sm"}} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}/>
+                    <Avatar name={other.user_name} src={(other.user_img) ? img : ""} size={{base:"md", md:"sm"}} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}/>
                 </Link>
                 <Text fontSize={{base:"20px", md:"18px"}} ml="1%" fontWeight="bold">{other.user_name}</Text>
                 <Spacer/>

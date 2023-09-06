@@ -19,6 +19,20 @@ const ProfileToggle = () => {
         });
     }
 
+    async function getProfImage() {
+        await axios.get(`http://localhost:3344/users/profile/photo/${profile.user_img}`, {responseType : "arraybuffer"}).then(res => {
+            const buffer = new Uint8Array(res.data);
+            const blob = new Blob([buffer], { type: res.headers.contentType });
+            let reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = () => {
+                setProfile(prev => ({...prev, user_img : reader.result}));
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
     useEffect(() => {
         try{
             setUser(decode(localStorage.getItem("token")))
@@ -27,6 +41,12 @@ const ProfileToggle = () => {
         }
         if(email) getUser();
     }, [email]);
+
+    useEffect(() => {
+        if(profile.user_img) {
+            getProfImage();
+        }
+    }, [profile])
 
     useEffect(() => {
         if(user)setComp(profile.user_email === user.email ? <ProfileOwn user={profile}/> : <Profile user={profile}/>)

@@ -42,6 +42,8 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     const [chatUser, setChatUser] = useState([]);
     const [selected, setSelected] = useState(false);
     const [compUser, setCompUser] = useState([]);
+    const [imgOwner, setImgOwner] = useState<any>();
+    const [imgIntrested, setImgIntrested] = useState<any>();
 
     useEffect(() => {
         const canceltoken = axios.CancelToken.source();
@@ -57,7 +59,10 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
             }));
             getReports();
             getChats();
-            if (offer.user_comp_id) getUserIntrested(offer.user_comp_id);
+            getImgOwner();
+            if (offer.user_comp_id){
+                getUserIntrested(offer.user_comp_id);
+            }   
         }
         return () => {
             canceltoken.cancel();
@@ -75,6 +80,12 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
             }
         }
     }, [chats])
+
+    useEffect(() => {
+        if(compUser.user_img) {
+            getImgIntrested();
+        }
+    }, [compUser])
 
     async function updateOfferOprt() {
         await axios.put(`http://localhost:3344/offers/${offer.ofr_id}`, {
@@ -250,6 +261,34 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         })
     }
 
+    async function getImgOwner() {
+        await axios.get(`http://localhost:3344/users/profile/photo/${user.user_img}`, {responseType : "arraybuffer"}).then(res => {
+            const buffer = new Uint8Array(res.data);
+            const blob = new Blob([buffer], { type: res.headers.contentType });
+            let reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = () => {
+                setImgOwner(reader.result);
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    async function getImgIntrested() {
+        await axios.get(`http://localhost:3344/users/profile/photo/${compUser.user_img}`, {responseType : "arraybuffer"}).then(res => {
+            const buffer = new Uint8Array(res.data);
+            const blob = new Blob([buffer], { type: res.headers.contentType });
+            let reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = () => {
+                setImgIntrested(reader.result);
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
     const optionsChat = others.map(item => {
         return <option value={others.indexOf(item)} key={item.data.user_id}>{item.data.user_name}</option>
     });
@@ -388,7 +427,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                 </InputGroup>
                                 <Spacer/>
                                 {(offer.ofr_status != "Livre") ? <Flex bg={colors.bgTableRow1} p="1%" direction="row" align="center" ml={{base:0, md:"2%"}} w={{base:"100%", md:"68%"}} borderRadius="15px" mt={{base:"3%" , md:0}} _dark={{bg : colors.bgTableRow1_Dark}}>
-                                    <Link to={`/profile/${compUser.user_email}/view`}><Avatar name={compUser.user_name} src={(compUser.user_img) ? String.fromCharCode(...new Uint8Array(compUser.user_img.data)) : ""} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}/></Link>
+                                    <Link to={`/profile/${compUser.user_email}/view`}><Avatar name={compUser.user_name} src={(compUser.user_img) ? imgIntrested : ""} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}/></Link>
                                     <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{base:"19px", md:"20px"}} mr="2%" ml="1%">{compUser.user_name}</Text>
                                     <Text fontFamily="atkinson" fontSize={{base:"19px", md:"20px"}}>fechou com essa oferta!</Text>
                                 </Flex> : ""}
@@ -408,7 +447,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
 
                         <Stack w={{base:"100%", md:"45%"}} h={{base:"20vh", md:"100%"}} fontSize={{base:"20px", md:"18px"}} mt="2vh">
                             <Flex direction="row" align="center">
-                                <Avatar name={user.user_name} src={(user.user_img) ? String.fromCharCode(...new Uint8Array(user.user_img.data)) : ""} mr="2%"></Avatar>
+                                <Avatar name={user.user_name} src={(user.user_img) ? imgOwner : ""} mr="2%"></Avatar>
                                 <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{base:"22px", md:"20px"}} mr="2%">{user.user_name}</Text>
                                 <BsFillStarFill fill={colors.colorFontBlue}/>
                                 <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}} fontSize={{base:"22px", md:"20px"}}>{(user.user_nota) ? user.user_nota : 0.0}</Text>
