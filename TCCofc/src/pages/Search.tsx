@@ -179,7 +179,7 @@ const Search = () => {
         return <OfferCardHorizontal
         title={item.ofr_name} 
         desc={item.ofr_desc}
-        img={(item.prod_img) ? String.fromCharCode(...new Uint8Array(item.prod_img.data)) : ""} 
+        img={item.prod_img} 
         value={item.ofr_value} 
         key={item.ofr_id}
         id={item.ofr_id}/>
@@ -201,7 +201,7 @@ const Search = () => {
         return <OfferCardHorizontal
         title={item.ofr_name} 
         desc={item.ofr_desc}
-        img={(item.prod_img) ? String.fromCharCode(...new Uint8Array(item.prod_img.data)) : ""} 
+        img={item.prod_img} 
         value={item.ofr_value} 
         key={item.ofr_id}
         id={item.ofr_id}/>
@@ -245,9 +245,9 @@ const Search = () => {
             <Flex bg={colors.bgWhite} w="100%" h='fit-content' align="center" direction="column" _dark={{bg: colors.bgWhite_Dark}} pb="5vh">
                 <Heading as="h1" fontSize={{base: "36px", md: "30px"}} fontFamily="outfit" color={colors.colorFontBlue} mb="3%" mt="3%" textAlign="center">Seus Resultados da Pesquisa "{(value == "others") ? "Outros" : value}"</Heading>
                 <Stack direction="row" align="center" w="90%" mb="3%" spacing={4}>
-                    <Button colorScheme="linkedin" variant="outline" onClick={() => {setShow(!showFilters)}}>{(showFilters) ?  <BiMinus size="inherit"/>: <MdAdd size="inherit"/>}Filtros</Button>
+                    <Button colorScheme="linkedin" w="10%" variant="outline" onClick={() => {setShow(!showFilters)}} >{(showFilters) ?  <BiMinus size="inherit"/>: <MdAdd size="inherit"/>}Filtros</Button>
                     <Collapse in={showFilters}>
-                        <Stack direction="row" spacing={5}>
+                        <Stack direction="row" w="100%" spacing={5}>
                             <FormLabel display="flex" flexDirection="row" alignItems="center">
                                 Cidade:
                                 <Input name="city" onChange={handleFilters} ml="5px" type="text" variant="flushed"></Input>

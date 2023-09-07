@@ -46,7 +46,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `willchair`.`Product` (
   `prod_id` INT NOT NULL AUTO_INCREMENT,
-  `prod_img` BLOB NULL,
+  `prod_img` VARCHAR(15) NULL,
   `prod_key` VARCHAR(10) NOT NULL,
   `prod_status` VARCHAR(10) NOT NULL,
   `prod_height` FLOAT NULL,

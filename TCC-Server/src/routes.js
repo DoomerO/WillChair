@@ -21,13 +21,15 @@ routes.get('/users/login/:email/:password', controllersUsers.searchUserEmailPass
 routes.get('/users/email/:email', auth, controllersUsers.searchUserEmail);
 routes.get('/users/id/:id', controllersUsers.searchUserId); 
 routes.get('/users/profile/:email', controllersUsers.searchUserEmail);
-routes.get('/users/profile/photo/:filename', controllersUsers.returnImage);
 routes.post('/users', controllersUsers.createUser);
 routes.put('/users/:email', auth,controllersUsers.updateUser);
-routes.put('/users/profile/photo', auth, controllersUsers.uploadImg);
 routes.put('/users/password/:email', auth,controllersUsers.updateUserPassword);
 routes.put('/users/email/:id', auth, controllersUsers.updateUserEmail);
 routes.delete('/users/:id', auth,controllersUsers.deleteUser);
+
+//User Images Routes
+routes.get('/users/profile/photo/:filename', controllersUsers.returnImage);
+routes.put('/users/profile/photo', auth, controllersUsers.uploadImg);
 
 //Offer Routes
 routes.get('/offers', controllersOffers.searchOffers);
@@ -75,8 +77,11 @@ routes.put('/products/bengala/:id', auth, controllersProducts.updateBengala);
 routes.put('/products/andador/:id', auth, controllersProducts.updateAndador);
 routes.delete('/products/:id', auth, controllersProducts.deleteProduct);
 
-//denounce routes
+//Products Images Routes
+routes.get('/products/photo/:filename', controllersProducts.returnImage);
+routes.put('/products/img/photo', auth, controllersProducts.uploadImage);
 
+//denounce routes
 routes.get('/denounce', auth, controllersdenounce.searchdenounce);
 routes.get('/denounce/user/:email', auth, controllersdenounce.searchdenounceByEmail);
 routes.get('/denounce/offer/:ofrId', controllersdenounce.searchDenounceOffer);

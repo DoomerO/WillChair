@@ -18,6 +18,7 @@ const BengalaOffer = () => {
     const [user, setUser] = useState([]);
     const [searchOwn, setSearch] = useState(false);
     const [userToken, setToken] = useState(decode(localStorage.getItem("token")));
+    const [imgShow, setShow] = useState<any>();
 
     const [formInputs, setInputs] = useState({
         name : "",
@@ -26,7 +27,7 @@ const BengalaOffer = () => {
         height : 0,
         key : "",
         type : "Simples",
-        photo : prodOwn.prod_img,
+        photo : "",
         hasRegulator : 0,
         minHeight : 0,
         color : "",
@@ -81,7 +82,6 @@ const BengalaOffer = () => {
 
     async function postProduct() {
         await axios.post('http://localhost:3344/products', {
-            prod_img : formInputs.photo,
             prod_weight : formInputs.weight,
             prod_height : formInputs.height,
             prod_type : "Bengala",
@@ -110,6 +110,15 @@ const BengalaOffer = () => {
                   })
             }
         })
+    }
+
+    async function postImage() {
+        const data = new FormData();
+        data.append("photo", formInputs.photo);  
+        await axios.put('http://localhost:3344/products/img/photo', data,
+        {headers : {authorization : "Bearer " + localStorage.getItem("token"), prod_id : prodOwn[0].prod_id}}).catch((error) => {
+            console.log(error);
+        });
     }
 
     async function postOffer() { 
@@ -182,7 +191,8 @@ const BengalaOffer = () => {
     }, [searchOwn])
 
     useEffect(() => {
-        if(prodOwn.length > 0){
+        if(searchOwn){
+            postImage();
             postChild();
             postOffer(); 
         }
@@ -198,10 +208,11 @@ const BengalaOffer = () => {
     }
 
     const handleImage = (e:ChangeEvent<HTMLInputElement>) => {
+        setInputs(prev => ({...prev, photo : e.target.files[0]}));
         let reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
         reader.onload = () => {
-            setInputs(prev => ({...prev, photo: reader.result}))
+            setShow(reader.result);
         }
     }
     
@@ -218,7 +229,7 @@ const BengalaOffer = () => {
                     <Flex direction='column' align='center' w={{base:"90vw" ,md:'60vw'}} fontSize={{base:"20px", md:"18px"}} h={{base:'33%' , md:'110vh'}}>
                         
                         <Stack spacing={3} align="center">
-                            <Flex w={{base:"30vh" ,md:"40vh"}} align="center" justifyContent="center" h={{base:"30vh" ,md:"40vh"}} direction="column" border="2px dashed #000" _dark={{border : "2px dashed #fff"}}>{(formInputs.photo) ? <Image w={{base:"98%", md:"96%"}} h={{base:"98%", md:"96%"}} objectFit="contain" src={formInputs.photo}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%"/>} bgType={"none"}/>}</Flex>    
+                            <Flex w={{base:"30vh" ,md:"40vh"}} align="center" justifyContent="center" h={{base:"30vh" ,md:"40vh"}} direction="column" border="2px dashed #000" _dark={{border : "2px dashed #fff"}}>{(imgShow) ? <Image w={{base:"98%", md:"96%"}} h={{base:"98%", md:"96%"}} objectFit="contain" src={imgShow}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%"/>} bgType={"none"}/>}</Flex>    
 
                             <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>Imagem<Input type="file" id="myfile" name="photo" accept="gif, .jpg, .jpeg, .png" onChange={handleImage}/></FormLabel>
                             

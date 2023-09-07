@@ -6,16 +6,16 @@ import colors from "../colors/colors";
 
 interface prodTableProps {
     ofr_id : number,
-    update : boolean
+    update : boolean,
+    clear: boolean
 }
 
-const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
+const ProdInfoTableUpdt = ({ofr_id, update, clear} : prodTableProps) => {
     const [prod, setProd] = useState([]);
     const toast = useToast();
 
     async function queryProduct() {
         await axios.get(`http://localhost:3344/products/offer/${ofr_id}`).then(res => {
-            console.log(res.data)
             setProd(res.data[0]);
         }).catch(error => {
             console.log(error);
@@ -136,6 +136,53 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
         title5: "",
     })
 
+    function clearChanges() {
+        setProdUpdate(prev => ({...prev, 
+            prod_status : prod.prod_status,
+            prod_composition : prod.prod_composition,
+            prod_height : prod.prod_height,
+            prod_weight: prod.prod_weight,
+        }));
+        switch (prod.prod_type) {
+            case "Cadeira de Rodas":
+                setProdUpdate(prev => ({...prev,
+                    append1: prod.cad_width,
+                    append2: prod.cad_widthSeat,
+                    append3: prod.cad_type,
+                    append4: prod.cad_maxWeight
+                }))
+            break;
+            case "Bengala":
+                setProdUpdate(prev => ({...prev,
+                    append1: prod.ben_regulator,
+                    append2: prod.ben_minHeight,
+                    append3: prod.ben_maxHeight,
+                    append4: prod.ben_type,
+                    append5: prod.ben_color
+                }))
+            break;
+            case "Andador":
+                setProdUpdate(prev => ({...prev,
+                    append1: prod.and_regulator,
+                    append2: prod.and_minHeight,
+                    append3: prod.and_maxHeight,
+                    append4: prod.and_width,
+                    append5: prod.and_lenght
+                }))
+            break;
+            case "Muleta":
+                setProdUpdate(prev => ({...prev,
+                    append1: prod.mul_regulator,
+                    append2: prod.mul_minHeight,
+                    append3: prod.mul_maxHeight,
+                    append4: prod.mul_maxWeight
+                }))
+            break;
+            default:
+                return
+        }
+    }
+
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         setProdUpdate(prev => ({...prev, [e.target.name]: e.target.value}));
         if(e.target.name == "append1" && prod.prod_type != "Cadeira de Rodas" && parseInt(e.target.value) == 0) {
@@ -158,9 +205,6 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
             prod_height : prod.prod_height,
             prod_weight: prod.prod_weight,
         }));
-    }, [prod])
-
-    useEffect(() => {
         switch (prod.prod_type) {
             case "Cadeira de Rodas":
                 setProdUpdate(prev => ({...prev,
@@ -237,6 +281,10 @@ const ProdInfoTableUpdt = ({ofr_id, update} : prodTableProps) => {
             canceltoken.cancel();
         }
     }, [update])
+
+    useEffect(() => {
+        clearChanges();
+    }, [clear])
 
     return (
         <TableContainer w={{base:"100%", md:"80%"}}>

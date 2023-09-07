@@ -1,6 +1,8 @@
 import { Text, Card, CardBody, CardFooter, Flex, Heading, Image, Button, Spacer, Stack} from "@chakra-ui/react";
 import colors from "../../colors/colors";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 interface HorizontalOfferCard {
     img: string,
@@ -11,9 +13,29 @@ interface HorizontalOfferCard {
 }
 
 const OfferCardHorizontal = ({img, title, value, desc, id}: HorizontalOfferCard) => {
+    const [imgShow, setShow] = useState<any>();
+
+    async function getProdImg() {
+        await axios.get(`http://localhost:3344/products/photo/${img}`, {responseType : "arraybuffer"}).then(res => {
+            const buffer = new Uint8Array(res.data);
+            const blob = new Blob([buffer], { type: res.headers.contentType });
+            let reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = () => {
+                setShow(reader.result);
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    useEffect(() => {
+        if (img) getProdImg();
+    }, [img])
+    
     return (
-        <Card w="90%" h={{base:"60vh",md:"40vh"}} variant="filled" size="sm" direction={{base:"column" ,md:"row"}}>
-            <Image src={img} objectFit="contain" w={{base:"100%" ,md:"22.5%"}} h={{base:"50%", md:"100%"}}/>
+        <Card w="90%" h={{base:"60vh",md:"40vh"}} variant="filled" size="sm" direction={{base:"column" ,md:"row"}} borderRadius="10px">
+            <Image src={(imgShow) ? imgShow : ""} objectFit="contain" w={{base:"100%" ,md:"22.5%"}} h={{base:"50%", md:"100%"}} borderRadius="15px 0 0 15px"/>
             <Stack w={{base:"100%" ,md:"77.5%"}} h={{base:"50%", md:"100%"}}>
                 <CardBody>
                         <Flex direction="column">

@@ -210,7 +210,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
         title={item.ofr_name} 
         composition={item.prod_composition} 
         condition={item.prod_status} 
-        img={(item.prod_img) ? String.fromCharCode(...new Uint8Array(item.prod_img.data)) : ""} 
+        img={item.prod_img} 
         value={item.ofr_value} 
         type={item.prod_type}
         key={item.ofr_id}

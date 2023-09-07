@@ -1,5 +1,19 @@
 const knex = require('../../database/database');
 
+const path = require("path");
+const fs = require('fs');
+
+//multer
+const multer = require('multer');
+const storageProduct = multer.diskStorage({
+    destination : "./prodImg",
+    filename : function (req, file, cb) {
+        const fileName = "dummy" + path.extname(file.originalname);
+        cb(null, fileName);
+    }
+})
+const uploadProd = multer({storage : storageProduct});
+
 module.exports = {
     async searchProducts(req, res) {
         try {
@@ -119,10 +133,57 @@ module.exports = {
             return  res.status(400).json({error : error.message});
         }
     },
+    
+    async uploadImage(req, res) {
+        try {
+            const id = req.headers['prod_id'];
+            uploadProd.single("photo")(req, res, async function(error) {
+                if (error instanceof multer.MulterError) {
+                    return res.status(400).json({error : error.message})
+                  } else if (error) {
+                    return res.status(500).json({error : error.message})
+                  }
+
+                  if (!req.file) {
+                    return res.status(400).json({error: 'There is no file provided'});
+                  }
+    
+                  fs.renameSync(req.file.path, req.file.path.replace('dummy', `prod${id}`));
+                try {
+                    await knex("Product").update({
+                        prod_img : `prod${id}${path.extname(req.file.originalname)}`
+                    }).where("prod_id", id);
+          
+                    return res.status(201).json({msg : "The image was succesfully uploaded"});
+                }
+                catch(error) {
+                    return res.status(400).json({error: error.message});
+                }
+            })
+        }
+        catch(error) {
+            res.status(400).json({error : error});
+        }
+    },
+
+    async returnImage(req, res) {
+        const {filename} = req.params;
+
+        const imagePath = path.resolve(__dirname, '..', '..', '..', 'prodImg', filename);
+
+        fs.readFile(imagePath, (err, data) => {
+            if (err) {
+                return res.status(500).json({ error: 'Error in image reading' });
+            }
+
+            res.setHeader('contentType',`image/${path.extname(filename)}`);
+
+            res.end(data);
+        });
+    },
 
     async createProduct(req, res) {
         try {
-            const {prod_img} = req.body;
             const {prod_status} = req.body;
             const {prod_height} = req.body;
             const {prod_weight} = req.body;
@@ -135,7 +196,6 @@ module.exports = {
             }
 
             await knex('Product').insert({
-                prod_img,
                 prod_height,
                 prod_composition,
                 prod_status,
@@ -296,7 +356,6 @@ module.exports = {
         try {
             const {id} = req.params;
 
-            const {prod_img} = req.body;
             const {prod_status} = req.body;
             const {prod_height} = req.body;
             const {prod_weight} = req.body;
@@ -305,7 +364,6 @@ module.exports = {
 
             if(await knex('Product').where('prod_id', id) != "") {
                 await knex('Product').update({
-                    prod_img,
                     prod_composition,
                     prod_height,
                     prod_status,
@@ -460,6 +518,7 @@ module.exports = {
             return res.status(400).json({error : error.message})
         }
     },
+
 
     async deleteProduct(req, res) {
         try {

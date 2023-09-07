@@ -23,33 +23,28 @@ interface OwnerPageprops {
 
 const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
 
-    const [updateProduct, setUpdateProd] = useState(false)
+    const [updateProduct, setUpdateProd] = useState(false);
+    const [clearProduct, setClearProd] = useState(false)
     const navigate = useNavigate();
     const toast = useToast();
     const [chats, setChats] = useState([]);
     const [others, setOthers] = useState([]);
     const [reports, setReports] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [ updateOffer, setUpdateOffer ] = useState({
-        prod_img : offer.prod_img,
-        ofr_name : offer.ofr_name,
-        ofr_type : offer.ofr_type,
-        ofr_status : offer.ofr_status,
-        ofr_desc : offer.ofr_desc,
-        ofr_value : offer.ofr_value,
-        ofr_parcelas : offer.ofr_parcelas
-    });
+    const [ updateOffer, setUpdateOffer ] = useState({});
     const [chatUser, setChatUser] = useState([]);
     const [selected, setSelected] = useState(false);
     const [compUser, setCompUser] = useState([]);
     const [imgOwner, setImgOwner] = useState<any>();
     const [imgIntrested, setImgIntrested] = useState<any>();
+    const [imgShow, setShow] = useState<any>();
+    const [defaultProdImg, setDefault] = useState<any>();
 
     useEffect(() => {
         const canceltoken = axios.CancelToken.source();
         if(offer.ofr_id) {
                 setUpdateOffer(prev => ({...prev,
-                prod_img: (offer.prod_img) ? String.fromCharCode(...new Uint8Array(offer.prod_img.data)) : null,
+                prod_img: null,
                 ofr_name : offer.ofr_name,
                 ofr_type : offer.ofr_type,
                 ofr_status : offer.ofr_status,
@@ -60,6 +55,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
             getReports();
             getChats();
             getImgOwner();
+            getProdImg();
             if (offer.user_comp_id){
                 getUserIntrested(offer.user_comp_id);
             }   
@@ -86,6 +82,27 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
             getImgIntrested();
         }
     }, [compUser])
+
+    function clearChanges() {
+        setUpdateOffer(prev => ({...prev,
+            prod_img : null,
+            ofr_name : offer.ofr_name,
+            ofr_type : offer.ofr_type,
+            ofr_status : offer.ofr_status,
+            ofr_desc : offer.ofr_desc,
+            ofr_value : offer.ofr_value,
+            ofr_parcelas : offer.ofr_parcelas
+        }));
+        setShow(defaultProdImg);
+        setClearProd(!clearProduct);
+        toast({
+            title: 'Mudanças Revertidas!',
+            description: "A oferta voltou a seu estado anterior.",
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          })
+    }
 
     async function updateOfferOprt() {
         await axios.put(`http://localhost:3344/offers/${offer.ofr_id}`, {
@@ -122,12 +139,10 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     }
 
     async function updateProdimg() {
-        await axios.put(`http://localhost:3344/products/${offer.prod_id}`, {
-            prod_img : updateOffer.prod_img,
-        },
-        {headers : {authorization : "Bearer " + localStorage.getItem("token")}
-        }).then((res) => {
-            console.log(res);
+        const data = new FormData();
+        data.append("photo", updateOffer.prod_img);  
+        await axios.put('http://localhost:3344/products/img/photo', data,
+        {headers : {authorization : "Bearer " + localStorage.getItem("token"), prod_id : offer.Product_prod_id}}).then((res) => {
             toast({
                 position: 'bottom',
                 render: () => (
@@ -147,6 +162,21 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     isClosable: true,
                   })
             }
+        })
+    }
+
+    async function getProdImg() {
+        await axios.get(`http://localhost:3344/products/photo/${offer.prod_img}`, {responseType : "arraybuffer"}).then(res => {
+            const buffer = new Uint8Array(res.data);
+            const blob = new Blob([buffer], { type: res.headers.contentType });
+            let reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = () => {
+                setShow(reader.result);
+                setDefault(reader.result);
+            }
+        }).catch((error) => {
+            console.log(error);
         })
     }
 
@@ -309,10 +339,11 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     }
 
     const handleImage = (e:ChangeEvent<HTMLInputElement>) => {
+        setUpdateOffer(prev => ({...prev, prod_img : e.target.files[0]}));
         let reader = new FileReader();
         reader.readAsDataURL(e.target.files[0]);
         reader.onload = () => {
-            setUpdateOffer(prev => ({...prev, prod_img: reader.result}))
+            setShow(reader.result);
         }
     }
 
@@ -360,7 +391,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         }
         else {
             updateOfferOprt();
-            updateProdimg();
+            if(updateOffer.prod_img) updateProdimg();
         }
     }
 
@@ -372,7 +403,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     <Flex direction={{base:"column", md:"row"}} h={{base:"fit-content", md:"50vh"}} w="90%">
 
                     <Flex direction="column" w={{base:"100%", md:"30%"}}>
-                        <Image src={updateOffer.prod_img} objectFit="contain" h={{base:"40vh",md:"95%"}}
+                        <Image src={(imgShow) ? imgShow : ""} objectFit="contain" h={{base:"40vh",md:"95%"}}
                             onClick={() => {console.log(updateOffer.prod_img)}}></Image>
                     </Flex>
                     
@@ -473,7 +504,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     </Flex>
                     <Divider/>
                     <Flex align="center" direction="column" h="fit-content" w="100%" mt="3%" mb="3%">
-                        <ProdInfoTableUpdt update={updateProduct} ofr_id={offer.ofr_id}/>
+                        <ProdInfoTableUpdt clear={clearProduct} update={updateProduct} ofr_id={offer.ofr_id}/>
                     </Flex>
                     <Divider/>
 
@@ -493,6 +524,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                         <Heading mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "32px", md: "30px"}} noOfLines={{base:2, md:1}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>O que deseja fazer com a Oferta?</Heading>
                         <ButtonGroup gap={5} flexDirection={{base:"column", md:"row"}}>
                             <Button colorScheme="linkedin" variant="solid" onClick={() => {updateOfferFunc()}}>Atualizar</Button>
+                            <Button colorScheme="linkedin" variant="solid" onClick={() => {clearChanges()}}>Limpar Mudanças</Button>
                             <Button colorScheme="linkedin" variant="solid" onClick={() => { toast({
                                 position: 'bottom',
                                 render: () => (
