@@ -25,6 +25,9 @@ const Router = () => {
     const toggleOffer = () => {
         return <PageToggle compError={<OfferPage />} compSuccess={<OfferPageLogged/>}/>
     }
+    const toggleReport = () => {
+        return <PageToggle compError={<NotLogged />} compSuccess={<Report/>}/>
+    }
     const toggleProfile = () => {
         return <ProfileToggle/>
     }
@@ -50,7 +53,7 @@ const Router = () => {
             <Route Component={toggleOffer} path="/offer/:id"/>
             <Route Component={toggleCretionOffer} path="/create-offer/:type"/>
             <Route Component={ConfirmLogOut} path="/logout"/>
-            <Route Component={Report} path="/report/:offer"/>
+            <Route Component={toggleReport} path="/report/:type/:id"/>
             <Route Component={toggleProfile} path="/profile/:email/view"/>
             <Route Component={toggleCurchats} path="/current-chats"/>
             <Route Component={EmailConfirmation} path="/confirmation/:email/:path"/>

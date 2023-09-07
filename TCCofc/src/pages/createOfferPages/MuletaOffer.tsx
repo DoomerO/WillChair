@@ -187,7 +187,7 @@ const MuletaOffer = () => {
     }, [products])
 
     useEffect(() => {
-        if(searchOwn) getProductKey(formInputs.key);
+        getProductKey(formInputs.key);
     }, [searchOwn])
 
     useEffect(() => {
@@ -243,6 +243,7 @@ const MuletaOffer = () => {
                                     fontSize={{base:"20px", md:"18px"}} onChange={handleChange}>
                                             <option value='Auxiliares'>Muletas axilares</option>
                                             <option value='Canadenses'>{'Muletas de antebraço (ou canadenses)'}</option>
+                                            <option value='Outro'>Outro</option>
                                 </Select></FormLabel>
                                 <Spacer/>
                                 <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>Condição do Equipamento<Select name='condition' color="gray"

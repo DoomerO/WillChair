@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react"
-import { Box, Flex, Spacer, Heading, Stack, Text, Avatar, SimpleGrid } from '@chakra-ui/react'
+import { Box, Flex, Spacer, Heading, Stack, Text, Avatar, SimpleGrid, Button, useToast } from '@chakra-ui/react'
 import SignNotFound from "../../components/signs/SignNotFound";
 import CommentList from "../../components/comments/CommentList";
 import HeaderToggle from '../../components/toggles/HeaderToggle';
@@ -13,6 +13,8 @@ import axios from "axios";
 
 import { BsFillStarFill } from "react-icons/bs";
 import {TbMoodSilence} from "react-icons/tb";
+import { MdOutlineReport, MdOutlineReportProblem } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileProps{
   user: object
@@ -22,6 +24,9 @@ const Profile = ({user} : ProfileProps) => {
 
   const [avaliationQuery, setAvaliation] = useState([]);
   const [userOffers, setUserOffers] = useState([]);
+  const [hasReports, setReports] = useState(false);
+  const toast = useToast();
+  const navigate = useNavigate();
 
   async function getComments() {
     await axios.get(`http://localhost:3344/avaliation/receiver/${user.user_id}`).then((res) => {
@@ -40,9 +45,20 @@ const Profile = ({user} : ProfileProps) => {
     })
   };
 
+  async function getReports() {
+    await axios.get(`http://localhost:3344/denounce/user/${user.user_email}`).then((res) => {
+      setReports(true);
+    }).catch((error) => {
+      console.log(error);
+    })
+  }
+
   useEffect(() => {
     if(user.user_id) getComments();
-    if(user.user_email)getOffers();
+    if(user.user_email) {
+      getOffers(); 
+      getReports();
+    }
   }, [user]);
   
   const renderComments = avaliationQuery.flatMap(item => {
@@ -83,8 +99,22 @@ const Profile = ({user} : ProfileProps) => {
                   <Spacer/>
                   <Text fontFamily="atkinson" fontSize={{base: "36px", sm: "30px"}} color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{(user.user_nota) ? user.user_nota : 0.0}</Text>
                   <BsFillStarFill fill={colors.colorFontBlue} size="3vh"/>
+                  <Button variant="ghost" w="fit-content" onClick={() => {
+                    toast({
+                    position: 'bottom',
+                    render: () => (
+                      <Stack bg="red.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja denunciar essa oferta?</Text>
+                        <Stack direction="row">
+                          <Button color="#fff" _hover={{bg:"#fff2"}} variant="outline" onClick={() => {navigate(`/report/user/${user.user_id}`), toast.closeAll()}}>Sim</Button>
+                          <Button color="#fff" _hover={{bg:"#fff2"}} variant="outline" onClick={() => {toast.closeAll()}}>Não</Button>    
+                        </Stack>
+                      </Stack>
+                    )})
+                  }}><MdOutlineReport size="5vh"/></Button>
                 </Flex>
 
+              <Flex direction={{base:"column-reverse", md:"row"}} align="flex-start" w="100%">
                 <SimpleGrid spacing={3} fontSize={{base:"20px", sm:"20px"}}>
                     <Flex direction="row">
                       <Text fontFamily="atkinson" mr="5px">Email:</Text>
@@ -103,7 +133,16 @@ const Profile = ({user} : ProfileProps) => {
                       <Text fontFamily="atkinson" color={colors.colorFontBlue}>{(user.user_CEP) ? user.user_street + ", " + (user.user_houseNum ? "n° " + user.user_houseNum + " " + (user.user_comp ? user.user_comp : "Não informado") + "," : "") + " " + user.user_district + ". " + user.user_CEP : "Endereço não disponibilizado."}</Text>
                     </Flex>
                 </SimpleGrid>
-              </Stack>
+                <Spacer/>
+                
+                {(hasReports) ? <Flex bg="red.500" color="#fff" direction={{base:"column",md:"row"}} maxW={{base:"100%", md:"40%"}} align="center" w="fit-content" p={{base:"1%", md:"0px 20px 0px 5px"}} borderRadius="10px">
+                <MdOutlineReportProblem size="60%"/>
+                <Spacer/>
+                <Text textAlign={{base:"center", md:"justify"}} fontSize={{base: "22px", md: "15px"}}>Esse usuário possuí denúncias em seu perfil ou ofertas. Estamos analisando a situação, enquanto isso, não recomendamos interações.</Text>
+                </Flex> : null}
+
+              </Flex>
+            </Stack>
           </Flex>
         </Flex>
 

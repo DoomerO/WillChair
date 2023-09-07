@@ -101,7 +101,8 @@ const ProdInfoTableUpdt = ({ofr_id, update, clear} : prodTableProps) => {
                     mul_regulator: parseInt(prodUpdate.append1),
                     mul_minHeight: prodUpdate.append2,
                     mul_maxHeight : prodUpdate.append3,
-                    mul_maxWeight: prodUpdate.append4
+                    mul_maxWeight: prodUpdate.append4,
+                    mul_type : prodUpdate.append5
                 },
                 {
                     headers : {authorization : "Bearer " + localStorage.getItem("token")}
@@ -175,7 +176,8 @@ const ProdInfoTableUpdt = ({ofr_id, update, clear} : prodTableProps) => {
                     append1: prod.mul_regulator,
                     append2: prod.mul_minHeight,
                     append3: prod.mul_maxHeight,
-                    append4: prod.mul_maxWeight
+                    append4: prod.mul_maxWeight,
+                    append5: prod.mul_type
                 }))
             break;
             default:
@@ -257,13 +259,15 @@ const ProdInfoTableUpdt = ({ofr_id, update, clear} : prodTableProps) => {
                     append1: prod.mul_regulator,
                     append2: prod.mul_minHeight,
                     append3: prod.mul_maxHeight,
-                    append4: prod.mul_maxWeight
+                    append4: prod.mul_maxWeight,
+                    append5: prod.mul_type,
                 }))
                 setChildInp(prev => ({...prev,
                     title1: "Possui Regulador",
                     title2: "Altura Miníma(metros)",
                     title3: "Altura Máxima(metros)",
-                    title4: "Peso Máximo(quilos)"
+                    title4: "Peso Máximo(quilos)",
+                    title5: "Tipo",
                 }))
             break;
             default:
@@ -333,17 +337,39 @@ const ProdInfoTableUpdt = ({ofr_id, update, clear} : prodTableProps) => {
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}
                     display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" && parseInt(prodUpdate.append1) == 1|| prod.prod_type == "Muleta" && parseInt(prodUpdate.append1) == 1|| prod.prod_type == "Bengala" && parseInt(prodUpdate.append1) == 1) ? 0 : "none"}>
                         <Td fontWeight="bold">{prodChildInp.title3}</Td>
-                        <Td><Input placeholder={prodUpdate.append3} name="append3" value={prodUpdate.append3} onChange={handleChange}/></Td>
+                        <Td>{(prod.prod_type == "Cadeira de Rodas") ?  <Select name='append3' onChange={handleChange} value={prodUpdate.append3}>
+                            <option value='Manual'>Cadeira manual simples</option>
+                            <option value='Dobrável em X'>Cadeira dobrável em X</option>
+                            <option value='Monobloco'>Cadeira monobloco</option>
+                            <option value='Motorizada'>Cadeira motorizada</option>
+                            <option value='Elevação automática'>Cadeira com elevação automática</option>
+                            <option value='Reclinável'>Cadeira de rodas reclinável</option>
+                            <option value='Banho'>Cadeira de rodas para banho</option>
+                            <option value='Outro'>Outro</option> 
+                        </Select> : 
+                        <Input placeholder={prodUpdate.append3} name="append3" value={prodUpdate.append3} onChange={handleChange}/>}</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}
                     display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" || prod.prod_type == "Muleta" || prod.prod_type == "Bengala") ? 0 : "none"}>
                         <Td fontWeight="bold">{prodChildInp.title4}</Td>
-                        <Td><Input placeholder={prodUpdate.append4} name="append4" value={prodUpdate.append4} onChange={handleChange}/></Td>
+                        <Td>{(prod.prod_type == "Bengala") ? <Select name='append4' onChange={handleChange} value={prodUpdate.append4}>
+                            <option value="Simples">Bengala Simples</option>
+                            <option value='4 pontas'>Bengala 4 pontas</option>
+                            <option value='Tipo T'>Bengala Bastão tipo T</option>
+                            <option value='Dobrável'>Bengala Dobrável</option>
+                            <option value='Outro'>Outro</option>
+                        </Select> : 
+                        <Input placeholder={prodUpdate.append4} name="append4" value={prodUpdate.append4} onChange={handleChange}/>}</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}
-                    display={(prod.prod_type == "Andador" || prod.prod_type == "Bengala") ? 0 : "none"}>
+                    display={(prod.prod_type == "Andador" || prod.prod_type == "Bengala" || prod.prod_type == "Muleta") ? 0 : "none"}>
                         <Td fontWeight="bold">{prodChildInp.title5}</Td>
-                        <Td><Input placeholder={prodUpdate.append5} name="append5" value={prodUpdate.append5} onChange={handleChange}/></Td>
+                        <Td>{(prod.prod_type == "Muleta") ? <Select name='append5' onChange={handleChange} value={prodUpdate.append5}>
+                            <option value='Auxiliares'>Muletas axilares</option>
+                            <option value='Canadenses'>{'Muletas de antebraço (ou canadenses)'}</option>
+                            <option value='Outro'>Outro</option>
+                        </Select> : 
+                        <Input placeholder={prodUpdate.append5} name="append5" value={prodUpdate.append5} onChange={handleChange}/>}</Td>
                     </Tr>
                 </Tbody>
             </Table>

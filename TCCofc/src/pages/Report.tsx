@@ -1,7 +1,7 @@
 import {useState, useEffect, ChangeEvent} from "react";
 import Footer from "../components/Footer";
 import HeaderToggle from "../components/toggles/HeaderToggle";
-import { Box, Input, Flex, Heading, Select, Button, ButtonGroup, Stack, VStack, Text, Collapse, Textarea, useToast, Image} from '@chakra-ui/react';
+import { Box, Input, Flex, Heading, Select, Button, ButtonGroup, Stack, Text, Collapse, Textarea, useToast, Image} from '@chakra-ui/react';
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import "../fonts/fonts.css"
@@ -9,38 +9,56 @@ import image from "../img/report/reportImg.png";
 import colors from "../colors/colors";
 
 const Report = () => {
-    const offer = useParams();
+    const {id} = useParams();
+    const {type} = useParams();
     const toast = useToast();
     const [select, setSelect] = useState(false);
 
     const [report, setReport] = useState({
         den_reason: "",
         den_content: "",
+        email : "",
         User_user_id: 0,
-        Offer_ofr_id: offer
+        Offer_ofr_id: 0
     });
 
     async function getOffer() {
-        await axios.get(`http://localhost:3344/offers/id/${offer}`).then((res) => {
-            setReport(prev => ({...prev, User_user_id : res.data.User_user_id}));
+        await axios.get(`http://localhost:3344/offers/id/${id}`).then((res) => {
+            setReport(prev => ({...prev, User_user_id : res.data[0].User_user_id}));
+        }).catch((error) => {
+          console.log(error);
+        })
+    }
+
+    async function getUser() {
+        await axios.get(`http://localhost:3344/users/id/${id}`).then((res) => {
+            setReport(prev => ({...prev, email : res.data.user_email}));
         }).catch((error) => {
           console.log(error);
         })
     }
 
     useEffect(() => {
-        if(offer) {
-            setReport(prev => ({...prev, Offer_ofr_id: offer}))
-            getOffer();
+        if (id) {
+            switch(type) {
+                case "offer" :
+                    setReport(prev => ({...prev, Offer_ofr_id : parseInt(id)}));
+                    getOffer();
+                break;
+                case "user" :
+                    setReport(prev => ({...prev, User_user_id : parseInt(id)}));
+                    getUser();
+                break;
+              }
         }
-    }, [offer])
+    }, [type])
 
     async function postDenounce() {
         await axios.post(`http://localhost:3344/denounce`, {
             den_reason: report.den_reason,
             den_content: report.den_content,
             User_user_id: report.User_user_id,
-            Offer_ofr_id: report.Offer_ofr_id.offer
+            Offer_ofr_id: report.Offer_ofr_id
         }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
             toast({
                 title: 'Denuncia realiada',
@@ -111,7 +129,7 @@ const Report = () => {
                     <Textarea w={{base:"90%", md:"90vh"}} fontSize={{base:"20px", md:"18px"}} h="25vh" placeholder="Descreva aqui" onChange={handleChange} name="den_content"/>
                     <ButtonGroup >
                         <Button fontSize={{base:"20px", md:"15px"}} onClick={checkInputs} colorScheme="linkedin" fontFamily="outfit">Enviar</Button>
-                        <Link to={`/offer/${offer.offer}`}><Button fontSize={{base:"20px", md:"15px"}} colorScheme="linkedin" fontFamily="outfit">Cancelar</Button></Link>
+                        <Link to={(type == "offer") ? `/offer/${id}` : `/profile/${report.email}/view`}><Button fontSize={{base:"20px", md:"15px"}} colorScheme="linkedin" fontFamily="outfit">Cancelar</Button></Link>
                     </ButtonGroup>
                 </Stack>
                 <Image w={{base:"100%", md:"48%"}} h="100%" src={image}/>

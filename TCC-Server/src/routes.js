@@ -83,16 +83,16 @@ routes.put('/products/img/photo', auth, controllersProducts.uploadImage);
 
 //denounce routes
 routes.get('/denounce', auth, controllersdenounce.searchdenounce);
-routes.get('/denounce/user/:email', auth, controllersdenounce.searchdenounceByEmail);
+routes.get('/denounce/user/:email', controllersdenounce.searchdenounceByEmail);
 routes.get('/denounce/offer/:ofrId', controllersdenounce.searchDenounceOffer);
 routes.post('/denounce', auth, controllersdenounce.createDenounce);
 routes.put('/denounce/:id', auth, controllersdenounce.updateDenounce);
 routes.delete('/denounce/:id', auth, controllersdenounce.deleteDenounce);
 
 //avaliation routes
-
 routes.get('/avaliation', auth, controllersAvaliation.searchAvaliation);
 routes.get('/avaliation/receiver/:receiverId', controllersAvaliation.searchAvaliationReciver);
+routes.get('/avaliation/both/:receiverId/:senderId', auth, controllersAvaliation.searchAvaliatonBoth);
 routes.post('/avaliation', auth, controllersAvaliation.createAvaliation);
 routes.put('/avaliation/:id', auth, controllersAvaliation.updateAvaliation);
 routes.delete('/avaliation/:id', auth, controllersAvaliation.deleteAvaliation);

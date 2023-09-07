@@ -187,7 +187,7 @@ const BengalaOffer = () => {
     }, [products])
 
     useEffect(() => {
-        if(searchOwn) getProductKey(formInputs.key);
+        getProductKey(formInputs.key);
     }, [searchOwn])
 
     useEffect(() => {
@@ -245,6 +245,7 @@ const BengalaOffer = () => {
                                             <option value='4 pontas'>Bengala 4 pontas</option>
                                             <option value='Tipo T'>Bengala Bastão tipo T</option>
                                             <option value='Dobrável'>Bengala Dobrável</option>
+                                            <option value='Outro'>Outro</option>
                                 </Select></FormLabel>                                                
                                 <Spacer/>
                                 <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>Condição do Equipamento<Select name='condition' color="gray"

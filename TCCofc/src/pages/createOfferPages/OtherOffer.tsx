@@ -158,7 +158,7 @@ const OtherOffer = () => {
     }, [products])
 
     useEffect(() => {
-        if(searchOwn) getProductKey(formInputs.key);
+        getProductKey(formInputs.key);
     }, [searchOwn])
 
     useEffect(() => {

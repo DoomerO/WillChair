@@ -279,12 +279,12 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
                                         <Stack bg="red.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                                             <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja denunciar essa oferta?</Text>
                                             <Stack direction="row">
-                                                <Button color="#fff" _hover={{bg:"#fff2"}} variant="outline" onClick={() => {navigate(`/report/${offer.ofr_id}`), toast.closeAll()}}>Sim</Button>
+                                                <Button color="#fff" _hover={{bg:"#fff2"}} variant="outline" onClick={() => {navigate(`/report/offer/${offer.ofr_id}`), toast.closeAll()}}>Sim</Button>
                                                 <Button color="#fff" _hover={{bg:"#fff2"}} variant="outline" onClick={() => {toast.closeAll()}}>Não</Button>    
                                             </Stack>
                                         </Stack>
                                     )})
-                            }}><MdOutlineReport size="5vh"/></Button>
+                                }}><MdOutlineReport size="5vh"/></Button>
                             </Flex>
                             <Flex direction="row">
                                 <Text fontFamily="atkinson" mr="5px">Email:</Text>

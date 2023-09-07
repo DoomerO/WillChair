@@ -13,6 +13,23 @@ module.exports = {
         }
     },
 
+    async searchAvaliatonBoth(req, res) {
+        try {
+            const {receiverId, senderId} = req.params;
+
+            if(await knex("User").where("user_id", receiverId) != "" && await knex("User").where("user_id", senderId) != "") {
+               const result = await knex("Avaliation").where("User_user_idRec", receiverId).where("User_user_idEnv", senderId);
+               return res.status(201).json(result);
+            }
+            else {
+                return res.status(401).json({msg : "One or both of the users does not exists"})
+            }
+        }
+        catch(error) {
+            return res.status(400).json({error : error.message});
+        }
+    },
+
     async searchAvaliationReciver(req, res) {
         try {
             const {receiverId} = req.params;
@@ -37,7 +54,7 @@ module.exports = {
                 return res.status(201).json(result);
             }
             else {
-                return res.status(401).json({msg : "This user does not Exists"})
+                return res.status(401).json({msg : "This user does not exists"})
             }
         }
         catch(error) {
