@@ -1,4 +1,4 @@
-import { Flex, Box, Stack, Input, Avatar, Heading, SimpleGrid, Spacer, Text, Divider, Button, InputGroup, useToast, InputLeftAddon } from "@chakra-ui/react"
+import { Flex, Box, Stack, Input, Avatar, Heading, SimpleGrid, Spacer, Text, Divider, Button, InputGroup,  InputLeftAddon, useToast, UseToastOptions, ToastPosition } from "@chakra-ui/react"
 import { ChangeEvent, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
@@ -12,6 +12,7 @@ import SignNotFoundButton from "../../components/signs/SignNotFoundButton";
 import colors from "../../colors/colors";
 import axios from "axios";
 import cep from "cep-promise";
+import Toast from "../../components/toast"
 
 import { BsFillStarFill, BsPencil } from "react-icons/bs";
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
@@ -23,12 +24,24 @@ interface ProfileOwnProps {
 
 const ProfileOwn = ({user} : ProfileOwnProps) =>{
 
-    const toast = useToast();
     const navigate = useNavigate();
     const [avaliations, setAvaliations] = useState([]);
     const [userOffers, setUserOffers] = useState([]);
     const [userUpdate, setUpdate] = useState({});
+    const [imgChange, setImgChange] = useState(false)
     const [showImg, setImg] = useState<any>();
+
+    const callToast = useToast()
+    function toast(title:string, desc:string, time?:number, type?:UseToastOptions["status"], pos?:ToastPosition, close?:boolean){
+    callToast({
+        title: title,
+        description: desc,
+        status: type,
+        duration: time,
+        position: pos,
+        isClosable: close ? close : true
+    })
+}
 
     async function getComments() {
         await axios.get(`http://localhost:3344/avaliation/receiver/${user.user_id}`).then((res) => {
@@ -41,7 +54,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
     function checkChange(){
         let check = false
         check = user.user_name == userUpdate.user_name ? check : true
-        check = user.user_img == userUpdate.user_img ? check : true
+        check = !imgChange ? check : true
         check = user.user_phone == userUpdate.user_phone ? check : true
         check = user.user_city == userUpdate.user_city ? check : true
         check = user.user_houseNum == userUpdate.user_houseNum ? check : true
@@ -95,13 +108,8 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
             })
         }
         else {
-            toast({
-                title: 'Sem alterações',
-                description: "Não há alterações para se atualizar",
-                status: 'warning',
-                duration: 3000,
-                isClosable: true,
-              })
+            callToast.closeAll()
+            toast('Sem alterações', 'Não há alterações para se atualizar', 3000, 'warning')
         }
     }
 
@@ -121,6 +129,12 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
     }
 
     function discartChanges() {
+        if(!checkChange()){
+            callToast.closeAll()
+            setImgChange(false)
+            toast('', 'Não há mudanças para reverter', 3000, 'warning')
+            return
+        }
         setUpdate(prev => ({...prev, 
             user_name : user.user_name,
             user_phone : user.user_phone,
@@ -133,13 +147,8 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
             user_houseNum : user.user_houseNum,
             user_comp : user.user_comp
         }))
-        toast({
-            title: '',
-            description: "Mudanças revertidas",
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-        })
+        toast('', 'Mudanças revertidas', 3000, 'success')
+        setImgChange(false)
     }
 
     useEffect(() => {
@@ -160,13 +169,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
             getOffers();
 
             if(!user.user_city || !user.user_phone) {
-                toast({
-                    title: 'Termine seu perfil',
-                    description: "Preencha seu telefone e cidade para concluir seu perfil",
-                    status: 'warning',
-                    duration: 5000,
-                    isClosable: true,
-                  });
+                toast('Termine seu perfil', 'Preencha seu telefone e cidade para concluir seu perfil', 5000, 'warning')
             }}
     }, [user]);
 
@@ -203,6 +206,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
         reader.onload = () => {
             setImg(reader.result);
         }
+        setImgChange(true)
     }
 
     const renderUserOffers = userOffers.map(item => { //lista de ofertas do usuário renderizadas
@@ -238,7 +242,8 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                         <Avatar src={(userUpdate.user_img != "") ? showImg : (user.user_img) ? user.user_img : ""} name={user.user_name} size="2xl" w="30vh" h="30vh"/>
                         <InputGroup display="flex" zIndex={1} w="77.5%">
                                 <InputLeftAddon children={<MdOutlinePhotoSizeSelectActual size="80%"/>}/>
-                                <Input type="file" color='#0000' onChange={handleImage} display="inline-block" accept=".png,.jpg,.jpeg" fontFamily="outfit"/>
+                                <Button borderLeftRadius="0" borderRightRadius="6px" colorScheme="linkedin" onClick={(e) => {document.getElementsByName("image")[0].click()}}>Mudar foto de perfil</Button>
+                                <Input type="file" name="image" onChange={handleImage} display="none" accept=".png,.jpg,.jpeg"/>
                         </InputGroup>
                         <Button w="77.5%" colorScheme="green" onClick={updtProfileOpr}>Salvar Mudanças</Button>
                         <Button w="77.5%" colorScheme="red" onClick={discartChanges}>Descartar Mudanças</Button>
