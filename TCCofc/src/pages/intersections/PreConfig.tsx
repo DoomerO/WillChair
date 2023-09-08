@@ -18,7 +18,7 @@ const PreConfig = () => {
         phone : "",
         houseNum : NaN,
         complement : "",
-        UF : "",
+        FU : "",
         CEP : "",
         city : "",
         street : "",
@@ -27,14 +27,14 @@ const PreConfig = () => {
 
     async function getEndereco(CEP : string) {
         setInputs(prev => ({...prev, 
-            UF : "",
+            FU : "",
             street : "",
             district : "",
             city : ""
         }))
         cep(CEP, { timeout: 5000}).then((res) => {
             setInputs(prev => ({...prev, 
-                UF : res.state,
+                FU : res.state,
                 street : res.street,
                 district : res.neighborhood,
                 city : res.city
@@ -49,7 +49,7 @@ const PreConfig = () => {
                 user_houseNum : inputs.houseNum,
                 user_comp : inputs.complement,
                 user_CEP : inputs.CEP,
-                user_UF : inputs.UF,
+                user_FU : inputs.FU,
                 user_city : inputs.city,
                 user_street : inputs.street,
                 user_district : inputs.district
@@ -58,7 +58,7 @@ const PreConfig = () => {
                     title: 'Informações Enviadas!',
                     description: "Seu perfil foi configurado adequadamente!",
                     status: "success",
-                    duration: 5000,
+                    duration: 3000,
                     isClosable: true,
                 })
                 navigate("/")    
@@ -71,7 +71,7 @@ const PreConfig = () => {
                 title: 'Preencha os campos necessários!',
                 description: "Para serem enviadas as informações é necessário o CEP e telefone!",
                 status: 'warning',
-                duration: 5000,
+                duration: 3000,
                 isClosable: true,
             })
         }
@@ -84,7 +84,7 @@ const PreConfig = () => {
             }
             else{
                 setInputs(prev => ({...prev, 
-                    UF : "",
+                    FU : "",
                     street : "",
                     district : "",
                     city : ""
@@ -123,7 +123,7 @@ const PreConfig = () => {
                         </Input></FormLabel>
                         <FormLabel>Complemento<Input onChange={handleChange} type="text" value={inputs.complement} fontFamily="atkinson" name="complement" _placeholder={{color : colors.colorFontDarkBlue}} _dark={{_placeholder : {color : colors.colorFontDarkBlue_Dark}}} placeholder={"Opcional"}>
                         </Input></FormLabel>
-                        <FormLabel>UF<Input type="text" value={inputs.UF} fontFamily="atkinson" readOnly>
+                        <FormLabel>UF<Input type="text" value={inputs.FU} fontFamily="atkinson" readOnly>
                         </Input></FormLabel>
                     </Stack>
                     <Stack direction="column" w={{base:"100%", md:"50%"}}>

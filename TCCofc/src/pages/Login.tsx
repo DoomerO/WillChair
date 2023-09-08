@@ -40,6 +40,14 @@ const Login = () => {
         }))
         setSubPass("")
     }
+
+    window.onkeydown = (e) => {
+        switch(e.key){
+            case "Enter":
+                screen ? handleLogin() : handleSubmits()
+                break;
+        }
+    }
     
     function callToast(title:string, desc:string, duration?:number, type?:any){
         toast({
