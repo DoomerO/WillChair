@@ -96,7 +96,7 @@ const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name} : avalia
                 <RiStarSLine size="7%" onClick={() => {setAvaliation(prev => ({...prev, value : 5}));}}/>};
             </Stack>
 
-            <Stack direction="column" align="center" justifyContent="center" w="100%" h="20vh">
+            <Stack direction="column" align="center" justifyContent="center" fontFamily="outfit" w="100%" h="20vh">
                 <Text>Deixe um comentário sobre a sua avaliação!</Text>
                 <Textarea onChange={handleContentChange} w="100%" h="100%" placeholder="Digite aqui (Opcional)" borderColor="gray"/>
             </Stack>
