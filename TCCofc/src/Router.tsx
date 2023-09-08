@@ -17,6 +17,9 @@ import NotLogged from "./pages/intersections/NotLogged";
 import OfferCreationToggle from "./pages/createOfferPages/OfferCreationToggle";
 import EmailConfirmation from "./pages/intersections/EmailConfirmation";
 import PasswordChange from "./pages/intersections/PasswordChange";
+import PreConfig from "./pages/intersections/PreConfig";
+import Policy from "./pages/intersections/Policy";
+import Terms from "./pages/intersections/Terms";
 
 const Router = () => {
     const toggleHome = () => {
@@ -27,6 +30,9 @@ const Router = () => {
     }
     const toggleReport = () => {
         return <PageToggle compError={<NotLogged />} compSuccess={<Report/>}/>
+    }
+    const togglePreConfig = () => {
+        return <PageToggle compError={<NotLogged/>} compSuccess={<PreConfig/>}/>
     }
     const toggleProfile = () => {
         return <ProfileToggle/>
@@ -47,6 +53,9 @@ const Router = () => {
             <Route Component={toggleHome} path="/"/>
             <Route Component={Login} path="/login"/>
             <Route Component={Login} path="/login/:screen"/>
+            <Route Component={togglePreConfig} path="/preconfig"/>
+            <Route Component={Policy} path="/policy"/>
+            <Route Component={Terms} path="/terms"/>
             <Route Component={Search} path="/search/:query/:value"/>
             <Route Component={About} path="/about"/>
             <Route Component={Contact} path="/contact"/>
