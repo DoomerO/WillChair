@@ -28,6 +28,7 @@ const OfferPage = () => {
     const [reports, setReports] = useState(false);
     const [recomended, setRecom] = useState([]);
     const [imgOwner, setImgOwner] = useState<any>();
+    const [imgShow, setShow] = useState<any>();
     let renderTest = false;
 
     async function queryOffer() { 
@@ -76,6 +77,20 @@ const OfferPage = () => {
         })
     }
 
+    async function getProdImg() {
+        await axios.get(`http://localhost:3344/products/photo/${offer.prod_img}`, {responseType : "arraybuffer"}).then(res => {
+            const buffer = new Uint8Array(res.data);
+            const blob = new Blob([buffer], { type: res.headers.contentType });
+            let reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = () => {
+                setShow(reader.result);
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
     useEffect(() => {
         queryOffer();
     }, []);
@@ -85,6 +100,7 @@ const OfferPage = () => {
             queryOwner();
             queryOffersRecomended();
             getReports();
+            getProdImg();
         }
     }, [offer]);
 
@@ -112,7 +128,7 @@ const OfferPage = () => {
                 <Flex bg={colors.bgWhite} direction="column" align="center" h="fit-content" pt="10vh" _dark={{bg : colors.bgWhite_Dark}}>
 
                     <Flex direction={{base:"column", md:"row"}} h={{base:"fit-content", md:"50vh"}} w="90%">
-                        <Image src={(offer.prod_img) ? String.fromCharCode(...new Uint8Array(offer.prod_img.data)) : null} 
+                        <Image src={(imgShow) ? imgShow : ""} 
                         objectFit="contain" h={{base:"40vh",md:"95%"}} w={{base:"100%", md:"30%"}}></Image>
                         <Divider orientation="vertical" ml="2.5" mr="2.5" display={{base:"none", md:"inherit"}}/>
                         <Stack w={{base:"100%", md:"65%"}} h="100%" spacing={8}>

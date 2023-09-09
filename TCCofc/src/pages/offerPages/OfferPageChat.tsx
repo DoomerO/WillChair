@@ -35,7 +35,9 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
     const [chatBool, setChatBool] = useState(false);
     const [compUser, setCompUser] = useState([]);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [imgShow, setShow] = useState<any>();
     const [img, setImg] = useState<any>();
+    
     const toast = useToast();
     const navigate = useNavigate();
     let renderTest = false;
@@ -147,6 +149,20 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
         })
     }
 
+    async function getProdImg() {
+        await axios.get(`http://localhost:3344/products/photo/${offer.prod_img}`, {responseType : "arraybuffer"}).then(res => {
+            const buffer = new Uint8Array(res.data);
+            const blob = new Blob([buffer], { type: res.headers.contentType });
+            let reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = () => {
+                setShow(reader.result);
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
     useEffect(() => {
         if(owner.user_img) getImg();
     }, [owner])
@@ -157,6 +173,7 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
         if(offer.ofr_id){
             queryOffersRecomended();
             queryOwner();
+            getProdImg();
             if(offer.user_comp_id  == user.user_id) getUserIntrested(offer.user_comp_id);
             if(user.user_id)getChat();
             getReports();
@@ -207,8 +224,7 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
                 <Flex bg={colors.bgWhite} direction="column" align="center" h="fit-content" pt="10vh" _dark={{bg : colors.bgWhite_Dark}}>
 
                 <Flex direction={{base:"column", md:"row"}} h={{base:"fit-content", md:"50vh"}} w="90%">
-                        <Image src={(offer.prod_img) ? String.fromCharCode(...new Uint8Array(offer.prod_img.data)) : null} 
-                        objectFit="contain" h={{base:"40vh",md:"95%"}} w={{base:"100%", md:"30%"}}></Image>
+                        <Image src={(imgShow) ? imgShow : ""} objectFit="contain" h={{base:"40vh",md:"95%"}} w={{base:"100%", md:"30%"}}></Image>
                         <Divider orientation="vertical" ml="2.5" mr="2.5" display={{base:"none", md:"inherit"}}/>
                         <Stack w={{base:"100%", md:"65%"}} h="100%" spacing={8}>
                             <Heading as="h1" fontFamily="outfit" fontSize={{base: "32px", md: "34px"}} color={colors.colorFontBlue} noOfLines={{md:1}}>{offer.ofr_name}</Heading>

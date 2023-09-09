@@ -105,6 +105,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `willchair`.`Message` (
   `msg_id` INT NOT NULL AUTO_INCREMENT,
   `msg_content` VARCHAR(255) NOT NULL,
+  `msg_show` TINYINT DEFAULT 1,
   `User_user_id` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,

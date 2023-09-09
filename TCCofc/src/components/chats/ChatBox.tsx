@@ -5,10 +5,11 @@ import { socket } from "../socket/socket";
 import {IoMdSend} from "react-icons/io";
 import colors from "../../colors/colors";
 import codes from "../code/codes";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiDotsHorizontal } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
 import { PiHandshake } from "react-icons/pi";
+import {MdBlock} from "react-icons/md";
 import axios from "axios";
 
 interface chatBoxProps {
@@ -60,10 +61,6 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
     socket.on("intrestOprRes", (resp) => {
         setSent(resp);
     })
-    
-    useEffect(() => {
-        if(chat_id) socket.emit("reqMsg", chat_id);
-    }, [chat_id])
 
     messages.map(item => {
         msgRender.push(item)
@@ -71,7 +68,8 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
 
     useEffect(() => {
         if(other.user_img) getImg();
-    }, [other]);
+        if(chat_id) socket.emit("reqMsg", chat_id);
+    }, [other, chat_id]);
 
     useEffect(() => {
         if(codeSent){ switch(codeSent) {
@@ -153,12 +151,23 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
                         <Spacer/>
                     </Flex>
                 default :
+                if (item.msg_show) {
                     return <Flex w="100%" key={item.msg_id}>
                         <Box minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.colorFontBlue}>
-                        <Text textAlign="justify" color="#fff" fontSize={{base:"15px", md:"15px"}}>{item.msg_content}</Text>
+                            <Text textAlign="justify" color="#fff" fontSize={{base:"15px", md:"15px"}}>{item.msg_content}</Text>
                         </Box>
                         <Spacer/>
                     </Flex>
+                }
+                else {
+                    return <Flex w="100%" key={item.msg_id}>
+                        <Flex direction="row" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.colorFontBlue} >
+                            <Text color="#fff" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`${other.user_name} apagou essa mensagem`}</Text>
+                            <MdBlock size="3vh"/>
+                        </Flex>
+                        <Spacer/>
+                    </Flex>
+                }
             }
         }
         else {
@@ -167,46 +176,60 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
                     return <Flex w="100%" key={item.msg_id}>
                     <Spacer/>
                         <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
-                                <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você requisitou o começo de um compromisso para ${other.user_name}`}</Text>
-                            </Flex>
+                            <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você requisitou o começo de um compromisso para ${other.user_name}`}</Text>
+                        </Flex>
                     </Flex>
                 case codes.compSucsses:
                     return <Flex w="100%" key={item.msg_id}>
                     <Spacer/>
                         <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
-                                <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você iniciou um compromisso na oferta de ${other.user_name}`}</Text>
-                            </Flex>
+                            <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você iniciou um compromisso na oferta de ${other.user_name}`}</Text>
+                        </Flex>
                     </Flex>
                 case codes.compError:
                     return <Flex w="100%" key={item.msg_id}>
                     <Spacer/>
                         <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
-                                <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você não pode iniciar um compromisso nessa oferta! Já há um existente!`}</Text>
-                            </Flex>
+                            <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você não pode iniciar um compromisso nessa oferta! Já há um existente!`}</Text>
+                        </Flex>
                     </Flex>
                 case codes.compNot:
                     return <Flex w="100%" key={item.msg_id}>
                     <Spacer/>
                         <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
-                                <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você recusou iniciar um compromisso na oferta de ${other.user_name}`}</Text>
-                            </Flex>
+                            <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você recusou iniciar um compromisso na oferta de ${other.user_name}`}</Text>
+                        </Flex>
                     </Flex>
                 default :
+                if (item.msg_show) {
+                    return <Flex w="100%" key={item.msg_id}>
+                        <Spacer/>
+                        <Box minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
+                            <Text fontSize={{base:"15px", md:"15px"}} textAlign="justify" mr="25px">{item.msg_content}</Text>
+                            <IconButton aria-label={"apagar mensagem"} float="right" size="20%" onClick={() => {socket.emit("deleteMsg", {chat : chat_id, msgId : item.msg_id})}}><BsTrash /></IconButton>
+                        </Box>
+                    </Flex>
+                }
+                else {
                     return <Flex w="100%" key={item.msg_id}>
                     <Spacer/>
-                    <Box minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
-                        <Text fontSize={{base:"15px", md:"15px"}} textAlign="justify">{item.msg_content}</Text>
-                    </Box>
+                        <Flex direction="row" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
+                            <MdBlock size="3vh"/>
+                            <Text fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você apagou essa mensagem`}</Text>
+                        </Flex>
                     </Flex>
+                }
             }
         }
     });
 
     return (
         <Card w={{base:"90%", md:"80vw"}} bg="#f7f7f7" variant="outline" _dark={{bg : colors.colorFontDarkBlue}}>
-            <Flex w="100%" align="center" direction="row" pt="1%" pb="1%">
-                <Avatar name={other.user_name} src={(other.user_img) ? img : ""} size={{base:"md", md:"sm"}} mr="1%" ml="2%"/>
-                <Text fontSize={{base:"20px", md:"15px"}}>{other.user_name}</Text>
+            <Flex w="100%" align="center" direction="row" pt="1%" pb="1%" pl="1%">
+                <Link to={`/profile/${other.user_email}/view`}>
+                    <Avatar name={other.user_name} src={(other.user_img) ? img : ""} size={{base:"md", md:"sm"}} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}/>
+                </Link>
+                <Text ml="1%" fontWeight="bold" fontSize={{base:"20px", md:"15px"}}>{other.user_name}</Text>
                 <Spacer/>
                 <Menu>
                     <MenuButton  

@@ -8,7 +8,7 @@ import { BiDotsHorizontal } from "react-icons/bi";
 import {BsTrash} from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { MdOutlineLocalOffer } from "react-icons/md";
+import { MdBlock, MdOutlineLocalOffer } from "react-icons/md";
 import codes from "../../components/code/codes";
 import { PiHandshake } from "react-icons/pi";
 import axios from "axios";
@@ -161,12 +161,23 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
                         <Spacer/>
                     </Flex>
                 default :
-                    return <Flex w="100%" key={item.msg_id}>
-                        <Box minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.colorFontBlue}>
-                        <Text textAlign="justify" color="#fff" fontSize={{base:"15px", md:"15px"}}>{item.msg_content}</Text>
-                        </Box>
-                        <Spacer/>
-                    </Flex>
+                    if (item.msg_show) {
+                        return <Flex w="100%" key={item.msg_id}>
+                            <Box minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.colorFontBlue}>
+                                <Text textAlign="justify" color="#fff" fontSize={{base:"15px", md:"15px"}}>{item.msg_content}</Text>
+                            </Box>
+                            <Spacer/>
+                        </Flex>
+                    }
+                    else {
+                        return <Flex w="100%" key={item.msg_id}>
+                            <Flex direction="row" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.colorFontBlue} >
+                                <Text color="#fff" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`${other.user_name} apagou essa mensagem`}</Text>
+                                <MdBlock size="3vh"/>
+                            </Flex>
+                            <Spacer/>
+                        </Flex>
+                    }
             }
         }
         else {
@@ -175,37 +186,50 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
                     return <Flex w="100%" key={item.msg_id}>
                     <Spacer/>
                         <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
-                                <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você requisitou o começo de um compromisso para ${other.user_name}`}</Text>
-                            </Flex>
+                            <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você requisitou o começo de um compromisso para ${other.user_name}`}</Text>
+                        </Flex>
                     </Flex>
                 case codes.compSucsses:
                     return <Flex w="100%" key={item.msg_id}>
                     <Spacer/>
                         <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
-                                <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você iniciou um compromisso na oferta de ${other.user_name}`}</Text>
-                            </Flex>
+                            <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você iniciou um compromisso na oferta de ${other.user_name}`}</Text>
+                        </Flex>
                     </Flex>
                 case codes.compError:
                     return <Flex w="100%" key={item.msg_id}>
                     <Spacer/>
                         <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
-                                <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você não pode iniciar um compromisso nessa oferta! Já há um existente!`}</Text>
-                            </Flex>
+                            <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você não pode iniciar um compromisso nessa oferta! Já há um existente!`}</Text>
+                        </Flex>
                     </Flex>
                 case codes.compNot:
                     return <Flex w="100%" key={item.msg_id}>
                     <Spacer/>
                         <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
-                                <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você recusou iniciar um compromisso na oferta de ${other.user_name}`}</Text>
-                            </Flex>
+                            <Text mb="3%" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você recusou iniciar um compromisso na oferta de ${other.user_name}`}</Text>
+                        </Flex>
                     </Flex>
                 default :
-                    return <Flex w="100%" key={item.msg_id}>
-                    <Spacer/>
-                    <Box minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
-                        <Text fontSize={{base:"15px", md:"15px"}} textAlign="justify">{item.msg_content}</Text>
-                    </Box>
-                    </Flex>
+                    
+                    if (item.msg_show) {
+                        return <Flex w="100%" key={item.msg_id}>
+                            <Spacer/>
+                            <Box minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
+                                <Text fontSize={{base:"15px", md:"15px"}} textAlign="justify" mr="25px">{item.msg_content}</Text>
+                                <IconButton aria-label={"apagar mensagem"} float="right" size="20%" onClick={() => {socket.emit("deleteMsg", {chat : chat_id, msgId : item.msg_id})}}><BsTrash /></IconButton>
+                            </Box>
+                        </Flex>
+                    }
+                    else {
+                        return <Flex w="100%" key={item.msg_id}>
+                        <Spacer/>
+                            <Flex direction="row" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
+                                <MdBlock size="3vh"/>
+                                <Text fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`Você apagou essa mensagem`}</Text>
+                            </Flex>
+                        </Flex>
+                    }
             }
         }
     });

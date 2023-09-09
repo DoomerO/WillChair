@@ -83,6 +83,14 @@ io.on("connection", (socket) => {
             return socket.emit("intrestOprRes", 401);  
         }
     })
+
+    socket.on("deleteMsg", async (data) => {
+        await knex("Message").update({
+            msg_show : 0
+        }).where("msg_id", data.msgId);
+        const msgs = await knex("Message").where("Chat_chat_id", data.chat);
+        io.emit(`showMsg:${data.chat}`, msgs);
+    })
 });
 
 server.get('/', async (req, res) => {
