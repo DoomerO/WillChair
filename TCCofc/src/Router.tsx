@@ -20,6 +20,7 @@ import PasswordChange from "./pages/intersections/PasswordChange";
 import PreConfig from "./pages/intersections/PreConfig";
 import Policy from "./pages/intersections/Policy";
 import Terms from "./pages/intersections/Terms";
+import EmailChange from "./pages/intersections/EmailChange";
 
 const Router = () => {
     const toggleHome = () => {
@@ -46,6 +47,9 @@ const Router = () => {
     const togglePasswordUpdate =() => {
         return <PageToggle compError={<NotLogged/>} compSuccess={<PasswordChange/>}/>
     }
+    const toggleEmailUpdate =() => {
+        return <PageToggle compError={<NotLogged/>} compSuccess={<EmailChange/>}/>
+    }
 
     return (
         <BrowserRouter>
@@ -67,6 +71,7 @@ const Router = () => {
             <Route Component={toggleCurchats} path="/current-chats"/>
             <Route Component={EmailConfirmation} path="/confirmation/:email/:path"/>
             <Route Component={togglePasswordUpdate} path="/pass-change"/>
+            <Route Component={toggleEmailUpdate} path="/email-update/:id"/>
         </Routes>
     </BrowserRouter>
     )

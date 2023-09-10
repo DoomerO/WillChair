@@ -15,7 +15,6 @@ const controllersAvaliation = require('./controllers/avaliation/avaliationContro
 const routes = express.Router();
 
 //User Routes
-routes.get('/email/confirm/:toWho', controllersUsers.sendConfirmationEmailPasswordChange);
 routes.get('/users', auth,controllersUsers.searchUsers);
 routes.get('/users/login/:email/:password', controllersUsers.searchUserEmailPassword);
 routes.get('/users/email/:email', auth, controllersUsers.searchUserEmail);
@@ -26,6 +25,9 @@ routes.put('/users/:email', auth,controllersUsers.updateUser);
 routes.put('/users/password/:email', auth,controllersUsers.updateUserPassword);
 routes.put('/users/email/:id', auth, controllersUsers.updateUserEmail);
 routes.delete('/users/:id', auth,controllersUsers.deleteUser);
+
+//Email Routes
+routes.get('/email/confirm/:toWho', controllersUsers.sendConfirmationEmailPasswordChange);
 
 //User Images Routes
 routes.get('/users/profile/photo/:filename', controllersUsers.returnImage);

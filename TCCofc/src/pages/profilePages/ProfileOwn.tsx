@@ -12,7 +12,6 @@ import SignNotFoundButton from "../../components/signs/SignNotFoundButton";
 import colors from "../../colors/colors";
 import axios from "axios";
 import cep from "cep-promise";
-import Toast from "../../components/toast"
 
 import { BsFillStarFill, BsPencil } from "react-icons/bs";
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
@@ -25,6 +24,7 @@ interface ProfileOwnProps {
 const ProfileOwn = ({user} : ProfileOwnProps) =>{
 
     const navigate = useNavigate();
+    const toastHand = useToast();
     const [avaliations, setAvaliations] = useState([]);
     const [userOffers, setUserOffers] = useState([]);
     const [userUpdate, setUpdate] = useState({});
@@ -250,7 +250,18 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                         <Divider orientation="horizontal"/>
                             <Heading as="h4" fontFamily="outfit" fontSize={{base: "24px", sm: "26px"}}>Segurança</Heading>
                         <Divider orientation="horizontal"/>
-                        <Text textAlign="center" w="90%">Caso necessário,<Button variant="link" colorScheme="linkedin" onClick={() => {navigate("/pass-change")}}>clique aqui</Button> para mudar sua senha...</Text>
+                        <Text textAlign="center" w="90%">Caso necessário,<Button variant="link" colorScheme="linkedin" onClick={() => {toastHand({
+                                position: 'bottom',
+                                render: () => (
+                                    <Stack bg="yellow.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja alterar sua senha?</Text>
+                                        <Stack direction="row">
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate(`/pass-change`); navigate(0)}}>Sim</Button>
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toastHand.closeAll()}}>Não</Button>    
+                                        </Stack>
+                                    </Stack>
+                                )
+                            })}}>clique aqui</Button> para mudar sua senha...</Text>
                     </Stack>
                     
                     <Stack w={{base:"100%", sm:"72%"}} pb="5vh">
@@ -268,7 +279,18 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             <Text fontFamily="atkinson" mr="5px">Email:</Text>
                             <Text fontFamily="atkinson" color={colors.colorFontBlue}>{user.user_email}</Text>
                             <Spacer/>
-                            <Button variant="solid" colorScheme="linkedin">Alterar</Button>
+                            <Button variant="solid" colorScheme="linkedin" onClick={() => {toastHand({
+                                position: 'bottom',
+                                render: () => (
+                                    <Stack bg="yellow.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
+                                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja alterar seu email?</Text>
+                                        <Stack direction="row">
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate(`/email-update/${user.user_id}`); navigate(0)}}>Sim</Button>
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toastHand.closeAll()}}>Não</Button>    
+                                        </Stack>
+                                    </Stack>
+                                )
+                            })}}>Alterar</Button>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Avaliação:</Text>

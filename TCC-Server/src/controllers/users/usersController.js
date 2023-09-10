@@ -24,7 +24,9 @@ module.exports= {
         try {
             const {toWho} = req.params;
             const credentials = {
-                service: 'Hotmail',
+                host : 'Gmail',
+                port : 587,
+                secure: false,
                 auth: {
                   user: "tccwillchair@gmail.com", 
                   pass: "willchair2023"  

@@ -1,12 +1,14 @@
-import { Box, Button, Flex, Heading, Spacer, Stack, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, IconButton, Spacer, Stack, Text, useColorMode, useToast } from "@chakra-ui/react";
 import decode from "../../components/code/decoderToken";
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import Password from "../../components/Password";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { FiArrowLeft, FiSun, FiMoon } from "react-icons/fi";
 
 const PasswordChange = () => {
     const [user, setUser] = useState(decode(localStorage.getItem("token")));
+    const {toggleColorMode} = useColorMode();
     const [password, setPassword] = useState({
         passValue : "",
         passMiss : false,
@@ -63,8 +65,14 @@ const PasswordChange = () => {
     }
 
     return (
-        <Box w="100%" h="100%" justifyContent="center">
-            <Flex align="center" border="3px" direction="column" h="inherit" mt={{base:"25%", md:"10%"}}>
+        <Box w="100%" h="100%" justifyContent="center" align="center">
+            <Flex direction="row" w="90%" mt="3%">
+                    <Link to={`/profile/${user.email}/view`}><IconButton aria-label='Return to home' icon={<FiArrowLeft/>}></IconButton></Link>
+                    <Spacer/>
+                    <IconButton onClick={toggleColorMode} aria-label='switch lighting mode'
+                    icon={localStorage.getItem("chakra-ui-color-mode") == 'light' ? <FiSun/> : <FiMoon/>}></IconButton>
+            </Flex>
+            <Flex align="center" border="3px" direction="column" h="inherit" mt={{base:"20%", md:"7%"}}>
                 <Heading as='h1' textAlign="center">Indique a nova senha</Heading>
                 <Spacer/>
                 <Flex direction="column" align="center" mt="3%" mb="2%">
