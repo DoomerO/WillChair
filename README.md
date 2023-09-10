@@ -6,13 +6,43 @@
 # Preview of the pages
 
 - Home without login
-<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/homeNotLogged.jpeg"/>
+<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/home.jpeg"/>
 
 - Home with login
-<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/homeLogged.png"/>
+<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/homeLogged.jpeg"/>
 
 - About us
 <img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/aboutUs.jpeg"/>
 
+- Contact
+<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/Contact.jpeg"/>
+
+- Search
+<img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/search.jpeg/>
+
+- Profile(Other User)
+<img src="https://github.com/DoomerO/Willchair-Previews/blob/main/img/profile.jpeg"/>
+
 - Profile(Your)
 <img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/profileOwn.jpeg/>
+
+- Offer(Other User)
+<img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/offerOther.jpeg/>
+
+- Offer(Your)
+<img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/offerOwn.jpeg/>
+<img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/offerOwn2.jpeg/>
+<img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/offerOwn3.jpeg/>
+
+- Chat
+<img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/chat.jpeg/>
+<img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/chat2.jpeg/>
+
+- Forms to create Offers
+<img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/cadeiraForm.jpeg/>
+<img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/muletaForm.jpeg/>
+<img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/andadorForm.jpeg/>
+<img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/bengalaForm.jpeg/>
+
+- Report
+<img src=https://github.com/DoomerO/Willchair-Previews/blob/main/img/report.jpeg/>
