@@ -109,7 +109,7 @@ const Report = () => {
                 <Stack h={{base:"70vh", md:"95vh"}} w={{base:"100%", md:"fit-content"}} direction="column" pt="5%" align="center" pl="2vw" pr="2vw" bg={colors.veryLightBlue} _dark={{bg : colors.veryLightBlue_Dark}}>
                     <Heading fontFamily="outfit" as="h1" fontSize={{base:"34px", md:"32"}}>Faça sua denúncia</Heading>
                     <Text fontFamily="atkinson" fontSize={{base:"20px", md:"18px"}}>Qual o motivo de sua denúncia?</Text>
-                    <Select w={{base:"90%", md:"90vh"}} fontSize={{base:"20px", md:"18px"}} onChange={handleSelect} placeholder="selecione o tipo da denuncia" fontFamily="outfit">
+                    <Select w={{base:"90%", md:"47vw"}} fontSize={{base:"20px", md:"18px"}} onChange={handleSelect} placeholder="selecione o tipo da denuncia" fontFamily="outfit">
                         <option value="Fraudes e golpes">Fraudes e golpes</option>
                         <option value="Nudez e cnteúdo sexual">Nudez e conteúdo sexual</option>
                         <option value="Informações incorretas">Informações incorretas</option>
@@ -122,11 +122,11 @@ const Report = () => {
                         <option value="4">Outro</option>
                     </Select>
                     <Collapse in={select}>
-                        <Input placeholder='Tipo de denúncia' w={{base:"90%", md:"90vh"}} onChange={handleChange} name="den_reason"></Input>
+                        <Input placeholder='Tipo de denúncia' w={{base:"90%", md:"47vw"}} onChange={handleChange} name="den_reason"></Input>
                     </Collapse>
                     <Heading textAlign="center" fontSize={{base:"30px", md:"25"}} fontFamily="atkinson">Por que você está denunciando?</Heading>
                     <Text fontFamily="outfit" fontSize={{base:"20px", md:"18px"}}>Dê detalhes sobre o ocorrido</Text>
-                    <Textarea w={{base:"90%", md:"90vh"}} fontSize={{base:"20px", md:"18px"}} h="25vh" placeholder="Descreva aqui" onChange={handleChange} name="den_content"/>
+                    <Textarea w={{base:"90%", md:"47vw"}} fontSize={{base:"20px", md:"18px"}} h="25vh" placeholder="Descreva aqui" onChange={handleChange} name="den_content"/>
                     <ButtonGroup >
                         <Button fontSize={{base:"20px", md:"15px"}} onClick={checkInputs} colorScheme="linkedin" fontFamily="outfit">Enviar</Button>
                         <Link to={(type == "offer") ? `/offer/${id}` : `/profile/${report.email}/view`}><Button fontSize={{base:"20px", md:"15px"}} colorScheme="linkedin" fontFamily="outfit">Cancelar</Button></Link>
