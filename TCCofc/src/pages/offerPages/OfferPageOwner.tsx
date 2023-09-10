@@ -571,7 +571,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                 onOpen();
                             }}>Avaliar</Button>: ""}
                         </ButtonGroup> 
-                        <Avaliation user_name={compUser.user_name} isOpen={isOpen} setClose={onClose} recUserId={compUser.user_id} envUserId={offer.User_user_id}/>
+                        <Avaliation user_name={compUser.user_name} isOpen={isOpen} setClose={onClose} recUserId={compUser.user_id} envUserId={offer.User_user_id} user_img={imgIntrested}/>
                     </Flex>: ""}
                 </Flex>
             <Footer/>

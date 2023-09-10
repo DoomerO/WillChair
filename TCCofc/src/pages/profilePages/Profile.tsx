@@ -13,7 +13,7 @@ import axios from "axios";
 
 import { BsFillStarFill } from "react-icons/bs";
 import {TbMoodSilence} from "react-icons/tb";
-import { MdOutlineReport, MdOutlineReportProblem } from "react-icons/md";
+import { MdOutlineReport, MdOutlineReportProblem, MdOutlineSearchOff } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 interface ProfileProps{
@@ -47,7 +47,7 @@ const Profile = ({user} : ProfileProps) => {
 
   async function getReports() {
     await axios.get(`http://localhost:3344/denounce/user/${user.user_email}`).then((res) => {
-      setReports(true);
+      if(res.data.length > 0) setReports(true);
     }).catch((error) => {
       console.log(error);
     })
@@ -104,7 +104,7 @@ const Profile = ({user} : ProfileProps) => {
                     position: 'bottom',
                     render: () => (
                       <Stack bg="red.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja denunciar essa oferta?</Text>
+                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja denunciar esse usuário?</Text>
                         <Stack direction="row">
                           <Button color="#fff" _hover={{bg:"#fff2"}} variant="outline" onClick={() => {navigate(`/report/user/${user.user_id}`), toast.closeAll()}}>Sim</Button>
                           <Button color="#fff" _hover={{bg:"#fff2"}} variant="outline" onClick={() => {toast.closeAll()}}>Não</Button>    
@@ -153,7 +153,7 @@ const Profile = ({user} : ProfileProps) => {
 
         <Flex bg={colors.bgWhite} h="fit-content" direction="column" align="center" pb="5vh" _dark={{bg : colors.bgWhite_Dark}}>
           <Heading as="h1" mt="3%" fontSize={{base: "34px", sm: "30px"}} textAlign="center" color={colors.colorFontDarkBlue} mb="2%" _dark={{color: colors.colorFontDarkBlue_Dark}}>Ofertas de {user.user_name}</Heading>
-          {(userOffers.length > 0) ? <OfferList component={renderUserOffers}/> : <SignNotFound msg={`Parece que ${user.user_name} não possui nenhuma oferta...`} icon={<TbMoodSilence size="45%"/>}/>}
+          {(userOffers.length > 0) ? <OfferList component={renderUserOffers}/> : <SignNotFound msg={`Parece que ${user.user_name} não possui nenhuma oferta...`} icon={<MdOutlineSearchOff size="45%"/>}/>}
         </Flex> 
       <Footer/>
     </Box>

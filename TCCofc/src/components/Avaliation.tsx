@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, Textarea, useToast } from "@chakra-ui/react";
+import { Avatar, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, Textarea, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { ChangeEvent, useState, useEffect } from "react";
 import {RiStarSLine, RiStarSFill} from "react-icons/ri"
@@ -11,9 +11,10 @@ interface avaliationProps {
     recUserId : number;
     envUserId : number;
     user_name : string;
+    user_img : any;
 }
 
-const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name} : avaliationProps) => {
+const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name, user_img} : avaliationProps) => {
   const toast = useToast();
   const [avaliation, setAvaliation] = useState({
     value : 0,
@@ -77,7 +78,8 @@ const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name} : avalia
         <ModalContent>
           <ModalHeader>Avaliar {user_name}</ModalHeader>
           <ModalCloseButton onClick={() => {setClose(); clearValue()}}/>
-          <ModalBody>
+          <ModalBody justifyContent="center" align="center">
+            <Avatar name={user_name} src={(user_img) ? user_img : null} size="2xl" mb="3%"></Avatar>
             <Stack spacing={5} direction="row" align="center" justifyContent="center" mb="3%">
                 {(avaliation.value >= 1) ? 
                 <RiStarSFill color={colors.colorFontBlue} size="7%" onClick={() => {setAvaliation(prev => ({...prev, value : 1}));}}/> : 

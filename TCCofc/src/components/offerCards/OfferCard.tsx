@@ -1,4 +1,4 @@
-import { Text, Card, CardBody, CardFooter, CardHeader, Flex, Heading, Image, Button} from "@chakra-ui/react";
+import { Text, Card, CardBody, CardFooter, CardHeader, Flex, Heading, Image, Button, Spacer} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import colors from "../../colors/colors";
 import axios from "axios";
@@ -46,14 +46,17 @@ const CardOffer = ({img, title, condition, composition, type, value, id}: OfferC
                 <Flex direction="column" mt="3%">
                    <Flex direction="row">
                         <Text color={colors.colorFontBlue} fontSize={{base:"20px", md:"18px"}}>Condição:</Text>
+                        <Spacer/>
                         <Text fontSize={{base:"20px", md:"18px"}}>{condition}</Text>
                    </Flex>
                    <Flex direction="row">
-                        <Text color={colors.colorFontBlue} fontSize={{base:"20px", md:"18px"}}>Tipo:</Text>
+                        <Text color={colors.colorFontBlue} fontSize={{base:"20px", md:"18px"}}>Equipamento:</Text>
+                        <Spacer/>
                         <Text fontSize={{base:"20px", md:"18px"}}>{type}</Text>
                    </Flex>
                    <Flex direction="row">
                         <Text color={colors.colorFontBlue} fontSize={{base:"20px", md:"18px"}}>Composição:</Text>
+                        <Spacer/>
                         <Text fontSize={{base:"20px", md:"18px"}}>{composition}</Text>
                    </Flex>
                    <Text fontSize={{base:"22px", md:"19px"}} align='center' color={colors.colorFontBlue} mt="2%">{(value) ? "R$" + value : "Doação"}</Text>

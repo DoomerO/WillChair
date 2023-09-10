@@ -206,7 +206,7 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
                         <Spacer/>
                         <Box minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
                             <Text fontSize={{base:"15px", md:"15px"}} textAlign="justify" mr="25px">{item.msg_content}</Text>
-                            <IconButton aria-label={"apagar mensagem"} float="right" size="20%" onClick={() => {socket.emit("deleteMsg", {chat : chat_id, msgId : item.msg_id})}}><BsTrash /></IconButton>
+                            <IconButton aria-label={"apagar mensagem"} bg="#0000" float="right" size="20%" onClick={() => {socket.emit("deleteMsg", {chat : chat_id, msgId : item.msg_id})}}><BsTrash /></IconButton>
                         </Box>
                     </Flex>
                 }

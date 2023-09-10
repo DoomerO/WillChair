@@ -370,7 +370,7 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
                                 onOpen();
                             }}>Avaliar</Button>: ""}
                         </ButtonGroup>
-                        <Avaliation user_name={owner.user_name} isOpen={isOpen} setClose={onClose} recUserId={offer.User_user_id} envUserId={compUser.user_id}/>
+                        <Avaliation user_name={owner.user_name} isOpen={isOpen} setClose={onClose} recUserId={offer.User_user_id} envUserId={compUser.user_id} user_img={img}/>
                     </Flex>: ""}
             <Footer/>
         </Box>

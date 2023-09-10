@@ -156,8 +156,8 @@ const HomeProd = () => {
         if (item.match(search) && numOptRender < 6) {
             numOptRender += 1;
             return <Flex key={optionsRenderList.indexOf(item)} bg="#eee" w={{base:"80%", md:"50%"}} p={2.5} color={colors.colorFontBlue}
-            _hover={{bg: "#bfbfbf"}} _dark={{bg:"#4f4f4f", _hover:{bg:"#444"}}}>
-                <Link to={`/search/${"name"}/${item}`}>{item}</Link>
+            _hover={{bg: "#bfbfbf"}} _dark={{bg:"#4f4f4f", _hover:{bg:"#444"}}} onClick={() => {navigate(`/search/${"name"}/${item}`)}}>
+                {item}
             </Flex>
         }
     })
