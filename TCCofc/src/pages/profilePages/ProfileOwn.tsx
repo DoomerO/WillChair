@@ -300,7 +300,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Telefone:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_phone ? `(${userUpdate.user_phone.slice(0,2)})${userUpdate.user_phone.slice(2,15)}` : ""} name="user_phone" onChange={handleChange} maxLength={15} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_phone ? user.user_phone : "Digite seu número de telefone"} pattern="[(]?[0]?[0-9]{0,2}[)]?[0-9]{0,}"/>
+                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_phone ? `(${userUpdate.user_phone.slice(0,2)})${userUpdate.user_phone.slice(2,15)}` : ""} name="user_phone" onChange={handleChange} maxLength={15} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_phone ? user.user_phone : "Digite seu número de telefone"} pattern="[\u0028]?[0]?[0-9]{0,2}[\u0029]?[0-9]{0,}"/>
                             </Flex>
                             
 
