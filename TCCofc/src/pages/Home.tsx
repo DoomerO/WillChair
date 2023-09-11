@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Category from "../components/Category";
 import HeaderToggle from "../components/toggles/HeaderToggle";
 import Footer from "../components/Footer";
-import { Box, Flex, Spacer, Text, Image, Heading, Stack, Container } from '@chakra-ui/react';
+import { Box, Flex, Spacer, Text, Image, Heading, Stack, Container, useColorModeValue } from '@chakra-ui/react';
 import {BsCreditCard} from "react-icons/bs";
 import {BiDonateHeart} from "react-icons/bi";
 import {MdWheelchairPickup} from "react-icons/md";
@@ -16,8 +16,12 @@ import muleta from '../img/categories/muleta.png';
 import andador from '../img/categories/andador.png';
 import bengala from '../img/categories/bengala.png';
 import diversos from '../img/categories/diversidade.png';
+import caderiaRodas_Dark from '../img/categories/cadeira-de-rodas claro.png';
+import muleta_Dark from '../img/categories/muleta claro.png';
+import andador_Dark from '../img/categories/andador claro.png';
 
 const Home = () => {
+    const colorMode = useColorModeValue(true, false);
 
     return (
         <Box w="100%" h="100%">
@@ -84,11 +88,11 @@ const Home = () => {
                 <Flex h="80%" direction='row' align='center'>
                     <Image src={bottomImage} w="30%" h='100%' objectFit='contain' display={{base: "none", md: "inherit"}}></Image>
                     <Flex direction={{base:'column', md :'row'}} w='60%'>
-                        <Category name='Cadeira de Rodas' icon={cadeiraRodas} path="/search/prod_type/Cadeira de Rodas"/>
+                        <Category name='Cadeira de Rodas' icon={(colorMode) ? cadeiraRodas : caderiaRodas_Dark} path="/search/prod_type/Cadeira de Rodas"/>
                         <Spacer />
-                        <Category name='Muleta' icon={muleta} path="/search/prod_type/Muleta"/>
+                        <Category name='Muleta' icon={(colorMode) ? muleta : muleta_Dark} path="/search/prod_type/Muleta"/>
                         <Spacer />
-                        <Category name='Andador' icon={andador} path="/search/prod_type/Andador"/>
+                        <Category name='Andador' icon={(colorMode) ? andador : andador_Dark} path="/search/prod_type/Andador"/>
                         <Spacer />
                         <Category name='Bengala' icon={bengala} path="/search/prod_type/Bengala"/>
                         <Spacer />
@@ -97,7 +101,6 @@ const Home = () => {
                 </Flex>
             </Flex>
             <Footer/>
-            
         </Box> 
     )
 }

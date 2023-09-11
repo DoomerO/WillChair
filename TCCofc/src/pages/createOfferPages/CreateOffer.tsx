@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Category from "../../components/Category";
 import Footer from "../../components/Footer";
 import HeaderToggle from "../../components/toggles/HeaderToggle";
-import { Box, Flex, Spacer, Text, Image, Heading, Stack, Container } from '@chakra-ui/react';
+import { Box, Flex, Spacer, Text, Image, Heading, Stack, Container, useColorModeValue } from '@chakra-ui/react';
 
 //images
 import cadeiraRodas from '../../img/categories/cadeira-de-rodas.png';
@@ -10,8 +10,12 @@ import muleta from '../../img/categories/muleta.png';
 import andador from '../../img/categories/andador.png';
 import bengala from '../../img/categories/bengala.png';
 import diversos from '../../img/categories/diversidade.png';
+import caderiaRodas_Dark from '../../img/categories/cadeira-de-rodas claro.png';
+import muleta_Dark from '../../img/categories/muleta claro.png';
+import andador_Dark from '../../img/categories/andador claro.png';
 
 const CreateOffer = () => {
+    const colorMode = useColorModeValue(true, false);
 
     return (
         <Box w="100%" h="100%">
@@ -27,11 +31,11 @@ const CreateOffer = () => {
 
                 <Flex h="80%" direction='row' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
                     <Flex direction={{base:'column', md :'row'}} w='80%' ml='10%' mb='5%'>
-                        <Category name='Cadeira de Rodas' icon={cadeiraRodas} path="/create-offer/cadeira-rodas"/>
+                        <Category name='Cadeira de Rodas' icon={(colorMode) ? cadeiraRodas : caderiaRodas_Dark} path="/create-offer/cadeira-rodas"/>
                         <Spacer />
-                        <Category name='Muleta' icon={muleta} path="/create-offer/muleta"/>
+                        <Category name='Muleta' icon={(colorMode) ? muleta : muleta_Dark } path="/create-offer/muleta"/>
                         <Spacer />
-                        <Category name='Andador' icon={andador} path="/create-offer/andador"/>
+                        <Category name='Andador' icon={(colorMode)  ? andador : andador_Dark} path="/create-offer/andador"/>
                         <Spacer />
                         <Category name='Bengala' icon={bengala} path="/create-offer/bengala"/>
                         <Spacer />
