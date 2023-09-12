@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Offer` (
   `ofr_city` VARCHAR(30) NOT NULL,
   `ofr_user_name` VARCHAR(45) NOT NULL,
   `ofr_parcelas` INT NULL,
-  `ofr_postDate` VARCHAR(10) NULL,
+  `ofr_postDate` DATE NULL,
   `user_comp_id` INT NULL,
   `ofr_env_conf` TINYINT NULL,
   `ofr_rec_conf` TINYINT NULL,
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Avaliation` (
   `ava_id` INT NOT NULL AUTO_INCREMENT,
   `ava_content` VARCHAR(255) NOT NULL,
   `ava_value` INT NOT NULL,
-  `ava_date` VARCHAR(10) NOT NULL,
+  `ava_date` DATE NOT NULL,
   `User_user_idEnv` INT NOT NULL REFERENCES `willchair`.`User` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
