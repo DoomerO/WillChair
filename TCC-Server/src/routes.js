@@ -2,6 +2,7 @@ const express = require('express');
 
 //middlewares
 const auth = require('./middleware/auth');
+const authAdm = require('./middleware/authAdm');
 
 //Controllers
 const controllersUsers = require('./controllers/users/usersController');
@@ -11,11 +12,12 @@ const controllersChats = require('./controllers/chats/chatsController');
 const controllersProducts = require('./controllers/products/productsController');
 const controllersdenounce = require('./controllers/denounce/denounceController');
 const controllersAvaliation = require('./controllers/avaliation/avaliationController');
+const controllersAdministration = require('./controllers/administrator/administratorControllers');
 
 const routes = express.Router();
 
 //User Routes
-routes.get('/users', auth,controllersUsers.searchUsers);
+routes.get('/users', authAdm,controllersUsers.searchUsers);
 routes.get('/users/login/:email/:password', controllersUsers.searchUserEmailPassword);
 routes.get('/users/email/:email', auth, controllersUsers.searchUserEmail);
 routes.get('/users/id/:id', controllersUsers.searchUserId); 
@@ -45,14 +47,14 @@ routes.put('/offers/confirm-equipament/:id/:user', auth, controllersOffers.confi
 routes.delete('/offers/:id', auth, controllersOffers.deleteOffer);
 
 //Messages Routes
-routes.get('/messages', auth, controllersMessages.searchMessages);
+routes.get('/messages', authAdm, controllersMessages.searchMessages);
 routes.get('/messages/chat/:chat_id', auth, controllersMessages.searchMessagesChat);
 routes.post('/messages', auth, controllersMessages.createMessages);
 routes.delete('/messages/:id', auth, controllersMessages.delMessages);
 routes.delete('/messages/chat/:chat_id', auth, controllersMessages.delMessagesChat);
 
 //Chat Routes 
-routes.get('/chats', auth, controllersChats.searchChats);
+routes.get('/chats', authAdm, controllersChats.searchChats);
 routes.get('/chats/offer/:ofr_id', auth, controllersChats.searchChatOffer);
 routes.get('/chats/user/offer/:user_id/:ofr_id', auth, controllersChats.searchChatUserOffer);
 routes.get('/chats/user/:user_id', auth, controllersChats.searchChatUser);
@@ -61,7 +63,7 @@ routes.delete('/chats/:id', auth, controllersChats.deleteChat);
 routes.delete('/chats/offer/:ofr_id', auth, controllersChats.deleteChatOffer);
 
 //Products Routes
-routes.get('/products', auth, controllersProducts.searchProducts);
+routes.get('/products', authAdm, controllersProducts.searchProducts);
 routes.get('/products/keys', auth, controllersProducts.searchKeysProducts);
 routes.get('/products/offer/:ofr_id', controllersProducts.searchProductOffer);
 routes.get('/products/id/:id', controllersProducts.searchProductId);
@@ -84,7 +86,7 @@ routes.get('/products/photo/:filename', controllersProducts.returnImage);
 routes.put('/products/img/photo', auth, controllersProducts.uploadImage);
 
 //denounce routes
-routes.get('/denounce', auth, controllersdenounce.searchdenounce);
+routes.get('/denounce', authAdm, controllersdenounce.searchdenounce);
 routes.get('/denounce/user/:email', controllersdenounce.searchdenounceByEmail);
 routes.get('/denounce/offer/:ofrId', controllersdenounce.searchDenounceOffer);
 routes.post('/denounce', auth, controllersdenounce.createDenounce);
@@ -99,5 +101,12 @@ routes.post('/avaliation', auth, controllersAvaliation.createAvaliation);
 routes.put('/avaliation/:id', auth, controllersAvaliation.updateAvaliation);
 routes.delete('/avaliation/:id', auth, controllersAvaliation.deleteAvaliation);
 
+//administration routes
+routes.get('/adm', authAdm, controllersAdministration.searchAdministrators);
+routes.get('/adm/login/:email/:password', controllersAdministration.verifyAdministrator);
+routes.get('/adm/id/:email', authAdm, controllersAdministration.getAdmId);
+routes.post('/adm', authAdm, controllersAdministration.createAdministrator);
+routes.put('/adm/update/:updtType/:id', authAdm, controllersAdministration.updateAdministrator);
+routes.delete('/adm/:email', authAdm, controllersAdministration.deleteAdministrator);
 
 module.exports = routes;

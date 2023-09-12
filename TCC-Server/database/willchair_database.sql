@@ -220,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Administrator` (
   `adm_id` INT AUTO_INCREMENT PRIMARY KEY,
   `adm_email` VARCHAR(45) NOT NULL,
   `adm_password` VARCHAR(60) NOT NULL,
-  `adm_name` VARCHAR(20)   
+  `adm_name` VARCHAR(20) NULL
 )
 ENGINE = InnoDB;
 

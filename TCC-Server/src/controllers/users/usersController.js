@@ -164,13 +164,13 @@ module.exports= {
                         const user = {name: consult[0].user_name, 
                             email: consult[0].user_email};
                             
-                            const acssesToken = jwt.sign( //criação de token
+                            const accsesToken = jwt.sign( //criação de token
                                 user,
-                                process.env.TOKEN_KEY_ACSSES,
+                                process.env.TOKEN_KEY_ACCSES,
                                 {expiresIn: '3h'}
                             );
 
-                        return res.status(201).json({token : acssesToken})
+                        return res.status(201).json({token : accsesToken})
                     }
                     else {
                         return res.status(401).json({msg: "There is no user with this data"});
@@ -212,13 +212,13 @@ module.exports= {
             
             const user = {name: user_name, email: user_email}
             
-            const acssesToken = jwt.sign( //criação de token
+            const accsesToken = jwt.sign( //criação de token
                 user,
-                process.env.TOKEN_KEY_ACSSES,
+                process.env.TOKEN_KEY_ACCSES,
                 {expiresIn: '3h'}
             );
 
-            return res.status(201).json({token : acssesToken});
+            return res.status(201).json({token : accsesToken});
 
         }
         catch(error) {
@@ -301,12 +301,12 @@ module.exports= {
 
             const user = {name: user_name, email: consult[0].user_email}
             
-            const acssesToken = jwt.sign( //criação de token
+            const accsesToken = jwt.sign( //criação de token
             user,
-            process.env.TOKEN_KEY_ACSSES,
+            process.env.TOKEN_KEY_ACCSES,
             {expiresIn: '3h'});
 
-            return res.status(201).json({token: acssesToken});
+            return res.status(201).json({token: accsesToken});
         }
         catch(error) {
             return res.status(400).json({error: error.message});
@@ -356,12 +356,12 @@ module.exports= {
 
                 const user = {name: consult[0].user_name, email: email}
             
-                const acssesToken = jwt.sign( //criação de token
+                const accsesToken = jwt.sign( //criação de token
                 user,
-                process.env.TOKEN_KEY_ACSSES,
+                process.env.TOKEN_KEY_ACCSES,
                 {expiresIn: '3h'});
 
-                return res.status(201).json({token : acssesToken});
+                return res.status(201).json({token : accsesToken});
             }
             return res.status(401).json({msg : "There is no user with this id"});            
         }
