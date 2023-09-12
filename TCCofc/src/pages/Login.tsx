@@ -3,7 +3,7 @@ import { useState, useEffect, ChangeEvent } from 'react';
 import Password from '../components/Password';
 import axios from 'axios';
 import { useNavigate, Link, useParams } from 'react-router-dom';
-import { Wrap, Button, IconButton, Collapse, Input, useBoolean, Container, useToast, Flex, useColorMode, ButtonGroup, Text } from '@chakra-ui/react'
+import { Wrap, Button, IconButton, Collapse, Input, useBoolean, Container, useToast, Flex, useColorMode, ButtonGroup, Text, UseToastOptions, ToastPosition } from '@chakra-ui/react'
 import { FiArrowLeft, FiSun, FiMoon } from 'react-icons/fi'
 
 const Login = () => {
@@ -20,7 +20,6 @@ const Login = () => {
     })
     const [subPass, setSubPass] = useState("")
     const [screen, setScreen] = useBoolean(logOrSign.screen == "new" ? true : false)
-    const toast = useToast()
     const route = useNavigate()
 
     const handleValidity = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,13 +48,14 @@ const Login = () => {
         }
     }
     
-    function callToast(title:string, desc:string, duration?:number, type?:any){
-        toast({
+    function callToast(title:string, desc:string, time?:number, type?:UseToastOptions["status"], pos?:ToastPosition, close?:boolean){
+        useToast()({
             title: title,
             description: desc,
             status: type,
-            duration: duration,
-            position: 'bottom',
+            duration: time,
+            position: pos,
+            isClosable: close ? close : true
         })
     }
 
@@ -91,8 +91,8 @@ const Login = () => {
             axios.post('http://localhost:3344/users', {
                 user_email: fields.email, 
                 user_name: fields.name,
-                password: password.password,
-                user_level: 0}).then(res => {
+                password: password.password
+            }).then(res => {
                 localStorage.setItem("token", res.data.token);
                 callToast("Usuário(a) registrado(a)", "Você será redirecionado(a) em breve", 2000, "loading")
                 route(`/preconfig`);

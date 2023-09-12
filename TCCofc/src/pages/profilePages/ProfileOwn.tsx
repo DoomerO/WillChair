@@ -24,16 +24,14 @@ interface ProfileOwnProps {
 const ProfileOwn = ({user} : ProfileOwnProps) =>{
 
     const navigate = useNavigate();
-    const toastHand = useToast();
     const [avaliations, setAvaliations] = useState([]);
     const [userOffers, setUserOffers] = useState([]);
     const [userUpdate, setUpdate] = useState({});
     const [imgChange, setImgChange] = useState(false)
     const [showImg, setImg] = useState<any>();
 
-    const callToast = useToast()
     function toast(title:string, desc:string, time?:number, type?:UseToastOptions["status"], pos?:ToastPosition, close?:boolean){
-    callToast({
+    useToast()({
         title: title,
         description: desc,
         status: type,
@@ -108,7 +106,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
             })
         }
         else {
-            callToast.closeAll()
+            useToast().closeAll()
             toast('Sem alterações', 'Não há alterações para se atualizar', 3000, 'warning')
         }
     }
@@ -130,7 +128,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
 
     function discartChanges() {
         if(!checkChange()){
-            callToast.closeAll()
+            useToast().closeAll()
             setImgChange(false)
             toast('', 'Não há mudanças para reverter', 3000, 'warning')
             return

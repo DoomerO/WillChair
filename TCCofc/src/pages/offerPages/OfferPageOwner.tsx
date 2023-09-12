@@ -1,4 +1,4 @@
-import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Input, Textarea, ButtonGroup, Button, useToast, Select, InputGroup, InputLeftAddon, useDisclosure} from "@chakra-ui/react";
+import {Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Input, Textarea, ButtonGroup, Button, useToast, Select, InputGroup, InputLeftAddon, useDisclosure, UseToastOptions, ToastPosition} from "@chakra-ui/react";
 import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -22,11 +22,10 @@ interface OwnerPageprops {
 }
 
 const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
-
+    
     const [updateProduct, setUpdateProd] = useState(false);
     const [clearProduct, setClearProd] = useState(false)
     const navigate = useNavigate();
-    const toast = useToast();
     const [chats, setChats] = useState([]);
     const [others, setOthers] = useState([]);
     const [reports, setReports] = useState(false);
@@ -39,11 +38,11 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     const [imgIntrested, setImgIntrested] = useState<any>();
     const [imgShow, setShow] = useState<any>();
     const [defaultProdImg, setDefault] = useState<any>();
-
+    
     useEffect(() => {
         const canceltoken = axios.CancelToken.source();
         if(offer.ofr_id) {
-                setUpdateOffer(prev => ({...prev,
+            setUpdateOffer(prev => ({...prev,
                 prod_img: null,
                 ofr_name : offer.ofr_name,
                 ofr_type : offer.ofr_type,
@@ -64,7 +63,8 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
             canceltoken.cancel();
         }
     }, [offer.ofr_id]);
-
+    
+    
     useEffect(() => {
         const canceltoken = axios.CancelToken.source();
         if(chats.length > 0) {
@@ -76,13 +76,24 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
             }
         }
     }, [chats])
-
+    
     useEffect(() => {
         if(compUser.user_img) {
-            getImgIntrested();
+            getImgInterested();
         }
     }, [compUser])
 
+    function toast(title:string, desc:string, time?:number, type?:UseToastOptions["status"], pos?:ToastPosition, close?:boolean){
+        useToast()({
+            title: title,
+            description: desc,
+            status: type,
+            duration: time,
+            position: pos,
+            isClosable: close ? close : true
+        })
+    }
+    
     function clearChanges() {
         setUpdateOffer(prev => ({...prev,
             prod_img : null,
@@ -95,15 +106,9 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         }));
         setShow(defaultProdImg);
         setClearProd(!clearProduct);
-        toast({
-            title: 'Mudanças Revertidas!',
-            description: "A oferta voltou a seu estado anterior.",
-            status: 'success',
-            duration: 9000,
-            isClosable: true,
-          })
+        toast('Mudanças Revertidas!', "A oferta voltou a seu estado anterior.", 3000, 'success')
     }
-
+    
     async function updateOfferOprt() {
         await axios.put(`http://localhost:3344/offers/${offer.ofr_id}`, {
             ofr_name: updateOffer.ofr_name,
@@ -116,15 +121,8 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
             setUpdateProd(true);
-            toast({
-                position: 'bottom',
-                render: () => (
-                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Oferta atualizada com sucesso!</Text>
-                        <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate(0)}}>Atualizar a página</Button>
-                    </Stack>
-                )
-            })
+            toast('Produto atualisadsdsdszado', 'Atualizado com sucesso', 3000, "success")
+            navigate(0)
         }).catch((error) => {
             console.log(error);
         })
@@ -143,24 +141,11 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         data.append("photo", updateOffer.prod_img);  
         await axios.put('http://localhost:3344/products/img/photo', data,
         {headers : {authorization : "Bearer " + localStorage.getItem("token"), prod_id : offer.Product_prod_id}}).then((res) => {
-            toast({
-                position: 'bottom',
-                render: () => (
-                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Imagem atualizada com sucesso!</Text>
-                    </Stack>
-                )
-            })
+            toast("", "Imagem atualizada", 3000)
         }).catch(error => {
             console.log(error);
             if(error.response.status == 413) {
-                toast({
-                    title: 'Imagem muito grande!',
-                    description: "Tente usar uma imagem menor.",
-                    status: 'error',
-                    duration: 9000,
-                    isClosable: true,
-                  })
+                toast('Imagem muito grande!', "Tente usar uma imagem menor.", 3000, "error")
             }
         })
     }
@@ -184,7 +169,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         await axios.delete(`http://localhost:3344/offers/${offer.ofr_id}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
-            toast({
+            useToast()({
                 position: 'bottom',
                 render: () => (
                     <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
@@ -202,14 +187,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         await axios.delete(`http://localhost:3344/products/${offer.Product_prod_id}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
-            toast({
-                position: 'bottom',
-                render: () => (
-                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Equipamento apagado com sucesso!</Text>
-                    </Stack>
-                )
-            })
+            toast("", "Produto deletado", 3000, "success")
         }).catch((error) => {
             console.log(error);
         })
@@ -229,14 +207,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         }, {headers : {
             authorization : "Bearer " + localStorage.getItem("token")
         }}).then((res) => {
-            toast({
-                position: 'bottom',
-                render: () => (
-                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Compromisso apagado com sucesso!</Text>
-                    </Stack>
-                )
-            })
+            toast("", "Compromisso revogado", 3000, "success")
             navigate(0);
         }).catch((error) => {
             console.log(error);
@@ -248,14 +219,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         }, {headers : {
             authorization : "Bearer " + localStorage.getItem("token")
         }}).then((res) => {
-            toast({
-                position: 'bottom',
-                render: () => (
-                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Envio do equipamento confirmado!</Text>
-                    </Stack>
-                )
-            })
+            toast("Envio confirmado", "Equipament enviado", 3000, "success")
             navigate(0);
         }).catch((error) => {
             console.log(error);
@@ -305,7 +269,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         })
     }
 
-    async function getImgIntrested() {
+    async function getImgInterested() {
         await axios.get(`http://localhost:3344/users/profile/photo/${compUser.user_img}`, {responseType : "arraybuffer"}).then(res => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
@@ -348,46 +312,28 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     }
 
     function deleteOfferFunc() {
-        if(reports) { toast({
-            title: 'O oferta não pode ser apagada!',
-            description: "As denúncias ainda precisam ser analizadas antes que seja possível alterar a oferta ou apagá-la!",
-            status: 'error',
-            duration: 9000,
-            isClosable: true})
+        if(reports) { 
+            toast('A oferta não pode ser alterada', "Essa oferta está sob avaliação de denúncia", 3000,'error')
         }
         else if(offer.ofr_status != "Livre") {
-            toast({
-                title: 'O oferta não pode ser apagada!',
-                description: "Um compromisso foi estabelecido, logo não será possível apagar essa oferta.",
-                status: 'error',
-                duration: 9000,
-                isClosable: true})
+            toast('Em compromisso',
+            "A oferta pussui um compromisso ativo", 3000, 'error')
         }
         else {
             deleteChatsOffer();
             deleteProductOffer();
             deleteOfferOprt();
-            toast.closeAll();
+            useToast().closeAll();
         }
        
     }
 
     function updateOfferFunc() {
         if(reports) {
-            toast({
-                title: 'O oferta não pode ser atualizada!',
-                description: "As denúncias ainda precisam ser analizadas antes que seja possível alterar a oferta ou apagá-la!",
-                status: 'error',
-                duration: 9000,
-                isClosable: true});
+            toast('A oferta não pode ser alterada', "Essa oferta está sob avaliação de denúncia", 3000,'error')
         }
         else if(offer.ofr_status != "Livre") {
-            toast({
-                title: 'O oferta não pode ser atualizada!',
-                description: "Como foi estabelecido um compromisso, é importante que as informações da oferta seja mantidas como antes.",
-                status: 'error',
-                duration: 9000,
-                isClosable: true});
+            toast('A oferta não pode ser alterada', "A oferta pussui um compromisso ativo", 3000,'error')
         }
         else {
             updateOfferOprt();
@@ -542,25 +488,25 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     {(offer.ofr_status != "Livre") ? <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark}} pb="5vh">
                         <Heading mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "32px", md: "30px"}} noOfLines={{base:2, md:1}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>O que deseja fazer com o Compromisso?</Heading>
                         <ButtonGroup gap={5} flexDirection={{base:"column", md:"row"}}>
-                            <Button colorScheme="linkedin" variant="solid" onClick={() => { toast({
+                            <Button colorScheme="linkedin" variant="solid" onClick={() => { useToast()({
                                 position: 'bottom',
                                 render: () => (
                                     <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                                         <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja apagar esse compromisso?</Text>
                                         <Stack direction="row">
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {(offer.ofr_status == "Conclusão") ? toast({
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {(offer.ofr_status == "Conclusão") ? useToast()({
                                                 title: 'O compromisso não pode ser encerrado!',
                                                 description: "O equipamento já foi enviado.",
                                                 status: 'error',
                                                 duration: 9000,
                                                 isClosable: true})
                                              : endComprisse()}}>Sim</Button>
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toast.closeAll()}}>Não</Button>    
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {useToast().closeAll()}}>Não</Button>    
                                         </Stack>
                                     </Stack>
                                 )
                             })}}>Encerrar Compromisso</Button>
-                            <Button colorScheme="linkedin" variant="solid" onClick={() => {(offer.ofr_env_conf) ? toast({
+                            <Button colorScheme="linkedin" variant="solid" onClick={() => {(offer.ofr_env_conf) ? useToast()({
                                 title: 'Você já confirmou o envio do equipamento!',
                                 description: "Não é necessário confirmar mais de uma vez!",
                                 status: 'error',
