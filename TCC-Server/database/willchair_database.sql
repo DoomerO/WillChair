@@ -25,7 +25,6 @@ CREATE TABLE IF NOT EXISTS `willchair`.`User` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
   `user_email` VARCHAR(45) NOT NULL,
   `user_password` VARCHAR(60) NOT NULL,
-  `user_level` INT NOT NULL,
   `user_phone` VARCHAR(20) NULL,
   `user_houseNum` VARCHAR(6) NULL,
   `user_city` VARCHAR(30) NULL,
@@ -100,7 +99,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `willchair`.`Mesage`
+-- Table `willchair`.`Message`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `willchair`.`Message` (
   `msg_id` INT NOT NULL AUTO_INCREMENT,
@@ -211,6 +210,18 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Andador` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   PRIMARY KEY (`Product_prod_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `willchair`.`Andador`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `willchair`.`Administrator` (
+  `adm_id` INT AUTO_INCREMENT PRIMARY KEY,
+  `adm_email` VARCHAR(45) NOT NULL,
+  `adm_password` VARCHAR(60) NOT NULL,
+  `adm_name` VARCHAR(20)   
+)
 ENGINE = InnoDB;
 
 
