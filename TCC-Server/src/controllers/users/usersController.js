@@ -83,7 +83,6 @@ module.exports= {
                     user_name : consult[0].user_name,
                     user_CEP : consult[0].user_CEP,
                     user_city : consult[0].user_city,
-                    user_level : consult[0].user_level,
                     user_houseNum : consult[0].user_houseNum,
                     user_phone : consult[0].user_phone,
                     user_img : consult[0].user_img,
@@ -116,7 +115,6 @@ module.exports= {
                     user_name : consult[0].user_name,
                     user_CEP : consult[0].user_CEP,
                     user_city : consult[0].user_city,
-                    user_level : consult[0].user_level,
                     user_houseNum : consult[0].user_houseNum,
                     user_phone : consult[0].user_phone,
                     user_img : consult[0].user_img,
@@ -164,7 +162,7 @@ module.exports= {
                 bcrypt.compare(password, pass).then((result) => {
                     if(result) {
                         const user = {name: consult[0].user_name, 
-                            email: consult[0].user_email, level: consult[0].user_level};
+                            email: consult[0].user_email};
                             
                             const acssesToken = jwt.sign( //criação de token
                                 user,
@@ -195,9 +193,8 @@ module.exports= {
             const {user_name} = req.body;
             const {user_email} = req.body;
             const {password} = req.body;
-            const {user_level} = req.body;
             
-            if (!user_name || !user_email || user_level < 0 || !password) {
+            if (!user_name || !user_email || !password) {
                 return res.status(401).json({msg : "All info must be provided"})
             }
 
@@ -210,11 +207,10 @@ module.exports= {
             await knex('User').insert({
                 user_name,
                 user_email,
-                user_level,
                 user_password
             });
             
-            const user = {name: user_name, email: user_email, level: user_level}
+            const user = {name: user_name, email: user_email}
             
             const acssesToken = jwt.sign( //criação de token
                 user,
@@ -303,7 +299,7 @@ module.exports= {
                 return res.status(401).json({msg: "This user does not exists"});
             }
 
-            const user = {name: user_name, email: consult[0].user_email, level: consult[0].user_level}
+            const user = {name: user_name, email: consult[0].user_email}
             
             const acssesToken = jwt.sign( //criação de token
             user,
@@ -358,7 +354,7 @@ module.exports= {
                     user_email : email
                 }).where("user_id", id);
 
-                const user = {name: consult[0].user_name, email: email, level: consult[0].user_level}
+                const user = {name: consult[0].user_name, email: email}
             
                 const acssesToken = jwt.sign( //criação de token
                 user,
