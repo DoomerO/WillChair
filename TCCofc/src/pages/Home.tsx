@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+
 import Category from "../components/Category";
 import HeaderToggle from "../components/toggles/HeaderToggle";
 import Footer from "../components/Footer";

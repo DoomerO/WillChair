@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import {Flex, Container, Text, Box, Image} from '@chakra-ui/react';
-import "../styles/components/Category.css";
 import colors from "../colors/colors";
 
 //properties to adjust the component

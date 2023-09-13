@@ -103,6 +103,7 @@ routes.delete('/avaliation/:id', auth, controllersAvaliation.deleteAvaliation);
 
 //administration routes
 routes.get('/adm', authAdm, controllersAdministration.searchAdministrators);
+routes.get('/adm/email/:mode/:email', authAdm, controllersAdministration.searchAdmEmail);
 routes.get('/adm/login/:email/:password', controllersAdministration.verifyAdministrator);
 routes.get('/adm/id/:email', authAdm, controllersAdministration.getAdmId);
 routes.post('/adm', authAdm, controllersAdministration.createAdministrator);

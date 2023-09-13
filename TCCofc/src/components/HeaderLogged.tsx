@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Flex, Text, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button, useColorMode, Avatar, useColorModeValue, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, useDisclosure, Heading, Divider, Stack } from '@chakra-ui/react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { AiOutlineHome, AiOutlineInfoCircle, AiOutlineSearch, AiOutlineLogout } from "react-icons/ai";
@@ -24,6 +24,7 @@ const HeaderLogged = ({user}: avatarProps) => {
     const colorMode = useColorModeValue("Modo escuro", "Modo claro");
     const {isOpen, onOpen, onClose} = useDisclosure();
     const [img, setImg] = useState<any>();
+    const navigate = useNavigate();
 
     async function getImg() {
         await axios.get(`http://localhost:3344/users/profile/photo/${user.user_img}`, {responseType : "arraybuffer"}).then(res => {
@@ -79,7 +80,7 @@ const HeaderLogged = ({user}: avatarProps) => {
                 </Menu>
             </Center>
             <Spacer />
-                <Image src={logoImg} objectFit='cover' w={{base:"45%", md:"12%"}} h='66%' mt='2.5'></Image>
+                <Image src={logoImg} objectFit='contain' onClick={() => {navigate("/")}} w={{base:"45%", md:"12%"}} h='66%' mt='2.5'></Image>
             <Spacer />
             <HStack w='25%' display={{base: 'none', md:'inherit'}}>
                 <Button variant='link' colorScheme="#000">

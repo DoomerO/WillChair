@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Flex, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import {AiOutlineHome, AiOutlineInfoCircle, AiOutlineLogin, AiOutlineUserAdd, AiOutlineSearch} from "react-icons/ai";
@@ -13,6 +13,7 @@ const Header = () => {
     const {toggleColorMode} = useColorMode();
     const logoImg = useColorModeValue(logo, logoLight)
     const colorMode = useColorModeValue("Modo escuro", "Modo claro");
+    const navigate = useNavigate();
     return (
         <Flex w="100%" h="8.5vh" bg='#fff' position='fixed' _dark={{bg : '#131313'}} boxShadow='lg' zIndex={2}>
             
@@ -51,7 +52,7 @@ const Header = () => {
                 </Menu>
             </Center>
             <Spacer />
-                <Image src={logoImg} objectFit='cover' w={{base:"45%", md:"12%"}} h='66%' mt='2.5'></Image>
+                <Image src={logoImg} onClick={() => {navigate("/")}} objectFit='contain' w={{base:"45%", md:"12%"}} h='66%' mt='2.5'></Image>
             <Spacer />
             <HStack w='25%' display={{base: 'none', md:'inherit'}}>
                 <Button variant='link' colorScheme="#000">

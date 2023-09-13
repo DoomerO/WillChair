@@ -1,0 +1,19 @@
+@font-face {
+    font-family: atkinson;
+    src: url("./AtkinsonHyperlegible.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: dohyeon;
+    src: url("./DoHyeon.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: kdamthmor;
+    src: url("./KdamThmor.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: outfit;
+    src: url("./Outfit.ttf") format("truetype");
+}

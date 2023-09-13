@@ -13,6 +13,30 @@ module.exports = {
         }        
     },
 
+    async searchAdmEmail(req, res) {
+        try {
+            const {email, mode} = req.params;
+
+            const consult = await knex("Administrator").where("adm_email", email);
+            
+            if(consult != "") {
+                switch(mode) {
+                    case "validation":
+                        return res.status(201).json({msg : "This administrador exists"});
+                    
+                    case "get":
+                        return res.status(201).json(consult);
+                }
+            }
+            else {
+                return res.status(401).json({msg : "This administrator does not exists!"});
+            }
+        }
+        catch (error) {
+            res.status(400).json({error : error.message});
+        }
+    },
+
     async verifyAdministrator(req, res) {
         try {
             const {password, email} = req.params;
