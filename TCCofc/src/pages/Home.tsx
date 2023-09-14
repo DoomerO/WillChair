@@ -7,7 +7,7 @@ import {BsCreditCard} from "react-icons/bs";
 import {BiDonateHeart} from "react-icons/bi";
 import {MdWheelchairPickup} from "react-icons/md";
 import "../fonts/fonts.css"
-
+import {tiltXY, reCenter} from "../components/code/tilt"
 //images
 import bottomImage from '../img/home/homeImgBottom.png';
 import topImage from '../img/home/imgHomeTop.png';
@@ -39,13 +39,13 @@ const Home = () => {
             </Flex>
 
             <Flex w='100%' bg='#fff' h='fit-content' align='center' direction='column' _dark={{bg:'#4f4f4f'}} pb={{base:"5vh", md:"none"}}>
-                <Heading fontFamily="outfit" as='h1' noOfLines={{base: 2, md: 1}} color='#2D3748' mt={{base:'10%', md:'3%'}} _dark={{color:"#0D87d8"}} fontSize={{base: "32px", md: "34px"}} align='center' w={{base:'98vw', md:'fit-content'}}>
+                <Heading fontFamily="outfit" as='h1' noOfLines={{base: 2, md: 1}} color='#2D3748' mt={{base:'10%', md:'3%'}} _dark={{color:"#0D87d8"}} fontSize={{base: "32px", md: "34px"}} w={{base:'98vw', md:'fit-content'}}>
                     O que você pode encontrar por aqui
                 </Heading>
                 <Stack mt='8%' gap="50" direction={{base: "column", md: "row"}} >
                     <Flex direction='column' align='center' w='30vh'  h={{base:'33%' , md:'30vh'}}>
-                        <Box w='fit-content'>
-                            <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}}>
+                        <Box w='fit-content' pos="relative" onMouseMove={(e) => {tiltXY(e, 0.5, 0)}} onMouseLeave={(e) => {reCenter(e)}}>
+                            <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}} pointerEvents="none">
                                 <BsCreditCard size='8vh'/>
                             </Container>
                         </Box>
@@ -55,8 +55,8 @@ const Home = () => {
                     </Flex>
                     <Spacer />
                     <Flex direction='column' align='center' w='30vh' h={{base:'33%' , md:'30vh'}}>
-                        <Box w='fit-content'>
-                            <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}}>
+                        <Box w='fit-content' pos="relative" onMouseMove={(e) => {tiltXY(e, 0.5, 0)}} onMouseLeave={(e) => {reCenter(e)}}>
+                            <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}} pointerEvents="none">
                                 <BiDonateHeart size='8vh'/>
                             </Container>
                         </Box>
@@ -66,8 +66,8 @@ const Home = () => {
                     </Flex>
                     <Spacer />
                     <Flex direction='column' align='center' w='30vh'  h={{base:'33%' , md:'30vh'}}>
-                        <Box w='fit-content'>
-                            <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}}>
+                        <Box w='fit-content' pos="relative" onMouseMove={(e) => {tiltXY(e, 0.5, 0)}} onMouseLeave={(e) => {reCenter(e)}}>
+                            <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}} pointerEvents="none">
                                 <MdWheelchairPickup size='8vh'/>
                             </Container>
                         </Box>
@@ -80,7 +80,7 @@ const Home = () => {
 
             <Flex w='100%' h='fit-content' bg='#F7F9FC' align='center' direction='column' _dark={{bg:'#484A4D'}}>
                 <Box h='20%' alignContent='center' mt={{base:'10%', md:'3%'}}>
-                <Heading fontFamily="outfit" as='h2' noOfLines={{base: 2, md: 1}} color='#1963D2' _dark={{color:'#1983D2'}} fontSize={{base: "32px", md: "34px"}} align='center' w={{base:'98vw', md:'fit-content'}}>
+                <Heading fontFamily="outfit" as='h2' noOfLines={{base: 2, md: 1}} color='#1963D2' _dark={{color:'#1983D2'}} fontSize={{base: "32px", md: "34px"}} w={{base:'98vw', md:'fit-content'}}>
                     Confira abaixo algumas de nossas categorias
                 </Heading>
                 </Box>
