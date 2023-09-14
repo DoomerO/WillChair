@@ -123,6 +123,9 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Denounce` (
   `den_reason` VARCHAR(30) NOT NULL,
   `den_content` VARCHAR(255) NOT NULL,
   `den_date` VARCHAR(10) NOT NULL,
+  `den_status` VARCHAR(15) DEFAULT("Aberta"),
+  `den_gravity` INT DEFAULT 1,
+  `adm_assigned` INT NULL,
   `User_user_id` INT NOT NULL  REFERENCES `willchair`.`User` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,

@@ -309,15 +309,15 @@ const ProdInfoTableUpdt = ({ofr_id, update, clear} : prodTableProps) => {
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
                         <Td fontWeight="bold">Composição</Td>
-                        <Td><Input placeholder={prodUpdate.prod_composition} name="prod_composition" onChange={handleChange}/></Td>
+                        <Td><Input placeholder={prodUpdate.prod_composition} name="prod_composition" onChange={handleChange} value={prodUpdate.prod_composition || ""}/></Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
                         <Td fontWeight="bold">Altura{"(metros)"}</Td>
-                        <Td><Input placeholder={"" + prodUpdate.prod_height} type="number" name="prod_height" onChange={handleChange}/></Td>
+                        <Td><Input placeholder={"" + prodUpdate.prod_height} type="number" name="prod_height" onChange={handleChange} value={prodUpdate.prod_height || ""}/></Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}>
                         <Td fontWeight="bold">Peso{"(quilos)"}</Td>
-                        <Td><Input placeholder={"" + prodUpdate.prod_weight} type="number" name="prod_weight" onChange={handleChange}/></Td>
+                        <Td><Input placeholder={"" + prodUpdate.prod_weight} type="number" name="prod_weight" onChange={handleChange} value={prodUpdate.prod_weight || ""}/></Td>
                     </Tr>
 
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}
@@ -327,12 +327,13 @@ const ProdInfoTableUpdt = ({ofr_id, update, clear} : prodTableProps) => {
                             <option value={0}>Não</option>
                             <option value={1}>Sim</option>                                  
                         </Select> : 
-                        <Input placeholder={prodUpdate.append1} name="append1" onChange={handleChange}/>}</Td>
+                        <Input placeholder={prodUpdate.append1 || ""} name="append1" onChange={handleChange}/>}
+                        </Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}
                     display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" && parseInt(prodUpdate.append1) == 1|| prod.prod_type == "Muleta" && parseInt(prodUpdate.append1) == 1|| prod.prod_type == "Bengala" && parseInt(prodUpdate.append1) == 1) ? 0 : "none"}>
                         <Td fontWeight="bold">{prodChildInp.title2}</Td>
-                        <Td><Input placeholder={prodUpdate.append2} name="append2" value={prodUpdate.append2} onChange={handleChange}/></Td>
+                        <Td><Input placeholder={prodUpdate.append2} name="append2" value={prodUpdate.append2 || ""} onChange={handleChange}/></Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}
                     display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" && parseInt(prodUpdate.append1) == 1|| prod.prod_type == "Muleta" && parseInt(prodUpdate.append1) == 1|| prod.prod_type == "Bengala" && parseInt(prodUpdate.append1) == 1) ? 0 : "none"}>
@@ -347,7 +348,7 @@ const ProdInfoTableUpdt = ({ofr_id, update, clear} : prodTableProps) => {
                             <option value='Banho'>Cadeira de rodas para banho</option>
                             <option value='Outro'>Outro</option> 
                         </Select> : 
-                        <Input placeholder={prodUpdate.append3} name="append3" value={prodUpdate.append3} onChange={handleChange}/>}</Td>
+                        <Input placeholder={prodUpdate.append3 || ""} name="append3" value={prodUpdate.append3} onChange={handleChange}/>}</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow1} _dark={{bg : colors.bgTableRow1_Dark}}
                     display={(prod.prod_type == "Cadeira de Rodas" || prod.prod_type == "Andador" || prod.prod_type == "Muleta" || prod.prod_type == "Bengala") ? 0 : "none"}>
@@ -359,7 +360,7 @@ const ProdInfoTableUpdt = ({ofr_id, update, clear} : prodTableProps) => {
                             <option value='Dobrável'>Bengala Dobrável</option>
                             <option value='Outro'>Outro</option>
                         </Select> : 
-                        <Input placeholder={prodUpdate.append4} name="append4" value={prodUpdate.append4} onChange={handleChange}/>}</Td>
+                        <Input placeholder={prodUpdate.append4 || ""} name="append4" value={prodUpdate.append4} onChange={handleChange}/>}</Td>
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}
                     display={(prod.prod_type == "Andador" || prod.prod_type == "Bengala" || prod.prod_type == "Muleta") ? 0 : "none"}>
@@ -369,7 +370,7 @@ const ProdInfoTableUpdt = ({ofr_id, update, clear} : prodTableProps) => {
                             <option value='Canadenses'>{'Muletas de antebraço (ou canadenses)'}</option>
                             <option value='Outro'>Outro</option>
                         </Select> : 
-                        <Input placeholder={prodUpdate.append5} name="append5" value={prodUpdate.append5} onChange={handleChange}/>}</Td>
+                        <Input placeholder={prodUpdate.append5 || ""} name="append5" value={prodUpdate.append5} onChange={handleChange}/>}</Td>
                     </Tr>
                 </Tbody>
             </Table>

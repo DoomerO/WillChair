@@ -24,6 +24,7 @@ interface ProfileOwnProps {
 const ProfileOwn = ({user} : ProfileOwnProps) =>{
 
     const navigate = useNavigate();
+    const toastRender = useToast();
     const [avaliations, setAvaliations] = useState([]);
     const [userOffers, setUserOffers] = useState([]);
     const [userUpdate, setUpdate] = useState({});
@@ -31,7 +32,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
     const [showImg, setImg] = useState<any>();
 
     function toast(title:string, desc:string, time?:number, type?:UseToastOptions["status"], pos?:ToastPosition, close?:boolean){
-    useToast()({
+    toastRender({
         title: title,
         description: desc,
         status: type,
@@ -106,7 +107,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
             })
         }
         else {
-            useToast().closeAll()
+            toastRender.closeAll()
             toast('Sem alterações', 'Não há alterações para se atualizar', 3000, 'warning')
         }
     }
@@ -248,14 +249,14 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                         <Divider orientation="horizontal"/>
                             <Heading as="h4" fontFamily="outfit" fontSize={{base: "24px", sm: "26px"}}>Segurança</Heading>
                         <Divider orientation="horizontal"/>
-                        <Text textAlign="center" w="90%">Caso necessário,<Button variant="link" colorScheme="linkedin" onClick={() => {toastHand({
+                        <Text textAlign="center" w="90%">Caso necessário,<Button variant="link" colorScheme="linkedin" onClick={() => {toastRender({
                                 position: 'bottom',
                                 render: () => (
                                     <Stack bg="yellow.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                                         <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja alterar sua senha?</Text>
                                         <Stack direction="row">
                                             <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate(`/pass-change`); navigate(0)}}>Sim</Button>
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toastHand.closeAll()}}>Não</Button>    
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toastRender.closeAll()}}>Não</Button>    
                                         </Stack>
                                     </Stack>
                                 )
@@ -271,20 +272,20 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Nome:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_name} name="user_name" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_name}/>
+                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_name || ""} name="user_name" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_name}/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Email:</Text>
                             <Text fontFamily="atkinson" color={colors.colorFontBlue}>{user.user_email}</Text>
                             <Spacer/>
-                            <Button variant="solid" colorScheme="linkedin" onClick={() => {toastHand({
+                            <Button variant="solid" colorScheme="linkedin" onClick={() => {toastRender({
                                 position: 'bottom',
                                 render: () => (
                                     <Stack bg="yellow.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                                         <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja alterar seu email?</Text>
                                         <Stack direction="row">
                                             <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate(`/email-update/${user.user_id}`); navigate(0)}}>Sim</Button>
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toastHand.closeAll()}}>Não</Button>    
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toastRender.closeAll()}}>Não</Button>    
                                         </Stack>
                                     </Stack>
                                 )
@@ -309,37 +310,37 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">CEP:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_CEP} name="user_CEP" maxLength={9} onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={(user.user_CEP) ? user.user_CEP : "Digite seu CEP aqui para preencher o endereço."} pattern="[0-9]{0,}"/>
+                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_CEP || ""} name="user_CEP" maxLength={9} onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={(user.user_CEP) ? user.user_CEP : "Digite seu CEP aqui para preencher o endereço."} pattern="[0-9]{0,}"/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Cidade:</Text>
                             <Spacer/>
-                            <Input type="text" readOnly fontFamily="atkinson" value={userUpdate.user_city} name="user_city" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_city}/>
+                            <Input type="text" readOnly fontFamily="atkinson" value={userUpdate.user_city || ""} name="user_city" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_city}/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Rua:</Text>
                             <Spacer/>
-                            <Input type="text" readOnly fontFamily="atkinson" value={userUpdate.user_street} name="user_street" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_street}/>
+                            <Input type="text" readOnly fontFamily="atkinson" value={userUpdate.user_street || ""} name="user_street" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_street}/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Bairro:</Text>
                             <Spacer/>
-                            <Input type="text" readOnly fontFamily="atkinson" value={userUpdate.user_district} name="user_district" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_district}/>
+                            <Input type="text" readOnly fontFamily="atkinson" value={userUpdate.user_district || ""} name="user_district" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_district}/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">UF:</Text>
                             <Spacer/>
-                            <Input type="text" readOnly fontFamily="atkinson" value={userUpdate.user_FU} name="user_FU" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_FU}/>
+                            <Input type="text" readOnly fontFamily="atkinson" value={userUpdate.user_FU || ""} name="user_FU" onChange={handleChange} w={{base:"60%", sm:"85%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_FU}/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Número da casa:</Text>
                             <Spacer/>
-                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_houseNum} name="user_houseNum" onChange={handleChange} w={{base:"55%", sm:"70%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_houseNum} maxLength={6} pattern="[0-9]{0,}"/>
+                            <Input type="text" fontFamily="atkinson" value={userUpdate.user_houseNum || ""} name="user_houseNum" onChange={handleChange} w={{base:"55%", sm:"70%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_houseNum} maxLength={6} pattern="[0-9]{0,}"/>
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Complemento:</Text>
                             <Spacer/>
-                            <Input type="text" maxLength={30} fontFamily="atkinson" value={userUpdate.user_comp} name="user_comp" onChange={handleChange} w={{base:"60%", sm:"70%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_comp}/>
+                            <Input type="text" maxLength={30} fontFamily="atkinson" value={userUpdate.user_comp || ""} name="user_comp" onChange={handleChange} w={{base:"60%", sm:"70%"}} _placeholder={{color : colors.colorFontBlue}} placeholder={user.user_comp}/>
                             </Flex>
                         </SimpleGrid>
                     </Stack>

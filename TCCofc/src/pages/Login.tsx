@@ -1,4 +1,3 @@
-import '../styles/pages/Login.css';
 import { useState, useEffect, ChangeEvent } from 'react';
 import Password from '../components/Password';
 import axios from 'axios';
@@ -13,7 +12,8 @@ const Login = () => {
         email : "",
         emailMissMatch : false
     })
-    const logOrSign = useParams()
+    const logOrSign = useParams();
+    const toast = useToast();
     const [password, setPassword] = useState({
         password : "",
         missmatch : false
@@ -49,7 +49,7 @@ const Login = () => {
     }
     
     function callToast(title:string, desc:string, time?:number, type?:UseToastOptions["status"], pos?:ToastPosition, close?:boolean){
-        useToast()({
+        toast({
             title: title,
             description: desc,
             status: type,

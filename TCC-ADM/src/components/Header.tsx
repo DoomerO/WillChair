@@ -57,15 +57,7 @@ const Header = ({adm}: headerProps) => {
                 </Button>
                 <Spacer />
                 <Button variant='link' colorScheme="#000">
-                    <Link to="/"><b>Algo</b></Link>
-                </Button>
-                <Spacer />
-                <Button variant='link' colorScheme="#000">
-                    <Link to="/"><b>Algo</b></Link>
-                </Button>
-                <Spacer />
-                <Button variant='link' colorScheme="#000">
-                    <Link to="/"><b>Algo</b></Link>
+                    <Link to="/"><b>Criar Administrador</b></Link>
                 </Button>
             </HStack>
             <Spacer/>

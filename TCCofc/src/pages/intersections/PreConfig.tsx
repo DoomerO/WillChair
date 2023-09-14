@@ -16,7 +16,7 @@ const PreConfig = () => {
     const [user, setUser] = useState(decode(localStorage.getItem("token")));
     const [inputs, setInputs] = useState({
         phone : "",
-        houseNum : NaN,
+        houseNum : null,
         complement : "",
         FU : "",
         CEP : "",
@@ -119,7 +119,7 @@ const PreConfig = () => {
                     <Stack direction="column" w={{base:"100%", md:"50%"}}>
                         <FormLabel>Telefone<Input onChange={handleChange} type="text" fontFamily="atkinson" value={inputs.phone ? `(${inputs.phone.slice(0,2)})${inputs.phone.slice(2,15)}` : ""} name="phone" maxLength={15} _placeholder={{color : colors.colorFontDarkBlue}} _dark={{_placeholder : {color : colors.colorFontDarkBlue_Dark}}} placeholder={"Digite apenas números"} pattern="[\u0028]?[0]?[0-9]{0,2}[\u0029]?[0-9]{0,}">
                         </Input></FormLabel>
-                        <FormLabel>Número de sua Casa<Input onChange={handleChange} type="text" value={inputs.houseNum} fontFamily="atkinson" name="houseNum" _placeholder={{color : colors.colorFontDarkBlue}} _dark={{_placeholder : {color : colors.colorFontDarkBlue_Dark}}} placeholder={"Opcional"} maxLength={6} pattern="[0-9]{0,}">
+                        <FormLabel>Número de sua Casa<Input onChange={handleChange} type="text" value={inputs.houseNum || ""} fontFamily="atkinson" name="houseNum" _placeholder={{color : colors.colorFontDarkBlue}} _dark={{_placeholder : {color : colors.colorFontDarkBlue_Dark}}} placeholder={"Opcional"} maxLength={6} pattern="[0-9]{0,}">
                         </Input></FormLabel>
                         <FormLabel>Complemento<Input onChange={handleChange} type="text" value={inputs.complement} fontFamily="atkinson" name="complement" _placeholder={{color : colors.colorFontDarkBlue}} _dark={{_placeholder : {color : colors.colorFontDarkBlue_Dark}}} placeholder={"Opcional"}>
                         </Input></FormLabel>

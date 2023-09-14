@@ -167,6 +167,29 @@ module.exports = {
         }        
     },
 
+    async setResponsability(req, res) {
+        try {
+            const {den_id} = req.params;
+            const {adm_id} = req.params;
+
+            const consult = await knex("Denounce").where("den_id", den_id);
+
+            if (consult != "") {
+                await knex("Denounce").update({
+                    adm_assigned : adm_id,
+                    den_status : "Em avaliação"
+                }).where("den_id", den_id);
+                return res.status(201).json({msg : "The responsability was set"});
+            }
+
+            return res.status(401).json({msg : "This denounce does not exists"});   
+
+        }
+        catch(error) {
+            return res.status(400).json({error : error.message});
+        }
+    },
+
     async deleteAdministrator(req, res) {
         try {
             const {email} = req.params;

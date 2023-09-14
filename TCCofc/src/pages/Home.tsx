@@ -49,7 +49,7 @@ const Home = () => {
                                 <BsCreditCard size='8vh'/>
                             </Container>
                         </Box>
-                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', md:'15px'}}>
+                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', md:'17px'}}>
                             Compras ou vendas de produtos
                         </Text>
                     </Flex>
@@ -60,7 +60,7 @@ const Home = () => {
                                 <BiDonateHeart size='8vh'/>
                             </Container>
                         </Box>
-                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', md:'15px'}}>
+                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', md:'17px'}}>
                             Doações de equipamentos
                         </Text>
                     </Flex>
@@ -71,7 +71,7 @@ const Home = () => {
                                 <MdWheelchairPickup size='8vh'/>
                             </Container>
                         </Box>
-                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', md:'15px'}}>
+                        <Text fontFamily="outfit" align='center' noOfLines={2} fontSize={{base:'19px', md:'17px'}}>
                             Aluguéis por preços acessíveis
                         </Text>
                     </Flex>

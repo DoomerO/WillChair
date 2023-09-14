@@ -26,6 +26,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     const [updateProduct, setUpdateProd] = useState(false);
     const [clearProduct, setClearProd] = useState(false)
     const navigate = useNavigate();
+    const toastRender = useToast();
     const [chats, setChats] = useState([]);
     const [others, setOthers] = useState([]);
     const [reports, setReports] = useState(false);
@@ -84,7 +85,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     }, [compUser])
 
     function toast(title:string, desc:string, time?:number, type?:UseToastOptions["status"], pos?:ToastPosition, close?:boolean){
-        useToast()({
+        toastRender({
             title: title,
             description: desc,
             status: type,
@@ -356,7 +357,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     <Divider orientation="vertical" ml="2.5" mr="2.5" display={{base:"none", md:"inherit"}}/>
                         <Stack w={{base:"100%", md:"65%"}} h="100%" spacing={8}>
                             <Stack direction="row">
-                                <Input type="text" placeholder={offer.ofr_name} name="ofr_name" _placeholder={{color : colors.colorFontBlue}}
+                                <Input type="text" placeholder={offer.ofr_name} name="ofr_name" _placeholder={{color : colors.colorFontBlue}} value={updateOffer.ofr_name || ""}
                                 variant={{base:"outline", md:"flushed"}} fontFamily="outfit" fontSize={{base: "32px", md: "34px"}} onChange={handleChangeOffer}/>
                             </Stack>
                             
@@ -383,7 +384,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                 <SimpleGrid spacing={3} fontSize={{base:"20px", md:"18px"}}>
                                     <Flex direction="row" align="center">
                                         <Text fontFamily="atkinson" mr="5px">{'Valor (R$):'}</Text>
-                                        <Input type="number" fontFamily="atkinson" fontSize={{base:"20px", md:"18px"}} name="ofr_value" placeholder={(offer.ofr_type == "Doação") ? "Grátis" : offer.ofr_value}
+                                        <Input type="number" fontFamily="atkinson" fontSize={{base:"20px", md:"18px"}} name="ofr_value" placeholder={(offer.ofr_type == "Doação") ? "Grátis" : offer.ofr_value} value={updateOffer.ofr_value || ""}
                                         _placeholder={{color : colors.colorFontDarkBlue}} variant={{base:"outline", md:"flushed"}} onChange={handleChangeOffer} w={{base:"50%", md:"24%"}} _dark={{_placeholder : {color : colors.colorFontDarkBlue_Dark}}}/>
                                     </Flex>
                                     <Flex direction="row" align="center">
@@ -392,7 +393,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                     </Flex>
                                     <Flex direction="row" align="center">
                                         <Text fontFamily="atkinson" mr="5px">Parcelas:</Text>
-                                        <Input type="number" fontFamily="atkinson" fontSize={{base:"20px", md:"18px"}} placeholder={offer.ofr_parcelas} name="ofr_parcelas" 
+                                        <Input type="number" fontFamily="atkinson" fontSize={{base:"20px", md:"18px"}} placeholder={offer.ofr_parcelas} name="ofr_parcelas" value={updateOffer.parcelas || ""}
                                         _placeholder={{color : colors.colorFontDarkBlue}} variant={{base:"outline", md:"flushed"}} onChange={handleChangeOffer} w={{base:"50%" ,md:"24%"}} _dark={{_placeholder : {color : colors.colorFontDarkBlue_Dark}}}/>
                                     </Flex>
                                 </SimpleGrid>                                
@@ -417,7 +418,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     <Flex direction={{base:"column", md:"row"}} h={{base:"fit_content",md:"50vh"}} w="90%">
                         <Stack w={{base:"100%", md:"45%"}} h={{base:"50vh", md:"100%"}} mt="2vh">
                             <Heading as="h3" fontFamily="outfit" fontSize={{base: "32px", md: "34px"}} color={colors.colorFontBlue}>Descrição</Heading>
-                            <Textarea placeholder={offer.ofr_desc} fontSize={{base:"20px", md:"18px"}} value={updateOffer.ofr_desc} name="ofr_desc" onChange={handleChangeOffer} fontFamily="atkinson" w="100%" resize="vertical" h={{base:"80%",md:"70%"}}/>
+                            <Textarea placeholder={offer.ofr_desc} fontSize={{base:"20px", md:"18px"}} value={updateOffer.ofr_desc || ""} name="ofr_desc" onChange={handleChangeOffer} fontFamily="atkinson" w="100%" resize="vertical" h={{base:"80%",md:"70%"}}/>
                         </Stack>
 
                         <Divider orientation="vertical" mr="5%" ml="5%" display={{base:"none", md:"inherit"}}/>
@@ -471,14 +472,14 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                         <ButtonGroup gap={5} flexDirection={{base:"column", md:"row"}}>
                             <Button colorScheme="linkedin" variant="solid" onClick={() => {updateOfferFunc()}}>Atualizar</Button>
                             <Button colorScheme="linkedin" variant="solid" onClick={() => {clearChanges()}}>Limpar Mudanças</Button>
-                            <Button colorScheme="linkedin" variant="solid" onClick={() => { toast({
+                            <Button colorScheme="linkedin" variant="solid" onClick={() => { toastRender({
                                 position: 'bottom',
                                 render: () => (
                                     <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                                         <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja apagar sua Oferta?</Text>
                                         <Stack direction="row">
                                             <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {deleteOfferFunc()}}>Sim</Button>
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toast.closeAll()}}>Não</Button>    
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toastRender.closeAll()}}>Não</Button>    
                                         </Stack>
                                     </Stack>
                                 )
@@ -488,25 +489,25 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                     {(offer.ofr_status != "Livre") ? <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark}} pb="5vh">
                         <Heading mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "32px", md: "30px"}} noOfLines={{base:2, md:1}} as="h1" fontFamily="outfit" _dark={{color: colors.colorFontDarkBlue_Dark}}>O que deseja fazer com o Compromisso?</Heading>
                         <ButtonGroup gap={5} flexDirection={{base:"column", md:"row"}}>
-                            <Button colorScheme="linkedin" variant="solid" onClick={() => { useToast()({
+                            <Button colorScheme="linkedin" variant="solid" onClick={() => { toastRender({
                                 position: 'bottom',
                                 render: () => (
                                     <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                                         <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja apagar esse compromisso?</Text>
                                         <Stack direction="row">
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {(offer.ofr_status == "Conclusão") ? useToast()({
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {(offer.ofr_status == "Conclusão") ? toastRender({
                                                 title: 'O compromisso não pode ser encerrado!',
                                                 description: "O equipamento já foi enviado.",
                                                 status: 'error',
                                                 duration: 9000,
                                                 isClosable: true})
                                              : endComprisse()}}>Sim</Button>
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {useToast().closeAll()}}>Não</Button>    
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toastRender.closeAll()}}>Não</Button>    
                                         </Stack>
                                     </Stack>
                                 )
                             })}}>Encerrar Compromisso</Button>
-                            <Button colorScheme="linkedin" variant="solid" onClick={() => {(offer.ofr_env_conf) ? useToast()({
+                            <Button colorScheme="linkedin" variant="solid" onClick={() => {(offer.ofr_env_conf) ? toastRender({
                                 title: 'Você já confirmou o envio do equipamento!',
                                 description: "Não é necessário confirmar mais de uma vez!",
                                 status: 'error',

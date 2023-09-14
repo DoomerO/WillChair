@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import HeaderToggle from "../components/toggles/HeaderToggle";
 import { Box, Input, Flex, Heading, Select, Button, ButtonGroup, Stack, Text, Collapse, Textarea, useToast, Image} from '@chakra-ui/react';
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import "../fonts/fonts.css"
 import image from "../img/report/reportImg.png";
 import colors from "../colors/colors";
@@ -12,12 +12,14 @@ const Report = () => {
     const {id} = useParams();
     const {type} = useParams();
     const toast = useToast();
+    const navigate = useNavigate();
     const [select, setSelect] = useState(false);
 
     const [report, setReport] = useState({
         den_reason: "",
         den_content: "",
         email : "",
+        den_gravity: 0,
         User_user_id: 0,
         Offer_ofr_id: 0
     });
@@ -57,6 +59,7 @@ const Report = () => {
         await axios.post(`http://localhost:3344/denounce`, {
             den_reason: report.den_reason,
             den_content: report.den_content,
+            den_gravity: report.den_gravity,
             User_user_id: report.User_user_id,
             Offer_ofr_id: report.Offer_ofr_id
         }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
@@ -64,9 +67,10 @@ const Report = () => {
                 title: 'Denuncia realiada',
                 description: "Cadastramos sua denuncia em breve você terá uma resposta!",
                 status: 'success',
-                duration: 9000,
+                duration: 5000,
                 isClosable: true,
             })
+            navigate((type == "offer") ? `/offer/${id}` : `/profile/${report.email}/view`);
         }).catch((error) => {
            console.log(error);
         })
@@ -77,12 +81,46 @@ const Report = () => {
     }
 
     const handleSelect = (e:ChangeEvent<HTMLInputElement>) => {
-        if(e.target.value != "4") {
-            setSelect(false);
-            setReport(prev => ({...prev, den_reason : e.target.value}));
-        }
-        else {
-            setSelect(true);
+        switch(e.target.value) {
+            case "4" :
+                setSelect(true);
+            break;
+            case "Fraudes e golpes":
+                setReport(prev => ({...prev, den_reason : e.target.value ,den_gravity : 3}));
+                setSelect(false);
+            break;
+            case "Nudez e conteúdo sexual":
+                setReport(prev => ({...prev, den_reason : e.target.value ,den_gravity : 4}));
+                setSelect(false);
+            break;
+            case "Informações incorretas":
+                setReport(prev => ({...prev, den_reason : e.target.value ,den_gravity : 2}));
+                setSelect(false);
+            break;
+            case "Comportamento enganoso":
+                setReport(prev => ({...prev, den_reason : e.target.value ,den_gravity : 3}));
+                setSelect(false);
+            break;
+            case "Discurso de ódio":
+                setReport(prev => ({...prev, den_reason : e.target.value ,den_gravity : 4}));
+                setSelect(false);
+            break;
+            case "Conteúdo violento":
+                setReport(prev => ({...prev, den_reason : e.target.value ,den_gravity : 5}));
+                setSelect(false);
+            break;
+            case "Falsificação":
+                setReport(prev => ({...prev, den_reason : e.target.value ,den_gravity : 4}));
+                setSelect(false);
+            break;
+            case "Assédio sexual":
+                setReport(prev => ({...prev, den_reason : e.target.value ,den_gravity : 5}));
+                setSelect(false);
+            break;
+            case "Assédio moral":
+                setReport(prev => ({...prev, den_reason : e.target.value ,den_gravity : 4}));
+                setSelect(false);
+            break;
         }
     }
 
@@ -92,7 +130,7 @@ const Report = () => {
                 title: 'Erro nos dados',
                 description: "Preencha todas os campos para realizar a denúncia.",
                 status: 'error',
-                duration: 9000,
+                duration: 5000,
                 isClosable: true,
             })
         }
@@ -111,7 +149,7 @@ const Report = () => {
                     <Text fontFamily="atkinson" fontSize={{base:"20px", md:"18px"}}>Qual o motivo de sua denúncia?</Text>
                     <Select w={{base:"90%", md:"47vw"}} fontSize={{base:"20px", md:"18px"}} onChange={handleSelect} placeholder="selecione o tipo da denuncia" fontFamily="outfit">
                         <option value="Fraudes e golpes">Fraudes e golpes</option>
-                        <option value="Nudez e cnteúdo sexual">Nudez e conteúdo sexual</option>
+                        <option value="Nudez e conteúdo sexual">Nudez e conteúdo sexual</option>
                         <option value="Informações incorretas">Informações incorretas</option>
                         <option value="Comportamento enganoso">Comportamento enganoso</option>
                         <option value="Discurso de ódio">Discurso de ódio</option>

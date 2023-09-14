@@ -44,7 +44,7 @@ module.exports = {
   // Função para criar uma nova denúncia
   async createDenounce(req, res) {
     try {
-      const { den_content, User_user_id, Offer_ofr_id, den_reason } = req.body;
+      const { den_content, User_user_id, Offer_ofr_id, den_reason, den_gravity } = req.body;
 
       const userExists = await knex('User').where('user_id', User_user_id);
       const offerExists = await knex('Offer').where('ofr_id', Offer_ofr_id);
@@ -55,6 +55,7 @@ module.exports = {
         await knex('Denounce').insert({
           den_content,
           den_date,
+          den_gravity,
           den_reason,
           User_user_id,
           Offer_ofr_id

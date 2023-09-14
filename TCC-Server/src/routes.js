@@ -108,6 +108,7 @@ routes.get('/adm/login/:email/:password', controllersAdministration.verifyAdmini
 routes.get('/adm/id/:email', authAdm, controllersAdministration.getAdmId);
 routes.post('/adm', authAdm, controllersAdministration.createAdministrator);
 routes.put('/adm/update/:updtType/:id', authAdm, controllersAdministration.updateAdministrator);
+routes.put('/adm/responsability/:den_id', authAdm, controllersAdministration.setResponsability);
 routes.delete('/adm/:email', authAdm, controllersAdministration.deleteAdministrator);
 
 module.exports = routes;
