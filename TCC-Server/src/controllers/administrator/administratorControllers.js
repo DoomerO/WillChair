@@ -87,9 +87,9 @@ module.exports = {
 
     async createAdministrator(req, res) {
         try {
-            const { password, adm_name, adm_email } = req.body;
+            const { password, adm_name, adm_email, adm_level } = req.body;
 
-            if(!password || !adm_email || !adm_name ) return res.status(401).json({msg : "All info must be provided"});
+            if(!password || !adm_email || !adm_name || !adm_level ) return res.status(401).json({msg : "All info must be provided"});
 
             if(await knex("Administrator").where("adm_email", adm_email) != "") {
                 return res.status(401).json({msg : "This administrator is alredy registred in the system."});
@@ -100,10 +100,11 @@ module.exports = {
             await knex("Administrator").insert({
                 adm_name,
                 adm_password,
+                adm_level,
                 adm_email
             })
             
-            const adm = { email : adm_email, name : adm_name};
+            const adm = { email : adm_email, name : adm_name, level : adm_level};
 
             const validationToken = jwt.sign(
                 adm, 
@@ -121,12 +122,12 @@ module.exports = {
     async updateAdministrator(req, res) {
         try {
             const { updtType, id } = req.params;
-            const { adm_name, adm_email, password } = req.body;
+            const { adm_name, adm_email, password, adm_level } = req.body;
 
             const consult = await knex("Administrator").where("adm_id", id);
             if(consult == "") return res.status(401).json({msg : "This administrator does not exists in the system."});
 
-            let adm = { email : consult[0].adm_email, name : consult[0].adm_name};
+            let adm = { email : consult[0].adm_email, name : consult[0].adm_name, level : consult[0].adm_level};
 
             switch (updtType) {
                 case "password":
@@ -151,6 +152,13 @@ module.exports = {
                     }).where("adm_id", id);
 
                     adm.name = adm_name;
+                break;
+                case "level": 
+                    await knex("Administrator").update({
+                        adm_level
+                    }).where("adm_id", id);
+
+                    adm.level = adm_level;
                 break;
             }
 
