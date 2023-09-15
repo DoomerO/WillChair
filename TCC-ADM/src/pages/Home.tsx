@@ -6,6 +6,8 @@ import colors from "../colors/colors";
 import ReportCard from "../components/ReportCard";
 import ReportCardList from "../components/ReportCardList";
 import axios from "axios";
+import SignAdaptable from "../components/SignAdaptable";
+import {BiSolidHappyAlt} from "react-icons/bi";
 
 const Home = () => {
     const [adm, setAdm] = useState(decode(localStorage.getItem("token")));
@@ -34,10 +36,12 @@ const Home = () => {
                 return b.den_gravity - a.den_gravity;
             });
             for (const report of sortReports) {
-                if ( report.Offer_ofr_id == 0) {
-                    setUserRep(prev => ([...prev, report]));
+                if (report.den_gravity > 1) {
+                    if ( report.Offer_ofr_id == 0) {
+                        setUserRep(prev => ([...prev, report]));
+                    }
+                    else setOfrRep(prev => ([...prev, report]));
                 }
-                else setOfrRep(prev => ([...prev, report]));
             }
             setOnce(true);
         }
@@ -69,12 +73,12 @@ const Home = () => {
             <Flex direction="row" align="center" w="100%" bg={colors.bgWhite} _dark={{bg : colors.bgWhite_Dark}}>
                 <Stack w="50%" h="100vh" align="center" pt="6vh">
                     <Heading as="h3" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}} mt="3%" mb="3%">Denúncias sobre Ofertas</Heading>
-                    <ReportCardList component={renderOfferReports}/>
+                    {(offerRep.length > 0) ? <ReportCardList component={renderOfferReports}/> : <SignAdaptable msg="Não há denúncias a serem analisadas" icon={<BiSolidHappyAlt size="40%"/>} bgType="none"/>}
                 </Stack>
-
+                
                 <Stack w="50%" h="100vh" pt="6vh" align="center" bg={colors.veryLightBlue} _dark={{bg : colors.veryLightBlue_Dark}}>
                     <Heading as="h3" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}} mt="3%" mb="3%">Denúncias sobre Usuários</Heading>
-                    <ReportCardList component={renderUserReports}/>
+                    {(userRep.length > 0) ? <ReportCardList component={renderUserReports}/> : <SignAdaptable msg="Não há denúncias a serem analisadas" icon={<BiSolidHappyAlt size="40%"/>} bgType="none"/>}
                 </Stack>
             </Flex>
         </Box>

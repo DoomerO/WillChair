@@ -51,12 +51,16 @@ const Header = ({adm}: headerProps) => {
             <Spacer />
                 <Image src={logoImg} objectFit='contain' onClick={() => {navigate("/")}} w={{base:"45%", md:"12%"}} h='66%' mt='2.5'></Image>
             <Spacer />
-            <HStack w='25%' display={{base: 'none', md:'inherit'}}>
+            <HStack w='40%' display={{base: 'none', md:'inherit'}}>
                 <Button variant='link' colorScheme="#000">
-                    <Link to="/"><b>Home</b></Link>
+                    <Link to="/"><b>Denúncias Previstas</b></Link>
+                </Button>
+                <Spacer/>
+                <Button variant='link' colorScheme="#000">
+                    <Link to="/other"><b>Denúncias Adversas</b></Link>
                 </Button>
                 <Spacer />
-                <Button variant='link' colorScheme="#000">
+                <Button variant='link' colorScheme="#000" display={(adm.level > 1) ? "initial" : "none" }>
                     <Link to="/"><b>Criar Administrador</b></Link>
                 </Button>
             </HStack>

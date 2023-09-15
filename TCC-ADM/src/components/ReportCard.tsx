@@ -19,7 +19,7 @@ const ReportCard = ({den_content, den_date, den_reason, den_status, den_id, den_
     ]
 
     return (
-        <Stack spacing={4} w="90%" direction="column" p="2%" h="30vh" border="2px dashed #000" _dark={{border : "2px dashed #fff"}} borderRadius="10px">
+        <Stack spacing={4} w="90%" direction="column" pb="2%" h="25vh" borderBottom="2px dashed #000" _dark={{borderBottom : "2px dashed #fff"}}>
             <Flex direction="row" align="center">
                 <Box bg={colorsList[den_gravity - 1]} p="2vh" borderRadius="100%"/>
                 <Text fontSize="18px" ml="2%">{den_reason} <b>id: {den_id}</b></Text>
