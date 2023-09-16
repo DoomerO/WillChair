@@ -67,7 +67,7 @@ module.exports = {
         try {
             const { ava_content, ava_value, User_user_idEnv, User_user_idRec } = req.body;
             const now = new Date();
-            const ava_date =  now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
+            const ava_date =  now;
 
             const userEnvExists = await knex("User").where('user_id', User_user_idEnv);
             const userRecExists = await knex("User").where('user_id', User_user_idRec);
@@ -103,14 +103,13 @@ module.exports = {
         try {
             const { id } = req.params;
 
-            const { ava_content, ava_date, ava_value } = req.body;
+            const { ava_content, ava_value } = req.body;
 
             const commentExists = await knex("Avaliation").where("ava_id", id);
             if (commentExists) {
                 await knex("Avaliation").update({
                     ava_content,
-                    ava_value,
-                    ava_date
+                    ava_value
                 }).where('ava_id', id);
                 return res.status(201).json({msg : "Avaliação atualizada com sucesso."});
             }

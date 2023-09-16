@@ -122,11 +122,14 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Denounce` (
   `den_id` INT NOT NULL AUTO_INCREMENT,
   `den_reason` VARCHAR(30) NOT NULL,
   `den_content` VARCHAR(255) NOT NULL,
-  `den_date` VARCHAR(10) NOT NULL,
+  `den_date` DATE NOT NULL,
   `den_status` VARCHAR(15) DEFAULT("Aberta"),
   `den_gravity` INT DEFAULT 1,
   `adm_assigned` INT NULL,
-  `User_user_id` INT NOT NULL  REFERENCES `willchair`.`User` (`user_id`)
+  `User_user_idRec` INT NOT NULL  REFERENCES `willchair`.`User` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  `User_user_idEnv` INT NOT NULL  REFERENCES `willchair`.`User` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   `Offer_ofr_id` INT NOT NULL  REFERENCES `willchair`.`Offer` (`ofr_id`)

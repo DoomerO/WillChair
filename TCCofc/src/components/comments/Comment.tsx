@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { RiStarSFill } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import dateDisplayer from "../code/dataDisplayer";
 
 interface commentProps {
     user_img : object,
@@ -54,7 +55,7 @@ const Comment = ({user_img, user_name, user_email, content, date, points} : comm
                 </Link>
                 <Text fontWeight="bold" noOfLines={1}>{user_name}</Text>
                 <Spacer/>
-                <Text noOfLines={1}>{date}</Text>
+                <Text noOfLines={1}>{dateDisplayer(date)}</Text>
             </Flex>
             <Divider orientation="horizontal"/>
             <Text w="95%" ml="2.5%" mr="2.5%" textAlign="justify">

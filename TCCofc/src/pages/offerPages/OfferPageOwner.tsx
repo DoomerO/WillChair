@@ -15,6 +15,7 @@ import {BsFillStarFill} from "react-icons/bs";
 import {HiOutlineUsers} from "react-icons/hi";
 import {MdOutlineContactSupport, MdOutlinePhotoSizeSelectActual, MdOutlineReportProblem} from "react-icons/md";
 import Avaliation from "../../components/Avaliation";
+import dateDisplayer from "../../components/code/dataDisplayer";
 
 interface OwnerPageprops {
     offer : object;
@@ -24,17 +25,21 @@ interface OwnerPageprops {
 const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
     
     const [updateProduct, setUpdateProd] = useState(false);
-    const [clearProduct, setClearProd] = useState(false)
+    const [ updateOffer, setUpdateOffer ] = useState({});
+    const [clearProduct, setClearProd] = useState(false);
     const navigate = useNavigate();
     const toastRender = useToast();
+
+    const [reports, setReports] = useState(false);
+
     const [chats, setChats] = useState([]);
     const [others, setOthers] = useState([]);
-    const [reports, setReports] = useState(false);
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const [ updateOffer, setUpdateOffer ] = useState({});
     const [chatUser, setChatUser] = useState([]);
     const [selected, setSelected] = useState(false);
+
     const [compUser, setCompUser] = useState([]);
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
     const [imgOwner, setImgOwner] = useState<any>();
     const [imgIntrested, setImgIntrested] = useState<any>();
     const [imgShow, setShow] = useState<any>();
@@ -58,7 +63,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
             getProdImg();
             if (offer.user_comp_id){
                 getUserIntrested(offer.user_comp_id);
-            }   
+            }
         }
         return () => {
             canceltoken.cancel();
@@ -389,7 +394,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                     </Flex>
                                     <Flex direction="row" align="center">
                                         <Text fontFamily="atkinson" mr="5px">Data:</Text>
-                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{offer.ofr_postDate}</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{(offer.ofr_postDate) ? dateDisplayer(offer.ofr_postDate) : ""}</Text>
                                     </Flex>
                                     <Flex direction="row" align="center">
                                         <Text fontFamily="atkinson" mr="5px">Parcelas:</Text>

@@ -20,6 +20,7 @@ import SignNotFound from "../../components/signs/SignNotFound";
 import Avaliation from "../../components/Avaliation";
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineReport, MdOutlineReportProblem } from "react-icons/md";
+import dateDisplayer from "../../components/code/dataDisplayer";
 
 interface ChatPage {
     offer : object;
@@ -251,7 +252,7 @@ const OfferPageChat = ({offer, user} : ChatPage) => {
                                     </Flex>
                                     <Flex>
                                         <Text fontFamily="atkinson" mr="5px">Data:</Text>
-                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{offer.ofr_postDate}</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{(offer.ofr_postDate) ? dateDisplayer(offer.ofr_postDate) : ""}</Text>
                                     </Flex>
                                     <Flex>
                                         <Text fontFamily="atkinson" mr="5px">Parcelas:</Text>

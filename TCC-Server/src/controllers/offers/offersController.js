@@ -122,7 +122,7 @@ module.exports = {
             const {Product_prod_id} = req.body;
 
             const now = new Date();
-            const ofr_postDate =  now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
+            const ofr_postDate =  now;
 
             const user = await knex("User").where('user_id', User_user_id);
 

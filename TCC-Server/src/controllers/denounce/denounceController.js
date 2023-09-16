@@ -18,7 +18,7 @@ module.exports = {
 
       const user = await knex('User').where('user_email', email);
       if (user) {
-        const denounces = await knex('Denounce').where('User_user_id', user[0].user_id);
+        const denounces = await knex('Denounce').where('User_user_idRec', user[0].user_id);
         return res.status(201).json(denounces);
       }
     } catch(error) {
@@ -41,29 +41,62 @@ module.exports = {
     }
   },
 
+  async searchDenounceById(req, res) {
+    try {
+      const {id} = req.params;
+
+      let consult;
+      let result;
+     
+      consult = await knex("Denounce").where("den_id", id).join("User", "User_user_idRec", "user_id");
+      result = {
+        den_id: consult[0].den_id,
+        den_reason: consult[0].den_reason,
+        den_content: consult[0].den_content,
+        den_date: consult[0].den_date,
+        den_status: consult[0].den_status,
+        den_gravity: consult[0].den_gravity,
+        adm_assigned: consult[0].adm_assigned,
+        User_user_idEnv: consult[0].User_user_idEnv,
+        Offer_ofr_id: consult[0].Offer_ofr_id,
+        user_id: consult[0].user_id,
+        user_email: consult[0].user_email,
+        user_nota: consult[0].user_nota,
+        user_name: consult[0].user_name,
+        user_img: consult[0].user_img,
+      }
+
+      if(consult != "") return res.status(201).json(result);
+      return res.status(401).json("There is no such report!");
+    }
+    catch(error) {
+      return res.status(400).json({ error: error.message });
+    }
+  },
+
   // Função para criar uma nova denúncia
   async createDenounce(req, res) {
     try {
-      const { den_content, User_user_id, Offer_ofr_id, den_reason, den_gravity } = req.body;
+      const { den_content, User_user_idRec, User_user_idEnv, Offer_ofr_id, den_reason, den_gravity } = req.body;
 
-      const userExists = await knex('User').where('user_id', User_user_id);
-      const offerExists = await knex('Offer').where('ofr_id', Offer_ofr_id);
+      const userExists = await knex('User').where('user_id', User_user_idRec);
       const now = new Date();
-      const den_date = now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
+      const den_date = now;
       
-      if (userExists && offerExists) {
+      if (userExists != "") {
         await knex('Denounce').insert({
           den_content,
           den_date,
           den_gravity,
           den_reason,
-          User_user_id,
+          User_user_idRec,
+          User_user_idEnv,
           Offer_ofr_id
         });
 
         return res.status(201).json({ message: 'Denúncia criada com sucesso.' });
       } else {
-        return res.status(401).json({ message: 'Usuário ou oferta não encontrados.' });
+        return res.status(401).json({ message: 'Usuário não encontrado.' });
       }
     } catch(error) {
       return res.status(400).json({ error: error.message });

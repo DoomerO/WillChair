@@ -89,6 +89,7 @@ routes.put('/products/img/photo', auth, controllersProducts.uploadImage);
 routes.get('/denounce', authAdm, controllersdenounce.searchdenounce);
 routes.get('/denounce/user/:email', controllersdenounce.searchdenounceByEmail);
 routes.get('/denounce/offer/:ofrId', controllersdenounce.searchDenounceOffer);
+routes.get('/denounce/id/:id', authAdm, controllersdenounce.searchDenounceById);
 routes.post('/denounce', auth, controllersdenounce.createDenounce);
 routes.put('/denounce/:id', auth, controllersdenounce.updateDenounce);
 routes.delete('/denounce/:id', auth, controllersdenounce.deleteDenounce);

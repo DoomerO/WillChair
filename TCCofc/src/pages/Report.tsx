@@ -7,6 +7,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import "../fonts/fonts.css"
 import image from "../img/report/reportImg.png";
 import colors from "../colors/colors";
+import decode from "../components/code/decoderToken";
 
 const Report = () => {
     const {id} = useParams();
@@ -14,19 +15,21 @@ const Report = () => {
     const toast = useToast();
     const navigate = useNavigate();
     const [select, setSelect] = useState(false);
+    const [denouncer, setDenouncer] = useState(decode(localStorage.getItem("token")));
 
     const [report, setReport] = useState({
         den_reason: "",
         den_content: "",
         email : "",
         den_gravity: 0,
-        User_user_id: 0,
+        User_user_idRec: 0,
+        User_user_idEnv: 0,
         Offer_ofr_id: 0
     });
 
     async function getOffer() {
         await axios.get(`http://localhost:3344/offers/id/${id}`).then((res) => {
-            setReport(prev => ({...prev, User_user_id : res.data[0].User_user_id}));
+            setReport(prev => ({...prev, User_user_idRec : res.data[0].User_user_id}));
         }).catch((error) => {
           console.log(error);
         })
@@ -34,7 +37,17 @@ const Report = () => {
 
     async function getUser() {
         await axios.get(`http://localhost:3344/users/id/${id}`).then((res) => {
-            setReport(prev => ({...prev, email : res.data.user_email}));
+            setReport(prev => ({...prev, email : res.data.user_email, User_user_idRec : res.data.user_id}));
+        }).catch((error) => {
+          console.log(error);
+        })
+    }
+
+    async function getDenouncer() {
+        await axios.get(`http://localhost:3344/users/email/${denouncer.email}`, {
+            headers : {authorization : "Bearer " + localStorage.getItem("token")}
+        }).then((res) => {
+            setReport(prev => ({...prev, User_user_idEnv : res.data.user_id}));
         }).catch((error) => {
           console.log(error);
         })
@@ -52,6 +65,7 @@ const Report = () => {
                     getUser();
                 break;
               }
+            getDenouncer();
         }
     }, [type])
 
@@ -60,7 +74,8 @@ const Report = () => {
             den_reason: report.den_reason,
             den_content: report.den_content,
             den_gravity: report.den_gravity,
-            User_user_id: report.User_user_id,
+            User_user_idEnv: report.User_user_idEnv,
+            User_user_idRec: report.User_user_idRec,
             Offer_ofr_id: report.Offer_ofr_id
         }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
             toast({

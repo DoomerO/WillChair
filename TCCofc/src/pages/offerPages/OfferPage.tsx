@@ -17,6 +17,7 @@ import SignNotFoundButton from "../../components/signs/SignNotFoundButton";
 import CardOffer from "../../components/offerCards/OfferCard";
 import OfferList from "../../components/offerCards/OfferList";
 import SignNotFound from "../../components/signs/SignNotFound";
+import dateDisplayer from "../../components/code/dataDisplayer";
 
 const OfferPage = () => {
     const {id} = useParams();
@@ -156,7 +157,7 @@ const OfferPage = () => {
                                     </Flex>
                                     <Flex>
                                         <Text fontFamily="atkinson" mr="5px">Data:</Text>
-                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{offer.ofr_postDate}</Text>
+                                        <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{(offer.ofr_postDate) ? dateDisplayer(offer.ofr_postDate) : ""}</Text>
                                     </Flex>
                                     <Flex>
                                         <Text fontFamily="atkinson" mr="5px">Parcelas:</Text>
