@@ -1,8 +1,8 @@
 const colors = {
     veryLightBlue : "#F7F9FC",
-    veryLightBlue_Dark : "#484A4D",
+    veryLightBlue_Dark : "#0F111A",
     bgWhite: "#fff",
-    bgWhite_Dark: "#505050",
+    bgWhite_Dark: "#090B10",
     black: '#000',
     colorFontDarkBlue: "#2D3748",
     colorFontDarkBlue_Dark: "#8f9bbc",

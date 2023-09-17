@@ -54,6 +54,23 @@ module.exports = {
         }
     },
 
+    async searchProductsTypesId(req, res) {
+        try {
+            const {type, id} = req.params;
+            let result = null;
+            if(type == "Cadeira de Rodas" || type  == "Muleta" || type == "Andador" || type == "Bengala") {
+                result = await knex(type).where("Product_prod_id", id);
+                return res.status(201).json(result);
+            }
+            else {
+                return res.status(401).json({msg: "There is no such product type in the database"});
+            }
+        }
+        catch(error) {
+            return res.status(400).json({error : error.message});
+        }
+    },
+
     async searchProductKey(req, res) {
         try {
             const {key} = req.params;

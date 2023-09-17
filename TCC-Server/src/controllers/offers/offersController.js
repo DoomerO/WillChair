@@ -29,7 +29,7 @@ module.exports = {
         }
     },
 
-    async searchOfferId(req, res) { //recebe todas as ofertas de determinado usuário
+    async searchOfferId(req, res) { 
         try {
             const {id} = req.params;
 
