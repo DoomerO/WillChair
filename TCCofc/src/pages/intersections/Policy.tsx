@@ -1,53 +1,102 @@
-import { Box, Button, Flex, Heading, IconButton, ListItem, Spacer, Text, UnorderedList, useColorMode } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, IconButton, ListItem, Spacer, Text, UnorderedList, border, useColorMode } from "@chakra-ui/react";
 import { FiSun, FiMoon } from "react-icons/fi";
-import {AiOutlineHome} from "react-icons/ai";
-import {Link} from "react-router-dom";
+import { AiOutlineHome } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const Policy = () => {
-    const {toggleColorMode} = useColorMode();
+    const { toggleColorMode } = useColorMode();
     return (
         <Box w="100%" h="100%" justifyContent="center">
             <Flex direction="row" w="100%" position="absolute">
-                    <Link to="/"><IconButton aria-label='Return to home' icon={<AiOutlineHome/>}></IconButton></Link>
-                    <Spacer/>
-                    <IconButton onClick={toggleColorMode} aria-label='switch lighting mode'
-                    icon={localStorage.getItem("chakra-ui-color-mode") == 'light' ? <FiSun/> : <FiMoon/>}></IconButton>
+                <Link to="/"><IconButton aria-label='Return to home' icon={<AiOutlineHome />}></IconButton></Link>
+                <Spacer />
+                <IconButton onClick={toggleColorMode} aria-label='switch lighting mode'
+                    icon={localStorage.getItem("chakra-ui-color-mode") == 'light' ? <FiSun /> : <FiMoon />}></IconButton>
             </Flex>
             <Flex align="center" border="3px" direction="column" h="inherit" mt="4%" >
                 <Heading as='h1' >Política de privacidade</Heading>
-                <Spacer/>
-                <Flex direction="column" mt="3%" border="2px solid #000" p="2% 2% 0 2%" _dark={{border : "2px solid #fff"}} w="70%" borderRadius="10px" minH="70vh" maxH="70vh" overflowY="scroll" css={{
-                        '&::-webkit-scrollbar': {
+                <Spacer />
+                <Flex direction="column" mt="3%" border="2px solid #000" p="2% 2% 0 2%" _dark={{ border: "2px solid #fff" }} w="70%" borderRadius="10px" minH="70vh" maxH="70vh" overflowY="scroll" css={{
+                    '&::-webkit-scrollbar': {
                         width: '4px',
-                        },
-                        '&::-webkit-scrollbar-track': {
+                    },
+                    '&::-webkit-scrollbar-track': {
                         background: '#0000',
-                        },
-                        '&::-webkit-scrollbar-thumb': {
+                    },
+                    '&::-webkit-scrollbar-thumb': {
                         background: '#1976D2',
                         borderRadius: '50px',
-                        },
-                        '&::-webkit-scrollbar-thumb:hover': {
-                            background: '#0946a6',
-                            borderRadius: '50px',
-                        },
-                    }}>
-                    <Heading as="h5" fontWeight="semibold" borderBottom="2px solid #000" mb="2%" fontSize={{base: "28px", md:"30px"}} _dark={{borderBottom : "2px solid #fff"}}>Dados requisitados</Heading>
+                    },
+                    '&::-webkit-scrollbar-thumb:hover': {
+                        background: '#0946a6',
+                        borderRadius: '50px',
+                    },
+                }}>
+
+                    <Heading as="h5" fontWeight="semibold" borderBottom="2px solid #000" mb="2%" fontSize={{ base: "28px", md: "30px" }} _dark={{ borderBottom: "2px solid #fff" }}>Última atualização: 18/09/2023</Heading>
+                    <Text textAlign="justify" fontSize={{ base: "17px", md: "18px" }}>Esta Política de Privacidade descreve como o WillChair coleta, usa, divulga e protege suas informações pessoais quando você utiliza nossos
+                        serviços online através de nosso site. Ao usar nosso site, você concorda com todas as práticas descritas nesta política.
+                    </Text>
+
+                    <Heading as="h5" fontWeight="semibold" borderBottom="2px solid #000" mt="2%" mb="2%" fontSize={{ base: "28px", md: "30px" }} _dark={{ borderBottom: "2px solid #fff" }}>Coleta de Informações Pessoais</Heading>
+                    <Text textAlign="justify" fontSize={{ base: "17px", md: "18px" }}>Coletamos as seguintes informações pessoais quando você se registra em nosso site ou utiliza nossos serviços:</Text>
                     <UnorderedList spacing={2}>
-                        <ListItem textAlign="justify" fontSize={{base: "17px", md:"18px"}}><b>Email(endereço web):</b> Obrigatório para o uso do sistema.</ListItem>
-                        <ListItem textAlign="justify" fontSize={{base: "17px", md:"18px"}}><b>Telefone:</b> Obrigatório para o uso do sistema.</ListItem>
-                        <ListItem textAlign="justify" fontSize={{base: "17px", md:"18px"}}><b>CEP:</b> Obrigatório para o uso do sistema.</ListItem>
-                        <ListItem textAlign="justify" fontSize={{base: "17px", md:"18px"}}><b>Dados de endereço:</b> Todos obrigatórios exceto pelo número da residência e complemento.</ListItem>
+                        <ListItem textAlign="justify" fontSize={{ base: "17px", md: "18px" }}><b>Informações de Identificação Pessoal:</b>  Isso inclui seu nome, endereço de e-mail, número de telefone, endereço postal (CEP) e outras
+                            informações de contato necessárias para criar sua conta e facilitar transações.
+                        </ListItem>
+                        <ListItem textAlign="justify" fontSize={{ base: "17px", md: "18px" }}><b>Informações de Perfil:</b> Podemos coletar informações sobre suas preferências, interesses e necessidades específicas de acessibilidade
+                            para personalizar sua experiência no site.
+                        </ListItem>
+                        <ListItem textAlign="justify" fontSize={{ base: "17px", md: "18px" }}><b>Mensagens de Chat:</b> Registramos as conversas realizadas em nosso chat para auxiliar na resolução de conflitos, melhorar nossos serviços
+                            e garantir uma experiência segura para todos os usuários.
+                        </ListItem>
+                        <ListItem textAlign="justify" fontSize={{ base: "17px", md: "18px" }}><b>Informações de Uso:</b> Coletamos informações sobre como você interage com nosso site, incluindo páginas visitadas, tempo gasto e
+                            informações sobre o dispositivo que você utiliza para acessar esta aplicação.
+                        </ListItem>
                     </UnorderedList>
-                    <Heading as="h5" fontWeight="semibold" borderBottom="2px solid #000" mt="2%" mb="2%" fontSize={{base: "28px", md:"30px"}} _dark={{borderBottom : "2px solid #fff"}}>Utilização dos dados</Heading>
+
+                    <Heading as="h5" fontWeight="semibold" borderBottom="2px solid #000" mt="2%" mb="2%" fontSize={{ base: "28px", md: "30px" }} _dark={{ borderBottom: "2px solid #fff" }}>Uso de Informações Pessoais</Heading>
+                    <Text textAlign="justify" fontSize={{ base: "17px", md: "18px" }}>Usamos as informações pessoais coletadas para os seguintes fins:</Text>
                     <UnorderedList spacing={2}>
-                        <ListItem textAlign="justify" fontSize={{base: "17px", md:"18px"}}><b>Email(endereço web):</b> Utilizado como identificador do usuário dentro do sistema, servindo como uma chave de diferenciação dentre os diversos usuários. É também utilizado como opção de contato e exposto na plataforma para permitir acesso dos demais usuários à informação.</ListItem>
-                        <ListItem textAlign="justify" fontSize={{base: "17px", md:"18px"}}><b>Telefone:</b> É utilizado como uma opção de contato. O dado é exposto na plataforma para permitir fácil acesso dos interessados em entrar em contato.</ListItem>
-                        <ListItem textAlign="justify" fontSize={{base: "17px", md:"18px"}}><b>CEP:</b> É utilizado como ferramenta de descobrimento de endereço pelo sistema. O dado É exposto na plataforma.</ListItem>
-                        <ListItem textAlign="justify" fontSize={{base: "17px", md:"18px"}}><b>Dados de endereço:</b> São utilizados para demonstrar de onde um usuário lança suas ofertas e, onde um outro usuário deve se deslocar para acessar um determinado equipamento. Dados como a cidade correspondente ao CEP são também utilizados como identificadores de ofertas por razões de filtragem e facilidade para a pesquisa. Dados como o número da residência e complemento não são obrigatórios, sendo falcutativo ao usuário disponíbilizá-los à plataforma. Todos os dados de endereço são expostos, incluindo os não obrigatórios.</ListItem>
+                        <ListItem textAlign="justify" fontSize={{ base: "17px", md: "18px" }}><b>Registro e Gerenciamento de Conta:</b> Para criar e gerenciar sua conta, permitindo que você participe de transações de compra, aluguel e
+                            doação de equipamentos de acessibilidade.
+                        </ListItem>
+                        <ListItem textAlign="justify" fontSize={{ base: "17px", md: "18px" }}><b>Fornecimento de Serviços:</b> Para facilitar a comunicação entre os usuários por meio de nosso chat e serviços.</ListItem>
+                        <ListItem textAlign="justify" fontSize={{ base: "17px", md: "18px" }}><b>Personalização:</b> Para personalizar sua experiência no site, oferecendo produtos e serviços relevantes com base em suas preferências e interesses.</ListItem>
+                        <ListItem textAlign="justify" fontSize={{ base: "17px", md: "18px" }}><b>Análise e Melhoria:</b> Para analisar o desempenho do site, entender como os usuários o utilizam e poder oferecer as melhores resuloções para os
+                            problemas com as respectivas melhorias.
+                        </ListItem>
+                        <ListItem textAlign="justify" fontSize={{ base: "17px", md: "18px" }}><b>Comunicações:</b> Para enviar informações sobre experiências, atualizações de serviços e comunicações relacionadas ao seu uso do site. </ListItem>
                     </UnorderedList>
-                    <Heading as="h5" fontWeight="semibold" borderBottom="2px solid #000" mt="2%" mb="2%" fontSize={{base: "28px", md:"30px"}} _dark={{borderBottom : "2px solid #fff"}}>Disponibilidade á terceiros</Heading>
-                    <Text textAlign="justify" fontSize={{base: "17px", md:"18px"}}>Os dados disponibilizados não são utilizados compartilhados com nenhum terceiro. Os únicos com acesso à eles são os demais usuários e a equipe de administradores Willchair, a qual os armazena em seu banco de dados.</Text>
+
+                    <Heading as="h5" fontWeight="semibold" borderBottom="2px solid #000" mt="2%" mb="2%" fontSize={{ base: "28px", md: "30px" }} _dark={{ borderBottom: "2px solid #fff" }}>Divulgação de Informações Pessoais</Heading>
+                    <Text textAlign="justify" fontSize={{ base: "17px", md: "18px" }}>Não compartilharemos suas informações pessoais com terceiros, exceto nas seguintes situações:</Text>
+                    <UnorderedList spacing={2}>
+                        <ListItem textAlign="justify" fontSize={{ base: "17px", md: "18px" }}><b>Usuários do Site:</b> Suas informações de contato, como nome, número de telefone e e-mail serão compartilhadas com outros usuários com quem você
+                            interagir por meio do chat, para facilitar a realização de negócios.
+                        </ListItem>
+                        <ListItem textAlign="justify" fontSize={{ base: "17px", md: "18px" }}><b>Requisitos Legais:</b> Se exigido por lei ou por uma autoridade competente, poderemos divulgar suas informações para com os devidos fins das investigações.</ListItem>
+                    </UnorderedList>
+
+                    <Heading as="h5" fontWeight="semibold" borderBottom="2px solid #000" mt="2%" mb="2%" fontSize={{ base: "28px", md: "30px" }} _dark={{ borderBottom: "2px solid #fff" }}>Segurança de Dados</Heading>
+                    <Text textAlign="justify" fontSize={{ base: "17px", md: "18px" }}>Empregamos medidas de segurança técnicas e organizacionais para proteger suas informações pessoais contra acesso não autorizado, uso indevido da conta,
+                        divulgação ou vazamentos de dados.
+                    </Text>
+
+                    <Heading as="h5" fontWeight="semibold" borderBottom="2px solid #000" mt="2%" mb="2%" fontSize={{ base: "28px", md: "30px" }} _dark={{ borderBottom: "2px solid #fff" }}>Seus Direitos de Privacidade</Heading>
+                    <Text textAlign="justify" fontSize={{ base: "17px", md: "18px" }}>Você tem direitos relacionados à sua privacidade e às suas informações pessoais, incluindo o direito de acessar, retificar e excluir dados
+                        pessoais. Para exercer esses direitos ou fazer perguntas sobre esta Política de Privacidade, entre em contato conosco através dos canais de suporte disponibilizados no site.
+                    </Text>
+
+                    <Heading as="h5" fontWeight="semibold" borderBottom="2px solid #000" mt="2%" mb="2%" fontSize={{ base: "28px", md: "30px" }} _dark={{ borderBottom: "2px solid #fff" }}>Alterações nesta Política de Privacidade</Heading>
+                    <Text textAlign="justify" fontSize={{ base: "17px", md: "18px" }}>Esta Política de Privacidade pode ser atualizada periodicamente para refletir mudanças em nossas práticas de privacidade. Recomendamos que você reveja esta
+                        política regularmente para estar ciente de quaisquer alterações.
+                    </Text>
+
+                    <Heading as="h5" fontWeight="semibold" borderBottom="2px solid #000" mt="2%" mb="2%" fontSize={{ base: "28px", md: "30px" }} _dark={{ borderBottom: "2px solid #fff" }}>Contato</Heading>
+                    <Text textAlign="justify" fontSize={{ base: "17px", md: "18px" }}>Se você tiver alguma dúvida ou preocupação relacionada a esta Política de Privacidade, entre em contato conosco através dos canais de suporte disponibilizados
+                        no site. Ao utilizar nosso site, você concorda com todos esses termos, com a coleta e uso de suas informações pessoais conforme o descrito.
+                    </Text>
                 </Flex>
             </Flex>
         </Box>
