@@ -4,20 +4,21 @@ import Footer from "../components/Footer";
 import {BsPeopleFill} from "react-icons/bs";
 import {HiOutlineDesktopComputer} from "react-icons/hi";
 import {BsGearFill} from "react-icons/bs";
+import colors from '../colors/colors';
 
 const About = () => {
     return (
         <Box w="100%" h="100%">
             <HeaderToggle/>
 
-            <Flex w='100%' h='70vh' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
+            <Flex w='100%' h='70vh' bg={colors.veryLightBlue} align='center' _dark={{bg:colors.veryLightBlue_Dark}}>
                 <Flex align='center' direction='column' w='100%'>
                     <Heading color='#1976D2' as='h1' fontSize="40px">WillChair</Heading>
                     <Heading color='#2D3748' as='h2' fontSize="35px" textAlign='center' noOfLines={{base: 6, md: 4}} w={{base: "98%", md:"37%"}} _dark={{color:"#8f9bbc"}}>O sonho de fornecer para todos a possibilidade de adquirir um esquipamento de acessibilidade!</Heading>
                 </Flex>
             </Flex>
 
-            <Flex w='100%' bg='#fff' h='fit-content' align='center' direction='column' _dark={{bg:'#4f4f4f'}} pb='5vh'>
+            <Flex w='100%' bg={colors.bgWhite} h='fit-content' align='center' direction='column' _dark={{bg:colors.bgWhite_Dark}} pb='5vh'>
             <Heading as='h1' color='#1976D2' w={{base:"100%",md:"38%"}} mt="3%" align='center' fontSize="40px" _dark={{color:"#0D87d8"}}>Afinal, do que se trata o WillChair?</Heading>
                 <Stack mt='3%' gap="50" direction={{base: "column", md: "row"}} >
                     
@@ -62,7 +63,7 @@ const About = () => {
                 </Stack>
             </Flex>
 
-            <Flex w='100%' bg='#F7F9FC' h='fit-content' align='center' direction='column' _dark={{bg:'#484A4D'}} pb={{base:'5vh',md:'none'}}>
+            <Flex w='100%' bg={colors.veryLightBlue} h='fit-content' align='center' direction='column' _dark={{bg:colors.veryLightBlue_Dark}} pb={{base:'5vh',md:'none'}}>
             <Heading as='h1' color='#1976D2' w={{base:"100%" ,md:"38%"}} mt="3%" align='center' fontSize="40px"_dark={{color:"#0D87d8"}}>Nossa história</Heading>
                 <Stack mt='3%' gap="50" direction={{base: "column", md: "row"}} align='center'>
                     

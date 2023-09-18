@@ -12,16 +12,18 @@ const colors = {
     signColor: "#1976D2",
     signColorOpacity: "#1976D230",
     categoryBg: "#fff",
-    categoryBg_Dark: "#444",
+    categoryBg_Dark: "#222",
     footerBg: "#131313",
     slideMsgBg: "#bfbfbf",
     slideMsgBg_Dark: "#363636",
     bgTableRow1: "#F1F6Fd",
-    bgTableRow1_Dark: "#3a424f",
+    bgTableRow1_Dark: "#1a222f",
     bgTableRow2: "#F0F0F0",
-    bgTableRow2_Dark: "#3f3f3f",
+    bgTableRow2_Dark: "#1f1f1f",
     bgProfileImg : "#f0f0f6",
-    bgProfileImg_Dark : "#404046"
+    bgProfileImg_Dark : "#0d0f18",
+    bgCard_Dark : "#0F1124",
+    bgDrawer_Dark : "#08081f",
 }
 
 export default colors

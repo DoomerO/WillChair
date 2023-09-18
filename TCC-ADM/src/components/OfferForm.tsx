@@ -4,6 +4,9 @@ import axios from "axios";
 import colors from "../colors/colors";
 import "../fonts/fonts.css";
 import dateDisplayer from "./code/dataDisplayer";
+import Messages from "./Messages";
+import SignAdaptable from "./SignAdaptable";
+import {BsChatText} from "react-icons/bs";
 
 interface offerFormprops {
     offer : object;
@@ -12,9 +15,11 @@ interface offerFormprops {
 const OfferFrom = ({offer} : offerFormprops) => {
     const [img, setImg] = useState<any>();
     const [prodChild, setChild] = useState([]);
+    const [chats, setChats] = useState([]);
 
     useEffect(() => {
         if (offer.prod_img) getProdImg();
+        if (offer.ofr_id) getChatsOffer();
         if (offer.prod_type == "Cadeira de Rodas" || offer.prod_type == "Andador" || offer.prod_type == "Muleta" || offer.prod_type == "Bengala") getProductChild();
     }, [offer]);
 
@@ -42,6 +47,28 @@ const OfferFrom = ({offer} : offerFormprops) => {
         })
     }
 
+    async function getChatsOffer() {
+        await axios.get(`http://localhost:3344/chats/offer/adm/${offer.ofr_id}`, {
+            headers : {authorization : "Bearer " + localStorage.getItem("token")}
+        }).then((res) => {
+            setChats(res.data);
+        }).catch((error) => {
+            console.log(error)
+        });
+    }
+
+    const renderChats = chats.map(item => {
+        return <Flex w="100%" direction="column" align="center" mt="1%" key={item.chat_id}>
+            <Divider orientation="horizontal" mb="1%"/>
+            <Text fontSize="24px" mb="1%" textAlign="left">
+                Chat(ID): {item.chat_id}
+            </Text>
+            <Divider orientation="horizontal" mb="1%"/>
+            <Messages chatId={item.chat_id} targetId={offer.User_user_id}/>
+            <Divider orientation="horizontal" mt="1%"/>
+        </Flex>
+    });
+
     return (
         <Flex w="100%" p="2%" direction="column" bg={colors.veryLightBlue} _dark={{bg : colors.veryLightBlue_Dark}}>
             <Flex w="100%" direction="row">
@@ -52,7 +79,7 @@ const OfferFrom = ({offer} : offerFormprops) => {
                         </Text>
                         <Spacer/>
                         <Text fontSize="24px">
-                            Id : {offer.ofr_id}
+                            ID : {offer.ofr_id}
                         </Text>
                     </Flex>
                     
@@ -91,7 +118,7 @@ const OfferFrom = ({offer} : offerFormprops) => {
                         </Text>
                         <Spacer/>
                         <Text fontSize="24px">
-                            Id : {offer.Product_prod_id}
+                            ID : {offer.Product_prod_id}
                         </Text>
                     </Flex>
                     <Flex direction="row" align="flex-start" w="100%">
@@ -190,7 +217,7 @@ const OfferFrom = ({offer} : offerFormprops) => {
                 <Text fontSize="28px" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>
                     Chats
                 </Text>
-                
+                {(chats.length > 0) ? renderChats : <SignAdaptable msg="Essa oferta não possuí Chats Iniciados" icon={<BsChatText size="20vh"/>}/>}
             </Flex>
         </Flex>
     )

@@ -224,7 +224,7 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
     });
 
     return (
-        <Card w={{base:"90%", md:"80vw"}} bg="#f7f7f7" variant="outline" _dark={{bg : colors.colorFontDarkBlue}}>
+        <Card w={{base:"90%", md:"80vw"}} bg="#f7f7f7" variant="outline" _dark={{bg : colors.bgCard_Dark}}>
             <Flex w="100%" align="center" direction="row" pt="1%" pb="1%" pl="1%">
                 <Link to={`/profile/${other.user_email}/view`}>
                     <Avatar name={other.user_name} src={(other.user_img) ? img : ""} size={{base:"md", md:"sm"}} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : "2px solid #fff"}}}/>

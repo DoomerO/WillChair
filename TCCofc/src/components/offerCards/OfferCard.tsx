@@ -37,7 +37,7 @@ const CardOffer = ({img, title, condition, composition, type, value, id}: OfferC
     }, [img])
 
     return (
-        <Card w={{base:"70vw", md:"23vw"}} boxShadow="lg" h="fit-content" align='center' variant="outline" size="sm"> 
+        <Card w={{base:"70vw", md:"23vw"}} boxShadow="lg" h="fit-content" align='center' variant="outline" size="sm" _dark={{bg : colors.bgCard_Dark}}> 
             <CardHeader>
                 <Heading as='h3' fontSize={{base:"24px", md:"20px"}} noOfLines={1}>{title}</Heading>
             </CardHeader>

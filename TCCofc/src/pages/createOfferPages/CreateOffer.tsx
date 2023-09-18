@@ -13,6 +13,7 @@ import diversos from '../../img/categories/diversidade.png';
 import caderiaRodas_Dark from '../../img/categories/cadeira-de-rodas claro.png';
 import muleta_Dark from '../../img/categories/muleta claro.png';
 import andador_Dark from '../../img/categories/andador claro.png';
+import colors from "../../colors/colors";
 
 const CreateOffer = () => {
     const colorMode = useColorModeValue(true, false);
@@ -21,7 +22,7 @@ const CreateOffer = () => {
         <Box w="100%" h="100%">
             <HeaderToggle/>
 
-            <Flex w='100%' h='55vh' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
+            <Flex w='100%' h='55vh' bg={colors.veryLightBlue} align='center' _dark={{bg:colors.veryLightBlue_Dark}}>
                 <Flex align='center' direction='column' w='100%'>
                     <Heading color='#000' as='h1' fontSize="55px" _dark={{color:"#fff"}}>Faça aqui a sua oferta!</Heading>
                     <Heading color='#646E73' fontSize="25px" textAlign='center' w={{base: "98%", md:"37%"}} _dark={{color:"#8f9bbc"}}>Selecione a categoria 
@@ -29,7 +30,7 @@ const CreateOffer = () => {
                 </Flex>
             </Flex>
 
-                <Flex h="80%" direction='row' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
+                <Flex h="80%" direction='row' bg={colors.veryLightBlue} align='center' _dark={{bg:colors.veryLightBlue_Dark}}>
                     <Flex direction={{base:'column', md :'row'}} w='80%' ml='10%' mb='5%'>
                         <Category name='Cadeira de Rodas' icon={(colorMode) ? cadeiraRodas : caderiaRodas_Dark} path="/create-offer/cadeira-rodas"/>
                         <Spacer />

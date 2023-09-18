@@ -47,7 +47,15 @@ const ReportPage = () => {
 
     async function getOffer() {
         await axios.get(`http://localhost:3344/offers/id/${report.Offer_ofr_id}`).then((res) => {
-            setOffers(res.data[0]);
+            setOffers(res.data);
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    async function getOffersUser() {
+        await axios.get(`http://localhost:3344/offers/user/${report.user_email}`).then((res) => {
+            setOffers(res.data);
         }).catch((error) => {
             console.log(error);
         })
@@ -88,12 +96,17 @@ const ReportPage = () => {
     useEffect(() => {
         if (report.user_img) getRecImg();
         if (report.User_user_idEnv) getUserEnv();
-        if (report.Offer_ofr_id) getOffer();
+        if(report.Offer_ofr_id)  getOffer()
+        else{ if(report.user_email) getOffersUser();}
     }, [report])
 
     useEffect(() => {
         if (reportEnv.user_img) getEnvImg();
     }, [reportEnv])
+
+    const renderOfferForms = offers.map(item => {
+        return <OfferFrom offer={item} key={item.ofr_id}/>;
+    })
 
     return (
         <Box w="100%" h="100%">
@@ -199,10 +212,10 @@ const ReportPage = () => {
 
                 <Divider orientation="horizontal"/>
 
-                <Flex direction="column" align="center" mt="1%" w="100%">
-                    <Heading as="h3" color={colors.colorFontBlue} mb="1%">Informações sobre a Oferta</Heading>
-                    <OfferFrom offer={offers}/>
-                </Flex>
+                <Stack direction="column" align="center" mt="1%" w="100%" spacing={8}>
+                    <Heading as="h3" color={colors.colorFontBlue} mb="1%">{(report.Offer_ofr_id) ? "Informações sobre a Oferta" : "Ofertas do usuário"}</Heading>
+                    {renderOfferForms}
+                </Stack>
             </Flex>
         </Box>
     )

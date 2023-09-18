@@ -49,6 +49,7 @@ routes.delete('/offers/:id', auth, controllersOffers.deleteOffer);
 //Messages Routes
 routes.get('/messages', authAdm, controllersMessages.searchMessages);
 routes.get('/messages/chat/:chat_id', auth, controllersMessages.searchMessagesChat);
+routes.get('/messages/chat/adm/:chat_id', authAdm, controllersMessages.searchMessagesChat);
 routes.post('/messages', auth, controllersMessages.createMessages);
 routes.delete('/messages/:id', auth, controllersMessages.delMessages);
 routes.delete('/messages/chat/:chat_id', auth, controllersMessages.delMessagesChat);
@@ -56,6 +57,7 @@ routes.delete('/messages/chat/:chat_id', auth, controllersMessages.delMessagesCh
 //Chat Routes 
 routes.get('/chats', authAdm, controllersChats.searchChats);
 routes.get('/chats/offer/:ofr_id', auth, controllersChats.searchChatOffer);
+routes.get('/chats/offer/adm/:ofr_id', authAdm, controllersChats.searchChatOffer);
 routes.get('/chats/user/offer/:user_id/:ofr_id', auth, controllersChats.searchChatUserOffer);
 routes.get('/chats/user/:user_id', auth, controllersChats.searchChatUser);
 routes.post('/chats', auth, controllersChats.createChat);

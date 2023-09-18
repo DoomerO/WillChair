@@ -19,6 +19,7 @@ import diversos from '../img/categories/diversidade.png';
 import caderiaRodas_Dark from '../img/categories/cadeira-de-rodas claro.png';
 import muleta_Dark from '../img/categories/muleta claro.png';
 import andador_Dark from '../img/categories/andador claro.png';
+import colors from "../colors/colors";
 
 const Home = () => {
     const colorMode = useColorModeValue(true, false);
@@ -27,7 +28,7 @@ const Home = () => {
         <Box w="100%" h="100%">
             <HeaderToggle/>
 
-            <Flex w='100%' h='70vh' bg='#F7F9FC' align='center' _dark={{bg:'#484A4D'}}>
+            <Flex w='100%' h='70vh' bg={colors.veryLightBlue} align='center' _dark={{bg:colors.veryLightBlue_Dark}}>
                 <Flex align='center' direction='column' ml={{base: "none", md: '8%'}} w={{base: "inherit", md :'50%'}}>
                     <Heading fontFamily="outfit"  color='#2D3748' as='h1' fontSize={{base: "36px", md: "30px"}} _dark={{color:"#8f9bbc"}}>O seu sonho acessível</Heading>
                     <Heading color='#1976D2' as='h1' fontSize={{base: "36px", md: "30px"}} >perto de você!</Heading>
@@ -38,7 +39,7 @@ const Home = () => {
                 <Image src={topImage} w='50%' h='100%' objectFit='contain' display={{base: "none", md: "inherit"}}/>
             </Flex>
 
-            <Flex w='100%' bg='#fff' h='fit-content' align='center' direction='column' _dark={{bg:'#4f4f4f'}} pb={{base:"5vh", md:"none"}}>
+            <Flex w='100%' bg={colors.bgWhite} h='fit-content' align='center' direction='column' _dark={{bg:colors.bgWhite_Dark}} pb={{base:"5vh", md:"none"}}>
                 <Heading fontFamily="outfit" as='h1' noOfLines={{base: 2, md: 1}} color='#2D3748' mt={{base:'10%', md:'3%'}} _dark={{color:"#0D87d8"}} fontSize={{base: "32px", md: "34px"}} w={{base:'98vw', md:'fit-content'}}>
                     O que você pode encontrar por aqui
                 </Heading>
@@ -78,7 +79,7 @@ const Home = () => {
                 </Stack>
             </Flex>
 
-            <Flex w='100%' h='fit-content' bg='#F7F9FC' align='center' direction='column' _dark={{bg:'#484A4D'}}>
+            <Flex w='100%' h='fit-content' bg={colors.veryLightBlue} align='center' direction='column' _dark={{bg:colors.veryLightBlue_Dark}}>
                 <Box h='20%' alignContent='center' mt={{base:'10%', md:'3%'}}>
                 <Heading fontFamily="outfit" as='h2' noOfLines={{base: 2, md: 1}} color='#1963D2' _dark={{color:'#1983D2'}} fontSize={{base: "32px", md: "34px"}} w={{base:'98vw', md:'fit-content'}}>
                     Confira abaixo algumas de nossas categorias

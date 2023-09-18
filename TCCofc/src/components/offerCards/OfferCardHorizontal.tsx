@@ -34,7 +34,7 @@ const OfferCardHorizontal = ({img, title, value, desc, id}: HorizontalOfferCard)
     }, [img])
     
     return (
-        <Card w="90%" h={{base:"60vh",md:"40vh"}} variant="filled" size="sm" direction={{base:"column" ,md:"row"}} borderRadius="10px">
+        <Card w="90%" h={{base:"60vh",md:"40vh"}} variant="filled" size="sm" direction={{base:"column" ,md:"row"}} borderRadius="10px" _dark={{bg : colors.bgCard_Dark}}>
             <Image src={(imgShow) ? imgShow : ""} objectFit="contain" w={{base:"100%" ,md:"22.5%"}} h={{base:"50%", md:"100%"}} borderRadius="15px 0 0 15px"/>
             <Stack w={{base:"100%" ,md:"77.5%"}} h={{base:"50%", md:"100%"}}>
                 <CardBody>

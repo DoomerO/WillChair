@@ -108,8 +108,8 @@ const HeaderLogged = ({user}: avatarProps) => {
                 <DrawerOverlay />
                 <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader></DrawerHeader>
-                <DrawerBody>
+                <DrawerHeader _dark={{bg : colors.bgDrawer_Dark}}></DrawerHeader>
+                <DrawerBody _dark={{bg : colors.bgDrawer_Dark}}>
                     <Divider orientation="horizontal" mt="3"/>
                     <Flex direction="row" align="end" mt="3" mb="3">
                         <Avatar name={user.user_name} src={(user.user_img) ? img : ""} size="2xl" mr="1vw"/>
