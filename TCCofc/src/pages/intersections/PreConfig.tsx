@@ -121,7 +121,7 @@ const PreConfig = () => {
                         </Input></FormLabel>
                         <FormLabel>Número de sua Casa<Input onChange={handleChange} type="text" value={inputs.houseNum || ""} fontFamily="atkinson" name="houseNum" _placeholder={{color : colors.colorFontDarkBlue}} _dark={{_placeholder : {color : colors.colorFontDarkBlue_Dark}}} placeholder={"Opcional"} maxLength={6} pattern="[0-9]{0,}">
                         </Input></FormLabel>
-                        <FormLabel>Complemento<Input onChange={handleChange} type="text" value={inputs.complement} fontFamily="atkinson" name="complement" _placeholder={{color : colors.colorFontDarkBlue}} _dark={{_placeholder : {color : colors.colorFontDarkBlue_Dark}}} placeholder={"Opcional"}>
+                        <FormLabel>Complemento<Input onChange={handleChange} type="text" value={inputs.complement} fontFamily="atkinson" name="complement" _placeholder={{color : colors.colorFontDarkBlue}} _dark={{_placeholder : {color : colors.colorFontDarkBlue_Dark}}} placeholder={"Opcional"} maxLength={30}>
                         </Input></FormLabel>
                         <FormLabel>UF<Input type="text" value={inputs.FU} fontFamily="atkinson" readOnly>
                         </Input></FormLabel>
