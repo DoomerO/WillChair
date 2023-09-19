@@ -176,7 +176,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `willchair`.`Muleta` (
   `mul_maxHeight` FLOAT NULL,
-  `mul_type` VARCHAR(10) NULL,
+  `mul_type` VARCHAR(20) NULL,
   `mul_minHeight` FLOAT NULL,
   `mul_regulator` TINYINT NULL,
   `mul_maxWeight` FLOAT NULL,
@@ -191,7 +191,7 @@ ENGINE = InnoDB;
 -- Table `willchair`.`Bengala`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `willchair`.`Bengala` (
-  `ben_type` VARCHAR(10) NULL,
+  `ben_type` VARCHAR(20) NULL,
   `ben_regulator` TINYINT NULL,
   `ben_maxHeight` FLOAT NULL,
   `ben_minHeight` FLOAT NULL,
