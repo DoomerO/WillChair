@@ -116,7 +116,7 @@ const AndadorOffer = () => {
                     title: 'Imagem muito pesada!',
                     description: "Tente usar uma imagem mais leve.",
                     status: 'error',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                   })
             }
@@ -231,11 +231,12 @@ const AndadorOffer = () => {
                     <Flex direction='column' align='center' w={{base:"90vw" ,md:'60vw'}} fontSize={{base:"20px", md:"18px"}} h={{base:'33%' , md:'110vh'}}>
                         
                         <Stack spacing={3} align="center">
-                            <Flex w={{base:"30vh" ,md:"40vh"}} align="center" justifyContent="center" h={{base:"30vh" ,md:"40vh"}} direction="column" border="2px dashed #000" _dark={{border : "2px dashed #fff"}}>{(imgShow) ? <Image w={{base:"98%", md:"96%"}} h={{base:"98%", md:"96%"}} objectFit="contain" src={imgShow}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%"/>} bgType={"none"}/>}</Flex>    
-
-                            <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>Imagem<Input type="file" id="myfile" name="photo" accept="gif, .jpg, .jpeg, .png" onChange={handleImage}/></FormLabel>
+                            <Input type="file" id="myfile" display="none" name="photo" accept="gif, .jpg, .jpeg, .png" onChange={handleImage}/>
+                            <Flex w={{base:"30vh" ,md:"40vh"}} align="center" justifyContent="center" h={{base:"30vh" ,md:"40vh"}} direction="column" border="2px dashed #000" _dark={{border : "2px dashed #fff"}} cursor="pointer" onClick={() => {
+                                document.getElementsByName("photo")[0].click()
+                            }}>{(imgShow) ? <Image w={{base:"98%", md:"96%"}} h={{base:"98%", md:"96%"}} objectFit="contain" src={imgShow}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%"/>} bgType={"none"}/>}</Flex>    
                             
-                            <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>Título da oferta<Input type='text' fontSize={{base:"20px", md:"18px"}} 
+                            <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>Título da oferta<Input type='text' fontSize={{base:"20px", md:"18px"}} maxLength={45}
                             placeholder='Ex.: Andador Médio de Metal' name='name' onChange={handleChange}/></FormLabel>
                             
                             <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{base:"20px", md:"18px"}} textAlign="left" verticalAlign="top" onChange={handleChange}/></FormLabel>    
@@ -259,7 +260,7 @@ const AndadorOffer = () => {
                                 <Spacer/>
                                 <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>{'Altura (m)'}<Input name='height' color="gray" type="number" fontSize={{base:"20px", md:"18px"}} onChange={handleChange}/></FormLabel>
                                 <Spacer/>
-                                <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>{'Composição'}<Input name='composition' color="gray" type="text" fontSize={{base:"20px", md:"18px"}} onChange={handleChange}/></FormLabel>
+                                <FormLabel w="100%" fontSize={{base:"20px", md:"18px"}}>{'Composição'}<Input name='composition' color="gray" type="text" fontSize={{base:"20px", md:"18px"}} onChange={handleChange} maxLength={20}/></FormLabel>
                             </Flex>
 
                             <Flex w='100%' h='fit-content' align='center' direction={{base:'column' ,md:'row'}}>
@@ -297,7 +298,7 @@ const AndadorOffer = () => {
                                         title: 'Perfil incompleto!',
                                         description: "Termine de configurar o seu perfil antes de postar uma oferta!",
                                         status: 'error',
-                                        duration: 9000,
+                                        duration: 3000,
                                         isClosable: true,
                                     })
                                 }}}>Salvar</Button>
