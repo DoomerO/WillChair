@@ -198,6 +198,25 @@ module.exports = {
         }
     },
 
+    async reduceUserPoints(req, res) {
+        try {
+            const {user_id} = req.params;
+
+            const consult = await knex("User").where("user_id", user_id);
+            if (consult != "") {
+                await knex("User").update({
+                    user_nota : consult[0].user_nota - 1
+                }).where("user_id", user_id);
+                return res.status(201).json({msg : "The points were reduced"});
+            }
+
+            return res.status(401).json({msg : "This user does not exists"});   
+        }
+        catch(error) {
+            return res.status(400).json({error : error.message});
+        }
+    },
+
     async deleteAdministrator(req, res) {
         try {
             const {email} = req.params;

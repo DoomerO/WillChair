@@ -1,4 +1,4 @@
-import {Divider, Flex, Spacer, Stack, Text, Image} from "@chakra-ui/react";
+import {Divider, Flex, Spacer, Stack, Text, Image, Button, useToast, ToastPosition, UseToastOptions} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import colors from "../colors/colors";
@@ -7,6 +7,7 @@ import dateDisplayer from "./code/dataDisplayer";
 import Messages from "./Messages";
 import SignAdaptable from "./SignAdaptable";
 import {BsChatText} from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 interface offerFormprops {
     offer : object;
@@ -14,6 +15,8 @@ interface offerFormprops {
 
 const OfferFrom = ({offer} : offerFormprops) => {
     const [img, setImg] = useState<any>();
+    const toastRender = useToast();
+    const navigate = useNavigate();
     const [prodChild, setChild] = useState([]);
     const [chats, setChats] = useState([]);
 
@@ -22,6 +25,17 @@ const OfferFrom = ({offer} : offerFormprops) => {
         if (offer.ofr_id) getChatsOffer();
         if (offer.prod_type == "Cadeira de Rodas" || offer.prod_type == "Andador" || offer.prod_type == "Muleta" || offer.prod_type == "Bengala") getProductChild();
     }, [offer]);
+
+    function toast(title:string, desc:string, time?:number, type?:UseToastOptions["status"], pos?:ToastPosition, close?:boolean){
+        toastRender({
+            title: title,
+            description: desc,
+            status: type,
+            duration: time,
+            position: pos,
+            isClosable: close ? close : true
+        })
+    }
 
     async function getProdImg() {
         await axios.get(`http://localhost:3344/products/photo/${offer.prod_img}`, {responseType : "arraybuffer"}).then((res) => {
@@ -41,7 +55,7 @@ const OfferFrom = ({offer} : offerFormprops) => {
         await axios.get(`http://localhost:3344/products/typeQuery/${offer.prod_type}/${offer.Product_prod_id}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
-            setChild(res.data);
+            setChild(res.data[0]);
         }).catch((error) => {
             console.log(error);
         })
@@ -55,6 +69,27 @@ const OfferFrom = ({offer} : offerFormprops) => {
         }).catch((error) => {
             console.log(error)
         });
+    }
+
+    async function deleteOffer() {
+        await axios.delete(`http://localhost:3344/chats/offer/adm/${offer.ofr_id}`, {
+            headers : {authorization : "Bearer " + localStorage.getItem("token")}
+        }).catch((error) => {
+            console.log(error);
+        })
+        await axios.delete(`http://localhost:3344/products/adm/${offer.Product_prod_id}`, {
+            headers : {authorization : "Bearer " + localStorage.getItem("token")}
+        }).catch((error) => {
+            console.log(error);
+        })
+        await axios.delete(`http://localhost:3344/offers/adm/${offer.ofr_id}`, {
+            headers : {authorization : "Bearer " + localStorage.getItem("token")}
+        }).then((res) => {
+            toast("Oferta apagada", "Você apagou a oferta com sucesso", 5000, "success")
+            navigate(0)
+        }).catch((error) => {
+            console.log(error);
+        })
     }
 
     const renderChats = chats.map(item => {
@@ -147,67 +182,67 @@ const OfferFrom = ({offer} : offerFormprops) => {
                     </Text>
                     {(offer.prod_type == "Cadeira de Rodas") ? <Stack spacing={3} w="100%">
                         <Text>
-                            Largura : {prodChild[0].cad_width}cm
+                            Largura : {prodChild.cad_width}cm
                         </Text>
                         <Text>
-                            Largura do Acento : {prodChild[0].cad_widthSeat}cm
+                            Largura do Acento : {prodChild.cad_widthSeat}cm
                         </Text>
                         <Text>
-                            Tipo de Cadeira : {prodChild[0].cad_type}
+                            Tipo de Cadeira : {prodChild.cad_type}
                         </Text>
                         <Text>
-                            Suporte máximo de peso : {prodChild[0].cad_maxWeight}kg
+                            Suporte máximo de peso : {prodChild.cad_maxWeight}kg
                         </Text>
                     </Stack> : null}
                     {(offer.prod_type == "Bengala") ? <Stack spacing={3} w="100%">
                         <Text>
-                            Cor : {prodChild[0].ben_color}
+                            Cor : {prodChild.ben_color}
                         </Text>
                         <Text>
-                            Tipo de Bengala : {prodChild[0].ben_type}
+                            Tipo de Bengala : {prodChild.ben_type}
                         </Text>
                         <Text>
-                            Possui Regulador : {(prodChild[0].ben_regulator) ? "Sim" : "Não"}
+                            Possui Regulador : {(prodChild.ben_regulator) ? "Sim" : "Não"}
                         </Text>
-                        <Text display={(prodChild[0].ben_regulator) ? "normal" : "none"}>
+                        <Text display={(prodChild.ben_regulator) ? "normal" : "none"}>
                             Altura Máxima : {prodChild[0].ben_maxHeight}m
                         </Text>
-                        <Text display={(prodChild[0].ben_regulator) ? "normal" : "none"}>
-                            Altura Miníma : {prodChild[0].ben_minHeight}m
+                        <Text display={(prodChild.ben_regulator) ? "normal" : "none"}>
+                            Altura Miníma : {prodChild.ben_minHeight}m
                         </Text>
                     </Stack> : null}
                     {(offer.prod_type == "Muleta") ? <Stack spacing={3} w="100%">
                         <Text>
-                            Peso Máximo Suportado : {prodChild[0].mul_maxHeight}
+                            Peso Máximo Suportado : {prodChild.mul_maxHeight}
                         </Text>
                         <Text>
-                            Tipo de Muleta : {prodChild[0].mul_type}
+                            Tipo de Muleta : {prodChild.mul_type}
                         </Text>
                         <Text>
-                            Possui Regulador : {(prodChild[0].mul_regulator) ? "Sim" : "Não"}
+                            Possui Regulador : {(prodChild.mul_regulator) ? "Sim" : "Não"}
                         </Text>
-                        <Text display={(prodChild[0].mul_regulator) ? "normal" : "none"}>
+                        <Text display={(prodChild.mul_regulator) ? "normal" : "none"}>
                             Altura Máxima : {prodChild[0].mul_maxHeight}m
                         </Text>
-                        <Text display={(prodChild[0].mul_regulator) ? "normal" : "none"}>
-                            Altura Miníma : {prodChild[0].mul_minHeight}m
+                        <Text display={(prodChild.mul_regulator) ? "normal" : "none"}>
+                            Altura Miníma : {prodChild.mul_minHeight}m
                         </Text>
                     </Stack>: null} 
                     {(offer.prod_type == "Andador") ? <Stack spacing={3} w="100%">
                         <Text>
-                            Largura : {prodChild[0].and_width}
+                            Largura : {prodChild.and_width}
                         </Text>
                         <Text>
-                            Comprimento : {prodChild[0].and_lenght}
+                            Comprimento : {prodChild.and_lenght}
                         </Text>
                         <Text>
-                            Possui Regulador : {(prodChild[0].and_regulator) ? "Sim" : "Não"}
+                            Possui Regulador : {(prodChild.and_regulator) ? "Sim" : "Não"}
                         </Text>
-                        <Text display={(prodChild[0].and_regulator) ? "normal" : "none"}>
-                            Altura Máxima : {prodChild[0].and_maxHeight}m
+                        <Text display={(prodChild.and_regulator) ? "normal" : "none"}>
+                            Altura Máxima : {prodChild.and_maxHeight}m
                         </Text>
-                        <Text display={(prodChild[0].and_regulator) ? "normal" : "none"}>
-                            Altura Miníma : {prodChild[0].and_minHeight}m
+                        <Text display={(prodChild.and_regulator) ? "normal" : "none"}>
+                            Altura Miníma : {prodChild.and_minHeight}m
                         </Text>
                     </Stack>: null}
                 </Stack>
@@ -217,7 +252,29 @@ const OfferFrom = ({offer} : offerFormprops) => {
                 <Text fontSize="28px" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>
                     Chats
                 </Text>
-                {(chats.length > 0) ? renderChats : <SignAdaptable msg="Essa oferta não possuí Chats Iniciados" icon={<BsChatText size="20vh"/>}/>}
+                {(chats.length > 0) ? renderChats : <SignAdaptable msg="Essa oferta não possuí Chats Iniciados" icon={<BsChatText size="20vh" />} bgType="none"/>}
+            </Flex>
+            <Divider orientation="horizontal"/>
+            <Flex direction="column" align="center" mt="1%">
+                <Text fontSize="28px" mb="2%" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>
+                    Ações
+                </Text>
+                <Button colorScheme="linkedin" onClick={() => {
+                    toastRender({
+                        position: 'bottom',
+                        render: () => (
+                            <Stack bg="orange.500" align="center" direction="column" p="2vh" borderRadius="10px" spacing={2} _dark={{bg : "orange.200"}}>
+                                <Text fontWeight="semibold" color="white" _dark={{color : "black"}} noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que a oferta deve ser deletada?</Text>
+                                <Stack direction="row">
+                                    <Button variant="outline" color="#fff"  _dark={{color : "black"}} _hover={{bg:"#fff2"}} onClick={() => {deleteOffer();}}>Sim</Button>
+                                    <Button variant="outline" color="#fff" _dark={{color : "black"}}  _hover={{bg:"#fff2"}} onClick={() => {toastRender.closeAll()}}>Não</Button>    
+                                </Stack>
+                            </Stack>
+                        )
+                    })
+                }}>
+                    Apagar oferta
+                </Button>
             </Flex>
         </Flex>
     )

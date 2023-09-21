@@ -27,6 +27,7 @@ routes.put('/users/:email', auth,controllersUsers.updateUser);
 routes.put('/users/password/:email', auth,controllersUsers.updateUserPassword);
 routes.put('/users/email/:id', auth, controllersUsers.updateUserEmail);
 routes.delete('/users/:id', auth,controllersUsers.deleteUser);
+routes.delete('/users/adm/:id', authAdm,controllersUsers.deleteUser);
 
 //Email Routes
 routes.get('/email/confirm/:toWho', controllersUsers.sendConfirmationEmailPasswordChange);
@@ -45,6 +46,7 @@ routes.put('/offers/:id', auth, controllersOffers.updateOffer);
 routes.put('/offers/remove-intrest/:id', auth, controllersOffers.removeIntrest);
 routes.put('/offers/confirm-equipament/:id/:user', auth, controllersOffers.confirmEquipOprt);
 routes.delete('/offers/:id', auth, controllersOffers.deleteOffer);
+routes.delete('/offers/adm/:id', authAdm, controllersOffers.deleteOffer);
 
 //Messages Routes
 routes.get('/messages', authAdm, controllersMessages.searchMessages);
@@ -63,6 +65,7 @@ routes.get('/chats/user/:user_id', auth, controllersChats.searchChatUser);
 routes.post('/chats', auth, controllersChats.createChat);
 routes.delete('/chats/:id', auth, controllersChats.deleteChat);
 routes.delete('/chats/offer/:ofr_id', auth, controllersChats.deleteChatOffer);
+routes.delete('/chats/offer/adm/:ofr_id', authAdm, controllersChats.deleteChatOffer);
 
 //Products Routes
 routes.get('/products', authAdm, controllersProducts.searchProducts);
@@ -83,6 +86,7 @@ routes.put('/products/muleta/:id', auth, controllersProducts.updateMuleta);
 routes.put('/products/bengala/:id', auth, controllersProducts.updateBengala);
 routes.put('/products/andador/:id', auth, controllersProducts.updateAndador);
 routes.delete('/products/:id', auth, controllersProducts.deleteProduct);
+routes.delete('/products/adm/:id', authAdm, controllersProducts.deleteProduct);
 
 //Products Images Routes
 routes.get('/products/photo/:filename', controllersProducts.returnImage);
@@ -95,7 +99,7 @@ routes.get('/denounce/offer/:ofrId', controllersdenounce.searchDenounceOffer);
 routes.get('/denounce/id/:id', authAdm, controllersdenounce.searchDenounceById);
 routes.post('/denounce', auth, controllersdenounce.createDenounce);
 routes.put('/denounce/:id', auth, controllersdenounce.updateDenounce);
-routes.delete('/denounce/:id', auth, controllersdenounce.deleteDenounce);
+routes.delete('/denounce/:id', authAdm, controllersdenounce.deleteDenounce);
 
 //avaliation routes
 routes.get('/avaliation', auth, controllersAvaliation.searchAvaliation);
@@ -113,6 +117,7 @@ routes.get('/adm/id/:email', authAdm, controllersAdministration.getAdmId);
 routes.post('/adm', authAdm, controllersAdministration.createAdministrator);
 routes.put('/adm/update/:updtType/:id', authAdm, controllersAdministration.updateAdministrator);
 routes.put('/adm/responsability/:den_id', authAdm, controllersAdministration.setResponsability);
+routes.put('/adm/reduce/points/:user_id', authAdm, controllersAdministration.reduceUserPoints);
 routes.delete('/adm/:email', authAdm, controllersAdministration.deleteAdministrator);
 
 module.exports = routes;

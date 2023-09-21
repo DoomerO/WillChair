@@ -236,8 +236,8 @@ module.exports = {
     async deleteOffer(req, res) { // deleta uma oferta pelo id
         try {
             const {id} = req.params;
-
-            if(await knex("Offer").where("ofr_id", id) != ""){
+            const consult = await knex("Offer").where("ofr_id", id);
+            if(consult != ""){
                 await knex("Offer").del().where("ofr_id", id);
                 return res.status(201).json({msg: "Offer Deleted"});
             }

@@ -32,15 +32,15 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
     const [showImg, setImg] = useState<any>();
 
     function toast(title:string, desc:string, time?:number, type?:UseToastOptions["status"], pos?:ToastPosition, close?:boolean){
-    toastRender({
-        title: title,
-        description: desc,
-        status: type,
-        duration: time,
-        position: pos,
-        isClosable: close ? close : true
-    })
-}
+        toastRender({
+            title: title,
+            description: desc,
+            status: type,
+            duration: time,
+            position: pos,
+            isClosable: close ? close : true
+        })
+    }
 
     async function getComments() {
         await axios.get(`http://localhost:3344/avaliation/receiver/${user.user_id}`).then((res) => {

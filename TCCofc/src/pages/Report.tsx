@@ -21,7 +21,7 @@ const Report = () => {
         den_reason: "",
         den_content: "",
         email : "",
-        den_gravity: 0,
+        den_gravity: 1,
         User_user_idRec: 0,
         User_user_idEnv: 0,
         Offer_ofr_id: 0
@@ -98,6 +98,7 @@ const Report = () => {
     const handleSelect = (e:ChangeEvent<HTMLInputElement>) => {
         switch(e.target.value) {
             case "4" :
+                setReport(prev => ({...prev, den_gravity : 1}));
                 setSelect(true);
             break;
             case "Fraudes e golpes":

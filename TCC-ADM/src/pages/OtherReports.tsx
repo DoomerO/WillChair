@@ -36,7 +36,7 @@ const OtherReports = () => {
                 return b.den_gravity - a.den_gravity;
             });
             for (const report of sortReports) {
-                if (report.den_gravity == 1) {
+                if (report.den_gravity < 2) {
                     if ( report.Offer_ofr_id == 0) {
                         setUserRep(prev => ([...prev, report]));
                     }
