@@ -7,7 +7,7 @@ import {BsCreditCard} from "react-icons/bs";
 import {BiDonateHeart} from "react-icons/bi";
 import {MdWheelchairPickup} from "react-icons/md";
 import "../fonts/fonts.css"
-import {tiltXY, reCenter} from "../components/code/tilt"
+import {tilt, reCenter} from "../components/code/tilt"
 //images
 import bottomImage from '../img/home/homeImgBottom.png';
 import topImage from '../img/home/imgHomeTop.png';
@@ -45,7 +45,7 @@ const Home = () => {
                 </Heading>
                 <Stack mt='8%' gap="50" direction={{base: "column", md: "row"}} >
                     <Flex direction='column' align='center' w='30vh'  h={{base:'33%' , md:'30vh'}}>
-                        <Box w='fit-content' pos="relative" onMouseMove={(e) => {tiltXY(e, 0.5, 0)}} onMouseLeave={(e) => {reCenter(e)}}>
+                        <Box w='fit-content' pos="relative" onMouseMove={(e) => {tilt(e, 0.5, 0)}} onMouseLeave={(e) => {reCenter(e)}}>
                             <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}} pointerEvents="none">
                                 <BsCreditCard size='8vh'/>
                             </Container>
@@ -56,7 +56,7 @@ const Home = () => {
                     </Flex>
                     <Spacer />
                     <Flex direction='column' align='center' w='30vh' h={{base:'33%' , md:'30vh'}}>
-                        <Box w='fit-content' pos="relative" onMouseMove={(e) => {tiltXY(e, 0.5, 0)}} onMouseLeave={(e) => {reCenter(e)}}>
+                        <Box w='fit-content' pos="relative" onMouseMove={(e) => {tilt(e, 0.5, 0)}} onMouseLeave={(e) => {reCenter(e)}}>
                             <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}} pointerEvents="none">
                                 <BiDonateHeart size='8vh'/>
                             </Container>
@@ -67,7 +67,7 @@ const Home = () => {
                     </Flex>
                     <Spacer />
                     <Flex direction='column' align='center' w='30vh'  h={{base:'33%' , md:'30vh'}}>
-                        <Box w='fit-content' pos="relative" onMouseMove={(e) => {tiltXY(e, 0.5, 0)}} onMouseLeave={(e) => {reCenter(e)}}>
+                        <Box w='fit-content' pos="relative" onMouseMove={(e) => {tilt(e, 0.5, 0)}} onMouseLeave={(e) => {reCenter(e)}}>
                             <Container borderRadius='100%' bg='#E8F1FA' p='20px' _dark={{bg: '#28616A'}} pointerEvents="none">
                                 <MdWheelchairPickup size='8vh'/>
                             </Container>
