@@ -9,7 +9,6 @@ import axios from "axios";
 import { BiSolidRightArrow } from "react-icons/bi";
 import dateDisplayer from "../components/code/dataDisplayer";
 import OfferFrom from "../components/OfferForm";
-import { warning } from "framer-motion";
 
 const ReportPage = () => {
     const {id} = useParams();
@@ -46,6 +45,16 @@ const ReportPage = () => {
             authorization: "Bearer " + localStorage.getItem("token")
         }}).then((res) => {
             setReport(res.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+    async function getAdm() {
+        await axios.get(`http://localhost:3344/adm/id/${adm.email}`, {
+            headers : {authorization : "Bearer " + localStorage.getItem("token")
+        }}).then((res) => {
+            setAdm(prev => ({...prev, adm_id : res.data[0].adm_id}));
         }).catch((error) => {
             console.log(error);
         });
@@ -103,40 +112,56 @@ const ReportPage = () => {
         });
     }
 
-    async function deleteUser(userId : number) {        
-        await axios.delete(`http://localhost:3344/users/adm/${userId}`, {
-            headers : { authorization : "Bearer " + localStorage.getItem("token")}
-        }).then((res) => {
-            toast("Usuário apagado", "O usuário foi apagado com sucesso!", 3000 , "success")
-        }).catch((error) => {
-            console.log(error);
-        })
+    async function deleteUser(userId : number) {    
+        if (adm.adm_id == report.adm_assigned) {
+            await axios.delete(`http://localhost:3344/users/adm/${userId}`, {
+                headers : { authorization : "Bearer " + localStorage.getItem("token")}
+            }).then((res) => {
+                toast("Usuário apagado", "O usuário foi apagado com sucesso!", 3000 , "success")
+            }).catch((error) => {
+                console.log(error);
+            })
+        }
+        else {
+            toast("Você não é o responsável por essa denúncia!", "Não execute ações em denúncias das quais você não é responsável!", 3000, "error")
+        }    
     }
 
     async function reducePointsUser(userId : number) {
-        await axios.put(`http://localhost:3344/adm/reduce/points/${userId}`, {}, {
-            headers : { authorization : "Bearer " + localStorage.getItem("token")}
-        }).then((res) => {
-            toast("Nota Reduzida!", "O usuário perdeu 1 ponto de nota", 3000 , "success");
-            navigate(0);
-        }).catch((error) => {
-            console.log(error);
-        })
+        if (adm.adm_id == report.adm_assigned) {
+            await axios.put(`http://localhost:3344/adm/reduce/points/${userId}`, {}, {
+                headers : { authorization : "Bearer " + localStorage.getItem("token")}
+            }).then((res) => {
+                toast("Nota Reduzida!", "O usuário perdeu 1 ponto de nota", 3000 , "success");
+                navigate(0);
+            }).catch((error) => {
+                console.log(error);
+            })
+        }
+        else {
+            toast("Você não é o responsável por essa denúncia!", "Não execute ações em denúncias das quais você não é responsável!", 3000, "error")
+        }   
     }
 
     async function endReport() {
-        await axios.delete(`http://localhost:3344/denounce/${report.den_id}`, {
-            headers : { authorization : "Bearer " + localStorage.getItem("token")}
-        }).then((res) => {
-            toast("Denúncia apagada", "A denúncia foi finalizada", 3000 , "success");
-            navigate("/");
-        }).catch((error) => {
-            console.log(error);
-        })
+        if (adm.adm_id == report.adm_assigned) {
+            await axios.delete(`http://localhost:3344/denounce/${report.den_id}`, {
+                headers : { authorization : "Bearer " + localStorage.getItem("token")}
+            }).then((res) => {
+                toast("Denúncia apagada", "A denúncia foi finalizada", 3000 , "success");
+                navigate("/");
+            }).catch((error) => {
+                console.log(error);
+            })
+        }
+        else {
+            toast("Você não é o responsável por essa denúncia!", "Não execute ações em denúncias das quais você não é responsável!", 3000, "error")
+        }   
     }
 
     useEffect(() => {
         if (id) getReport();
+        getAdm();
     }, [id]);
 
     useEffect(() => {
@@ -151,7 +176,7 @@ const ReportPage = () => {
     }, [reportEnv])
 
     const renderOfferForms = offers.map(item => {
-        return <OfferFrom offer={item} key={item.ofr_id}/>;
+        return <OfferFrom offer={item} admAssigned={report.adm_assigned} admId={adm.adm_id} key={item.ofr_id}/>;
     })
 
     return (
@@ -191,7 +216,7 @@ const ReportPage = () => {
                                 <Text mr="2%">
                                     Descrição: 
                                 </Text>
-                                <Text fontFamily="atkinson" textAlign="justify" border="1px solid #000" borderRadius="10px" p="2%" w="50%" h="25vh" _dark={{border : "1px solid #fff"}}>
+                                <Text fontFamily="atkinson" textAlign="justify" border="1px solid #000" borderRadius="10px" p="1%" w="50%" h="25vh" _dark={{border : "1px solid #fff"}}>
                                     {report.den_content}
                                 </Text>
                             </Flex>

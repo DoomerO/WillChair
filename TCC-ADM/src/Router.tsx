@@ -5,6 +5,7 @@ import PageToggle from "./components/toggles/PageToggle";
 import Home from "./pages/Home";
 import OtherReports from "./pages/OtherReports";
 import ReportPage from "./pages/ReportPage";
+import SetResponsability from "./pages/SetResponsability";
 
 const Router = () => {
     const toggleHome = () => {
@@ -16,6 +17,9 @@ const Router = () => {
     const toggleReportPage = () => {
         return <PageToggle compSuccess={<ReportPage/>}/>
     }
+    const toggleResponsability = () => {
+        return <PageToggle compSuccess={<SetResponsability/>}/>
+    }
 
     return (
         <BrowserRouter>
@@ -24,6 +28,7 @@ const Router = () => {
                 <Route Component={toggleOtherReports} path="/other"/>
                 <Route Component={Login} path="/login"/>
                 <Route Component={toggleReportPage} path="/report/:id"/>
+                <Route Component={toggleResponsability} path="/responsability"/>
             </Routes>
         </BrowserRouter>
     )

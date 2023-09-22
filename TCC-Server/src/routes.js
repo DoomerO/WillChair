@@ -3,6 +3,8 @@ const express = require('express');
 //middlewares
 const auth = require('./middleware/auth');
 const authAdm = require('./middleware/authAdm');
+const authAdm2 = require('./middleware/authAdm2');
+const authAdm3 = require('./middleware/authAdm3');
 
 //Controllers
 const controllersUsers = require('./controllers/users/usersController');
@@ -114,10 +116,10 @@ routes.get('/adm', authAdm, controllersAdministration.searchAdministrators);
 routes.get('/adm/email/:mode/:email', authAdm, controllersAdministration.searchAdmEmail);
 routes.get('/adm/login/:email/:password', controllersAdministration.verifyAdministrator);
 routes.get('/adm/id/:email', authAdm, controllersAdministration.getAdmId);
-routes.post('/adm', authAdm, controllersAdministration.createAdministrator);
-routes.put('/adm/update/:updtType/:id', authAdm, controllersAdministration.updateAdministrator);
-routes.put('/adm/responsability/:den_id', authAdm, controllersAdministration.setResponsability);
+routes.post('/adm', authAdm2, controllersAdministration.createAdministrator);
+routes.put('/adm/update/:updtType/:id', authAdm3, controllersAdministration.updateAdministrator);
+routes.put('/adm/responsability/:den_id/:adm_id', authAdm2, controllersAdministration.setResponsability);
 routes.put('/adm/reduce/points/:user_id', authAdm, controllersAdministration.reduceUserPoints);
-routes.delete('/adm/:email', authAdm, controllersAdministration.deleteAdministrator);
+routes.delete('/adm/:email', authAdm3, controllersAdministration.deleteAdministrator);
 
 module.exports = routes;

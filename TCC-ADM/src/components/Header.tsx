@@ -22,36 +22,9 @@ const Header = ({adm}: headerProps) => {
 
     return (
         <Flex w="100%" h="8.5vh" bg='#fff' position='fixed' _dark={{bg : '#131313'}} boxShadow='lg' zIndex={2}>
-            <Center h='100%'  ml='10px'>
-                <Menu>
-                    <MenuButton  
-                        as={IconButton}
-                        aria-label='Options'
-                        icon = {<RxHamburgerMenu size='100%'/>}
-                        variant="unstyled"
-                        bg='#0000'
-                        _hover={{bg : "#0002", _dark:{bg : "#fff3"}}}>
-                    </MenuButton>
-                    <MenuList fontSize={{base:"20px", md:"15px"}}>
-                        <Link to="/"><MenuItem>
-                            <Flex direction="row" w={{base:"40%" ,md:"95%"}} align="center">Definitivamente Algo</Flex>
-                        </MenuItem></Link>
-                        <Link to="/"><MenuItem>
-                            <Flex direction="row" w={{base:"40%" ,md:"95%"}} align="center">Algo Muito bom</Flex>
-                        </MenuItem></Link>
-                        <Link to="/"><MenuItem>
-                            <Flex direction="row" w={{base:"40%" ,md:"95%"}} align="center">Algo</Flex>
-                        </MenuItem></Link>
-                        <MenuItem onClick={toggleColorMode}>
-                            <Flex direction="row" w={{base:"40%" ,md:"95%"}} align="center">{colorMode}<Spacer/><CgDarkMode size="6%"/></Flex>
-                        </MenuItem>
-                    </MenuList>
-                </Menu>
-            </Center>
+            <Image src={logoImg} objectFit='contain' onClick={() => {navigate("/")}} w={{base:"45%", md:"12%"}} h='66%' mt='2.5'></Image>
             <Spacer />
-                <Image src={logoImg} objectFit='contain' onClick={() => {navigate("/")}} w={{base:"45%", md:"12%"}} h='66%' mt='2.5'></Image>
-            <Spacer />
-            <HStack w='40%' display={{base: 'none', md:'inherit'}}>
+            <HStack w='50%' display={{base: 'none', md:'inherit'}}>
                 <Button variant='link' colorScheme="#000">
                     <Link to="/"><b>Denúncias Previstas</b></Link>
                 </Button>
@@ -60,8 +33,12 @@ const Header = ({adm}: headerProps) => {
                     <Link to="/other"><b>Denúncias Adversas</b></Link>
                 </Button>
                 <Spacer />
-                <Button variant='link' colorScheme="#000" display={(adm.level > 1) ? "initial" : "none" }>
+                <Button variant='link' colorScheme="#000">
                     <Link to="/"><b>Criar Administrador</b></Link>
+                </Button>
+                <Spacer/>
+                <Button variant='link' colorScheme="#000">
+                    <Link to="/responsability"><b>Responsabilizar</b></Link>
                 </Button>
             </HStack>
             <Spacer/>

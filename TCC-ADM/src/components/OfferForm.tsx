@@ -11,9 +11,11 @@ import { useNavigate } from "react-router-dom";
 
 interface offerFormprops {
     offer : object;
+    admAssigned : number;
+    admId : number;
 }
 
-const OfferFrom = ({offer} : offerFormprops) => {
+const OfferFrom = ({offer, admAssigned, admId} : offerFormprops) => {
     const [img, setImg] = useState<any>();
     const toastRender = useToast();
     const navigate = useNavigate();
@@ -72,24 +74,29 @@ const OfferFrom = ({offer} : offerFormprops) => {
     }
 
     async function deleteOffer() {
-        await axios.delete(`http://localhost:3344/chats/offer/adm/${offer.ofr_id}`, {
-            headers : {authorization : "Bearer " + localStorage.getItem("token")}
-        }).catch((error) => {
-            console.log(error);
-        })
-        await axios.delete(`http://localhost:3344/products/adm/${offer.Product_prod_id}`, {
-            headers : {authorization : "Bearer " + localStorage.getItem("token")}
-        }).catch((error) => {
-            console.log(error);
-        })
-        await axios.delete(`http://localhost:3344/offers/adm/${offer.ofr_id}`, {
-            headers : {authorization : "Bearer " + localStorage.getItem("token")}
-        }).then((res) => {
-            toast("Oferta apagada", "Você apagou a oferta com sucesso", 5000, "success")
-            navigate(0)
-        }).catch((error) => {
-            console.log(error);
-        })
+        if (admId == admAssigned) {
+            await axios.delete(`http://localhost:3344/chats/offer/adm/${offer.ofr_id}`, {
+                headers : {authorization : "Bearer " + localStorage.getItem("token")}
+            }).catch((error) => {
+                console.log(error);
+            })
+            await axios.delete(`http://localhost:3344/products/adm/${offer.Product_prod_id}`, {
+                headers : {authorization : "Bearer " + localStorage.getItem("token")}
+            }).catch((error) => {
+                console.log(error);
+            })
+            await axios.delete(`http://localhost:3344/offers/adm/${offer.ofr_id}`, {
+                headers : {authorization : "Bearer " + localStorage.getItem("token")}
+            }).then((res) => {
+                toast("Oferta apagada", "Você apagou a oferta com sucesso", 5000, "success")
+                navigate(0)
+            }).catch((error) => {
+                console.log(error);
+            })
+        }
+        else {
+            toast("Você não é o responsável por essa denúncia!", "Não execute ações em denúncias das quais você não é responsável!", 3000, "error")
+        }   
     }
 
     const renderChats = chats.map(item => {

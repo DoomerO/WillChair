@@ -5,7 +5,16 @@ const jwt = require("jsonwebtoken");
 module.exports = {
     async searchAdministrators(req, res) {
         try {
-            const result  = await knex("Administrator");
+            const consult  = await knex("Administrator");
+            let result = [];
+            for(let i = 0; i < consult.length; i++) {
+                result.push({
+                    adm_name : consult[i].adm_name,
+                    adm_email : consult[i].adm_email,
+                    adm_level : consult[i].adm_level,
+                    adm_id : consult[i].adm_id
+                })
+            }
             return res.status(201).json(result);
         }
         catch(error) {
@@ -47,7 +56,7 @@ module.exports = {
                 const pass = consult[0].adm_password.toString();
                 bcrypt.compare(password, pass).then((result) => {
                     if(result) {
-                        const adm = {email : consult[0].adm_email, name: consult[0].adm_name}
+                        const adm = {email : consult[0].adm_email, name: consult[0].adm_name, level: consult[0].adm_level}
 
                         const validationToken = jwt.sign(
                             adm,
