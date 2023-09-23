@@ -17,10 +17,26 @@ module.exports = {
       const { email } = req.params; 
 
       const user = await knex('User').where('user_email', email);
-      if (user) {
+      if (user != "") {
         const denounces = await knex('Denounce').where('User_user_idRec', user[0].user_id);
         return res.status(201).json(denounces);
       }
+      else return res.status(401).json({msg : "This user does not exists"});
+    } catch(error) {
+      return res.status(400).json({ error: error.message });
+    }
+  },
+
+  async searchdenounceByEmailAdm(req, res) { //get por email de administrador responsável
+    try {
+      const { email } = req.params; 
+
+      const adm = await knex('Administrator').where('adm_email', email);
+      if (adm != "") {
+        const denounces = await knex('Denounce').where('adm_assigned', adm[0].adm_id);
+        return res.status(201).json(denounces);
+      }
+      else return res.status(401).json({msg : "This administrator does not exists"});
     } catch(error) {
       return res.status(400).json({ error: error.message });
     }

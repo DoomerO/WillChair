@@ -212,7 +212,7 @@ const OfferFrom = ({offer, admAssigned, admId} : offerFormprops) => {
                             Possui Regulador : {(prodChild.ben_regulator) ? "Sim" : "Não"}
                         </Text>
                         <Text display={(prodChild.ben_regulator) ? "normal" : "none"}>
-                            Altura Máxima : {prodChild[0].ben_maxHeight}m
+                            Altura Máxima : {prodChild.ben_maxHeight}m
                         </Text>
                         <Text display={(prodChild.ben_regulator) ? "normal" : "none"}>
                             Altura Miníma : {prodChild.ben_minHeight}m
@@ -229,7 +229,7 @@ const OfferFrom = ({offer, admAssigned, admId} : offerFormprops) => {
                             Possui Regulador : {(prodChild.mul_regulator) ? "Sim" : "Não"}
                         </Text>
                         <Text display={(prodChild.mul_regulator) ? "normal" : "none"}>
-                            Altura Máxima : {prodChild[0].mul_maxHeight}m
+                            Altura Máxima : {prodChild.mul_maxHeight}m
                         </Text>
                         <Text display={(prodChild.mul_regulator) ? "normal" : "none"}>
                             Altura Miníma : {prodChild.mul_minHeight}m

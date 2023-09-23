@@ -12,6 +12,7 @@ import SignAdaptable from "../components/SignAdaptable";
 const SetResponsability = () => {
     const [adm, setAdm] = useState(decode(localStorage.getItem("token")));
     const [reports, setReports] = useState([]);
+    const navigate = useNavigate();
     const toastRender = useToast();
     const [adms, setAdms] = useState([]);
     const [respInfo, setResp] = useState({
@@ -58,6 +59,7 @@ const SetResponsability = () => {
                 headers : {authorization : "Bearer " + localStorage.getItem("token")}
             }).then((res) => {
                 toast("Responsbilidade criada", `Você responsabilizou ${adms[respInfo.renderAdm - 1].adm_name} pela denúncia ${reports[respInfo.renderRep - 1].den_id}`, 3000, "success")
+                navigate(0);
             }).catch((error) => {
                 console.log(error)
                 if (error.response.status == 406) {

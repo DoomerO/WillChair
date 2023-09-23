@@ -1,15 +1,16 @@
 import { Stack, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 
 interface ReportListProps {
-    component : React.ReactElement
+    component : React.ReactElement,
+    height? : string
 }
 
-const ReportCardList = ({component} : ReportListProps) => {
+const ReportCardList = ({component, height = "80vh"} : ReportListProps) => {
 
     return (
         <Tabs alignContent="center" w="100%" h="100%">
             <TabPanels>
-                <TabPanel overflowY="scroll" maxHeight="80vh" css={{
+                <TabPanel overflowY="scroll" maxHeight={height} css={{
                         '&::-webkit-scrollbar': {
                         width: '4px',
                         },
