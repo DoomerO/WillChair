@@ -7,6 +7,7 @@ import OtherReports from "./pages/OtherReports";
 import ReportPage from "./pages/ReportPage";
 import SetResponsability from "./pages/SetResponsability";
 import UpdateAdm from "./pages/UpdateAdm";
+import CreateAdm from "./pages/CreateAdm";
 
 const Router = () => {
     const toggleHome = () => {
@@ -24,6 +25,10 @@ const Router = () => {
     const toggleUpdate = () => {
         return <PageToggle compSuccess={<UpdateAdm/>}/>
     }
+    const toggleCreate = () => {
+        return <PageToggle compSuccess={<CreateAdm/>}/>
+    }
+
 
     return (
         <BrowserRouter>
@@ -34,6 +39,7 @@ const Router = () => {
                 <Route Component={toggleReportPage} path="/report/:id"/>
                 <Route Component={toggleResponsability} path="/responsability"/>
                 <Route Component={toggleUpdate} path="/adm-update"/>
+                <Route component={toggleCreateadm} path="/adm-create"/>
             </Routes>
         </BrowserRouter>
     )
