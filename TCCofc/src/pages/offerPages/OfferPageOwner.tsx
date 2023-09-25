@@ -127,7 +127,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
             setUpdateProd(true);
-            toast('Produto atualisadsdsdszado', 'Atualizado com sucesso', 3000, "success")
+            toast('Produto atualizado', '', 3000, "success")
             navigate(0)
         }).catch((error) => {
             console.log(error);
@@ -175,15 +175,8 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         await axios.delete(`http://localhost:3344/offers/${offer.ofr_id}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
-            useToast()({
-                position: 'bottom',
-                render: () => (
-                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Oferta apagada com sucesso!</Text>
-                        <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate("/"); navigate(0)}}>Voltar para a Home</Button>
-                    </Stack>
-                )
-            })
+            useToast().closeAll()
+            navigate("../../")
         }).catch((error) => {
             console.log(error);
         })
@@ -194,6 +187,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
             toast("", "Produto deletado", 3000, "success")
+            navigate("../../")
         }).catch((error) => {
             console.log(error);
         })
@@ -406,7 +400,8 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                             <Flex direction={{base: "column", md: "row"}} align="center">
                                 <InputGroup display="flex" zIndex={1} w="fit-content">
                                     <InputLeftAddon children={<MdOutlinePhotoSizeSelectActual size="80%"/>}/>
-                                    <Input type="file" display="inline-block" onChange={handleImage} accept=".png,.jpg,.jpeg" fontFamily="outfit"/>
+                                    <Input type="file" name="photo" display="none" onChange={handleImage} accept=".png,.jpg,.jpeg" fontFamily="outfit"/>
+                                    <Button colorScheme="linkedin" onClick={() => {document.getElementsByName("photo")[0].click()}}>Alterar foto</Button>
                                 </InputGroup>
                                 <Spacer/>
                                 {(offer.ofr_status != "Livre") ? <Flex bg={colors.bgTableRow1} p="1%" direction="row" align="center" ml={{base:0, md:"2%"}} w={{base:"100%", md:"68%"}} borderRadius="15px" mt={{base:"3%" , md:0}} _dark={{bg : colors.bgTableRow1_Dark}}>
@@ -479,13 +474,10 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                             <Button colorScheme="linkedin" variant="solid" onClick={() => {clearChanges()}}>Limpar Mudanças</Button>
                             <Button colorScheme="linkedin" variant="solid" onClick={() => { toastRender({
                                 position: 'bottom',
+                                duration: 5000,
                                 render: () => (
-                                    <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja apagar sua Oferta?</Text>
-                                        <Stack direction="row">
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {deleteOfferFunc()}}>Sim</Button>
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toastRender.closeAll()}}>Não</Button>    
-                                        </Stack>
+                                    <Stack bgColor="red">
+                                        <Button onClick={deleteOfferFunc}>Confirmar remoção da oferta</Button>
                                     </Stack>
                                 )
                             })}}>Apagar</Button>
@@ -500,24 +492,13 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                     <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
                                         <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja apagar esse compromisso?</Text>
                                         <Stack direction="row">
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {(offer.ofr_status == "Conclusão") ? toastRender({
-                                                title: 'O compromisso não pode ser encerrado!',
-                                                description: "O equipamento já foi enviado.",
-                                                status: 'error',
-                                                duration: 9000,
-                                                isClosable: true})
-                                             : endComprisse()}}>Sim</Button>
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {(offer.ofr_status == "Conclusão") ? toast('O compromisso não pode ser encerrado!', "O equipamento já foi enviado.", 3000, "error") : endComprisse()}}>Sim</Button>
                                             <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toastRender.closeAll()}}>Não</Button>    
                                         </Stack>
                                     </Stack>
                                 )
                             })}}>Encerrar Compromisso</Button>
-                            <Button colorScheme="linkedin" variant="solid" onClick={() => {(offer.ofr_env_conf) ? toastRender({
-                                title: 'Você já confirmou o envio do equipamento!',
-                                description: "Não é necessário confirmar mais de uma vez!",
-                                status: 'error',
-                                duration: 9000,
-                                isClosable: true}) : confirmEquipament();
+                            <Button colorScheme="linkedin" variant="solid" onClick={() => {(offer.ofr_env_conf) ? toast("Envio de equipamento já confirmado", "", 3000, "warning") : confirmEquipament();
                             }}>Equipamento Enviado</Button>
                             {(offer.ofr_env_conf && offer.ofr_rec_conf) ? <Button colorScheme="linkedin" variant="solid" onClick={() => {
                                 onOpen();
