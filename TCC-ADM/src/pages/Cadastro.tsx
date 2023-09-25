@@ -3,7 +3,7 @@ import axios from "axios";
 import { Button, Flex, Heading, Input } from "@chakra-ui/react";
 
 
-const cadastro = () => {
+const CreateAdm = () => {
     const [admin, setAdmin] = useState({
         adm_name: '',
         adm_email: '',
@@ -49,4 +49,4 @@ const cadastro = () => {
     )
 }
 
-export default cadastro;
+export default CreateAdm;
