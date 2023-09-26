@@ -1,4 +1,5 @@
 import {Tabs, Stack, TabPanel, TabPanels} from '@chakra-ui/react';
+import CreateOfferCard from './AddOfferCard';
 interface listProps {
     component: React.ReactElement
 }
@@ -25,6 +26,7 @@ const OfferList = ({component}: listProps) => {
                         },
                     }}>
                     <Stack direction="row" w="fit-content" spacing={2} justifyContent="center" align="center" mb="5vh">
+                        <CreateOfferCard/>
                         {component}
                     </Stack>  
                 </TabPanel>
