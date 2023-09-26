@@ -25,7 +25,7 @@ const Router = () => {
     const toggleUpdate = () => {
         return <PageToggle compSuccess={<UpdateAdm/>}/>
     }
-    const toggleCreate = () => {
+    const toggleCreateAdm = () => {
         return <PageToggle compSuccess={<CreateAdm/>}/>
     }
 
@@ -39,7 +39,7 @@ const Router = () => {
                 <Route Component={toggleReportPage} path="/report/:id"/>
                 <Route Component={toggleResponsability} path="/responsability"/>
                 <Route Component={toggleUpdate} path="/adm-update"/>
-                <Route component={toggleCreateadm} path="/adm-create"/>
+                <Route Component={toggleCreateAdm} path="/adm-create"/>
             </Routes>
         </BrowserRouter>
     )

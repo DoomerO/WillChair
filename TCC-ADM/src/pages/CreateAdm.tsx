@@ -1,52 +1,64 @@
 import { useState } from "react";
 import axios from "axios";
-import { Button, Flex, Heading, Input } from "@chakra-ui/react";
-
+import { Box, Button, Flex, Heading, Input, Select } from "@chakra-ui/react";
+import Header from "../components/Header";
+import decode from "../components/code/decode";
 
 const CreateAdm = () => {
-    const [admin, setAdmin] = useState({
-        adm_name: '',
-        adm_email: '',
-        adm_level: '',
-        password: '',
-      });
-    
-      const [mensagemErro, setMensagemErro] = useState('');
-      const [mensagemSucesso, setMensagemSucesso] = useState('');
-    
-      const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
-        const { name, value } = e.target;
-        setAdmin({ ...admin, [name]: value });
-      };
-    
-      const handleCadastro = () => {
-        axios
-          .post('http://localhost:3344/adm', admin)
-          .then((_res) => {
-            setMensagemSucesso('Cadastro de administrador bem-sucedido');
-  
-          })
-          .catch((error) => {
-            setMensagemErro('Falha no cadastro de administrador');
-            console.error(error);
-          });
-      };
-    return (
-        <Flex direction="column">
-      <Heading> Cadastro de Administrador</Heading>
-      {mensagemErro && <p className="mensagem-erro">{mensagemErro}</p>}
-      {mensagemSucesso && <p className="mensagem-sucesso">{mensagemSucesso}</p>}
-      <Input type="text" name="adm_name" placeholder="Nome do Administrador" value={admin.adm_name} onChange={handleInputChange}/>
+  const [admToken, setToken] = useState(decode(localStorage.getItem("token")))
+  const [adm, setAdm] = useState({
+    adm_name: '',
+    adm_email: '',
+    adm_level: 1,
+    password: '',
+  });
 
-      <Input type="email" name="adm_email" placeholder="Email do Administrador" value={admin.adm_email} onChange={handleInputChange}/>
+  const [mensagemErro, setMensagemErro] = useState('');
+  const [mensagemSucesso, setMensagemSucesso] = useState('');
 
-      <Input type="text" name="adm_level" placeholder="Nível do Administrador" value={admin.adm_level} onChange={handleInputChange} />
+  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
+    const { name, value } = e.target;
+    if (name == "adm_level") {
+      setAdm({ ...adm, [name]: parseInt(value) });
+    }
+    else setAdm({ ...adm, [name]: value });
+  };
 
-      <Input type="password" name="password" placeholder="Senha" value={admin.password} onChange={handleInputChange}/>
+  const handleCadastro = () => {
+    axios.post('http://localhost:3344/adm', adm, {
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("token")
+      }
+    }).then((_res) => {
+      setMensagemSucesso('Cadastro de administrador bem-sucedido');
 
-      <Button onClick={handleCadastro}>Cadastrar </Button>
-    </Flex>
-    )
+    }).catch((error) => {
+      setMensagemErro('Falha no cadastro de administrador');
+      console.error(error);
+    });
+  };
+  return (
+    <Box w="100%" h="100%">
+      <Header adm={admToken} />
+      <Flex direction="column" pt="5%" align="center">
+        <Heading fontFamily="outfit"> Cadastro de Administrador</Heading>
+        {mensagemErro && <p className="mensagem-erro">{mensagemErro}</p>}
+        {mensagemSucesso && <p className="mensagem-sucesso">{mensagemSucesso}</p>}
+        <Input type="text" name="adm_name" placeholder="Nome do Administrador" value={adm.adm_name} onChange={handleInputChange} />
+
+        <Input type="email" name="adm_email" placeholder="Email do Administrador" value={adm.adm_email} onChange={handleInputChange} />
+
+        <Select variant="outline" name="adm_level" value={adm.adm_level} onChange={handleInputChange}>
+          <option value={1}>1</option>
+          <option value={2}>2</option>
+        </Select>
+
+        <Input type="password" name="password" placeholder="Senha" value={adm.password} onChange={handleInputChange} />
+
+        <Button onClick={handleCadastro}>Cadastrar </Button>
+      </Flex>
+    </Box>
+  )
 }
 
 export default CreateAdm;

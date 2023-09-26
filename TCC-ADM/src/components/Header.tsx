@@ -84,7 +84,7 @@ const Header = ({adm}: headerProps) => {
                 </Button>
                 <Spacer />
                 <Button variant='link' colorScheme="#000">
-                    <Link to="/"><b>Criar Administrador</b></Link>
+                    <Link to="/adm-create"><b>Criar Administrador</b></Link>
                 </Button>
                 <Spacer/>
                 <Button variant='link' colorScheme="#000">
