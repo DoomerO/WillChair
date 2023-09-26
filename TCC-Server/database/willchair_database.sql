@@ -220,7 +220,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `willchair`.`Andador`
+-- Table `willchair`.`Administrator`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `willchair`.`Administrator` (
   `adm_id` INT AUTO_INCREMENT PRIMARY KEY,
