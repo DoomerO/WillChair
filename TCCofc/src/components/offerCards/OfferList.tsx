@@ -1,10 +1,11 @@
 import {Tabs, Stack, TabPanel, TabPanels} from '@chakra-ui/react';
 import CreateOfferCard from './AddOfferCard';
 interface listProps {
-    component: React.ReactElement
+    component: React.ReactElement,
+    canMdNew? : boolean
 }
 
-const OfferList = ({component}: listProps) => {
+const OfferList = ({component, canMdNew = false}: listProps) => {
 
     return (
         <Tabs alignContent="center">
@@ -26,7 +27,7 @@ const OfferList = ({component}: listProps) => {
                         },
                     }}>
                     <Stack direction="row" w="fit-content" spacing={2} justifyContent="center" align="center" mb="5vh">
-                        <CreateOfferCard/>
+                        {(canMdNew) ? <CreateOfferCard/> : null}
                         {component}
                     </Stack>  
                 </TabPanel>

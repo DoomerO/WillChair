@@ -354,7 +354,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
 
             <Flex bg={colors.bgWhite} h="fit-content" direction="column" align="center" pb="5vh" _dark={{bg : colors.bgWhite_Dark}}>
             <Heading as="h1" mt="3%" fontSize={{base: "34px", sm: "30px"}} textAlign="center" color={colors.colorFontDarkBlue} mb="3%" _dark={{color: colors.colorFontDarkBlue_Dark}}>Suas Ofertas</Heading>
-            {(userOffers.length > 0) ? <OfferList component={renderUserOffers}/> : <SignNotFoundButton msg="Parece que você não possui ofertas registradas...Que tal criar alguma?!" icon={<BsPencil size="45%"/>} btnText='Criar Oferta' btnPath='/create-offer/any'/>}
+            {(userOffers.length > 0) ? <OfferList component={renderUserOffers} canMdNew/> : <SignNotFoundButton msg="Parece que você não possui ofertas registradas...Que tal criar alguma?!" icon={<BsPencil size="45%"/>} btnText='Criar Oferta' btnPath='/create-offer/any'/>}
             </Flex> 
             <Footer/>
         </Box>

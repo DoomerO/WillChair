@@ -19,6 +19,8 @@ import diversos from '../img/categories/diversidade.png';
 import caderiaRodas_Dark from '../img/categories/cadeira-de-rodas claro.png';
 import muleta_Dark from '../img/categories/muleta claro.png';
 import andador_Dark from '../img/categories/andador claro.png';
+import bengala_Dark from '../img/categories/bengala claro.png';
+import diversos_Dark from '../img/categories/diversidade claro.png';
 import colors from "../colors/colors";
 
 const Home = () => {
@@ -95,9 +97,9 @@ const Home = () => {
                         <Spacer />
                         <Category name='Andador' icon={(colorMode) ? andador : andador_Dark} path="/search/prod_type/Andador"/>
                         <Spacer />
-                        <Category name='Bengala' icon={bengala} path="/search/prod_type/Bengala"/>
+                        <Category name='Bengala' icon={(colorMode) ? bengala : bengala_Dark} path="/search/prod_type/Bengala"/>
                         <Spacer />
-                        <Category name='Outros' icon={diversos} path="/search/prod_type/others"/>
+                        <Category name='Outros' icon={(colorMode) ? diversos : diversos_Dark} path="/search/prod_type/others"/>
                     </Flex>
                 </Flex>
             </Flex>

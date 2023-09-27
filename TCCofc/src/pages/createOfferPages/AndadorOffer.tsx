@@ -232,7 +232,7 @@ const AndadorOffer = () => {
                         
                         <Stack spacing={3} align="center">
                             <Input type="file" id="myfile" display="none" name="photo" accept="gif, .jpg, .jpeg, .png" onChange={handleImage}/>
-                            <Flex w={{base:"30vh" ,md:"40vh"}} align="center" justifyContent="center" h={{base:"30vh" ,md:"40vh"}} direction="column" border="2px dashed #000" _dark={{border : "2px dashed #fff"}} cursor="pointer" onClick={() => {
+                            <Flex w={{base:"30vh" ,md:"40vh"}} align="center" justifyContent="center" h={{base:"30vh" ,md:"40vh"}} direction="column" border="2px dashed #000" _dark={{border : "2px dashed #fff"}} cursor="pointer" _hover={{bg : "#0001", _dark : {bg : "#fff1"}}} onClick={() => {
                                 document.getElementsByName("photo")[0].click()
                             }}>{(imgShow) ? <Image w={{base:"98%", md:"96%"}} h={{base:"98%", md:"96%"}} objectFit="contain" src={imgShow}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%"/>} bgType={"none"}/>}</Flex>    
                             

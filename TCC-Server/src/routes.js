@@ -32,7 +32,7 @@ routes.delete('/users/:id', auth,controllersUsers.deleteUser);
 routes.delete('/users/adm/:id', authAdm,controllersUsers.deleteUser);
 
 //Email Routes
-routes.get('/email/confirm/:toWho', controllersUsers.sendConfirmationEmailPasswordChange);
+
 
 //User Images Routes
 routes.get('/users/profile/photo/:filename', controllersUsers.returnImage);

@@ -39,7 +39,7 @@ const CardOffer = ({img, title, condition, composition, type, value, id}: OfferC
     return (
         <Card w={{base:"70vw", md:"23vw"}} boxShadow="lg" h="fit-content" align='center' variant="outline" size="sm" _dark={{bg : colors.bgCard_Dark}}> 
             <CardHeader>
-                <Heading as='h3' fontSize={{base:"24px", md:"20px"}} noOfLines={1}>{title}</Heading>
+                <Heading as='h3' fontSize={{base:"22px", md:"20px"}} noOfLines={1}>{title}</Heading>
             </CardHeader>
             <CardBody flexDirection="column" w="100%">
                 <Image src={(imgShow) ? imgShow : ""} objectFit="contain" w="100%" h="20vh"/>
@@ -47,23 +47,23 @@ const CardOffer = ({img, title, condition, composition, type, value, id}: OfferC
                    <Flex direction="row">
                         <Text color={colors.colorFontBlue} fontSize={{base:"20px", md:"18px"}}>Condição:</Text>
                         <Spacer/>
-                        <Text fontSize={{base:"20px", md:"18px"}}>{condition}</Text>
+                        <Text fontSize={{base:"18px", md:"18px"}}>{condition}</Text>
                    </Flex>
                    <Flex direction="row">
                         <Text color={colors.colorFontBlue} fontSize={{base:"20px", md:"18px"}}>Equipamento:</Text>
                         <Spacer/>
-                        <Text fontSize={{base:"20px", md:"18px"}}>{type}</Text>
+                        <Text fontSize={{base:"18px", md:"18px"}}>{type}</Text>
                    </Flex>
                    <Flex direction="row">
                         <Text color={colors.colorFontBlue} fontSize={{base:"20px", md:"18px"}}>Composição:</Text>
                         <Spacer/>
-                        <Text fontSize={{base:"20px", md:"18px"}}>{composition}</Text>
+                        <Text fontSize={{base:"18px", md:"18px"}}>{composition}</Text>
                    </Flex>
-                   <Text fontSize={{base:"22px", md:"19px"}} align='center' color={colors.colorFontBlue} mt="2%">{(value) ? "R$" + value : "Doação"}</Text>
+                   <Text fontSize={{base:"20px", md:"19px"}} align='center' color={colors.colorFontBlue} mt="2%">{(value) ? "R$" + value : "Doação"}</Text>
                 </Flex>
             </CardBody>
             <CardFooter>
-                <Button variant="solid" colorScheme="linkedin" fontSize={{base:"22px", md:"20px"}} onClick={() => {navigate(`/offer/${id}`); navigate(0)}}>Ver mais</Button>
+                <Button variant="solid" colorScheme="linkedin" fontSize={{base:"20px", md:"20px"}} onClick={() => {navigate(`/offer/${id}`); navigate(0)}}>Ver mais</Button>
             </CardFooter>
         </Card>
     )

@@ -29,6 +29,7 @@ import {TbMessageCircleSearch} from "react-icons/tb";
 import "../fonts/fonts.css";
 import colors from "../colors/colors";
 import { Link } from 'react-router-dom';
+import { PiHandshake } from 'react-icons/pi';
 
 const HomeProd = () => {
 
@@ -42,6 +43,7 @@ const HomeProd = () => {
     let optionsRenderList: string[] = [];
     let renderTest = false;
     let renderTestUser = false;
+    let renderTestComp = false;
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => { //evento de change no input de pesquisa
         e.preventDefault();
@@ -109,9 +111,24 @@ const HomeProd = () => {
     });
 
     const renderUserOffers = offerQuery.map(item => { //lista de ofertas do usuário renderizadas
-
         if(item.User_user_id === userQuery.user_id) {
             renderTestUser = true;
+            return <CardOffer 
+            title={item.ofr_name} 
+            composition={item.prod_composition} 
+            condition={item.prod_status} 
+            img={item.prod_img}
+            value={item.ofr_value} 
+            type={item.prod_type}
+            key={item.ofr_id}
+            id={item.ofr_id}/>
+        }
+        return <div key={item.ofr_id}></div>
+    });
+
+    const renderCompromissedOffers = offerQuery.map(item => { //lista de ofertas das quais o usuário se compromissou
+        if(item.user_comp_id === userQuery.user_id) {
+            renderTestComp = true;
             return <CardOffer 
             title={item.ofr_name} 
             composition={item.prod_composition} 
@@ -213,7 +230,7 @@ const HomeProd = () => {
                 <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{base: "36px", md: "30px"}} _dark={{color: colors.colorFontDarkBlue_Dark}} mt="3%" mb="3%">
                     Ofertas criadas por você
                 </Heading>
-                {(renderTestUser) ? <OfferList component={renderUserOffers}/> : <SignNotFoundButton msg="Parece que você não possui ofertas registradas...Que tal criar alguma?!" icon={<BsPencil size="45%"/>} btnText='Criar Oferta' btnPath='/create-offer/any'/>} 
+                {(renderTestUser) ? <OfferList component={renderUserOffers} canMdNew/> : <SignNotFoundButton msg="Parece que você não possui ofertas registradas...Que tal criar alguma?!" icon={<BsPencil size="45%"/>} btnText='Criar Oferta' btnPath='/create-offer/any'/>} 
             </Flex>
 
             <Flex bg={colors.bgWhite} w='100%' h='fit-content' align="center" _dark={{bg:colors.bgWhite_Dark}} direction="column">
@@ -223,7 +240,14 @@ const HomeProd = () => {
                 {(chats.length > 0) ? <OfferList component={renderChatsOffers}/> : <SignNotFoundButton msg="Acho que você não iniciou um chat ainda...Vamos lá! Basta pesquisar uma oferta interessante!" icon={<TbMessageCircleSearch size="45%"/>} btnText='Pesquisar' btnPath='/search/all/all'/>} 
             </Flex>
 
-            <Flex bg={colors.veryLightBlue} h="fit-content" align="center" direction="column" _dark={{bg:colors.veryLightBlue_Dark}}>
+            <Flex bg={colors.veryLightBlue} w='100%' h='fit-content' align="center" _dark={{bg:colors.veryLightBlue_Dark}} direction="column">
+                <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{base: "36px", md: "30px"}} _dark={{color: colors.colorFontDarkBlue_Dark}} mt="3%" mb="3%">
+                    Ofertas que você se compromissou
+                </Heading>
+                {(renderTestComp) ? <OfferList component={renderCompromissedOffers}/> : <SignNotFound msg="Parece que você não iniciou um compromisso em nenhuma oferta...É simples! Só combinar com o dono de uma oferta que você se interessar!" icon={<PiHandshake size="45%"/>}/>} 
+            </Flex>
+
+            <Flex bg={colors.bgWhite} h="fit-content" align="center" direction="column" _dark={{bg:colors.bgWhite_Dark}}>
                 <Heading color={colors.colorFontBlue} textAlign="center" as="h1" fontSize={{base: "36px", md:"30px"}} mt="3%" mb="3%" fontFamily="outfit">
                     Dicas para você
                 </Heading>

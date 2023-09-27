@@ -1,16 +1,18 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState, useRef } from "react";
 import { Avatar, Box, Button, ButtonGroup, Card, CardBody, CardFooter, Flex, IconButton, Input, InputGroup, InputRightAddon, Menu, MenuButton, MenuItem, MenuList, Spacer, Stack, Text, useToast } from "@chakra-ui/react";
 import { socket } from "../socket/socket";
 
-import {IoMdSend} from "react-icons/io";
+import axios from "axios";
 import colors from "../../colors/colors";
 import codes from "../code/codes";
+
+import {IoMdSend} from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { BiDotsHorizontal } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
 import { PiHandshake } from "react-icons/pi";
 import {MdBlock} from "react-icons/md";
-import axios from "axios";
+import {FiDelete} from "react-icons/fi";
 
 interface chatBoxProps {
     user_id : number,
@@ -26,6 +28,7 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
     const navigate = useNavigate();
     const toast = useToast();
     const [messages, setMessages] = useState([]);
+    const messageOverFlow = useRef(null);
     const [codeSent, setSent] = useState<number>();
     let msgRender: object[] = []
     const [msg, setMsg] = useState("");
@@ -65,6 +68,15 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
     messages.map(item => {
         msgRender.push(item)
     })
+
+    useEffect(() => {
+        if (messageOverFlow) {
+            messageOverFlow.current.addEventListener('DOMNodeInserted', event => {
+              const { currentTarget: target } = event;
+              target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+            });
+        }
+    }, [])
 
     useEffect(() => {
         if(other.user_img) getImg();
@@ -206,7 +218,7 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
                         <Spacer/>
                         <Box minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
                             <Text fontSize={{base:"15px", md:"15px"}} textAlign="justify" mr="25px">{item.msg_content}</Text>
-                            <IconButton aria-label={"apagar mensagem"} bg="#0000" float="right" size="20%" onClick={() => {socket.emit("deleteMsg", {chat : chat_id, msgId : item.msg_id})}}><BsTrash /></IconButton>
+                            <IconButton aria-label={"apagar mensagem"} bg="#0000" float="right" size="20%" onClick={() => {socket.emit("deleteMsg", {chat : chat_id, msgId : item.msg_id})}}><FiDelete color={colors.colorFontBlue} /></IconButton>
                         </Box>
                     </Flex>
                 }
@@ -253,7 +265,7 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
                     </MenuList>
                 </Menu>
             </Flex>
-            <CardBody minH={{base:"60vh" , md:"50vh"}} maxH={{base:"60vh", md:"50vh"}} overflowY="scroll" css={{
+            <CardBody minH={{base:"60vh" , md:"50vh"}} maxH={{base:"60vh", md:"50vh"}} overflowY="scroll" ref={messageOverFlow} css={{
                         '&::-webkit-scrollbar': {
                         width: '4px',
                         },

@@ -1,16 +1,18 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Avatar, Box, Button, ButtonGroup, useToast, Flex, IconButton, Input, InputGroup, InputRightAddon, Menu, MenuButton, MenuItem, MenuList, Spacer, Stack, Text} from "@chakra-ui/react";
 import { socket } from "../socket/socket";
 
 import {IoMdSend} from "react-icons/io";
 import colors from "../../colors/colors";
-import { BiDotsHorizontal } from "react-icons/bi";
-import {BsTrash} from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
+import codes from "../../components/code/codes";
+
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { MdBlock, MdOutlineLocalOffer } from "react-icons/md";
-import codes from "../../components/code/codes";
+import { BiDotsHorizontal } from "react-icons/bi";
+import {BsTrash} from "react-icons/bs";
 import { PiHandshake } from "react-icons/pi";
+import {FiDelete} from "react-icons/fi";
 import axios from "axios";
 
 interface chatSquareProps {
@@ -28,6 +30,7 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
     const [other, setOther] = useState([]);
     let msgRender: object[] = []
     const [msg, setMsg] = useState("");
+    const messageOverFlow = useRef(null);
     const navigate = useNavigate();
     const [codeSent, setSent] = useState<number>();
     const toast = useToast();
@@ -71,6 +74,15 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
     messages.map(item => {
         msgRender.push(item)
     })
+
+    useEffect(() => {
+        if (messageOverFlow) {
+            messageOverFlow.current.addEventListener('DOMNodeInserted', event => {
+              const { currentTarget: target } = event;
+              target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+            });
+        }
+    }, [])
 
     useEffect(() => {
         (isOwner) ? socket.emit("findOther", chat_id) : socket.emit("findOwner", chat_id);
@@ -217,7 +229,7 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
                             <Spacer/>
                             <Box minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
                                 <Text fontSize={{base:"15px", md:"15px"}} textAlign="justify" mr="25px">{item.msg_content}</Text>
-                                <IconButton aria-label={"apagar mensagem"} bg="#0000" float="right" size="20%" onClick={() => {socket.emit("deleteMsg", {chat : chat_id, msgId : item.msg_id})}}><BsTrash /></IconButton>
+                                <IconButton aria-label={"apagar mensagem"} bg="#0000" float="right" size="20%" onClick={() => {socket.emit("deleteMsg", {chat : chat_id, msgId : item.msg_id})}}><FiDelete color={colors.colorFontBlue} /></IconButton>
                             </Box>
                         </Flex>
                     }
@@ -273,7 +285,7 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
                     </MenuList>
                 </Menu>
             </Flex>
-            <Flex w="100%" pr="2%" pl="2%" minH={{base:"60vh" , md:"70%"}} maxH={{base:"60vh", md:"70%"}} overflowY="scroll" css={{
+            <Flex w="100%" pr="2%" pl="2%" minH={{base:"60vh" , md:"70%"}} maxH={{base:"60vh", md:"70%"}} overflowY="scroll" ref={messageOverFlow} css={{
                         '&::-webkit-scrollbar': {
                         width: '4px',
                         },
