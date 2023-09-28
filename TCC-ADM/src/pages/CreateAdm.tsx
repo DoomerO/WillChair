@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { Box, Button, Flex, Heading, Input, Select } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Input, Select, Text } from "@chakra-ui/react";
 import Header from "../components/Header";
 import decode from "../components/code/decode";
 
@@ -42,8 +42,9 @@ const CreateAdm = () => {
       <Header adm={admToken} />
       <Flex direction="column" pt="5%" align="center">
         <Heading fontFamily="outfit"> Cadastro de Administrador</Heading>
-        {mensagemErro && <p className="mensagem-erro">{mensagemErro}</p>}
-        {mensagemSucesso && <p className="mensagem-sucesso">{mensagemSucesso}</p>}
+        {mensagemErro && <Text className="mensagem-erro">{mensagemErro}</Text>}
+        {mensagemSucesso && <Text className="mensagem-sucesso">{mensagemSucesso}</Text>}
+
         <Input type="text" name="adm_name" placeholder="Nome do Administrador" value={adm.adm_name} onChange={handleInputChange} />
 
         <Input type="email" name="adm_email" placeholder="Email do Administrador" value={adm.adm_email} onChange={handleInputChange} />
