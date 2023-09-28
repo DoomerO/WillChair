@@ -19,17 +19,17 @@ const controllersAdministration = require('./controllers/administrator/administr
 const routes = express.Router();
 
 //User Routes
-routes.get('/users', authAdm,controllersUsers.searchUsers);
+routes.get('/users', authAdm, controllersUsers.searchUsers);
 routes.get('/users/login/:email/:password', controllersUsers.searchUserEmailPassword);
 routes.get('/users/email/:email', auth, controllersUsers.searchUserEmail);
-routes.get('/users/id/:id', controllersUsers.searchUserId); 
+routes.get('/users/id/:id', controllersUsers.searchUserId);
 routes.get('/users/profile/:email', controllersUsers.searchUserEmail);
 routes.post('/users', controllersUsers.createUser);
-routes.put('/users/:email', auth,controllersUsers.updateUser);
-routes.put('/users/password/:email', auth,controllersUsers.updateUserPassword);
+routes.put('/users/:email', auth, controllersUsers.updateUser);
+routes.put('/users/password/:email', auth, controllersUsers.updateUserPassword);
 routes.put('/users/email/:id', auth, controllersUsers.updateUserEmail);
-routes.delete('/users/:id', auth,controllersUsers.deleteUser);
-routes.delete('/users/adm/:id', authAdm,controllersUsers.deleteUser);
+routes.delete('/users/:id', auth, controllersUsers.deleteUser);
+routes.delete('/users/adm/:id', authAdm, controllersUsers.deleteUser);
 
 //Email Routes
 
