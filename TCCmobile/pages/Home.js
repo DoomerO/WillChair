@@ -12,40 +12,44 @@ import {
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon3 from 'react-native-vector-icons/MaterialCommunityIcons';
+import colors from "../colors/colors";
 
 function Home() {
     return (
         <ScrollView h="100%">
             <Box w="100%" h="100%" alignItems="center">
-                <Box w="20%" ml="85%" mt="7%">
-                    <Menu closeOnSelect={false} w="295px" trigger={(triggerProps) => (
-                        <Pressable {...triggerProps}>
-                            <HamburgerIcon size="8" />
-                        </Pressable>
-                    )}>
+                <Box bg={colors.veryLightBlue} w="100%">
+                    <Box w="20%" ml="85%" mt="7%">
+                        <Menu closeOnSelect={false} w="295px" trigger={(triggerProps) => (
+                            <Pressable {...triggerProps}>
+                                <HamburgerIcon size="8" />
+                            </Pressable>
+                        )}>
 
-                        <Menu.ItemOption value="Contato">Home</Menu.ItemOption>
-                        <Menu.ItemOption value="Pesquisa">Pesquisar equipamentos</Menu.ItemOption>
-                        <Menu.ItemOption value="Contato">Contato</Menu.ItemOption>
-                        <Menu.ItemOption value="Sobre">Sobre nós</Menu.ItemOption>
-                        <Menu.ItemOption value="Entrar">Entrar</Menu.ItemOption>
-                        <Menu.ItemOption value="Cadastrar">Cadastrar</Menu.ItemOption>
-                    </Menu>
+                            <Menu.ItemOption value="Contato">Home</Menu.ItemOption>
+                            <Menu.ItemOption value="Pesquisa">Pesquisar equipamentos</Menu.ItemOption>
+                            <Menu.ItemOption value="Contato">Contato</Menu.ItemOption>
+                            <Menu.ItemOption value="Sobre">Sobre nós</Menu.ItemOption>
+                            <Menu.ItemOption value="Entrar">Entrar</Menu.ItemOption>
+                            <Menu.ItemOption value="Cadastrar">Cadastrar</Menu.ItemOption>
+                        </Menu>
+                    </Box>
+
+                    
+                    <Heading size="xl" color={colors.colorFontDarkBlue} textAlign="center" mt="20%">
+                        O seu sonho acessível
+                    </Heading>
+
+                    <Heading color={colors.colorFontBlue} size="xl" textAlign="center">
+                        perto de você!
+                    </Heading>
+
+                    <Text color={colors.colorFontDarkBlue} fontSize="sm" mt="20px" textAlign="center" mb="40%">
+                        Compre, negocie ou anuncie equipamentos de acessibilidade
+                    </Text>
                 </Box>
 
-                <Heading size="xl" color="#2D3748" textAlign="center">
-                    O seu sonho acessível
-                </Heading>
-
-                <Heading color="#1976D2" size="xl" textAlign="center">
-                    perto de você!
-                </Heading>
-
-                <Text fontSize="sm" mt="20px" textAlign="center">
-                    Compre, negocie ou anuncie equipamentos de acessibilidade
-                </Text>
-
-                <Heading as="h1" color="#2D3748" textAlign="center" mt="7%">
+                <Heading as="h1" color={colors.colorFontDarkBlue} textAlign="center" mt="7%">
                     O que você pode encontrar por aqui
                 </Heading>
 
@@ -80,5 +84,8 @@ function Home() {
 }
 
 export default Home;
+
+
+
 
 
