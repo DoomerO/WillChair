@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`User` (
   `user_FU` VARCHAR(2) NULL,
   `user_street` VARCHAR(30) NULL,
   `user_CEP` VARCHAR(10) NULL,
-  `user_nota` FLOAT DEFAULT 5,
+  `user_nota` FLOAT DEFAULT 0,
   `user_name` VARCHAR(45) NULL,
   `user_img` VARCHAR(15) NULL,
   `user_comp` VARCHAR(30) NULL,

@@ -118,7 +118,7 @@ const HeaderLogged = ({user}: avatarProps) => {
                         </Heading>
                         <Spacer/>
                         <Flex direction="row" align="center">
-                            <Heading as="h1" fontFamily="atkinson" fontSize={{base: "36px", md: "30px"}} color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{(user.user_nota) ? user.user_nota : 0.0}</Heading>
+                            <Heading as="h1" fontFamily="atkinson" fontSize={{base: "36px", md: "30px"}} color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{(user.user_nota) ? user.user_nota : "Novo"}</Heading>
                             <BsFillStarFill fill={colors.colorFontBlue} size="3vh"/>
                         </Flex>
                     </Flex>

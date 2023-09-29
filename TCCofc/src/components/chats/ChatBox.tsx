@@ -127,8 +127,8 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
                         <Flex direction="column" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.colorFontBlue}>
                             <Text textAlign="justify" mb="3%" color="#fff" fontSize={{base:"15px", md:"15px"}} fontWeight="bold">Deseja iniciar um compromisso nesta oferta?</Text>
                             <ButtonGroup >
-                                <Button color="#fff" variant="outline" onClick={() => {socket.emit("setIntrest", {userId : user_id, offerId : offer.ofr_id})}}>Sim</Button>
-                                <Button color="#fff" variant="outline" onClick={() => {socket.emit("postMessage", {chat: chat_id, msg : codes.compNot, user: user_id});}}>Não</Button>
+                                <Button color="#fff" variant="outline" _hover={{color : "#fff3"}} onClick={() => {socket.emit("setIntrest", {userId : user_id, offerId : offer.ofr_id})}}>Sim</Button>
+                                <Button color="#fff" variant="outline" _hover={{color : "#fff3"}} onClick={() => {socket.emit("postMessage", {chat: chat_id, msg : codes.compNot, user: user_id});}}>Não</Button>
                             </ButtonGroup>
                         </Flex>
                         <Spacer/>
@@ -175,7 +175,7 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
                     return <Flex w="100%" key={item.msg_id}>
                         <Flex direction="row" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.colorFontBlue} >
                             <Text color="#fff" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`${other.user_name} apagou essa mensagem`}</Text>
-                            <MdBlock size="3vh"/>
+                            <MdBlock size="3vh" color="#fff"/>
                         </Flex>
                         <Spacer/>
                     </Flex>

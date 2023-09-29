@@ -87,8 +87,8 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
     }
 
     async function updateProfile() {
-        if(userUpdate.user_city && userUpdate.user_name && userUpdate.user_phone && checkChange()) {
-            await axios.put(`http://localhost:3344/users/${user.user_email}`, {
+        if(userUpdate.user_city && userUpdate.user_name && userUpdate.user_phone) {
+            if(checkChange()) await axios.put(`http://localhost:3344/users/${user.user_email}`, {
                 user_name :  userUpdate.user_name,
                 user_phone :  userUpdate.user_phone,
                 user_street :  userUpdate.user_street,
@@ -105,10 +105,12 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
             }).catch((error) => {
                 console.log(error);
             })
+
+            else toast('Sem informações à serem atualizadas!', 'Você não alterou nenhuma de suas informações ainda!', 3000, "warning");
         }
         else {
             toastRender.closeAll()
-            toast('Sem alterações', 'Não há alterações para se atualizar', 3000, 'warning')
+            toast('Informações Erradas', 'Certifique-se de informar um número de telefone, nome de usuário e CEP!', 3000, 'error');
         }
     }
 
@@ -241,7 +243,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                         <Avatar src={(userUpdate.user_img != "") ? showImg : (user.user_img) ? user.user_img : ""} name={user.user_name} size="2xl" w="30vh" h="30vh"/>
                         <InputGroup display="flex" zIndex={1} w="77.5%">
                                 <InputLeftAddon children={<MdOutlinePhotoSizeSelectActual size="80%"/>}/>
-                                <Button borderLeftRadius="0" borderRightRadius="6px" colorScheme="linkedin" onClick={(e) => {document.getElementsByName("image")[0].click()}}>Mudar foto de perfil</Button>
+                                <Button borderLeftRadius="0" borderRightRadius="6px" w="100%" colorScheme="linkedin" onClick={(e) => {document.getElementsByName("image")[0].click()}}>Mudar foto de perfil</Button>
                                 <Input type="file" name="image" onChange={handleImage} display="none" accept=".png,.jpg,.jpeg"/>
                         </InputGroup>
                         <Button w="77.5%" colorScheme="green" onClick={updtProfileOpr}>Salvar Mudanças</Button>
@@ -252,11 +254,11 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                         <Text textAlign="center" w="90%">Caso necessário,<Button variant="link" colorScheme="linkedin" onClick={() => {toastRender({
                                 position: 'bottom',
                                 render: () => (
-                                    <Stack bg="yellow.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja alterar sua senha?</Text>
+                                    <Stack bg="orange.500" align="center" direction="column" p="2vh" borderRadius="10px" spacing={2} _dark={{ bg: "orange.200" }}>
+                                        <Text fontWeight="semibold" color="white" _dark={{ color: "black" }} noOfLines={2} fontSize={{ base: "22px", md: "20px" }}>Certeza que deseja alterar sua senha?</Text>
                                         <Stack direction="row">
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate(`/pass-change`); navigate(0)}}>Sim</Button>
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toastRender.closeAll()}}>Não</Button>    
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff3"}} _dark={{color : "#000"}} onClick={() => {navigate(`/pass-change`); navigate(0)}}>Sim</Button>
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} _dark={{color : "#000"}} onClick={() => {toastRender.closeAll()}}>Não</Button>    
                                         </Stack>
                                     </Stack>
                                 )
@@ -281,11 +283,11 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             <Button variant="solid" colorScheme="linkedin" onClick={() => {toastRender({
                                 position: 'bottom',
                                 render: () => (
-                                    <Stack bg="yellow.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja alterar seu email?</Text>
+                                    <Stack bg="orange.500" align="center" direction="column" p="2vh" borderRadius="10px" spacing={2} _dark={{ bg: "orange.200" }}>
+                                        <Text fontWeight="semibold" color="white" _dark={{ color: "black" }} noOfLines={2} fontSize={{ base: "22px", md: "20px" }}>Certeza que deseja alterar seu email?</Text>
                                         <Stack direction="row">
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate(`/email-update/${user.user_id}`); navigate(0)}}>Sim</Button>
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toastRender.closeAll()}}>Não</Button>    
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} _dark={{color : "#000"}} onClick={() => {navigate(`/email-update/${user.user_id}`); navigate(0)}}>Sim</Button>
+                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} _dark={{color : "#000"}} onClick={() => {toastRender.closeAll()}}>Não</Button>    
                                         </Stack>
                                     </Stack>
                                 )
@@ -293,7 +295,7 @@ const ProfileOwn = ({user} : ProfileOwnProps) =>{
                             </Flex>
                             <Flex direction="row" align="center">
                             <Text fontFamily="atkinson" mr="5px">Avaliação:</Text>
-                            <Text fontFamily="atkinson" fontSize={{base: "24px", sm: "22px"}} color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{(user.user_nota) ? user.user_nota : 0.0}</Text>
+                            <Text fontFamily="atkinson" fontSize={{base: "24px", sm: "22px"}} color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{(user.user_nota) ? user.user_nota : "Novo"}</Text>
                             <BsFillStarFill fill={colors.colorFontBlue} size="3vh"/>
                             </Flex>
                             <Flex direction="row" align="center">

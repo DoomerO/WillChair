@@ -97,7 +97,7 @@ const Profile = ({user} : ProfileProps) => {
                 <Flex direction="row" align="center">
                   <Heading as="h1" fontSize={{base: "36px", sm: "30px"}} color={colors.colorFontDarkBlue} _dark={{color: colors.colorFontDarkBlue_Dark}}>{user.user_name}</Heading>
                   <Spacer/>
-                  <Text fontFamily="atkinson" fontSize={{base: "36px", sm: "30px"}} color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{(user.user_nota) ? user.user_nota : 0.0}</Text>
+                  <Text fontFamily="atkinson" fontSize={{base: "36px", sm: "30px"}} color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{(user.user_nota) ? user.user_nota : "Novo"}</Text>
                   <BsFillStarFill fill={colors.colorFontBlue} size="3vh"/>
                   <Button variant="ghost" w="fit-content" onClick={() => {
                     toast({

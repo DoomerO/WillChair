@@ -428,7 +428,7 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                 <Avatar name={user.user_name} src={(user.user_img) ? imgOwner : ""} mr="2%"></Avatar>
                                 <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{base:"22px", md:"20px"}} mr="2%">{user.user_name}</Text>
                                 <BsFillStarFill fill={colors.colorFontBlue}/>
-                                <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}} fontSize={{base:"22px", md:"20px"}}>{(user.user_nota) ? user.user_nota : 0.0}</Text>
+                                <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}} fontSize={{base:"22px", md:"20px"}}>{(user.user_nota) ? user.user_nota : "Novo"}</Text>
                             </Flex>
                             <Flex direction="row">
                                 <Text fontFamily="atkinson" mr="5px">Email:</Text>
@@ -476,8 +476,13 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                                 position: 'bottom',
                                 duration: 5000,
                                 render: () => (
-                                    <Stack bgColor="red">
-                                        <Button onClick={deleteOfferFunc}>Confirmar remoção da oferta</Button>
+                                    <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="10px" spacing={2} _dark={{ bg: "red.200" }}>
+                                        <Text fontWeight="semibold" color="white" _dark={{ color: "black" }} noOfLines={2} fontSize={{ base: "22px", md: "20px" }}>Certeza que deseja apagar a oferta?</Text>
+                                        <Stack direction="row">
+                                            <Button onClick={deleteOfferFunc} variant="outline" _hover={{bg : "#fff3"}} color="#fff" _dark={{color : "#000"}}>Sim</Button>
+                                            <Button onClick={() => {toastRender.closeAll()}} variant="outline" _hover={{bg : "#fff3"}} color="#fff" _dark={{color : "#000"}}>Não</Button>
+
+                                        </Stack>
                                     </Stack>
                                 )
                             })}}>Apagar</Button>

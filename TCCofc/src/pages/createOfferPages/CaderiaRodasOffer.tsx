@@ -12,7 +12,7 @@ import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 
 const CadeiraRodasOffer = () => {
 
-    const toast = useToast();
+    const toastRender = useToast();
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [prodOwn, setProdOwn] = useState([]);
@@ -38,6 +38,17 @@ const CadeiraRodasOffer = () => {
         offerType: "Doação",
         parcelas: 0
     });
+
+    function toast(title: string, desc: string, time?: number, type?: UseToastOptions["status"], pos?: ToastPosition, close?: boolean) {
+        toastRender({
+            title: title,
+            description: desc,
+            status: type,
+            duration: time,
+            position: pos,
+            isClosable: close ? close : true
+        })
+    }
 
     function generateKey() {
         let bits = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
@@ -81,35 +92,26 @@ const CadeiraRodasOffer = () => {
     }
 
     async function postProduct() {
-        await axios.post('http://localhost:3344/products', {
-            prod_weight: formInputs.weight,
-            prod_height: formInputs.height,
-            prod_type: "Cadeira de Rodas",
-            prod_key: formInputs.key,
-            prod_composition: formInputs.composition,
-            prod_status: formInputs.condition
-        }, { headers: { authorization: "Bearer " + localStorage.getItem("token") } }).then((res) => {
-            setSearch(true);
-            toast({
-                position: 'bottom',
-                render: () => (
-                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{ base: "22px", md: "20px" }}>Produto criado com sucesso!</Text>
-                    </Stack>
-                )
+        if (formInputs.name == "" && formInputs.desc == "" && formInputs.offerType == "") {
+            await axios.post('http://localhost:3344/products', {
+                prod_weight: formInputs.weight,
+                prod_height: formInputs.height,
+                prod_type: "Cadeira de Rodas",
+                prod_key: formInputs.key,
+                prod_composition: formInputs.composition,
+                prod_status: formInputs.condition
+            }, { headers: { authorization: "Bearer " + localStorage.getItem("token") } }).then((res) => {
+                setSearch(true);
+            }).catch((error) => {
+                console.log(error);
+                if (error.response.status == 413) {
+                    toast("Imagem muito Pesada", "Tente usar uma mais leve!", 3000, "error")
+                }
             })
-        }).catch((error) => {
-            console.log(error);
-            if (error.response.status == 413) {
-                toast({
-                    title: 'Imagem muito pesada!',
-                    description: "Tente usar uma imagem mais leve.",
-                    status: 'error',
-                    duration: 3000,
-                    isClosable: true,
-                })
-            }
-        })
+        }
+        else {
+            toast("Informações não preenchidas", "Preencha todas as informações necessárias", 3000, "error")
+        }
     }
 
     async function postImage() {
@@ -136,15 +138,8 @@ const CadeiraRodasOffer = () => {
                 authorization: "Bearer " + localStorage.getItem("token")
             }
         }).then((res) => {
-            toast({
-                position: 'bottom',
-                render: () => (
-                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{ base: "22px", md: "20px" }}>Produto criado com sucesso!</Text>
-                        <Button variant="outline" color="#fff" _hover={{ bg: "#fff2" }} onClick={() => { navigate("/") }}>Ir para home</Button>
-                    </Stack>
-                )
-            })
+            toast("Oferta criada com sucesso", "Você criou sua oferta", 3000, "success")
+            navigate("/")
         }).catch((error) => {
             console.log(error)
         })
@@ -161,15 +156,6 @@ const CadeiraRodasOffer = () => {
             headers: {
                 authorization: "Bearer " + localStorage.getItem("token")
             }
-        }).then((res) => {
-            toast({
-                position: 'bottom',
-                render: () => (
-                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{ base: "22px", md: "20px" }}>Cadeira de Rodas criada com sucesso!</Text>
-                    </Stack>
-                )
-            })
         }).catch((error) => {
             console.log(error);
         })
@@ -236,7 +222,7 @@ const CadeiraRodasOffer = () => {
                                 onChange={handleImage} display="none" />
                             <Flex cursor="pointer" onClick={() => {
                                 document.getElementsByName("photo")[0].click()
-                            }} w={{ base: "30vh", md: "40vh" }} align="center" justifyContent="center" h={{ base: "30vh", md: "40vh" }} direction="column" border="2px dashed #000" _dark={{ border: "2px dashed #fff" }} _hover={{bg : "#0001", _dark : {bg : "#fff1"}}}>{(imgShow) ? <Image w={{ base: "98%", md: "96%" }} h={{ base: "98%", md: "96%" }} objectFit="contain" src={imgShow}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%" />} bgType={"none"} />}</Flex>
+                            }} w={{ base: "30vh", md: "40vh" }} align="center" justifyContent="center" h={{ base: "30vh", md: "40vh" }} direction="column" border="2px dashed #000" _dark={{ border: "2px dashed #fff" }} _hover={{ bg: "#0001", _dark: { bg: "#fff1" } }}>{(imgShow) ? <Image w={{ base: "98%", md: "96%" }} h={{ base: "98%", md: "96%" }} objectFit="contain" src={imgShow}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%" />} bgType={"none"} />}</Flex>
 
                             <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Título da oferta<Input type='text' fontSize={{ base: "20px", md: "18px" }} maxLength={20}
                                 placeholder='Ex.: Cadeira de Rodas 101M - CDS' name='name' onChange={handleChange} /></FormLabel>
@@ -301,13 +287,7 @@ const CadeiraRodasOffer = () => {
                                     postProduct();
                                 }
                                 else {
-                                    toast({
-                                        title: 'Perfil incompleto!',
-                                        description: "Termine de configurar o seu perfil antes de postar uma oferta!",
-                                        status: 'error',
-                                        duration: 3000,
-                                        isClosable: true,
-                                    })
+                                    toast("Perfil Incompleto!", "Complete seu perfil antes de tentar criar uma oferta!", 3000, "warning");
                                 }
                             }}>Salvar</Button>
                             <Button onClick={() => { navigate("/") }}>Cancelar</Button>

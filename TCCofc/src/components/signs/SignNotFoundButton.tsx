@@ -3,20 +3,18 @@ import { Link } from "react-router-dom";
 import "../../fonts/fonts.css";
 
 interface signProps {
-    msg : string,
-    btnPath : string,
-    btnText : string,
-    icon : React.ReactElement
+    msg: string,
+    btnPath: string,
+    btnText: string,
+    icon: React.ReactElement
 }
 
-const SignNotFoundButton = ({msg, icon, btnPath, btnText} : signProps) => {
+const SignNotFoundButton = ({ msg, icon, btnPath, btnText }: signProps) => {
     return (
-        <Flex align="center" h="40vh" direction="column" 
-        bgGradient="linear(to-b, #1976D230, #1976D2)" 
-        w="100%" pt="3%">
-           {icon}
+        <Flex align="center" h="40vh" direction="column" bg="#1976D290" w="100%" pt="3%">
+            {icon}
             <Text fontSize="25px" fontFamily="atkinson" textAlign="center">{msg}</Text>
-            <Link to={btnPath}><Button variant="outline" bgColor="#0000" mt="1.5%">{btnText}</Button></Link>
+            <Link to={btnPath}><Button variant="outline" _hover={{ color: "#fff3" }} bgColor="#0000" mt="1.5%">{btnText}</Button></Link>
         </Flex>
     );
 }
