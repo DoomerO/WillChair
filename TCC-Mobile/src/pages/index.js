@@ -41,7 +41,7 @@ const style = StyleSheet.create({
 
 /*-------------------------------------------------------------------------------------------------------------------------*/
 
-export default function Home(){
+export default function Index(){
     return(
         <Box>
             <HStack padding={4} w='100%' alignItems="center" justifyContent="space-between" safeArea  style={style.header}>
