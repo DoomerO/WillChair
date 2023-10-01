@@ -1,6 +1,7 @@
 import React from "react";
 import { NativeBaseProvider, Box } from "native-base";
-import Home from './src/pages/index'
+import About from './src/pages/About';
+import Home from './src/pages/Home';
 
 export default function App() {
   return (
