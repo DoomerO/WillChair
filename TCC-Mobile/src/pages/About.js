@@ -1,8 +1,7 @@
 import React from "react";
 import { StyleSheet, Image } from "react-native";
 import {Box, Menu, Pressable, HamburgerIcon, ScrollView} from "native-base";
-
-import imgLogo from "../../assets/Logo_Clear.png"
+import imgLogo from "../../assets/Logo_Clear.png";
 
 /*----------------------------------------------Área específica para style----------------------------------------------*/
 
@@ -12,10 +11,12 @@ const style = StyleSheet.create({
         elevation:5,
         marginBottom:2,
     },
+
     imgHeader: {
-        marginLeft: 50,
-        width: 200,
-        height: 50,
+        marginTop:5,
+        marginLeft: 95,
+        width:122,
+        height:25,
       },
 })
 
@@ -26,9 +27,8 @@ export default function About() {
     return (
         <ScrollView h="100%">
             <Box style={style.header} safeArea>
-                <Box ml="3%" mt="4%" mb="1%" display="flex" justifyContent="center" flexDirection="row" align="center">
-                    <Image source={imgLogo} style={style.imgHeader} />
-                    <Menu closeOnSelect={false} w="295px"  trigger={(triggerProps) => (
+                <Box ml="4%" mt="4%" mb="2%"  flexDirection="row">
+                    <Menu closeOnSelect={false} trigger={(triggerProps) => (
                         <Pressable {...triggerProps}>
                             <HamburgerIcon size="9"/>
                         </Pressable>
@@ -40,7 +40,12 @@ export default function About() {
                         <Menu.ItemOption value="Entrar">Entrar</Menu.ItemOption>
                         <Menu.ItemOption value="Cadastrar">Cadastrar</Menu.ItemOption>
                     </Menu>
+                        <Image source={imgLogo} style={style.imgHeader}/>
                 </Box>
+            </Box>
+
+            <Box>
+                
             </Box>
         </ScrollView>
     );
