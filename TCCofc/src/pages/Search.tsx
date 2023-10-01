@@ -156,26 +156,27 @@ const Search = () => {
         if (search == "") {
             return <div key={optionsRenderList.indexOf(item)}></div>
         }
-        if (item.match(search) && numOptRender < 6) {
+        if (item.toUpperCase().match(search.toUpperCase()) && numOptRender < 6) {
             numOptRender += 1;
             return <Flex key={optionsRenderList.indexOf(item)} bg="#eee" w={{ base: "80%", md: "30%" }} p={2.5} color={colors.colorFontBlue}
-                _hover={{ bg: "#4f4f4f" }} _dark={{ bg: "#2f2f2f", _hover: { bg: "#444" } }} onClick={() => { navigate(`/search/${(newQuery) ? newQuery : "any"}/${item}`); navigate(0) }}>
+                _hover={{ bg: "#dfdfdf" }} _dark={{ bg: "#2f2f2f", _hover: { bg: "#444" } }} onClick={() => { navigate(`/search/${(newQuery) ? newQuery : "any"}/${item}`); navigate(0) }}>
                 {item}
             </Flex>
         }
     })
 
     const renderQueryOffers = consult.map(item => {
-        if (!item.ofr_city.match(filters.city) && filters.city != "") {
+        if (!item.ofr_city.toUpperCase().match(filters.city.toUpperCase()) && filters.city != "") {
+            renderSign = true;
             return <div key={item.ofr_id}></div>
         }
-        if (!item.ofr_type.match(filters.type) && filters.type != "") {
+        if (!item.ofr_type.toUpperCase().match(filters.type.toUpperCase()) && filters.type != "") {
             return <div key={item.ofr_id}></div>
         }
-        if (!item.prod_composition.match(filters.composition) && filters.composition != "") {
+        if (!item.prod_composition.toUpperCase().match(filters.composition.toUpperCase()) && filters.composition != "") {
             return <div key={item.ofr_id}></div>
         }
-        if (!item.prod_type.match(filters.equipament) && filters.equipament != "") {
+        if (!item.prod_type.toUpperCase().match(filters.equipament.toUpperCase()) && filters.equipament != "") {
             return <div key={item.ofr_id}></div>
         }
         return <OfferCardHorizontal
@@ -188,16 +189,16 @@ const Search = () => {
     });
 
     const renderAllOffers = offers.map(item => {
-        if (!item.ofr_city.match(filters.city) && filters.city != "") {
+        if (!item.ofr_city.toUpperCase().match(filters.city.toUpperCase()) && filters.city != "") {
             return <div key={item.ofr_id}></div>
         }
-        if (!item.ofr_type.match(filters.type) && filters.type != "") {
+        if (!item.ofr_type.toUpperCase().match(filters.type.toUpperCase()) && filters.type != "") {
             return <div key={item.ofr_id}></div>
         }
-        if (!item.prod_composition.match(filters.composition) && filters.composition != "") {
+        if (!item.prod_composition.toUpperCase().match(filters.composition.toUpperCase()) && filters.composition != "") {
             return <div key={item.ofr_id}></div>
         }
-        if (!item.prod_type.match(filters.equipament) && filters.equipament != "") {
+        if (!item.prod_type.toUpperCase().match(filters.equipament.toUpperCase()) && filters.equipament != "") {
             return <div key={item.ofr_id}></div>
         }
         return <OfferCardHorizontal

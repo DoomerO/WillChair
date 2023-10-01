@@ -186,7 +186,7 @@ const OfferPage = () => {
                     <Stack w={{ base: "100%", md: "45%" }} h={{ base: "20vh", md: "100%" }} mt="2vh" fontSize={{ base: "20px", md: "18px" }}>
                         <Flex direction="row" align="center">
                             <Link to={`/profile/${owner.user_email}/view`}><Avatar name={owner.user_name} src={(owner.user_img) ? imgOwner : ""} _hover={{ border: `2px solid ${colors.colorFontBlue}`, _dark: { border: "2px solid #fff" } }}></Avatar></Link>
-                            <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{ base: "22px", md: "20px" }} mr="2%">{owner.user_name}</Text>
+                            <Text ml="2%" fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{ base: "22px", md: "20px" }} mr="2%">{owner.user_name}</Text>
                             <BsFillStarFill fill={colors.colorFontBlue} />
                             <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }} fontSize={{ base: "22px", md: "20px" }}>{(owner.user_nota) ? owner.user_nota : "Novo"}</Text>
                             <Spacer />

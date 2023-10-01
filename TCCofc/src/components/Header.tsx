@@ -60,7 +60,7 @@ const Header = () => {
                 </Button>
                 <Spacer />
                 <Button variant='link' colorScheme="#000">
-                    <Link to="/search/all/all"><b>Produtos</b></Link>
+                    <Link to="/search/all/all"><b>Equipamentos</b></Link>
                 </Button>
                 <Spacer />
                 <Button variant='link' colorScheme="#000">

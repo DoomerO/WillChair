@@ -90,7 +90,7 @@ const Home = () => {
                 
                 <Flex h="80%" direction='row' align='center'>
                     <Image src={bottomImage} w="30%" h='100%' objectFit='contain' display={{base: "none", md: "inherit"}}></Image>
-                    <Flex direction={{base:'column', md :'row'}} w='60%'>
+                    <Flex direction={{base:'column', md :'row'}} w='60%' align="flex-start">
                         <Category name='Cadeira de Rodas' icon={(colorMode) ? cadeiraRodas : caderiaRodas_Dark} path="/search/prod_type/Cadeira de Rodas"/>
                         <Spacer />
                         <Category name='Muleta' icon={(colorMode) ? muleta : muleta_Dark} path="/search/prod_type/Muleta"/>

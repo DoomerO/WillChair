@@ -120,11 +120,11 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
         }).then((res) => {
             toast({
                 position: 'bottom',
-                render: () => (
-                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{ base: "22px", md: "20px" }}>Recebimento do equipamento confirmado!</Text>
-                    </Stack>
-                )
+                title: 'O recebmento do equipamento foi confirmado!',
+                description: "Parabéns, seu equipamento chegou!",
+                status: 'success',
+                duration: 3000,
+                isClosable: true
             })
             navigate(0);
         }).catch((error) => {
@@ -218,7 +218,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
                 w="100%" pt="3%">
                 <BsChatLeftText size="45%" />
                 <Text fontSize="25px" fontFamily="atkinson" textAlign="center">Você ainda não falou com {owner.user_name}, que tal iniciar uma conversa?</Text>
-                <Button variant="outline" bgColor="#0000" _hover={{bg : "#fff3"}} mt="1.5%" onClick={() => { createChat() }}>Criar um chat</Button>
+                <Button variant="outline" bgColor="#0000" _hover={{ bg: "#fff3" }} mt="1.5%" onClick={() => { createChat() }}>Criar um chat</Button>
             </Flex>
         )
     }
@@ -345,20 +345,20 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
                         toast({
                             position: 'bottom',
                             render: () => (
-                                <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                                    <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{ base: "22px", md: "20px" }}>Certeza que deseja apagar esse compromisso?</Text>
+                                <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="10px" spacing={2} _dark={{ bg: "red.200" }}>
+                                    <Text fontWeight="semibold" color="white" _dark={{ color: "black" }} noOfLines={2} fontSize={{ base: "22px", md: "20px" }}>Certeza que deseja encerrar esse compromisso?</Text>
                                     <Stack direction="row">
-                                        <Button variant="outline" color="#fff" _hover={{ bg: "#fff2" }} onClick={() => {
-                                            (offer.ofr_status == "Conclusão") ? toast({
+                                        <Button variant="outline" color="#fff" _dark={{ color: "#000" }} _hover={{ bg: "#fff2" }} onClick={() => {
+                                            (offer.ofr_status == "Envio") ? toast({
                                                 title: 'O compromisso não pode ser encerrado!',
                                                 description: "O equipamento já foi enviado.",
                                                 status: 'error',
                                                 duration: 9000,
                                                 isClosable: true
                                             })
-                                            : endComprisse()
+                                                : endComprisse()
                                         }}>Sim</Button>
-                                        <Button variant="outline" color="#fff" _hover={{ bg: "#fff2" }} onClick={() => { toast.closeAll() }}>Não</Button>
+                                        <Button variant="outline" color="#fff" _dark={{ color: "#000" }} _hover={{ bg: "#fff2" }} onClick={() => { toast.closeAll() }}>Não</Button>
                                     </Stack>
                                 </Stack>
                             )
@@ -369,16 +369,16 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
                             title: 'Você já confirmou o recebimento do equipamento!',
                             description: "Não é necessário confirmar mais de uma vez!",
                             status: 'error',
-                            duration: 9000,
+                            duration: 3000,
                             isClosable: true
                         }) : (offer.ofr_env_conf) ? confirmEquipament() :
-                        toast({
-                            title: 'O envio do equipamento não foi confirmado!',
-                            description: "Não é possível confirmar a chegada do produto sem ele ter sido enviado.",
-                            status: 'error',
-                            duration: 9000,
-                            isClosable: true
-                        });
+                            toast({
+                                title: 'O envio do equipamento não foi confirmado!',
+                                description: "Não é possível confirmar a chegada do produto sem ele ter sido enviado.",
+                                status: 'error',
+                                duration: 3000,
+                                isClosable: true
+                            });
                     }}>Equipamento Recebido</Button>
                     {(offer.ofr_env_conf && offer.ofr_rec_conf) ? <Button colorScheme="linkedin" variant="solid" onClick={() => {
                         onOpen();

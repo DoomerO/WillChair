@@ -110,7 +110,7 @@ const OtherOffer = () => {
         const data = new FormData();
         data.append("photo", formInputs.photo);
         await axios.put('http://localhost:3344/products/img/photo', data,
-            { headers: { authorization: "Bearer " + localStorage.getItem("token"), prod_id: prodOwn[0].prod_id } }).catch((error) => {
+            { headers: { authorization: "Bearer " + localStorage.getItem("token"), prod_id: prodOwn.prod_id } }).catch((error) => {
                 console.log(error);
             });
     }

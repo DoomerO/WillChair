@@ -81,7 +81,7 @@ module.exports = {
                     User_user_idRec
                 });
 
-                let newNota = (userRecExists[0].user_nota + ava_value) / 2;
+                let newNota = (userRecExists[0].user_nota > 0) ? (userRecExists[0].user_nota + ava_value) / 2 : ava_value;
 
                 await knex("User").update({
                     user_nota : newNota

@@ -175,18 +175,18 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         await axios.delete(`http://localhost:3344/offers/${offer.ofr_id}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
-            useToast().closeAll()
+            toastRender.closeAll()
             navigate("../../")
         }).catch((error) => {
             console.log(error);
         })
     }
-
+    
     async function deleteProductOffer() {
         await axios.delete(`http://localhost:3344/products/${offer.Product_prod_id}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
-            toast("", "Produto deletado", 3000, "success")
+            toast("Equipamento apagado!", "Sua oferta foi devidamente apagada!", 3000, "success")
             navigate("../../")
         }).catch((error) => {
             console.log(error);
@@ -315,15 +315,16 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
         if(reports) { 
             toast('A oferta não pode ser alterada', "Essa oferta está sob avaliação de denúncia", 3000,'error')
         }
-        else if(offer.ofr_status != "Livre") {
-            toast('Em compromisso',
-            "A oferta pussui um compromisso ativo", 3000, 'error')
-        }
         else {
-            deleteChatsOffer();
-            deleteProductOffer();
-            deleteOfferOprt();
-            useToast().closeAll();
+            if(offer.ofr_status == "Livre" || offer.ofr_status == "Conclusão") {
+                deleteChatsOffer();
+                deleteProductOffer();
+                deleteOfferOprt();
+                useToast().closeAll();
+            }
+            else {
+                toast('Em compromisso',"A oferta pussui um compromisso ativo", 3000, 'error')
+            }
         }
        
     }
@@ -494,11 +495,11 @@ const OfferPageOwner = ({offer, user} : OwnerPageprops) => {
                             <Button colorScheme="linkedin" variant="solid" onClick={() => { toastRender({
                                 position: 'bottom',
                                 render: () => (
-                                    <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Certeza que deseja apagar esse compromisso?</Text>
+                                    <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="10px" spacing={2} _dark={{ bg: "red.200" }}>
+                                        <Text fontWeight="semibold" color="white" _dark={{ color: "black" }} noOfLines={2} fontSize={{ base: "22px", md: "20px" }}>Certeza que deseja encerrar esse compromisso?</Text>
                                         <Stack direction="row">
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {(offer.ofr_status == "Conclusão") ? toast('O compromisso não pode ser encerrado!', "O equipamento já foi enviado.", 3000, "error") : endComprisse()}}>Sim</Button>
-                                            <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {toastRender.closeAll()}}>Não</Button>    
+                                            <Button variant="outline" color="#fff" _dark={{color : "#000"}} _hover={{bg:"#fff2"}} onClick={() => {(offer.ofr_status == "Conclusão") ? toast('O compromisso não pode ser encerrado!', "O equipamento já foi enviado.", 3000, "error") : endComprisse()}}>Sim</Button>
+                                            <Button variant="outline" color="#fff" _dark={{color : "#000"}} _hover={{bg:"#fff2"}} onClick={() => {toastRender.closeAll()}}>Não</Button>    
                                         </Stack>
                                     </Stack>
                                 )

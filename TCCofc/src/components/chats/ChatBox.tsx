@@ -94,6 +94,7 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
                     isClosable: true,
                 });
                 socket.emit("postMessage", {chat: chat_id, msg : codes.compSucsses, user: user_id});
+                navigate(0)
             break;
             case 401:
                 if(codeSent) toast({

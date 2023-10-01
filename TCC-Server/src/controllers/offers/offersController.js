@@ -213,7 +213,7 @@ module.exports = {
             if(await knex("Offer").where("ofr_id", id) != "") {
                 if (user == "Env") {
                     await knex("Offer").update({
-                        ofr_status : "Conclusão",
+                        ofr_status : "Envio",
                         ofr_env_conf : 1
                     }).where('ofr_id', id);
                     return res.status(201).json({msg : "Product sended"});

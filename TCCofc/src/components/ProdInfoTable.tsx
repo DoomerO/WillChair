@@ -92,7 +92,7 @@ const ProdInfoTable = ({ofr_id} : prodTableProps) => {
                     </Tr>
                     <Tr bg={colors.bgTableRow2} _dark={{bg : colors.bgTableRow2_Dark}}>
                         <Td fontWeight="bold">Comprimento</Td>
-                        <Td>{prod.and_length}m</Td>
+                        <Td>{prod.and_lenght}m</Td>
                     </Tr>
                 </Tbody>
              case "Muleta":

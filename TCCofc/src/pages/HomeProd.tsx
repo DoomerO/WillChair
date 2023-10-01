@@ -170,10 +170,10 @@ const HomeProd = () => {
         if(search == ""){
             return <div key={optionsRenderList.indexOf(item)}></div>
         }
-        if (item.match(search) && numOptRender < 6) {
+        if (item.toUpperCase().match(search.toUpperCase()) && numOptRender < 6) {
             numOptRender += 1;
             return <Flex key={optionsRenderList.indexOf(item)} bg="#eee" w={{base:"80%", md:"50%"}} p={2.5} color={colors.colorFontBlue}
-            _hover={{bg: "#4f4f4f"}} _dark={{bg:"#2f2f2f", _hover:{bg:"#444"}}} onClick={() => {navigate(`/search/${"name"}/${item}`)}}>
+            _hover={{bg: "#dfdfdf"}} _dark={{bg:"#2f2f2f", _hover:{bg:"#444"}}} onClick={() => {navigate(`/search/${"name"}/${item}`)}}>
                 {item}
             </Flex>
         }

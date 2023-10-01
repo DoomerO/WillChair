@@ -4,6 +4,7 @@ import { ChangeEvent, useState, useEffect } from "react";
 import {RiStarSLine, RiStarSFill} from "react-icons/ri"
 import colors from "../colors/colors";
 import "../fonts/fonts.css";
+import { useNavigate } from "react-router-dom";
 
 interface avaliationProps {
     isOpen : boolean,
@@ -16,6 +17,7 @@ interface avaliationProps {
 
 const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name, user_img} : avaliationProps) => {
   const toast = useToast();
+  const navigate = useNavigate();
   const [avaliation, setAvaliation] = useState({
     value : 0,
     content : "",
@@ -43,17 +45,18 @@ const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name, user_img
       }}).then((res) => {
         toast({
           title: 'Avaliação realizada com sucesso',
-          description: `Parabens! Você avaliou!`,
+          description: `Parabens! A avaliação foi enviada com sucesso!`,
           status: 'success',
-          duration: 5000,
+          duration: 3000,
           isClosable: true,
         })
+        navigate("/")
       }).catch((error) => {
         toast({
           title: 'Ocorreu um erro!',
-          description: "Ah não",
+          description: "Algo deu errado no envio da avaliação",
           status: 'error',
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         })
         console.log(error)
