@@ -218,7 +218,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
                 w="100%" pt="3%">
                 <BsChatLeftText size="45%" />
                 <Text fontSize="25px" fontFamily="atkinson" textAlign="center">Você ainda não falou com {owner.user_name}, que tal iniciar uma conversa?</Text>
-                <Button variant="outline" bgColor="#0000" mt="1.5%" onClick={() => { createChat() }}>Criar um chat</Button>
+                <Button variant="outline" bgColor="#0000" _hover={{bg : "#fff3"}} mt="1.5%" onClick={() => { createChat() }}>Criar um chat</Button>
             </Flex>
         )
     }

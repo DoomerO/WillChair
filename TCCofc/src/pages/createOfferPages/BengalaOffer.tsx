@@ -85,14 +85,14 @@ const BengalaOffer = () => {
         await axios.get(`http://localhost:3344/products/key/${key}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
-            setProdOwn(res.data);
+            setProdOwn(res.data[0]);
         }).catch((error) => {
             console.log(error);
         })
     }
 
     async function postProduct() {
-        if (formInputs.name == "" && formInputs.desc == "" && formInputs.offerType == "") {
+        if (formInputs.name != "" && formInputs.desc != "" && formInputs.offerType != "") {
             await axios.post('http://localhost:3344/products', {
                 prod_weight: formInputs.weight,
                 prod_height: formInputs.height,
@@ -118,7 +118,7 @@ const BengalaOffer = () => {
         const data = new FormData();
         data.append("photo", formInputs.photo);
         await axios.put('http://localhost:3344/products/img/photo', data,
-            { headers: { authorization: "Bearer " + localStorage.getItem("token"), prod_id: prodOwn[0].prod_id } }).catch((error) => {
+            { headers: { authorization: "Bearer " + localStorage.getItem("token"), prod_id: prodOwn.prod_id } }).catch((error) => {
                 console.log(error);
             });
     }
@@ -132,7 +132,7 @@ const BengalaOffer = () => {
             ofr_type: formInputs.offerType,
             ofr_parcelas: formInputs.parcelas,
             User_user_id: user.user_id,
-            Product_prod_id: prodOwn[0].prod_id
+            Product_prod_id: prodOwn.prod_id
         }, {
             headers: {
                 authorization: "Bearer " + localStorage.getItem("token")
@@ -147,7 +147,7 @@ const BengalaOffer = () => {
 
     async function postChild() {
         await axios.post(`http://localhost:3344/products/bengala`, {
-            id: prodOwn[0].prod_id,
+            id: prodOwn.prod_id,
             ben_regulator: formInputs.hasRegulator,
             ben_minHeight: formInputs.minHeight,
             ben_maxHeight: formInputs.maxHeight,
@@ -224,7 +224,7 @@ const BengalaOffer = () => {
                                 document.getElementsByName("photo")[0].click()
                             }}>{(imgShow) ? <Image w={{ base: "98%", md: "96%" }} h={{ base: "98%", md: "96%" }} objectFit="contain" src={imgShow}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%" />} bgType={"none"} />}</Flex>
 
-                            <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Título da oferta<Input type='text' fontSize={{ base: "20px", md: "18px" }} maxLength={45}
+                            <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Título da oferta<Input type='text' fontSize={{ base: "20px", md: "18px" }} maxLength={100}
                                 placeholder='Ex.: Bengala de 4 pontas' name='name' onChange={handleChange} /></FormLabel>
 
                             <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{ base: "20px", md: "18px" }} textAlign="left" verticalAlign="top" onChange={handleChange} /></FormLabel>
@@ -262,7 +262,7 @@ const BengalaOffer = () => {
                                                     <Text bg="#fff" h="fit-content" color="#000" p="1%" m="1" borderRadius="10px">Branca</Text><Text textAlign="justify">{"Pessoa completamente cega, indica perca total da visão."}</Text>
                                                 </Flex>
                                                 <Flex direction="column" align="center" mt="3%" mb="3%">
-                                                    <Text bg="green.300" h="fit-content" color="#fff" p="1%" m="1" borderRadius="10px">Verde</Text><Text textAlign="justify">{"Pessoas com baixa visão. Enxergam com maior dificuldade, mas possuem visão parcial."}</Text>
+                                                    <Text bg="green.300" h="fit-content" color="#fff" p="1%" m="1" borderRadius="10px">Verde</Text><Text w="70%" textAlign="justify">{"Pessoas com baixa visão. Enxergam com maior dificuldade, mas possuem visão parcial."}</Text>
                                                 </Flex>
                                                 <Flex direction="column" align="center" mb="3%">
                                                     <Flex direction="row" w="50vw" justifyContent="center">

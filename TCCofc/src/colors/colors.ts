@@ -15,7 +15,7 @@ const colors = {
     categoryBg_Dark: "#222",
     footerBg: "#131313",
     slideMsgBg: "#bfbfbf",
-    slideMsgBg_Dark: "#363636",
+    slideMsgBg_Dark: "#1f1f26",
     bgTableRow1: "#F1F6Fd",
     bgTableRow1_Dark: "#1a222f",
     bgTableRow2: "#F0F0F0",

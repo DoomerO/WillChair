@@ -80,14 +80,14 @@ const OtherOffer = () => {
         await axios.get(`http://localhost:3344/products/key/${key}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
-            setProdOwn(res.data);
+            setProdOwn(res.data[0]);
         }).catch((error) => {
             console.log(error);
         })
     }
 
     async function postProduct() {
-        if (formInputs.name == "" && formInputs.desc == "" && formInputs.offerType == "" && formInputs.type == "") {
+        if (formInputs.name != "" && formInputs.desc != "" && formInputs.offerType != "" && formInputs.type != "") {
             await axios.post('http://localhost:3344/products', {
                 prod_weight: formInputs.weight,
                 prod_height: formInputs.height,
@@ -124,7 +124,7 @@ const OtherOffer = () => {
             ofr_type: formInputs.offerType,
             ofr_parcelas: formInputs.parcelas,
             User_user_id: user.user_id,
-            Product_prod_id: prodOwn[0].prod_id
+            Product_prod_id: prodOwn.prod_id
         }, {
             headers: {
                 authorization: "Bearer " + localStorage.getItem("token")
@@ -198,7 +198,7 @@ const OtherOffer = () => {
                                 document.getElementsByName("photo")[0].click()
                             }}>{(imgShow) ? <Image w={{ base: "98%", md: "96%" }} h={{ base: "98%", md: "96%" }} objectFit="contain" src={imgShow}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%" />} bgType={"none"} />}</Flex>
 
-                            <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Título da oferta<Input type='text' fontSize={{ base: "20px", md: "18px" }} maxLength={45}
+                            <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Título da oferta<Input type='text' fontSize={{ base: "20px", md: "18px" }} maxLength={100}
                                 placeholder='Dica: Diga o nome do equipamento ofertado aqui!' name='name' onChange={handleChange} /></FormLabel>
 
                             <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{ base: "20px", md: "18px" }} textAlign="left" verticalAlign="top" placeholder="Dica: Dê detalhes importantes sobre o equipamento aqui, pois eles podem não estar constados no formulário." onChange={handleChange} /></FormLabel>

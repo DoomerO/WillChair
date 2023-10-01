@@ -165,7 +165,7 @@ const HomeProd = () => {
         }
         optionsRenderList.push(item.ofr_name);
     })
-
+    
     const renderSearchOptions = optionsRenderList.map(item => { //lista de opções de pesquiza renderizada
         if(search == ""){
             return <div key={optionsRenderList.indexOf(item)}></div>
@@ -173,7 +173,7 @@ const HomeProd = () => {
         if (item.match(search) && numOptRender < 6) {
             numOptRender += 1;
             return <Flex key={optionsRenderList.indexOf(item)} bg="#eee" w={{base:"80%", md:"50%"}} p={2.5} color={colors.colorFontBlue}
-            _hover={{bg: "#bfbfbf"}} _dark={{bg:"#4f4f4f", _hover:{bg:"#444"}}} onClick={() => {navigate(`/search/${"name"}/${item}`)}}>
+            _hover={{bg: "#4f4f4f"}} _dark={{bg:"#2f2f2f", _hover:{bg:"#444"}}} onClick={() => {navigate(`/search/${"name"}/${item}`)}}>
                 {item}
             </Flex>
         }
@@ -208,7 +208,7 @@ const HomeProd = () => {
 
                     <InputGroup display="flex" zIndex={1} w={{base:"80%", md:"50%"}}>    
                         <Input placeholder='Busque as melhores ofertas aqui!' bg="#eee" borderRightColor="#000" _dark={{bg:"#0000", borderRightColor:"#fff", color: "#fff", _placeholder : {color: "#dfdfdf"}}}
-                        onChange={handleChange} onKeyUp={handleKeyPress}/>
+                        onChange={handleChange} onKeyUp={handleKeyPress} value={search}/>
                         <Link to={`/search/${"name"}/${(search) ? search : "any"}`}>
                             <InputRightAddon children={<BiSearchAlt/>} bg="#eee" _dark={{bg:"#0000"}} _hover={{bg:"#aaa", _dark:{bg:"#555"}}}/>
                         </Link>
@@ -237,7 +237,7 @@ const HomeProd = () => {
                 <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{base: "36px", md: "30px"}} _dark={{color: colors.colorFontDarkBlue_Dark}} mt="3%" mb="3%">
                     Ofertas que você se interessou
                 </Heading>
-                {(chats.length > 0) ? <OfferList component={renderChatsOffers}/> : <SignNotFoundButton msg="Acho que você não iniciou um chat ainda...Vamos lá! Basta pesquisar uma oferta interessante!" icon={<TbMessageCircleSearch size="45%"/>} btnText='Pesquisar' btnPath='/search/all/all'/>} 
+                {(chats.length > 0) ? <OfferList component={renderChatsOffers}/> : <SignNotFoundButton msg="Acho que você não iniciou uma negociação ainda...Vamos lá! Basta pesquisar uma oferta interessante!" icon={<TbMessageCircleSearch size="45%"/>} btnText='Pesquisar' btnPath='/search/all/all'/>} 
             </Flex>
 
             <Flex bg={colors.veryLightBlue} w='100%' h='fit-content' align="center" _dark={{bg:colors.veryLightBlue_Dark}} direction="column">

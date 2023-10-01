@@ -7,7 +7,7 @@ const CreateOfferCard = () => {
     const navigate = useNavigate();
 
     return (
-        <Card w={{base:"70vw", md:"23vw"}} h={{base:"57vh", md:'50vh'}} onClick={() => {navigate("/create-offer/all")}} boxShadow="lg" align='center' variant="outline" size="sm" _dark={{bg : colors.bgCard_Dark}}> 
+        <Card w={{base:"70vw", md:"23vw"}} h={{base:"57vh", md:'-moz-max-content'}} onClick={() => {navigate("/create-offer/all")}} boxShadow="lg" align='center' variant="outline" size="sm" _dark={{bg : colors.bgCard_Dark}}> 
             <CardHeader h="20%">
                 <Heading as='h3' fontSize={{base:"22px", md:"20px"}} noOfLines={1}>{"Crie uma nova oferta!"}</Heading>
             </CardHeader>

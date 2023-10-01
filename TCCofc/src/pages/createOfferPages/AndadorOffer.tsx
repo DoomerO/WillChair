@@ -72,7 +72,7 @@ const AndadorOffer = () => {
             console.log(error);
         });
     }
-
+    
     async function getUser() {
         await axios.get(`http://localhost:3344/users/email/${userToken.email}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
@@ -82,12 +82,13 @@ const AndadorOffer = () => {
             console.log(error);
         })
     }
-
+    
     async function getProductKey(key: string) {
         await axios.get(`http://localhost:3344/products/key/${key}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
-            setProdOwn(res.data);
+            setProdOwn(res.data[0]);
+            console.log(res.data)
         }).catch((error) => {
             console.log(error);
         })
@@ -97,13 +98,13 @@ const AndadorOffer = () => {
         const data = new FormData();
         data.append("photo", formInputs.photo);
         await axios.put('http://localhost:3344/products/img/photo', data,
-            { headers: { authorization: "Bearer " + localStorage.getItem("token"), prod_id: prodOwn[0].prod_id } }).catch((error) => {
+            { headers: { authorization: "Bearer " + localStorage.getItem("token"), prod_id: prodOwn.prod_id } }).catch((error) => {
                 console.log(error);
             });
     }
 
     async function postProduct() {
-        if (formInputs.name == "" && formInputs.desc == "" && formInputs.offerType == "") {
+        if (formInputs.name != "" && formInputs.desc != "" && formInputs.offerType != "") {
             await axios.post('http://localhost:3344/products', {
                 prod_weight: formInputs.weight,
                 prod_height: formInputs.height,
@@ -134,7 +135,7 @@ const AndadorOffer = () => {
             ofr_type: formInputs.offerType,
             ofr_parcelas: formInputs.parcelas,
             User_user_id: user.user_id,
-            Product_prod_id: prodOwn[0].prod_id
+            Product_prod_id: prodOwn.prod_id
         }, {
             headers: {
                 authorization: "Bearer " + localStorage.getItem("token")
@@ -149,7 +150,7 @@ const AndadorOffer = () => {
 
     async function postChild() {
         await axios.post(`http://localhost:3344/products/andador`, {
-            id: prodOwn[0].prod_id,
+            id: prodOwn.prod_id,
             and_regulator: formInputs.hasRegulator,
             and_minHeight: formInputs.minHeight,
             and_maxHeight: formInputs.maxHeight,
@@ -226,7 +227,7 @@ const AndadorOffer = () => {
                                 document.getElementsByName("photo")[0].click()
                             }}>{(imgShow) ? <Image w={{ base: "98%", md: "96%" }} h={{ base: "98%", md: "96%" }} objectFit="contain" src={imgShow}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%" />} bgType={"none"} />}</Flex>
 
-                            <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Título da oferta<Input type='text' fontSize={{ base: "20px", md: "18px" }} maxLength={45}
+                            <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Título da oferta<Input type='text' fontSize={{ base: "20px", md: "18px" }} maxLength={100}
                                 placeholder='Ex.: Andador Médio de Metal' name='name' onChange={handleChange} /></FormLabel>
 
                             <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{ base: "20px", md: "18px" }} textAlign="left" verticalAlign="top" onChange={handleChange} /></FormLabel>

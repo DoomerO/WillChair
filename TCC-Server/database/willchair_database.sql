@@ -61,7 +61,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `willchair`.`Offer` (
   `ofr_id` INT NOT NULL AUTO_INCREMENT,
-  `ofr_name` VARCHAR(45) NOT NULL,
+  `ofr_name` VARCHAR(100) NOT NULL,
   `ofr_type` VARCHAR(20) NOT NULL,
   `ofr_desc` VARCHAR(255) NULL,
   `ofr_value` FLOAT NULL,

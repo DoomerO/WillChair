@@ -159,7 +159,7 @@ const Search = () => {
         if (item.match(search) && numOptRender < 6) {
             numOptRender += 1;
             return <Flex key={optionsRenderList.indexOf(item)} bg="#eee" w={{ base: "80%", md: "30%" }} p={2.5} color={colors.colorFontBlue}
-                _hover={{ bg: "#bfbfbf" }} _dark={{ bg: "#4f4f4f", _hover: { bg: "#444" } }} onClick={() => { navigate(`/search/${(newQuery) ? newQuery : "any"}/${item}`); navigate(0) }}>
+                _hover={{ bg: "#4f4f4f" }} _dark={{ bg: "#2f2f2f", _hover: { bg: "#444" } }} onClick={() => { navigate(`/search/${(newQuery) ? newQuery : "any"}/${item}`); navigate(0) }}>
                 {item}
             </Flex>
         }

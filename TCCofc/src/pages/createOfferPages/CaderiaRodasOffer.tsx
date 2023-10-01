@@ -85,14 +85,14 @@ const CadeiraRodasOffer = () => {
         await axios.get(`http://localhost:3344/products/key/${key}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
-            setProdOwn(res.data);
+            setProdOwn(res.data[0]);
         }).catch((error) => {
             console.log(error);
         })
     }
 
     async function postProduct() {
-        if (formInputs.name == "" && formInputs.desc == "" && formInputs.offerType == "") {
+        if (formInputs.name != "" && formInputs.desc != "" && formInputs.offerType != "") {
             await axios.post('http://localhost:3344/products', {
                 prod_weight: formInputs.weight,
                 prod_height: formInputs.height,
@@ -118,7 +118,7 @@ const CadeiraRodasOffer = () => {
         const data = new FormData();
         data.append("photo", formInputs.photo);
         await axios.put('http://localhost:3344/products/img/photo', data,
-            { headers: { authorization: "Bearer " + localStorage.getItem("token"), prod_id: prodOwn[0].prod_id } }).catch((error) => {
+            { headers: { authorization: "Bearer " + localStorage.getItem("token"), prod_id: prodOwn.prod_id } }).catch((error) => {
                 console.log(error);
             });
     }
@@ -132,7 +132,7 @@ const CadeiraRodasOffer = () => {
             ofr_type: formInputs.offerType,
             ofr_parcelas: formInputs.parcelas,
             User_user_id: user.user_id,
-            Product_prod_id: prodOwn[0].prod_id
+            Product_prod_id: prodOwn.prod_id
         }, {
             headers: {
                 authorization: "Bearer " + localStorage.getItem("token")
@@ -147,7 +147,7 @@ const CadeiraRodasOffer = () => {
 
     async function postChild() {
         await axios.post(`http://localhost:3344/products/cadeira-rodas`, {
-            id: prodOwn[0].prod_id,
+            id: prodOwn.prod_id,
             cad_width: formInputs.width,
             cad_widthSeat: formInputs.widthSeat,
             cad_type: formInputs.type,
@@ -224,7 +224,7 @@ const CadeiraRodasOffer = () => {
                                 document.getElementsByName("photo")[0].click()
                             }} w={{ base: "30vh", md: "40vh" }} align="center" justifyContent="center" h={{ base: "30vh", md: "40vh" }} direction="column" border="2px dashed #000" _dark={{ border: "2px dashed #fff" }} _hover={{ bg: "#0001", _dark: { bg: "#fff1" } }}>{(imgShow) ? <Image w={{ base: "98%", md: "96%" }} h={{ base: "98%", md: "96%" }} objectFit="contain" src={imgShow}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%" />} bgType={"none"} />}</Flex>
 
-                            <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Título da oferta<Input type='text' fontSize={{ base: "20px", md: "18px" }} maxLength={20}
+                            <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Título da oferta<Input type='text' fontSize={{ base: "20px", md: "18px" }} maxLength={100}
                                 placeholder='Ex.: Cadeira de Rodas 101M - CDS' name='name' onChange={handleChange} /></FormLabel>
 
                             <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{ base: "20px", md: "18px" }} textAlign="left" verticalAlign="top" onChange={handleChange} /></FormLabel>
