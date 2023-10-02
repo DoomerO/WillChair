@@ -81,7 +81,16 @@ module.exports = {
                     User_user_idRec
                 });
 
-                let newNota = (userRecExists[0].user_nota > 0) ? (userRecExists[0].user_nota + ava_value) / 2 : ava_value;
+                const points = await knex("Avaliation").where("User_user_idRec", User_user_idRec).select("ava_value");
+                let newNota = ava_value;
+                let sum = 0;
+
+                if (points.length) for(let i = 0; i < points.length; i++) {
+                    sum += points[i].ava_value;
+                    if (i == points.length - 1) {
+                        newNota = sum / points.length;
+                    }
+                }
 
                 await knex("User").update({
                     user_nota : newNota
@@ -111,6 +120,22 @@ module.exports = {
                     ava_content,
                     ava_value
                 }).where('ava_id', id);
+
+                const points = await knex("Avaliation").where("User_user_idRec", commentExists[0].User_user_idRec).select("ava_value");
+                let newNota = ava_value;
+                let sum = 0;
+
+                if (points.length) for(let i = 0; i < points.length; i++) {
+                    sum += points[i].ava_value;
+                    if (i == points.length - 1) {
+                        newNota = sum / points.length;
+                    }
+                }
+
+                await knex("User").update({
+                    user_nota : newNota
+                }).where("user_id", commentExists[0].User_user_idRec);
+
                 return res.status(201).json({msg : "Avaliação atualizada com sucesso."});
             }
             else {

@@ -22,13 +22,13 @@ const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name, user_img
     value : 0,
     content : "",
   });
-  const [hasAvaliation, setHasAva] = useState(false); 
+  const [hasAvaliation, setHasAva] = useState([]); 
 
     async function getAvaliation() {
       await axios.get(`http://localhost:3344/avaliation/both/${recUserId}/${envUserId}`, {headers : {
         authorization :  "Bearer " + localStorage.getItem("token")
       }}).then((res) => {
-        if(res.data.length > 0) setHasAva(true);
+        setHasAva(res.data[0]);
       }).catch((error) => {
         console.log(error);
       })
@@ -55,6 +55,33 @@ const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name, user_img
         toast({
           title: 'Ocorreu um erro!',
           description: "Algo deu errado no envio da avaliação",
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        })
+        console.log(error)
+      });
+    }
+
+    async function updateAvaliation() {
+      await axios.put(`http://localhost:3344/avaliation/${hasAvaliation.ava_id}`, {
+        ava_value :  avaliation.value,
+        ava_content: avaliation.content,
+      }, {headers : {
+        authorization : "Bearer " + localStorage.getItem("token")
+      }}).then((res) => {
+        toast({
+          title: 'Avaliação atualizada com sucesso!',
+          description: `Parabens! Você atualizou uma avaliação já existente!`,
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        })
+        navigate("/")
+      }).catch((error) => {
+        toast({
+          title: 'Ocorreu um erro!',
+          description: "Algo deu errado na atualização da avaliação",
           status: 'error',
           duration: 3000,
           isClosable: true,
@@ -109,13 +136,7 @@ const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name, user_img
           </ModalBody>
           <ModalFooter>
             <Button colorScheme='linkedin' mr={3} onClick={() => {
-              (hasAvaliation) ? toast({
-                title: 'Já existe uma avaliação!',
-                description: "você não pode avaliar mais de uma vez",
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-              }) : postAvaliation();
+              (hasAvaliation) ? updateAvaliation() : postAvaliation();
             }}>Enviar</Button>
             <Button variant='ghost' colorScheme="linkedin" onClick={() => {setClose(); clearValue()}}>Cancelar</Button>
           </ModalFooter>
