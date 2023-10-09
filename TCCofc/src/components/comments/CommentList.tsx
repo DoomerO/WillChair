@@ -1,7 +1,7 @@
 import { Stack, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 
 interface commentListProps {
-    component : React.ReactElement
+    component : JSX.Element[]
 }
 
 const CommentList = ({component} : commentListProps) => {

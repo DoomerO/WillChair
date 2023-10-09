@@ -185,7 +185,7 @@ const ChatSquare = ({chat_id, user_id, isOwner, end} : chatSquareProps) => {
                         return <Flex w="100%" key={item.msg_id}>
                             <Flex direction="row" align="center" minW="0%" maxW={{base:"80%", md:"60%"}} p={{base:"4%" ,md:"1%"}} borderRadius="5px" bg={colors.colorFontBlue} >
                                 <Text color="#fff" fontSize={{base:"15px", md:"15px"}} textAlign="justify" fontWeight="bold">{`${other.user_name} apagou essa mensagem`}</Text>
-                                <MdBlock size="3vh"/>
+                                <MdBlock size="3vh" color="#fff"/>
                             </Flex>
                             <Spacer/>
                         </Flex>

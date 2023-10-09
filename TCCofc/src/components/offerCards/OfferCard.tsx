@@ -10,7 +10,7 @@ interface OfferCard {
     condition:string,
     composition: string,
     type: string,
-    value: string,
+    value: number,
     id: number
 }
 

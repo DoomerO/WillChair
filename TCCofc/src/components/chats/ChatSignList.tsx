@@ -1,7 +1,7 @@
 import { Stack, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 
 interface chatListProps {
-    component : React.ReactElement
+    component : JSX.Element[]
 }
 
 const ChatSignList = ({component} : chatListProps) => {

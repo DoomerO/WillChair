@@ -5,6 +5,7 @@ import { RiStarSFill } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import dateDisplayer from "../code/dataDisplayer";
+import serverUrl from "../code/serverUrl";
 
 interface commentProps {
     user_img : object,
@@ -19,7 +20,7 @@ const Comment = ({user_img, user_name, user_email, content, date, points} : comm
     const [img, setImg] = useState<any>();
 
     async function getImg() {
-        await axios.get(`http://localhost:3344/users/profile/photo/${user_img}`, {responseType : "arraybuffer"}).then(res => {
+        await axios.get(`${serverUrl}/users/profile/photo/${user_img}`, {responseType : "arraybuffer"}).then(res => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
             let reader = new FileReader();

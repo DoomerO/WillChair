@@ -13,9 +13,11 @@ import logoLight from '../img/home/logo.png';
 import { BsFillStarFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import serverUrl from "./code/serverUrl";
+import { User } from "./code/interfaces";
 
 interface avatarProps {
-    user : object;
+    user : User;
 }
 
 const HeaderLogged = ({user}: avatarProps) => {
@@ -27,7 +29,7 @@ const HeaderLogged = ({user}: avatarProps) => {
     const navigate = useNavigate();
 
     async function getImg() {
-        await axios.get(`http://localhost:3344/users/profile/photo/${user.user_img}`, {responseType : "arraybuffer"}).then(res => {
+        await axios.get(`${serverUrl}/users/profile/photo/${user.user_img}`, {responseType : "arraybuffer"}).then(res => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
             let reader = new FileReader();

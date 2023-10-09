@@ -1,7 +1,7 @@
 import {Tabs, Stack, TabPanel, TabPanels} from '@chakra-ui/react';
 import CreateOfferCard from './AddOfferCard';
 interface listProps {
-    component: React.ReactElement,
+    component: JSX.Element[],
     canMdNew? : boolean
 }
 
