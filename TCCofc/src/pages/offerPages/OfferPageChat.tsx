@@ -213,9 +213,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
 
     const SignButton = () => {
         return (
-            <Flex align="center" h="40vh" direction="column"
-                bgGradient="linear(to-b, #1976D230, #1976D2)"
-                w="100%" pt="3%">
+            <Flex align="center" h="40vh" direction="column" bg="#1976D2" w="100%" pt="3%">
                 <BsChatLeftText size="45%" />
                 <Text fontSize="25px" fontFamily="atkinson" textAlign="center">Você ainda não falou com {owner.user_name}, que tal iniciar uma conversa?</Text>
                 <Button variant="outline" bgColor="#0000" _hover={{ bg: "#fff3" }} mt="1.5%" onClick={() => { createChat() }}>Criar um chat</Button>
