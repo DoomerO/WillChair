@@ -13,12 +13,14 @@ import { BsTrash } from "react-icons/bs";
 import { PiHandshake } from "react-icons/pi";
 import {MdBlock} from "react-icons/md";
 import {FiDelete} from "react-icons/fi";
+import serverUrl from "../code/serverUrl";
+import { Offer, User } from "../code/interfaces";
 
 interface chatBoxProps {
     user_id : number,
     chat_id : number,
-    offer: object,
-    other: object,
+    offer: Offer,
+    other: User,
 }
 
 const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
@@ -35,7 +37,7 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
     const [img, setImg] = useState<any>();
 
     async function getImg() {
-        await axios.get(`http://localhost:3344/users/profile/photo/${other.user_img}`, {responseType : "arraybuffer"}).then(res => {
+        await axios.get(`${serverUrl}/users/profile/photo/${other.user_img}`, {responseType : "arraybuffer"}).then(res => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
             let reader = new FileReader();
@@ -56,7 +58,7 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
         setMessages(resp);
     });
 
-    socket.on("Desconnect", (resp) => {
+    socket.on("Desconnect", () => {
         socket.close();
         navigate(0);
     })

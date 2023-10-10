@@ -1,18 +1,22 @@
-import { Flex, Box, Heading, Input, InputGroup, InputRightAddon, Stack, Spacer, Select, FormLabel, Collapse, Button, Text } from "@chakra-ui/react";
+import { Flex, Box, Heading, Input, InputGroup, InputRightAddon, Stack, Spacer, Select, FormLabel, Collapse, Button } from "@chakra-ui/react";
 import { useState, useEffect, ChangeEvent } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 import HeaderToggle from "../components/toggles/HeaderToggle";
 import Footer from "../components/Footer";
 import OfferCardHorizontal from "../components/offerCards/OfferCardHorizontal";
+import SignNotFound from "../components/signs/SignNotFound";
+import Loading from "../components/toggles/Loading";
 
 import { BiSearchAlt } from "react-icons/bi";
-import colors from "../colors/colors";
-import "../fonts/fonts.css";
 import { MdOutlineSearchOff, MdAdd } from "react-icons/md";
 import { BiMinus } from "react-icons/bi";
-import SignNotFound from "../components/signs/SignNotFound";
+
+import { Offer } from "../components/code/interfaces";
+import colors from "../colors/colors";
+import "../fonts/fonts.css";
+import serverUrl from "../components/code/serverUrl";
 
 const Search = () => {
     const { query } = useParams();
@@ -22,12 +26,13 @@ const Search = () => {
     const [search, setSearch] = useState("");
     const [showFilters, setShow] = useState(false);
     const [showAll, setShowAll] = useState(false);
+    const [loading, isLoading] = useState(true);
 
     let numOptRender = 0;
     let optionsRenderList: string[] = [];
 
-    const [consult, setConsult] = useState([]);
-    const [offers, setOffers] = useState([]);
+    const [consult, setConsult] = useState<Offer[]>([]);
+    const [offers, setOffers] = useState<Offer[]>([]);
     const [filters, setFilters] = useState({
         city: "",
         type: "",
@@ -48,7 +53,7 @@ const Search = () => {
         setSearch(e.target.value);
     }
 
-    const handleChangeSelect = (e: ChangeEvent<HTMLInputElement>) => { //evento de change para select
+    const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => { //evento de change para select
         e.preventDefault();
         setQuery(e.target.value);
         if (!newQuery) setQuery("name");
@@ -59,7 +64,11 @@ const Search = () => {
         setFilters(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 
-    const handleChangeShow = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleFiltersSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+        setFilters(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    }
+
+    const handleChangeShow = (e: ChangeEvent<HTMLSelectElement>) => {
         if (e.target.value == "Pesquisadas") {
             setShowAll(false);
         }
@@ -70,7 +79,7 @@ const Search = () => {
 
     async function queryConsult() {
         if (value == "all" && query == "all") {
-            await axios.get(`http://localhost:3344/offers`).then(res => {
+            await axios.get(`${serverUrl}/offers`).then(res => {
                 setConsult(res.data);
             }).catch(error => {
                 console.log(error);
@@ -80,7 +89,7 @@ const Search = () => {
         if (value == "any" || query == "any") {
             return
         }
-        await axios.get(`http://localhost:3344/offers/query/${query}/${value}`).then(res => {
+        await axios.get(`${serverUrl}/offers/query/${query}/${value}`).then(res => {
             setConsult(res.data);
         }).catch(error => {
             console.log(error);
@@ -88,8 +97,9 @@ const Search = () => {
     }
 
     async function getOffers() {
-        await axios.get(`http://localhost:3344/offers`).then(res => {
+        await axios.get(`${serverUrl}/offers`).then(res => {
             setOffers(res.data);
+            isLoading(false);
         }).catch(error => {
             console.log(error);
         })
@@ -117,37 +127,37 @@ const Search = () => {
                 for (let i = 0; i < optionsRenderList.length; i++) {
                     if (item.ofr_name == optionsRenderList[i]) return <div key={item.ofr_id}></div>;
                 }
-                optionsRenderList.push(item.ofr_name);
+                optionsRenderList.push(item.ofr_name ?? "");
                 break;
             case "user_city":
                 for (let i = 0; i < optionsRenderList.length; i++) {
                     if (item.ofr_city == optionsRenderList[i]) return <div key={item.ofr_id}></div>;
                 }
-                optionsRenderList.push(item.ofr_city);
+                optionsRenderList.push(item.ofr_city ?? "");
                 break;
             case "prod_type":
                 for (let i = 0; i < optionsRenderList.length; i++) {
                     if (item.prod_type == optionsRenderList[i]) return <div key={item.ofr_id}></div>;
                 }
-                optionsRenderList.push(item.prod_type);
+                optionsRenderList.push(item.prod_type ?? "");
                 break;
             case "prod_composition":
                 for (let i = 0; i < optionsRenderList.length; i++) {
                     if (item.prod_composition == optionsRenderList[i]) return <div key={item.ofr_id}></div>;
                 }
-                optionsRenderList.push(item.prod_composition);
+                optionsRenderList.push(item.prod_composition ?? "");
                 break;
             case "user_name":
                 for (let i = 0; i < optionsRenderList.length; i++) {
                     if (item.ofr_user_name == optionsRenderList[i]) return <div key={item.ofr_id}></div>;
                 }
-                optionsRenderList.push(item.ofr_user_name);
+                optionsRenderList.push(item.ofr_user_name ?? "");
                 break;
             case "ofr_type":
                 for (let i = 0; i < optionsRenderList.length; i++) {
                     if (item.ofr_type == optionsRenderList[i]) return <div key={item.ofr_id}></div>;
                 }
-                optionsRenderList.push(item.ofr_type);
+                optionsRenderList.push(item.ofr_type ?? "");
                 break;
         }
     });
@@ -166,52 +176,51 @@ const Search = () => {
     })
 
     const renderQueryOffers = consult.map(item => {
-        if (!item.ofr_city.toUpperCase().match(filters.city.toUpperCase()) && filters.city != "") {
-            renderSign = true;
+        if ((item.ofr_city) ? !item.ofr_city.toUpperCase().match(filters.city.toUpperCase()) : false && filters.city != "" ) {
             return <div key={item.ofr_id}></div>
         }
-        if (!item.ofr_type.toUpperCase().match(filters.type.toUpperCase()) && filters.type != "") {
+        if ((item.ofr_type) ? !item.ofr_type.toUpperCase().match(filters.type.toUpperCase()) : false && filters.type != "") {
             return <div key={item.ofr_id}></div>
         }
-        if (!item.prod_composition.toUpperCase().match(filters.composition.toUpperCase()) && filters.composition != "") {
+        if ((item.prod_composition) ? !item.prod_composition.toUpperCase().match(filters.composition.toUpperCase()) : false && filters.composition != "") {
             return <div key={item.ofr_id}></div>
         }
-        if (!item.prod_type.toUpperCase().match(filters.equipament.toUpperCase()) && filters.equipament != "") {
+        if ((item.prod_type) ? !item.prod_type.toUpperCase().match(filters.equipament.toUpperCase()) : false && filters.equipament != "") {
             return <div key={item.ofr_id}></div>
         }
         return <OfferCardHorizontal
-            title={item.ofr_name}
-            desc={item.ofr_desc}
-            img={item.prod_img}
-            value={item.ofr_value}
+            title={item.ofr_name ?? ""}
+            desc={item.ofr_desc ?? ""}
+            img={item.prod_img ?? ""}
+            value={item.ofr_value ?? 0}
             key={item.ofr_id}
-            id={item.ofr_id} />
+            id={item.ofr_id ?? 0} />
     });
 
     const renderAllOffers = offers.map(item => {
-        if (!item.ofr_city.toUpperCase().match(filters.city.toUpperCase()) && filters.city != "") {
+        if ((item.ofr_city) ? !item.ofr_city.toUpperCase().match(filters.city.toUpperCase()) : false && filters.city != "" ) {
             return <div key={item.ofr_id}></div>
         }
-        if (!item.ofr_type.toUpperCase().match(filters.type.toUpperCase()) && filters.type != "") {
+        if ((item.ofr_type) ? !item.ofr_type.toUpperCase().match(filters.type.toUpperCase()) : false && filters.type != "") {
             return <div key={item.ofr_id}></div>
         }
-        if (!item.prod_composition.toUpperCase().match(filters.composition.toUpperCase()) && filters.composition != "") {
+        if ((item.prod_composition) ? !item.prod_composition.toUpperCase().match(filters.composition.toUpperCase()) : false && filters.composition != "") {
             return <div key={item.ofr_id}></div>
         }
-        if (!item.prod_type.toUpperCase().match(filters.equipament.toUpperCase()) && filters.equipament != "") {
+        if ((item.prod_type) ? !item.prod_type.toUpperCase().match(filters.equipament.toUpperCase()) : false && filters.equipament != "") {
             return <div key={item.ofr_id}></div>
         }
         return <OfferCardHorizontal
-            title={item.ofr_name}
-            desc={item.ofr_desc}
-            img={item.prod_img}
-            value={item.ofr_value}
+            title={item.ofr_name ?? ""}
+            desc={item.ofr_desc ?? ""}
+            img={item.prod_img ?? ""}
+            value={item.ofr_value ?? 0}
             key={item.ofr_id}
-            id={item.ofr_id} />
+            id={item.ofr_id ?? 0} />
     });
 
     return (
-        <Box w="100%" h="100%">
+        (loading) ? <Loading/> :<Box w="100%" h="100%">
             <HeaderToggle />
 
             <Flex bg={colors.veryLightBlue} w='100%' h='70vh' align="center" _dark={{ bg: colors.veryLightBlue_Dark }} direction="column">
@@ -258,7 +267,7 @@ const Search = () => {
 
                             <FormLabel display="flex" flexDirection="row" alignItems="center">
                                 Tipo de Oferta:
-                                <Select ml="5px" name="type" variant="flushed" onChange={handleFilters}>
+                                <Select ml="5px" name="type" variant="flushed" onChange={handleFiltersSelect}>
                                     <option value="Doação">Doação</option>
                                     <option value="Venda">Venda</option>
                                     <option value="Aluguél">Aluguél</option>

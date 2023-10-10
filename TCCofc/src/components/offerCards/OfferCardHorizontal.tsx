@@ -3,11 +3,12 @@ import colors from "../../colors/colors";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import serverUrl from "../code/serverUrl";
 
 interface HorizontalOfferCard {
     img: string,
     title: string,
-    value: string,
+    value: number,
     desc: string,
     id: number
 }
@@ -16,7 +17,7 @@ const OfferCardHorizontal = ({img, title, value, desc, id}: HorizontalOfferCard)
     const [imgShow, setShow] = useState<any>();
 
     async function getProdImg() {
-        await axios.get(`http://localhost:3344/products/photo/${img}`, {responseType : "arraybuffer"}).then(res => {
+        await axios.get(`${serverUrl}/products/photo/${img}`, {responseType : "arraybuffer"}).then(res => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
             let reader = new FileReader();

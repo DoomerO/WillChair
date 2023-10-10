@@ -1,26 +1,32 @@
-import { Flex, Heading, Stack, FormLabel, Input, Text, Textarea, Select, Image, Spacer, ButtonGroup, Button, Box, useToast, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger } from "@chakra-ui/react";
+import { Flex, Heading, Stack, FormLabel, Input, Text, Textarea, Select, Image, Spacer, ButtonGroup, Button, Box, useToast, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, UseToastOptions, ToastPosition } from "@chakra-ui/react";
+import { useState, useEffect, ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
-import colors from "../../colors/colors";
+
 import Footer from "../../components/Footer";
 import SignAdaptable from "../../components/signs/SignAdaptable";
 import HeaderToggle from "../../components/toggles/HeaderToggle";
+
+import colors from "../../colors/colors";
 import axios from "axios";
-import { useState, useEffect, ChangeEvent } from "react";
-import { useNavigate } from "react-router-dom";
 import decode from "../../components/code/decoderToken";
+import serverUrl from "../../components/code/serverUrl";
+import { FormInputsProps, User, UserToken, ProductProps } from "../../components/code/interfaces";
+import Loading from "../../components/toggles/Loading";
 
 const BengalaOffer = () => {
 
     const toastRender = useToast();
     const navigate = useNavigate();
-    const [products, setProducts] = useState([]);
-    const [prodOwn, setProdOwn] = useState([]);
-    const [user, setUser] = useState([]);
+    const [products, setProducts] = useState<ProductProps[]>([]);
+    const [prodOwn, setProdOwn] = useState<ProductProps>({});
+    const [user, setUser] = useState<User>({});
     const [searchOwn, setSearch] = useState(false);
-    const [userToken, setToken] = useState(decode(localStorage.getItem("token")));
+    const [userToken, setToken] = useState<UserToken>({});
     const [imgShow, setShow] = useState<any>();
+    const [loading, isLoading] = useState(true);
 
-    const [formInputs, setInputs] = useState({
+    const [formInputs, setInputs] = useState<FormInputsProps>({
         name: "",
         desc: "",
         weight: 0,
@@ -62,7 +68,7 @@ const BengalaOffer = () => {
     }
 
     async function getProducts() {
-        await axios.get("http://localhost:3344/products/keys", {
+        await axios.get(`${serverUrl}/products/keys`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
             setProducts(res.data);
@@ -72,17 +78,18 @@ const BengalaOffer = () => {
     }
 
     async function getUser() {
-        await axios.get(`http://localhost:3344/users/email/${userToken.email}`, {
+        await axios.get(`${serverUrl}/users/email/${userToken.email}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
             setUser(res.data);
+            isLoading(false);
         }).catch((error) => {
             console.log(error);
         })
     }
 
     async function getProductKey(key: string) {
-        await axios.get(`http://localhost:3344/products/key/${key}`, {
+        await axios.get(`${serverUrl}/products/key/${key}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
             setProdOwn(res.data[0]);
@@ -93,14 +100,14 @@ const BengalaOffer = () => {
 
     async function postProduct() {
         if (formInputs.name != "" && formInputs.desc != "" && formInputs.offerType != "") {
-            await axios.post('http://localhost:3344/products', {
+            await axios.post(`${serverUrl}/products`, {
                 prod_weight: formInputs.weight,
                 prod_height: formInputs.height,
                 prod_type: "Bengala",
                 prod_key: formInputs.key,
                 prod_composition: formInputs.composition,
                 prod_status: formInputs.condition
-            }, { headers: { authorization: "Bearer " + localStorage.getItem("token") } }).then((res) => {
+            }, { headers: { authorization: "Bearer " + localStorage.getItem("token") } }).then(() => {
                 setSearch(true);
             }).catch((error) => {
                 console.log(error);
@@ -117,14 +124,14 @@ const BengalaOffer = () => {
     async function postImage() {
         const data = new FormData();
         data.append("photo", formInputs.photo);
-        await axios.put('http://localhost:3344/products/img/photo', data,
+        await axios.put(`${serverUrl}/products/img/photo`, data,
             { headers: { authorization: "Bearer " + localStorage.getItem("token"), prod_id: prodOwn.prod_id } }).catch((error) => {
                 console.log(error);
             });
     }
 
     async function postOffer() {
-        await axios.post(`http://localhost:3344/offers`, {
+        await axios.post(`${serverUrl}/offers`, {
             ofr_name: formInputs.name,
             ofr_desc: formInputs.desc,
             ofr_value: formInputs.price,
@@ -137,7 +144,7 @@ const BengalaOffer = () => {
             headers: {
                 authorization: "Bearer " + localStorage.getItem("token")
             }
-        }).then((res) => {
+        }).then(() => {
             toast("Oferta criada com sucesso", "Você criou sua oferta", 3000, "success")
             navigate("/")
         }).catch((error) => {
@@ -146,7 +153,7 @@ const BengalaOffer = () => {
     }
 
     async function postChild() {
-        await axios.post(`http://localhost:3344/products/bengala`, {
+        await axios.post(`${serverUrl}/products/bengala`, {
             id: prodOwn.prod_id,
             ben_regulator: formInputs.hasRegulator,
             ben_minHeight: formInputs.minHeight,
@@ -163,10 +170,20 @@ const BengalaOffer = () => {
     }
 
     useEffect(() => {
-        getProducts();
-        generateKey();
-        getUser();
-    }, []);
+        const test = localStorage.getItem("token");
+        if (test) {
+            const token = decode(test);
+            setToken(token);
+        }
+    }, [])
+
+    useEffect(() => {
+        if (userToken.email) {
+            getProducts();
+            generateKey();
+            getUser();
+        }
+    }, [userToken]);
 
     useEffect(() => {
         if (products.length > 0) {
@@ -177,7 +194,7 @@ const BengalaOffer = () => {
     }, [products])
 
     useEffect(() => {
-        getProductKey(formInputs.key);
+        getProductKey(formInputs.key ?? "");
     }, [searchOwn])
 
     useEffect(() => {
@@ -197,17 +214,33 @@ const BengalaOffer = () => {
         }
     }
 
+    const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+        if (e.target.validity.patternMismatch) { return }
+        if ((e.target.name == "weight" || e.target.name == "parcelas" || e.target.name == "width" || e.target.name == "height" || e.target.name == "maxHeight" || e.target.name == "minHeight" || e.target.name == "length" || e.target.name == "price") && e.target.value[0] == "0") { e.target.value = e.target.value.replace("0", "") }
+        setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    }
+
+    const handleChangeArea = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        if (e.target.validity.patternMismatch) { return }
+        if ((e.target.name == "weight" || e.target.name == "parcelas" || e.target.name == "width" || e.target.name == "height" || e.target.name == "maxHeight" || e.target.name == "minHeight" || e.target.name == "length" || e.target.name == "price") && e.target.value[0] == "0") { e.target.value = e.target.value.replace("0", "") }
+        setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    }
+
     const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-        setInputs(prev => ({ ...prev, photo: e.target.files[0] }));
-        let reader = new FileReader();
-        reader.readAsDataURL(e.target.files[0]);
-        reader.onload = () => {
-            setShow(reader.result);
+        const selectedFile = e.target.files?.[0];
+
+        if (selectedFile) {
+            setInputs(prev => ({ ...prev, photo: selectedFile ?? "none" }));
+            let reader = new FileReader();
+            reader.readAsDataURL(selectedFile ?? "none");
+            reader.onload = () => {
+                setShow(reader.result);
+            }
         }
     }
 
     return (
-        <Box w="100%" h="100%">
+        (loading) ? <Loading/> : <Box w="100%" h="100%">
             <HeaderToggle />
             <Flex w='100%' h={{ base: "23vh", md: '20vh' }} pt={{ base: "5%", md: "3%" }} bg={colors.veryLightBlue} align='center' direction="column" justifyContent="center" _dark={{ bg: colors.veryLightBlue_Dark }}>
                 <Heading color={colors.colorFontBlue} textAlign="center" as='h1' fontFamily="outfit" fontSize="35px">Descreva sua Bengala</Heading>
@@ -227,11 +260,11 @@ const BengalaOffer = () => {
                             <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Título da oferta<Input type='text' fontSize={{ base: "20px", md: "18px" }} maxLength={100}
                                 placeholder='Ex.: Bengala de 4 pontas' name='name' onChange={handleChange} /></FormLabel>
 
-                            <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{ base: "20px", md: "18px" }} textAlign="left" verticalAlign="top" onChange={handleChange} /></FormLabel>
+                            <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{ base: "20px", md: "18px" }} textAlign="left" verticalAlign="top" onChange={handleChangeArea} resize="none" /></FormLabel>
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }}>
 
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Modelos<Select name='type' color="gray" fontSize={{ base: "20px", md: "18px" }} onChange={handleChange}>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Modelos<Select name='type' color="gray" fontSize={{ base: "20px", md: "18px" }} onChange={handleChangeSelect}>
                                     <option value="Simples">Bengala Simples</option>
                                     <option value='4 pontas'>Bengala 4 pontas</option>
                                     <option value='Tipo T'>Bengala Bastão tipo T</option>
@@ -240,7 +273,7 @@ const BengalaOffer = () => {
                                 </Select></FormLabel>
                                 <Spacer />
                                 <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Condição do Equipamento<Select name='condition' color="gray"
-                                    fontSize={{ base: "20px", md: "18px" }} onChange={handleChange} value={formInputs.condition}>
+                                    fontSize={{ base: "20px", md: "18px" }} onChange={handleChangeSelect} value={formInputs.condition}>
                                     <option value='Boa'>Boa</option>
                                     <option value='Rasoável'>Rasoável</option>
                                     <option value='Ruim'>Ruim</option>
@@ -290,7 +323,7 @@ const BengalaOffer = () => {
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }}>
                                 <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Possui Regulador de Altura?'}
-                                    <Select color="gray" fontSize={{ base: "20px", md: "18px" }} name="hasRegulator" onChange={handleChange}>
+                                    <Select color="gray" fontSize={{ base: "20px", md: "18px" }} name="hasRegulator" onChange={handleChangeSelect}>
                                         <option value={0}>Não</option>
                                         <option value={1}>Sim</option>
                                     </Select></FormLabel>
@@ -302,7 +335,7 @@ const BengalaOffer = () => {
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }} >
                                 <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Tipo de Oferta<Select name='offerType' color="gray"
-                                    fontSize={{ base: "20px", md: "18px" }} onChange={handleChange} value={formInputs.offerType}>
+                                    fontSize={{ base: "20px", md: "18px" }} onChange={handleChangeSelect} value={formInputs.offerType}>
                                     <option value='Doação'>Doação</option>
                                     <option value='Venda'>Venda</option>
                                     <option value='Aluguél'>Aluguél</option>

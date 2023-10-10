@@ -1,35 +1,39 @@
-import { Box, Flex, Spacer, Heading, Stack, Input, Select, useToast, Button, ButtonGroup, Textarea, FormLabel, Image } from '@chakra-ui/react';
+import { Box, Flex, Spacer, Heading, Stack, Input, Select, useToast, Button, ButtonGroup, Textarea, FormLabel, Image, UseToastOptions, ToastPosition } from '@chakra-ui/react';
 import { useState, useEffect, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 import HeaderToggle from "../../components/toggles/HeaderToggle";
 import Footer from "../../components/Footer";
 import SignAdaptable from "../../components/signs/SignAdaptable";
+
+import { FormInputsProps, User, ProductProps, UserToken } from '../../components/code/interfaces';
 import colors from "../../colors/colors";
 import decode from "../../components/code/decoderToken";
 import axios from "axios";
 
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
+import serverUrl from '../../components/code/serverUrl';
+import Loading from '../../components/toggles/Loading';
 
 
 const AndadorOffer = () => {
     const toastRender = useToast();
     const navigate = useNavigate();
-    const [products, setProducts] = useState([]);
-    const [prodOwn, setProdOwn] = useState([]);
-    const [user, setUser] = useState([]);
+    const [products, setProducts] = useState<ProductProps[]>([]);
+    const [prodOwn, setProdOwn] = useState<ProductProps>({});
+    const [user, setUser] = useState<User>({});
     const [searchOwn, setSearch] = useState(false);
-    const [userToken, setToken] = useState(decode(localStorage.getItem("token")));
+    const [userToken, setToken] = useState<UserToken>({});
     const [imgShow, setShow] = useState<any>();
+    const [loading, isLoading] = useState(true);
 
-    const [formInputs, setInputs] = useState({
+    const [formInputs, setInputs] = useState<FormInputsProps>({
         name: "",
         desc: "",
         weight: 0,
         height: 0,
         key: "",
         length: 0,
-        photo: "",
         hasRegulator: 0,
         minHeight: 0,
         width: 0,
@@ -64,7 +68,7 @@ const AndadorOffer = () => {
     }
 
     async function getProducts() {
-        await axios.get("http://localhost:3344/products/keys", {
+        await axios.get(`${serverUrl}/products/keys`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
             setProducts(res.data);
@@ -72,19 +76,20 @@ const AndadorOffer = () => {
             console.log(error);
         });
     }
-    
+
     async function getUser() {
-        await axios.get(`http://localhost:3344/users/email/${userToken.email}`, {
+        await axios.get(`${serverUrl}/users/email/${userToken.email}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
             setUser(res.data);
+            isLoading(false);
         }).catch((error) => {
             console.log(error);
         })
     }
-    
+
     async function getProductKey(key: string) {
-        await axios.get(`http://localhost:3344/products/key/${key}`, {
+        await axios.get(`${serverUrl}/products/key/${key}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
             setProdOwn(res.data[0]);
@@ -96,8 +101,8 @@ const AndadorOffer = () => {
 
     async function postImage() {
         const data = new FormData();
-        data.append("photo", formInputs.photo);
-        await axios.put('http://localhost:3344/products/img/photo', data,
+        data.append("photo", formInputs.photo ?? "none");
+        await axios.put(`${serverUrl}/products/img/photo`, data,
             { headers: { authorization: "Bearer " + localStorage.getItem("token"), prod_id: prodOwn.prod_id } }).catch((error) => {
                 console.log(error);
             });
@@ -105,14 +110,14 @@ const AndadorOffer = () => {
 
     async function postProduct() {
         if (formInputs.name != "" && formInputs.desc != "" && formInputs.offerType != "") {
-            await axios.post('http://localhost:3344/products', {
+            await axios.post(`${serverUrl}/products`, {
                 prod_weight: formInputs.weight,
                 prod_height: formInputs.height,
                 prod_type: "Andador",
                 prod_key: formInputs.key,
                 prod_composition: formInputs.composition,
                 prod_status: formInputs.condition
-            }, { headers: { authorization: "Bearer " + localStorage.getItem("token") } }).then((res) => {
+            }, { headers: { authorization: "Bearer " + localStorage.getItem("token") } }).then(() => {
                 setSearch(true);
             }).catch((error) => {
                 console.log(error);
@@ -127,7 +132,7 @@ const AndadorOffer = () => {
     }
 
     async function postOffer() {
-        await axios.post(`http://localhost:3344/offers`, {
+        await axios.post(`${serverUrl}/offers`, {
             ofr_name: formInputs.name,
             ofr_desc: formInputs.desc,
             ofr_value: formInputs.price,
@@ -140,7 +145,7 @@ const AndadorOffer = () => {
             headers: {
                 authorization: "Bearer " + localStorage.getItem("token")
             }
-        }).then((res) => {
+        }).then(() => {
             toast("Oferta criada com sucesso", "Você criou sua oferta", 3000, "success")
             navigate("/")
         }).catch((error) => {
@@ -149,7 +154,7 @@ const AndadorOffer = () => {
     }
 
     async function postChild() {
-        await axios.post(`http://localhost:3344/products/andador`, {
+        await axios.post(`${serverUrl}/products/andador`, {
             id: prodOwn.prod_id,
             and_regulator: formInputs.hasRegulator,
             and_minHeight: formInputs.minHeight,
@@ -166,10 +171,20 @@ const AndadorOffer = () => {
     }
 
     useEffect(() => {
-        getProducts();
-        generateKey();
-        getUser();
-    }, []);
+        const test = localStorage.getItem("token");
+        if (test) {
+            const token = decode(test);
+            setToken(token);
+        }
+    }, [])
+
+    useEffect(() => {
+        if (userToken.email) {
+            getProducts();
+            generateKey();
+            getUser();
+        }
+    }, [userToken]);
 
     useEffect(() => {
         if (products.length > 0) {
@@ -180,7 +195,7 @@ const AndadorOffer = () => {
     }, [products])
 
     useEffect(() => {
-        getProductKey(formInputs.key);
+        getProductKey(formInputs.key ?? "");
     }, [searchOwn])
 
     useEffect(() => {
@@ -192,22 +207,38 @@ const AndadorOffer = () => {
     }, [prodOwn])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if(e.target.validity.patternMismatch){return}
-        if((e.target.name == "weight" || e.target.name == "parcelas" || e.target.name == "width" || e.target.name == "height" || e.target.name == "maxHeight" || e.target.name == "minHeight" || e.target.name == "length" || e.target.name == "price") && e.target.value[0] == "0"){e.target.value = e.target.value.replace("0", "")}
-        setInputs(prev => ({...prev, [e.target.name] : e.target.value}));
+        if (e.target.validity.patternMismatch) { return }
+        if ((e.target.name == "weight" || e.target.name == "parcelas" || e.target.name == "width" || e.target.name == "height" || e.target.name == "maxHeight" || e.target.name == "minHeight" || e.target.name == "length" || e.target.name == "price") && e.target.value[0] == "0") { e.target.value = e.target.value.replace("0", "") }
+        setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    }
+
+    const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+        if (e.target.validity.patternMismatch) { return }
+        if ((e.target.name == "weight" || e.target.name == "parcelas" || e.target.name == "width" || e.target.name == "height" || e.target.name == "maxHeight" || e.target.name == "minHeight" || e.target.name == "length" || e.target.name == "price") && e.target.value[0] == "0") { e.target.value = e.target.value.replace("0", "") }
+        setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    }
+
+    const handleChangeArea = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        if (e.target.validity.patternMismatch) { return }
+        if ((e.target.name == "weight" || e.target.name == "parcelas" || e.target.name == "width" || e.target.name == "height" || e.target.name == "maxHeight" || e.target.name == "minHeight" || e.target.name == "length" || e.target.name == "price") && e.target.value[0] == "0") { e.target.value = e.target.value.replace("0", "") }
+        setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 
     const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-        setInputs(prev => ({ ...prev, photo: e.target.files[0] }));
-        let reader = new FileReader();
-        reader.readAsDataURL(e.target.files[0]);
-        reader.onload = () => {
-            setShow(reader.result);
+        const selectedFile = e.target.files?.[0];
+
+        if (selectedFile) {
+            setInputs(prev => ({ ...prev, photo: selectedFile ?? "none" }));
+            let reader = new FileReader();
+            reader.readAsDataURL(selectedFile ?? "none");
+            reader.onload = () => {
+                setShow(reader.result);
+            }
         }
     }
 
     return (
-        <Box w="100%" h="100%">
+        (loading) ? <Loading/> : <Box w="100%" h="100%">
             <HeaderToggle />
             <Flex w='100%' h={{ base: "23vh", md: '20vh' }} pt={{ base: "5%", md: "3%" }} bg={colors.veryLightBlue} align='center' direction="column" justifyContent="center" _dark={{ bg: colors.veryLightBlue_Dark }}>
                 <Heading color={colors.colorFontBlue} textAlign="center" as='h1' fontFamily="outfit" fontSize="35px">Descreva seu Andador</Heading>
@@ -225,55 +256,55 @@ const AndadorOffer = () => {
                             }}>{(imgShow) ? <Image w={{ base: "98%", md: "96%" }} h={{ base: "98%", md: "96%" }} objectFit="contain" src={imgShow}></Image> : <SignAdaptable msg="Escolha uma foto para aparecer aqui!" icon={<MdOutlinePhotoSizeSelectActual size="50%" />} bgType={"none"} />}</Flex>
 
                             <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Título da oferta<Input type='text' fontSize={{ base: "20px", md: "18px" }} maxLength={100}
-                                placeholder='Ex.: Andador Médio de Metal' name='name' onChange={handleChange} value={formInputs.name}/></FormLabel>
+                                placeholder='Ex.: Andador Médio de Metal' name='name' onChange={handleChange} value={formInputs.name} /></FormLabel>
 
-                            <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{ base: "20px", md: "18px" }} textAlign="left" verticalAlign="top" onChange={handleChange} value={formInputs.desc}/></FormLabel>
+                            <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{ base: "20px", md: "18px" }} textAlign="left" verticalAlign="top" onChange={handleChangeArea} value={formInputs.desc} resize="none"/></FormLabel>
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }}>
                                 <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Condição do Equipamento<Select name='condition' color="gray"
-                                    fontSize={{ base: "20px", md: "18px" }} onChange={handleChange} value={formInputs.condition}>
+                                    fontSize={{ base: "20px", md: "18px" }} onChange={handleChangeSelect} value={formInputs.condition}>
                                     <option value='Boa'>Boa</option>
                                     <option value='Rasoável'>Rasoável</option>
                                     <option value='Ruim'>Ruim</option>
                                 </Select></FormLabel>
                                 <Spacer />
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Largura (cm)'}<Input name='width' type="text" color="gray" fontSize={{ base: "20px", md: "18px" }} onChange={handleChange} value={formInputs.width} pattern='[0-9]{1,}[.]?[0-9]{0,2}'/></FormLabel>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Largura (cm)'}<Input name='width' type="text" color="gray" fontSize={{ base: "20px", md: "18px" }} onChange={handleChange} value={formInputs.width} pattern='[0-9]{1,}[.]?[0-9]{0,2}' /></FormLabel>
                                 <Spacer />
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Comprimento (cm)'}<Input name='length' color="gray" type="text" fontSize={{ base: "20px", md: "18px" }} onChange={handleChange} value={formInputs.length} pattern='[0-9]{1,}[.]?[0-9]{0,2}'/></FormLabel>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Comprimento (cm)'}<Input name='length' color="gray" type="text" fontSize={{ base: "20px", md: "18px" }} onChange={handleChange} value={formInputs.length} pattern='[0-9]{1,}[.]?[0-9]{0,2}' /></FormLabel>
                             </Flex>
 
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }}>
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Peso (kg)'}<Input name='weight' type="text" color="gray" fontSize={{ base: "20px", md: "18px" }} onChange={handleChange} value={formInputs.weight} pattern='[0-9]{1,}[.]?[0-9]{0,2}'/></FormLabel>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Peso (kg)'}<Input name='weight' type="text" color="gray" fontSize={{ base: "20px", md: "18px" }} onChange={handleChange} value={formInputs.weight} pattern='[0-9]{1,}[.]?[0-9]{0,2}' /></FormLabel>
                                 <Spacer />
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura (m)'}<Input name='height' color="gray" type="text" fontSize={{ base: "20px", md: "18px" }} onChange={handleChange} value={formInputs.height} pattern='[0-9]{1,}[.]?[0-9]{0,2}'/></FormLabel>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura (m)'}<Input name='height' color="gray" type="text" fontSize={{ base: "20px", md: "18px" }} onChange={handleChange} value={formInputs.height} pattern='[0-9]{1,}[.]?[0-9]{0,2}' /></FormLabel>
                                 <Spacer />
                                 <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Composição'}<Input name='composition' color="gray" type="text" fontSize={{ base: "20px", md: "18px" }} onChange={handleChange} maxLength={20} /></FormLabel>
                             </Flex>
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }}>
                                 <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Possui Regulador de Altura?'}
-                                    <Select color="gray" fontSize={{ base: "20px", md: "18px" }} name="hasRegulator" onChange={handleChange}>
+                                    <Select color="gray" fontSize={{ base: "20px", md: "18px" }} name="hasRegulator" onChange={handleChangeSelect}>
                                         <option value={0}>Não</option>
                                         <option value={1}>Sim</option>
                                     </Select></FormLabel>
                                 <Spacer />
-                                <FormLabel display={(formInputs.hasRegulator == 1) ? "block" : "none"} w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura Mínima (m)'}<Input onChange={handleChange} name='minHeight' color="gray" type="text" fontSize={{ base: "20px", md: "18px" }} value={formInputs.minHeight} pattern='[0-9]{1,}[.]?[0-9]{0,2}'/></FormLabel>
+                                <FormLabel display={(formInputs.hasRegulator == 1) ? "block" : "none"} w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura Mínima (m)'}<Input onChange={handleChange} name='minHeight' color="gray" type="text" fontSize={{ base: "20px", md: "18px" }} value={formInputs.minHeight} pattern='[0-9]{1,}[.]?[0-9]{0,2}' /></FormLabel>
                                 <Spacer />
-                                <FormLabel display={(formInputs.hasRegulator == 1) ? "block" : "none"} w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura Máxima (m)'}<Input onChange={handleChange} name='maxHeight' color="gray" type="text" fontSize={{ base: "20px", md: "18px" }} value={formInputs.maxHeight} pattern='[0-9]{1,}[.]?[0-9]{0,2}'/></FormLabel>
+                                <FormLabel display={(formInputs.hasRegulator == 1) ? "block" : "none"} w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura Máxima (m)'}<Input onChange={handleChange} name='maxHeight' color="gray" type="text" fontSize={{ base: "20px", md: "18px" }} value={formInputs.maxHeight} pattern='[0-9]{1,}[.]?[0-9]{0,2}' /></FormLabel>
                             </Flex>
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }} >
                                 <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Tipo de Oferta<Select name='offerType' color="gray"
-                                    fontSize={{ base: "20px", md: "18px" }} onChange={handleChange} value={formInputs.offerType}>
+                                    fontSize={{ base: "20px", md: "18px" }} onChange={handleChangeSelect} value={formInputs.offerType}>
                                     <option value='Doação'>Doação</option>
                                     <option value='Venda'>Venda</option>
                                     <option value='Aluguél'>Aluguél</option>
                                 </Select></FormLabel>
                                 <Spacer />
-                                <FormLabel w={{ base: "100%", md: "fit-content" }} display={(formInputs.offerType != "Doação") ? "block" : "none"} fontSize={{ base: "20px", md: "18px" }}>{'Preço (R$)'}<Input onChange={handleChange} name='price' color="gray" type="text" fontSize={{ base: "20px", md: "18px" }} value={formInputs.price} pattern='[0-9]{1,}[.]?[0-9]{0,2}'/></FormLabel>
+                                <FormLabel w={{ base: "100%", md: "fit-content" }} display={(formInputs.offerType != "Doação") ? "block" : "none"} fontSize={{ base: "20px", md: "18px" }}>{'Preço (R$)'}<Input onChange={handleChange} name='price' color="gray" type="text" fontSize={{ base: "20px", md: "18px" }} value={formInputs.price} pattern='[0-9]{1,}[.]?[0-9]{0,2}' /></FormLabel>
                                 <Spacer />
-                                <FormLabel w={{ base: "100%", md: "fit-content" }} display={(formInputs.offerType == "Aluguél") ? "block" : "none"} fontSize={{ base: "20px", md: "18px" }}>{'Parcelas'}<Input onChange={handleChange} name='parcelas' color="gray" type="text" fontSize={{ base: "20px", md: "18px" }} value={formInputs.parcelas} pattern='[0-9]{0,2}'/></FormLabel>
+                                <FormLabel w={{ base: "100%", md: "fit-content" }} display={(formInputs.offerType == "Aluguél") ? "block" : "none"} fontSize={{ base: "20px", md: "18px" }}>{'Parcelas'}<Input onChange={handleChange} name='parcelas' color="gray" type="text" fontSize={{ base: "20px", md: "18px" }} value={formInputs.parcelas} pattern='[0-9]{0,2}' /></FormLabel>
                             </Flex>
 
                         </Stack>

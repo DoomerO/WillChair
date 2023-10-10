@@ -1,6 +1,6 @@
 import { Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Button, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 import HeaderToggle from "../../components/toggles/HeaderToggle";
@@ -18,22 +18,25 @@ import CardOffer from "../../components/offerCards/OfferCard";
 import OfferList from "../../components/offerCards/OfferList";
 import SignNotFound from "../../components/signs/SignNotFound";
 import dateDisplayer from "../../components/code/dataDisplayer";
+import serverUrl from "../../components/code/serverUrl";
+import { Offer, User } from "../../components/code/interfaces";
+import Loading from "../../components/toggles/Loading";
 
 const OfferPage = () => {
     const { id } = useParams();
 
-    const navigate = useNavigate();
     const toast = useToast();
-    const [offer, setOffer] = useState([""]);
-    const [owner, setOwner] = useState([]);
+    const [offer, setOffer] = useState<Offer>({});
+    const [owner, setOwner] = useState<User>({});
     const [reports, setReports] = useState(false);
-    const [recomended, setRecom] = useState([]);
+    const [recomended, setRecom] = useState<Offer[]>([]);
     const [imgOwner, setImgOwner] = useState<any>();
     const [imgShow, setShow] = useState<any>();
+    const [loading, isLoading] = useState(true);
     let renderTest = false;
 
     async function queryOffer() {
-        await axios.get(`http://localhost:3344/offers/id/${id}`).then(res => {
+        await axios.get(`${serverUrl}/offers/id/${id}`).then(res => {
             setOffer(res.data[0]);
         }).catch(error => {
             console.log(error);
@@ -41,15 +44,16 @@ const OfferPage = () => {
     };
 
     async function getReports() {
-        await axios.get(`http://localhost:3344/denounce/offer/${offer.ofr_id}`).then(res => {
+        await axios.get(`${serverUrl}/denounce/offer/${offer.ofr_id}`).then(res => {
             if (res.data.length > 0) setReports(true);
+            isLoading(false);
         }).catch(error => {
             console.log(error);
         })
     }
 
     async function queryOffersRecomended() {
-        await axios.get(`http://localhost:3344/offers/query/${"prod_type"}/${offer.prod_type}`).then(res => {
+        await axios.get(`${serverUrl}/offers/query/${"prod_type"}/${offer.prod_type}`).then(res => {
             setRecom(res.data);
         }).catch(error => {
             console.log(error);
@@ -57,7 +61,7 @@ const OfferPage = () => {
     };
 
     async function queryOwner() {
-        await axios.get(`http://localhost:3344/users/id/${offer.User_user_id}`).then(res => {
+        await axios.get(`${serverUrl}/users/id/${offer.User_user_id}`).then(res => {
             setOwner(res.data);
         }).catch(error => {
             console.log(error);
@@ -65,7 +69,7 @@ const OfferPage = () => {
     };
 
     async function getImgOwner() {
-        await axios.get(`http://localhost:3344/users/profile/photo/${owner.user_img}`, { responseType: "arraybuffer" }).then(res => {
+        await axios.get(`${serverUrl}/users/profile/photo/${owner.user_img}`, { responseType: "arraybuffer" }).then(res => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
             let reader = new FileReader();
@@ -79,7 +83,7 @@ const OfferPage = () => {
     }
 
     async function getProdImg() {
-        await axios.get(`http://localhost:3344/products/photo/${offer.prod_img}`, { responseType: "arraybuffer" }).then(res => {
+        await axios.get(`${serverUrl}/products/photo/${offer.prod_img}`, { responseType: "arraybuffer" }).then(res => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
             let reader = new FileReader();
@@ -97,7 +101,7 @@ const OfferPage = () => {
     }, []);
 
     useEffect(() => {
-        if (offer[0] != "") {
+        if (offer.ofr_id) {
             queryOwner();
             queryOffersRecomended();
             getReports();
@@ -114,17 +118,17 @@ const OfferPage = () => {
         renderTest = true;
         return <CardOffer
             key={item.ofr_id}
-            title={item.ofr_name}
-            composition={item.prod_composition}
-            condition={item.prod_status}
-            img={item.prod_img}
-            value={item.ofr_value}
-            type={item.prod_type}
-            id={item.ofr_id} />
+            title={item.ofr_name ?? ""}
+            composition={item.prod_composition ?? ""}
+            condition={item.prod_status ?? ""}
+            img={item.prod_img ?? ""}
+            value={item.ofr_value ?? 0}
+            type={item.prod_type ?? ""}
+            id={item.ofr_id ?? 0} />
     })
 
     return (
-        <Box w="100%" h="100%">
+        (loading) ? <Loading/> : <Box w="100%" h="100%">
             <HeaderToggle />
             <Flex bg={colors.bgWhite} direction="column" align="center" h="fit-content" pt="10vh" _dark={{ bg: colors.bgWhite_Dark }}>
 
@@ -193,15 +197,10 @@ const OfferPage = () => {
                             <Button variant="ghost" w="fit-content" onClick={() => {
                                 toast({
                                     position: 'bottom',
-                                    render: () => (
-                                        <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                                            <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{ base: "22px", md: "20px" }}>Para denunciar a oferta é necessário estar logado...</Text>
-                                            <Stack direction="row">
-                                                <Button color="#fff" _hover={{ bg: "#fff2" }} variant="outline" onClick={() => { navigate("/login"), toast.closeAll() }}>Realizar Login</Button>
-                                                <Button color="#fff" _hover={{ bg: "#fff2" }} variant="outline" onClick={() => { toast.closeAll() }}>Cancelar</Button>
-                                            </Stack>
-                                        </Stack>
-                                    )
+                                    title : "Para denuciar você precisa estar logado!",
+                                    description : "Faça login ou um cadastro para denúnciar essa oferta!",
+                                    duration : 5000,
+                                    status: "error"
                                 })
                             }}><MdOutlineReport size="5vh" /></Button>
                         </Flex>
@@ -221,7 +220,7 @@ const OfferPage = () => {
                 </Flex>
                 <Divider />
                 <Flex align="center" direction="column" h="fit-content" w="100%" mt="3%" mb="3%">
-                    <ProdInfoTable ofr_id={parseInt(id)} />
+                    <ProdInfoTable ofr_id={parseInt(id ?? "0")} />
                 </Flex>
                 <Divider />
 

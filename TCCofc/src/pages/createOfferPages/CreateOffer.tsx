@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
 import Category from "../../components/Category";
 import Footer from "../../components/Footer";
 import HeaderToggle from "../../components/toggles/HeaderToggle";
-import { Box, Flex, Spacer, Text, Image, Heading, Stack, Container, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Spacer, Heading, useColorModeValue } from '@chakra-ui/react';
 
 //images
 import cadeiraRodas from '../../img/categories/cadeira-de-rodas.png';

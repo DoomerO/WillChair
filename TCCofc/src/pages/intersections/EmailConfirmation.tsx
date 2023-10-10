@@ -3,27 +3,32 @@ import { AiOutlineArrowDown } from "react-icons/ai";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import serverUrl from "../../components/code/serverUrl";
+import Loading from "../../components/toggles/Loading";
 
 const EmailConfirmation = () => {
     const {path, email} = useParams();
     const navigate = useNavigate();
     const [resp, setResp] = useState<string>();
+    const [loading, isLoading] = useState(true);
 
     async function getUser() {
-        await axios.get(`http://localhost:3344/users/profile/${email}`).then(res => {
+        await axios.get(`${serverUrl}/users/profile/${email}`).then(() => {
             setResp("Email confirmado");
+            isLoading(false);
         }).catch(error => {
             console.log(error);
             setResp("Esse email não existe no sistema");
+            isLoading(false);
         });
     }
 
     useEffect(() => {
-        getUser();
-    }, []);
+        if(email) getUser();
+    }, [email]);
 
     return (
-        <Box w="100%" h="100%" justifyContent="center">
+        (loading) ? <Loading/> : <Box w="100%" h="100%" justifyContent="center">
             <Flex align="center" border="3px" direction="column" h="inherit" mt={{base:"25%", md:"10%"}}>
                 <Heading as='h1' >Confirmação de Email</Heading>
                 <Spacer/>

@@ -1,11 +1,10 @@
-import { Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Button, useToast, ButtonGroup, useDisclosure, others } from "@chakra-ui/react";
+import { Box, Flex, Avatar, Heading, Image, Stack, Text, SimpleGrid, Spacer, Divider, Button, useToast, ButtonGroup, useDisclosure} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 import HeaderToggle from "../../components/toggles/HeaderToggle";
 import Footer from "../../components/Footer";
 import colors from "../../colors/colors";
-import testImg from "../../img/home/imgHomeMiddle.png";
 import ProdInfoTable from "../../components/ProdInfoTable";
 import ChatBox from "../../components/chats/ChatBox";
 import "../../fonts/fonts.css";
@@ -21,30 +20,34 @@ import Avaliation from "../../components/Avaliation";
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineReport, MdOutlineReportProblem } from "react-icons/md";
 import dateDisplayer from "../../components/code/dataDisplayer";
+import serverUrl from "../../components/code/serverUrl";
+import Loading from "../../components/toggles/Loading";
+import { User,Offer, ChatProps } from "../../components/code/interfaces";
 
 interface ChatPage {
-    offer: object;
-    user: object;
+    offer: Offer;
+    user: User;
 }
 
 const OfferPageChat = ({ offer, user }: ChatPage) => {
 
-    const [owner, setOwner] = useState([]);
-    const [recomended, setRecom] = useState([]);
-    const [chat, setChat] = useState([]);
+    const [owner, setOwner] = useState<User>({});
+    const [recomended, setRecom] = useState<Offer[]>([]);
+    const [chat, setChat] = useState<ChatProps>({});
     const [reports, setReports] = useState(false);
     const [chatBool, setChatBool] = useState(false);
-    const [compUser, setCompUser] = useState([]);
+    const [compUser, setCompUser] = useState<User>({});
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [imgShow, setShow] = useState<any>();
     const [img, setImg] = useState<any>();
+    const [loading, isLoading] = useState(true);
 
     const toast = useToast();
     const navigate = useNavigate();
     let renderTest = false;
 
     async function createChat() {
-        await axios.post(`http://localhost:3344/chats`, {
+        await axios.post(`${serverUrl}/chats`, {
             Offer_ofr_id: offer.ofr_id,
             User_user_id: user.user_id
         }, { headers: { authorization: "Bearer " + localStorage.getItem("token") } }).then(res => {
@@ -57,7 +60,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
     }
 
     async function getChat() {
-        await axios.get(`http://localhost:3344/chats/user/offer/${user.user_id}/${offer.ofr_id}`, {
+        await axios.get(`${serverUrl}/chats/user/offer/${user.user_id}/${offer.ofr_id}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then(res => {
             setChat(res.data[0]);
@@ -67,7 +70,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
     }
 
     async function getUserIntrested(id: number) {
-        await axios.get(`http://localhost:3344/users/id/${id}`).then((res) => {
+        await axios.get(`${serverUrl}/users/id/${id}`).then((res) => {
             setCompUser(res.data);
         }).catch((error) => {
             console.log(error);
@@ -75,7 +78,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
     }
 
     async function getReports() {
-        await axios.get(`http://localhost:3344/denounce/offer/${offer.ofr_id}`).then(res => {
+        await axios.get(`${serverUrl}/denounce/offer/${offer.ofr_id}`).then(res => {
             if (res.data.length > 0) setReports(true);
         }).catch(error => {
             console.log(error);
@@ -83,7 +86,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
     }
 
     async function queryOffersRecomended() {
-        await axios.get(`http://localhost:3344/offers/query/${"prod_type"}/${offer.prod_type}`).then(res => {
+        await axios.get(`${serverUrl}/offers/query/${"prod_type"}/${offer.prod_type}`).then(res => {
             setRecom(res.data);
         }).catch(error => {
             console.log(error);
@@ -91,19 +94,18 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
     };
 
     async function endComprisse() {
-        await axios.put(`http://localhost:3344/offers/remove-intrest/${offer.ofr_id}`, {
+        await axios.put(`${serverUrl}/offers/remove-intrest/${offer.ofr_id}`, {
         }, {
             headers: {
                 authorization: "Bearer " + localStorage.getItem("token")
             }
-        }).then((res) => {
+        }).then(() => {
             toast({
                 position: 'bottom',
-                render: () => (
-                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{ base: "22px", md: "20px" }}>Compromisso apagado com sucesso!</Text>
-                    </Stack>
-                )
+                title: 'Compromisso finalizado!',
+                description: 'Seu compromisso foi finalizado com sucesso!',
+                duration: 5000,
+                status: "success"
             })
             navigate(0);
         }).catch((error) => {
@@ -112,12 +114,12 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
     }
 
     async function confirmEquipament() {
-        await axios.put(`http://localhost:3344/offers/confirm-equipament/${offer.ofr_id}/${"Rec"}`, {
+        await axios.put(`${serverUrl}/offers/confirm-equipament/${offer.ofr_id}/${"Rec"}`, {
         }, {
             headers: {
                 authorization: "Bearer " + localStorage.getItem("token")
             }
-        }).then((res) => {
+        }).then(() => {
             toast({
                 position: 'bottom',
                 title: 'O recebmento do equipamento foi confirmado!',
@@ -133,7 +135,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
     }
 
     async function queryOwner() {
-        await axios.get(`http://localhost:3344/users/id/${offer.User_user_id}`).then(res => {
+        await axios.get(`${serverUrl}/users/id/${offer.User_user_id}`).then(res => {
             setOwner(res.data);
         }).catch(error => {
             console.log(error);
@@ -141,7 +143,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
     };
 
     async function getImg() {
-        await axios.get(`http://localhost:3344/users/profile/photo/${owner.user_img}`, { responseType: "arraybuffer" }).then(res => {
+        await axios.get(`${serverUrl}/users/profile/photo/${owner.user_img}`, { responseType: "arraybuffer" }).then(res => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
             let reader = new FileReader();
@@ -155,7 +157,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
     }
 
     async function getProdImg() {
-        await axios.get(`http://localhost:3344/products/photo/${offer.prod_img}`, { responseType: "arraybuffer" }).then(res => {
+        await axios.get(`${serverUrl}/products/photo/${offer.prod_img}`, { responseType: "arraybuffer" }).then(res => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
             let reader = new FileReader();
@@ -179,9 +181,10 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
             queryOffersRecomended();
             queryOwner();
             getProdImg();
-            if (offer.user_comp_id == user.user_id) getUserIntrested(offer.user_comp_id);
+            if (offer.user_comp_id == user.user_id) getUserIntrested(offer.user_comp_id ?? 0);
             if (user.user_id) getChat();
             getReports();
+            isLoading(false);
         }
 
         return () => {
@@ -191,7 +194,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
 
     useEffect(() => {
         const canceltoken = axios.CancelToken.source();
-        (chatBool) ? getChat() : "";
+        (chatBool) ? getChat() : null;
         return () => {
             canceltoken.cancel();
         }
@@ -202,18 +205,18 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
         renderTest = true;
         return <CardOffer
             key={item.ofr_id}
-            title={item.ofr_name}
-            composition={item.prod_composition}
-            condition={item.prod_status}
-            img={item.prod_img}
-            value={item.ofr_value}
-            type={item.prod_type}
-            id={item.ofr_id} />
+            title={item.ofr_name ?? ""}
+            composition={item.prod_composition ?? ""}
+            condition={item.prod_status ?? ""}
+            img={item.prod_img ?? ""}
+            value={item.ofr_value ?? 0}
+            type={item.prod_type ?? ""}
+            id={item.ofr_id ?? 0} />
     });
 
     const SignButton = () => {
         return (
-            <Flex align="center" h="40vh" direction="column" bg="#1976D2" w="100%" pt="3%">
+            <Flex align="center" h="40vh" direction="column" bg="#1976D290" w="100%" pt="3%">
                 <BsChatLeftText size="45%" />
                 <Text fontSize="25px" fontFamily="atkinson" textAlign="center">Você ainda não falou com {owner.user_name}, que tal iniciar uma conversa?</Text>
                 <Button variant="outline" bgColor="#0000" _hover={{ bg: "#fff3" }} mt="1.5%" onClick={() => { createChat() }}>Criar um chat</Button>
@@ -222,7 +225,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
     }
 
     return (
-        <Box w="100%" h="100%">
+        (loading) ? <Loading/> : <Box w="100%" h="100%">
             <HeaderToggle />
             <Flex bg={colors.bgWhite} direction="column" align="center" h="fit-content" pt="10vh" _dark={{ bg: colors.bgWhite_Dark }}>
 
@@ -295,11 +298,11 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
                                 toast({
                                     position: 'bottom',
                                     render: () => (
-                                        <Stack bg="red.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                                            <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{ base: "22px", md: "20px" }}>Certeza que deseja denunciar essa oferta?</Text>
-                                            <Stack direction="row">
-                                                <Button color="#fff" _hover={{ bg: "#fff2" }} variant="outline" onClick={() => { navigate(`/report/offer/${offer.ofr_id}`), toast.closeAll() }}>Sim</Button>
-                                                <Button color="#fff" _hover={{ bg: "#fff2" }} variant="outline" onClick={() => { toast.closeAll() }}>Não</Button>
+                                        <Stack bg="red.500" align="center" direction="column" p="2vh" borderRadius="10px" spacing={2} _dark={{ bg: "red.200" }}>
+                                        <Text fontWeight="semibold" color="white" _dark={{ color: "black" }} noOfLines={2} fontSize={{ base: "22px", md: "20px" }}>Certeza que deseja denúnciar essa oferta?</Text>
+                                        <Stack direction="row">
+                                                <Button color="#fff" _hover={{ bg: "#fff2" }} _dark={{ color: "#000" }} variant="outline" onClick={() => { navigate(`/report/offer/${offer.ofr_id}`), toast.closeAll() }}>Sim</Button>
+                                                <Button color="#fff" _hover={{ bg: "#fff2" }} _dark={{ color: "#000" }} variant="outline" onClick={() => { toast.closeAll() }}>Não</Button>
                                             </Stack>
                                         </Stack>
                                     )
@@ -322,13 +325,13 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
                 </Flex>
                 <Divider />
                 <Flex align="center" direction="column" h="fit-content" w="100%" mt="3%" mb="3%">
-                    <ProdInfoTable ofr_id={offer.ofr_id} />
+                    <ProdInfoTable ofr_id={offer.ofr_id ?? 0} />
                 </Flex>
                 <Divider />
 
                 <Flex w="100%" h="fit-content" mt="3%" mb="3%" align="center" direction="column">
                     <Heading noOfLines={1} mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{ base: "36px", md: "30px" }} as="h1" fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Negocie com {owner.user_name}</Heading>
-                    {(chat) ? <ChatBox other={owner} user_id={user.user_id} chat_id={chat.chat_id} offer={offer} /> : <SignButton />}
+                    {(chat) ? <ChatBox other={owner} user_id={user.user_id ?? 0} chat_id={chat.chat_id ?? 0} offer={offer} /> : <SignButton />}
                 </Flex>
             </Flex>
 
@@ -382,7 +385,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
                         onOpen();
                     }}>Avaliar</Button> : ""}
                 </ButtonGroup>
-                <Avaliation user_name={owner.user_name} isOpen={isOpen} setClose={onClose} recUserId={offer.User_user_id} envUserId={compUser.user_id} user_img={img} />
+                <Avaliation user_name={owner.user_name ?? ""} isOpen={isOpen} setClose={onClose} recUserId={offer.User_user_id ?? 0} envUserId={compUser.user_id ?? 0} user_img={img} />
             </Flex> : ""}
             <Footer />
         </Box>

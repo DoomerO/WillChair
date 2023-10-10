@@ -268,7 +268,7 @@ const ProfileOwn = ({ user }: ProfileOwnProps) => {
                         <Divider orientation="horizontal" />
                         <Heading as="h4" fontFamily="outfit" fontSize={{ base: "24px", sm: "26px" }}>Segurança</Heading>
                         <Divider orientation="horizontal" />
-                        <Text textAlign="center" w="90%">Caso necessário,<Button variant="link" colorScheme="linkedin" onClick={() => {
+                        <Text textAlign="center" w="90%">Caso necessário, <Button variant="link" colorScheme="linkedin" onClick={() => {
                             toastRender({
                                 position: 'bottom',
                                 render: () => (

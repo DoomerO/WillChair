@@ -1,14 +1,16 @@
-import { useToast, Stack, Button, Flex, Heading, Spacer, Text, Box, Input, IconButton, useColorMode } from "@chakra-ui/react";
-import axios from "axios";
-import { useState, ChangeEvent } from "react";
-import { AiOutlineHome } from "react-icons/ai";
-import { FiSun, FiMoon, FiArrowLeft } from "react-icons/fi";
+import { useToast, Button, Flex, Heading, Spacer, Text, Box, Input, IconButton, useColorMode } from "@chakra-ui/react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+
+import { FiSun, FiMoon, FiArrowLeft } from "react-icons/fi";
+import axios from "axios";
 import decode from "../../components/code/decoderToken";
+import serverUrl from "../../components/code/serverUrl";
+import { UserToken } from "../../components/code/interfaces";
 
 const EmailChange = () => {
     const {id} = useParams();
-    const [user, setUser] = useState(decode(localStorage.getItem("token")))
+    const [user, setUser] = useState<UserToken>({})
     const {toggleColorMode} = useColorMode();
     const [email, setEmail] = useState({
         emailValue : "",
@@ -16,6 +18,15 @@ const EmailChange = () => {
     });
     const toast = useToast();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const test = localStorage.getItem("token");
+
+        if (test) {
+            const token = decode(test);
+            setUser(token);
+        } 
+    }, [])
 
     const handleEmail = (e:ChangeEvent<HTMLInputElement>) => {
         setEmail(prev => ({...prev, emailValue:e.target.value, emailMissMatch:e.target.validity.patternMismatch}));
@@ -30,19 +41,18 @@ const EmailChange = () => {
 
     async function changeEmail() {
         
-        await axios.put(`http://localhost:3344/users/email/${id}`, {
+        await axios.put(`${serverUrl}/users/email/${id}`, {
             email : email.emailValue
         }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
             localStorage.setItem("token", res.data.token);
             toast({
                 position: 'bottom',
-                render: () => (
-                    <Stack bg="green.400" align="center" direction="column" p="2vh" borderRadius="30px" spacing={2}>
-                        <Text fontFamily="atkinson" color="white" noOfLines={1} fontSize={{base:"22px", md:"20px"}}>Email atualizado com sucesso!</Text>
-                        <Button variant="outline" color="#fff" _hover={{bg:"#fff2"}} onClick={() => {navigate("/"); navigate(0)}}>Ir para a Home</Button>
-                    </Stack>
-                )
+                status : 'success',
+                duration : 5000,
+                title : "Email Atualizado!",
+                description : "Seu email foi atualizado com sucesso!"
             })
+            navigate("/")
         }).catch((error) => {
             if(error.response.data.msg == "There is a user with this email alredy.") {
                 toast({
@@ -56,7 +66,7 @@ const EmailChange = () => {
     }
 
     return (
-        <Box w="100%" h="100%" justifyContent="center" align="center">
+        <Box w="100%" h="100%" justifyContent="center" alignContent="center">
             <Flex direction="row" w="90%" mt="3%">
                     <Link to={`/profile/${user.email}/view`}><IconButton aria-label='Return to home' icon={<FiArrowLeft/>}></IconButton></Link>
                     <Spacer/>

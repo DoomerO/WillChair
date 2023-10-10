@@ -3,17 +3,19 @@ import "../../fonts/fonts.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import colors from "../../colors/colors";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import decode from "../../components/code/decoderToken";
 import {AiOutlineArrowRight} from "react-icons/ai";
 import cep from "cep-promise";
 import { FiArrowLeft, FiSun, FiMoon } from "react-icons/fi";
+import serverUrl from "../../components/code/serverUrl";
+import { UserToken } from "../../components/code/interfaces";
 
 const PreConfig = () => {
     const toast = useToast();
     const {toggleColorMode} = useColorMode();
     const navigate = useNavigate();
-    const [user, setUser] = useState(decode(localStorage.getItem("token")));
+    const [user, setUser] = useState<UserToken>({});
     const [inputs, setInputs] = useState({
         phone : "",
         houseNum : null,
@@ -24,6 +26,15 @@ const PreConfig = () => {
         street : "",
         district : ""
     })
+
+    useEffect(() => {
+        const test = localStorage.getItem("token");
+
+        if (test) {
+            const token = decode(test);
+            setUser(token);
+        }
+    }, [])
 
     async function getEndereco(CEP : string) {
         setInputs(prev => ({...prev, 
@@ -44,7 +55,7 @@ const PreConfig = () => {
 
     async function postInfo() {
         if (inputs.phone && inputs.city) {
-            await axios.put(`http://localhost:3344/users/${user.email}`, {
+            await axios.put(`${serverUrl}/users/${user.email}`, {
                 user_phone : inputs.phone,
                 user_houseNum : inputs.houseNum,
                 user_comp : inputs.complement,
@@ -53,7 +64,7 @@ const PreConfig = () => {
                 user_city : inputs.city,
                 user_street : inputs.street,
                 user_district : inputs.district
-            }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
+            }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then(() => {
                 toast({
                     title: 'Informações Enviadas!',
                     description: "Seu perfil foi configurado adequadamente!",
@@ -103,7 +114,7 @@ const PreConfig = () => {
     }
 
     return (
-        <Box w="100%" h="100%" justifyContent="center" align="center">
+        <Box w="100%" h="100%" justifyContent="center" alignContent="center">
             <Flex align="center" direction="column" h="inherit" mt="3%" w="95%" fontFamily="outfit">
                 <Flex direction="row" w="100%" position={{base:"absolute", md:"inherit"}}>
                     <Link to="/login"><IconButton aria-label='Return to home' icon={<FiArrowLeft/>}></IconButton></Link>
