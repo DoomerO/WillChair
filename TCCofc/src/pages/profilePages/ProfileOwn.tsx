@@ -18,7 +18,7 @@ import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 import { TbMoodSilence } from "react-icons/tb";
 import serverUrl from "../../components/code/serverUrl";
 
-import { CardOfferRender, Comments, User } from "../../components/code/interfaces";
+import {Offer, Comments, User } from "../../components/code/interfaces";
 import Loading from "../../components/toggles/Loading";
 
 interface ProfileOwnProps {
@@ -30,7 +30,7 @@ const ProfileOwn = ({ user }: ProfileOwnProps) => {
     const navigate = useNavigate();
     const toastRender = useToast();
     const [avaliations, setAvaliations] = useState<Comments[]>([]);
-    const [userOffers, setUserOffers] = useState<CardOfferRender[]>([]);
+    const [userOffers, setUserOffers] = useState<Offer[]>([]);
     const [userUpdate, setUpdate] = useState<User>({});
     const [imgChange, setImgChange] = useState(false)
     const [showImg, setImg] = useState<any>();
@@ -126,7 +126,7 @@ const ProfileOwn = ({ user }: ProfileOwnProps) => {
         const data = new FormData();
         data.append("avatar", userUpdate.user_img);
         await axios.put(`${serverUrl}/users/profile/photo`, data,
-            { headers: { authorization: "Bearer " + localStorage.getItem("token"), user_id: user.user_id } }).then((res) => {
+            { headers: { authorization: "Bearer " + localStorage.getItem("token"), user_id: user.user_id } }).then(() => {
                 navigate(0);
             }).catch((error) => {
                 console.log(error);
@@ -229,14 +229,14 @@ const ProfileOwn = ({ user }: ProfileOwnProps) => {
 
     const renderUserOffers = userOffers.map(item => { //lista de ofertas do usuário renderizadas
         return <CardOffer
-            title={item.ofr_name}
-            composition={item.prod_composition}
-            condition={item.prod_status}
-            img={item.prod_img}
-            value={item.ofr_value}
-            type={item.prod_type}
+            title={item.ofr_name ?? ""}
+            composition={item.prod_composition ?? ""}
+            condition={item.prod_status ?? ""}
+            img={item.prod_img ?? ""}
+            value={item.ofr_value ?? 0}
+            type={item.prod_type ?? ""}
             key={item.ofr_id}
-            id={item.ofr_id} />
+            id={item.ofr_id ?? 0} />
     });
 
     const renderComments = avaliations.map(item => {
@@ -260,7 +260,7 @@ const ProfileOwn = ({ user }: ProfileOwnProps) => {
                         <Avatar src={(userUpdate.user_img != "") ? showImg : (user.user_img) ? user.user_img : ""} name={user.user_name} size="2xl" w="30vh" h="30vh" />
                         <InputGroup display="flex" zIndex={1} w="77.5%">
                             <InputLeftAddon children={<MdOutlinePhotoSizeSelectActual size="80%" />} />
-                            <Button borderLeftRadius="0" borderRightRadius="6px" w="100%" colorScheme="linkedin" onClick={(e) => { document.getElementsByName("image")[0].click() }}>Mudar foto de perfil</Button>
+                            <Button borderLeftRadius="0" borderRightRadius="6px" w="100%" colorScheme="linkedin" onClick={() => { document.getElementsByName("image")[0].click() }}>Mudar foto de perfil</Button>
                             <Input type="file" name="image" onChange={handleImage} display="none" accept=".png,.jpg,.jpeg" />
                         </InputGroup>
                         <Button w="77.5%" colorScheme="green" onClick={updtProfileOpr}>Salvar Mudanças</Button>

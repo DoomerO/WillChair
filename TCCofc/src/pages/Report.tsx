@@ -8,6 +8,9 @@ import "../fonts/fonts.css"
 import image from "../img/report/reportImg.png";
 import colors from "../colors/colors";
 import decode from "../components/code/decoderToken";
+import serverUrl from "../components/code/serverUrl";
+import { UserToken } from "../components/code/interfaces";
+import Loading from "../components/toggles/Loading";
 
 const Report = () => {
     const {id} = useParams();
@@ -15,7 +18,8 @@ const Report = () => {
     const toast = useToast();
     const navigate = useNavigate();
     const [select, setSelect] = useState(false);
-    const [denouncer, setDenouncer] = useState(decode(localStorage.getItem("token")));
+    const [denouncer, setDenouncer] = useState<UserToken>({});
+    const [loading, isLoading] = useState(true);
 
     const [report, setReport] = useState({
         den_reason: "",
@@ -28,7 +32,7 @@ const Report = () => {
     });
 
     async function getOffer() {
-        await axios.get(`http://localhost:3344/offers/id/${id}`).then((res) => {
+        await axios.get(`${serverUrl}/offers/id/${id}`).then((res) => {
             setReport(prev => ({...prev, User_user_idRec : res.data[0].User_user_id}));
         }).catch((error) => {
           console.log(error);
@@ -36,7 +40,7 @@ const Report = () => {
     }
 
     async function getUser() {
-        await axios.get(`http://localhost:3344/users/id/${id}`).then((res) => {
+        await axios.get(`${serverUrl}/users/id/${id}`).then((res) => {
             setReport(prev => ({...prev, email : res.data.user_email, User_user_idRec : res.data.user_id}));
         }).catch((error) => {
           console.log(error);
@@ -44,10 +48,11 @@ const Report = () => {
     }
 
     async function getDenouncer() {
-        await axios.get(`http://localhost:3344/users/email/${denouncer.email}`, {
+        await axios.get(`${serverUrl}/users/email/${denouncer.email}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
             setReport(prev => ({...prev, User_user_idEnv : res.data.user_id}));
+            isLoading(false)
         }).catch((error) => {
           console.log(error);
         })
@@ -69,15 +74,23 @@ const Report = () => {
         }
     }, [type])
 
+    useEffect(() => {
+        const test = localStorage.getItem("token");
+        if(test) {
+            const token = decode(test);
+            setDenouncer(token)
+        }
+    }, [])
+
     async function postDenounce() {
-        await axios.post(`http://localhost:3344/denounce`, {
+        await axios.post(`${serverUrl}/denounce`, {
             den_reason: report.den_reason,
             den_content: report.den_content,
             den_gravity: report.den_gravity,
             User_user_idEnv: report.User_user_idEnv,
             User_user_idRec: report.User_user_idRec,
             Offer_ofr_id: report.Offer_ofr_id
-        }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then((res) => {
+        }, {headers : {authorization : "Bearer " + localStorage.getItem("token")}}).then(() => {
             toast({
                 title: 'Denuncia realiada',
                 description: "Cadastramos sua denuncia em breve você terá uma resposta!",
@@ -95,7 +108,11 @@ const Report = () => {
         setReport(prev => ({...prev, [e.target.name] : e.target.value}));
     }
 
-    const handleSelect = (e:ChangeEvent<HTMLInputElement>) => {
+    const handleTextArea = (e:ChangeEvent<HTMLTextAreaElement>) => {
+        setReport(prev => ({...prev, [e.target.name] : e.target.value}));
+    }
+
+    const handleSelect = (e:ChangeEvent<HTMLSelectElement>) => {
         switch(e.target.value) {
             case "4" :
                 setReport(prev => ({...prev, den_gravity : 1}));
@@ -157,7 +174,7 @@ const Report = () => {
 
 
     return (
-        <Box w="100%" h="100%" onClick={() => {console.log(report)}} >
+        (loading) ? <Loading/> : <Box w="100%" h="100%" onClick={() => {console.log(report)}} >
             <HeaderToggle/>
             <Flex w="100%" h="100%" direction={{base:"column-reverse" ,md:"row"}} align="center" _dark={{bg: colors.bgWhite_Dark}} bg={colors.bgWhite}>
                 <Stack h={{base:"70vh", md:"95vh"}} w={{base:"100%", md:"fit-content"}} direction="column" pt="5%" align="center" pl="2vw" pr="2vw" bg={colors.veryLightBlue} _dark={{bg : colors.veryLightBlue_Dark}}>
@@ -180,7 +197,7 @@ const Report = () => {
                     </Collapse>
                     <Heading textAlign="center" fontSize={{base:"30px", md:"25"}} fontFamily="atkinson">Por que você está denunciando?</Heading>
                     <Text fontFamily="outfit" fontSize={{base:"20px", md:"18px"}}>Dê detalhes sobre o ocorrido</Text>
-                    <Textarea w={{base:"90%", md:"47vw"}} fontSize={{base:"20px", md:"18px"}} h="25vh" placeholder="Descreva aqui" onChange={handleChange} name="den_content"/>
+                    <Textarea w={{base:"90%", md:"47vw"}} fontSize={{base:"20px", md:"18px"}} h="25vh" placeholder="Descreva aqui" onChange={handleTextArea} name="den_content" resize={"none"}/>
                     <ButtonGroup >
                         <Button fontSize={{base:"20px", md:"15px"}} onClick={checkInputs} colorScheme="linkedin" fontFamily="outfit">Enviar</Button>
                         <Link to={(type == "offer") ? `/offer/${id}` : `/profile/${report.email}/view`}><Button fontSize={{base:"20px", md:"15px"}} colorScheme="linkedin" fontFamily="outfit">Cancelar</Button></Link>

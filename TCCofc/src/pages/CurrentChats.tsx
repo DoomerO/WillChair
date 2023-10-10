@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Grid, Center, GridItem, Stack, Divider, Heading, Select, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Container, UnorderedList, ListItem } from "@chakra-ui/react"
+import { Box, Flex, Stack, Select, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, UnorderedList, ListItem } from "@chakra-ui/react"
 import { ChangeEvent, useEffect, useState } from "react";
 import decode from "../components/code/decoderToken";
 import axios from "axios";
@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 import SignAdaptable from "../components/signs/SignAdaptable";
 import ChatSignList from "../components/chats/ChatSignList";
 import ChatSign from "../components/chats/ChatSign";
+import Loading from "../components/toggles/Loading";
 
 import { TbMessageCircleSearch } from "react-icons/tb";
 import '../fonts/fonts.css';
@@ -15,21 +16,23 @@ import colors from "../colors/colors";
 import { MdOutlineBusinessCenter, MdOutlineContactSupport } from "react-icons/md";
 import ChatSquare from "../components/chats/ChatSquare";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
-
+import {User, Offer, UserToken, ChatProps} from '../components/code/interfaces';
+import serverUrl from "../components/code/serverUrl";
 
 const CurrentChats = () => {
 
-    const [userToken, setToken] = useState(decode(localStorage.getItem("token")));
-    const [user, setUser] = useState([]);
-    const [userOffer, setOffers] = useState([]);
-    const [chatsOthers, setChatsOthers] = useState([]);
-    const [chatsOwn, setChatsOwn] = useState([]);
+    const [userToken, setToken] = useState<UserToken>({});
+    const [user, setUser] = useState<User>({});
+    const [userOffer, setOffers] = useState<Offer[]>([]);
+    const [chatsOthers, setChatsOthers] = useState<ChatProps[]>([]);
+    const [chatsOwn, setChatsOwn] = useState<ChatProps[]>([]);
     const [erase, setErase] = useState(false);
     const [selectedChat, setSlctChat] = useState(0);
     const [selectedOffer, setSlctOffer] = useState(0);
+    const [loading, isLoading] = useState(true);
 
     async function getUser() {
-        await axios.get(`http://localhost:3344/users/email/${userToken.email}`, {
+        await axios.get(`${serverUrl}/users/email/${userToken.email}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
             setUser(res.data);
@@ -39,15 +42,16 @@ const CurrentChats = () => {
     }
 
     async function getOffers() {
-        await axios.get(`http://localhost:3344/offers/user/${userToken.email}`).then((res) => {
+        await axios.get(`${serverUrl}/offers/user/${userToken.email}`).then((res) => {
             setOffers(res.data);
+            isLoading(false);
         }).catch((error) => {
             console.log(error);
         })
     }
 
     async function getChatsOthers() {
-        await axios.get(`http://localhost:3344/chats/user/${user.user_id}`, {
+        await axios.get(`${serverUrl}/chats/user/${user.user_id}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
             setChatsOthers(res.data);
@@ -57,7 +61,7 @@ const CurrentChats = () => {
     }
 
     async function getChatsOwn(id: number) {
-        await axios.get(`http://localhost:3344/chats/offer/${id}`, {
+        await axios.get(`${serverUrl}/chats/offer/${id}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
             setChatsOwn(res.data);
@@ -67,8 +71,16 @@ const CurrentChats = () => {
     }
 
     useEffect(() => {
-        getUser();
+        const test = localStorage.getItem("token");
+        if (test) {
+            const token = decode(test)
+            setToken(token);
+        }
     }, [])
+    
+    useEffect(() => {
+        if(userToken.email) getUser();
+    }, [userToken])
 
     useEffect(() => {
         if (user.user_id) {
@@ -84,7 +96,7 @@ const CurrentChats = () => {
         setSlctChat(0);
     }, [selectedOffer]);
 
-    const handleSlctChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleSlctChange = (e: ChangeEvent<HTMLSelectElement>) => {
         setSlctOffer(parseInt(e.target.value));
     }
 
@@ -93,11 +105,11 @@ const CurrentChats = () => {
     }, [erase])
 
     const renderChatsOthers = chatsOthers.map(item => {
-        return <ChatSign offerId={item.Offer_ofr_id} click={() => { setSlctChat(item.chat_id); setErase(!erase) }} key={item.chat_id} />
+        return <ChatSign offerId={item.Offer_ofr_id} click={() => { setSlctChat(item.chat_id ?? 0); setErase(!erase) }} key={item.chat_id} />
     })
 
     const renderChatsOwner = chatsOwn.map(item => {
-        return <ChatSign chat={item} click={() => { setSlctChat(item.chat_id); setErase(!erase) }} key={item.chat_id} />
+        return <ChatSign chat={item} click={() => { setSlctChat(item.chat_id ?? 0); setErase(!erase) }} key={item.chat_id} />
     })
 
     const renderOfferOptions = userOffer.map(item => {
@@ -105,7 +117,7 @@ const CurrentChats = () => {
     })
 
     return (
-        <Box w="100%" h="100%">
+        (loading) ? <Loading/> : <Box w="100%" h="100%">
             <HeaderToggle />
             <Flex direction="row" w="100%" h="100vh">
                 <Stack w="25%" bg={colors.bgWhite} _dark={{ bg: colors.bgWhite_Dark, borderRight: "1px solid #fff" }} h="100%" borderRight="1px solid #1972d6" align="center">
@@ -141,7 +153,7 @@ const CurrentChats = () => {
 
                 <Flex w="75%" align="center" justifyContent="center" bg={colors.bgWhite} _dark={{ bg: colors.bgWhite_Dark }} h="100%" direction="column">
                     {(selectedChat === 0) ? <SignAdaptable msg="Escolha alguma das ofertas que você se interessou para poder negociar com seu dono. Assim você vai poder trocar suas mensagens aqui" icon={<MdOutlineBusinessCenter size="25%" />} bgType="none" width="95%" />
-                        : (erase) ? null : <ChatSquare chat_id={selectedChat} user_id={user.user_id} isOwner={(selectedOffer == 0) ? false : true} end={() => { setSlctChat(0) }} />}
+                        : (erase) ? null : <ChatSquare chat_id={selectedChat} user_id={user.user_id ?? 0} isOwner={(selectedOffer == 0) ? false : true} end={() => { setSlctChat(0) }} />}
                 </Flex>
             </Flex>
             <Footer />

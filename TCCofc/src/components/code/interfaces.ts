@@ -1,11 +1,27 @@
-interface CardOfferRender {
-    ofr_name: string;
-    prod_composition: string;
-    prod_status: string;
-    prod_img: string;
-    ofr_value: number;
-    prod_type: string;
-    ofr_id: number;
+interface Offer {
+    ofr_id?: number,
+    ofr_name?: string,
+    ofr_type?: string,
+    ofr_desc?: string,
+    ofr_value?: number,
+    ofr_status?: string,
+    ofr_city?: string,
+    ofr_user_name?: string,
+    ofr_parcelas?: number,
+    ofr_postDate?: string,
+    user_comp_id?: number,
+    ofr_env_conf?: number,
+    ofr_rec_conf?: number,
+    User_user_id?: number,
+    Product_prod_id?: number,
+    prod_id?: number,
+    prod_img?: string,
+    prod_key?: string,
+    prod_status?: string,
+    prod_height?: number,
+    prod_type?: string,
+    prod_weight?: number,
+    prod_composition?: string
 }
 
 interface Comments {
@@ -16,6 +32,12 @@ interface Comments {
     ava_date : string,
     ava_value : number,
     ava_id : number
+}
+
+interface ChatProps {
+    Offer_ofr_id? : number,
+    User_user_id? : number,
+    chat_id? : number
 }
 
 interface User {
@@ -39,4 +61,4 @@ interface UserToken {
     email? : string
 }
 
-export type {CardOfferRender, Comments, User, UserToken};
+export type {Offer, Comments, User, UserToken, ChatProps};

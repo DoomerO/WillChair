@@ -19,7 +19,7 @@ const About = () => {
             </Flex>
 
             <Flex w='100%' bg={colors.bgWhite} h='fit-content' align='center' direction='column' _dark={{bg:colors.bgWhite_Dark}} pb='5vh'>
-            <Heading as='h1' color='#1976D2' w={{base:"100%",md:"38%"}} mt="3%" align='center' fontSize="40px" _dark={{color:"#0D87d8"}}>Afinal, do que se trata o WillChair?</Heading>
+            <Heading as='h1' color='#1976D2' w={{base:"100%",md:"38%"}} mt="3%" textAlign='center' fontSize="40px" _dark={{color:"#0D87d8"}}>Afinal, do que se trata o WillChair?</Heading>
                 <Stack mt='3%' gap="50" direction={{base: "column", md: "row"}} >
                     
                     <Flex direction='column' align='center' w='35vh' h={{base:'fit-content' ,md:'55vh'}}>
@@ -64,7 +64,7 @@ const About = () => {
             </Flex>
 
             <Flex w='100%' bg={colors.veryLightBlue} h='fit-content' align='center' direction='column' _dark={{bg:colors.veryLightBlue_Dark}} pb={{base:'5vh',md:'none'}}>
-            <Heading as='h1' color='#1976D2' w={{base:"100%" ,md:"38%"}} mt="3%" align='center' fontSize="40px"_dark={{color:"#0D87d8"}}>Nossa história</Heading>
+            <Heading as='h1' color='#1976D2' w={{base:"100%" ,md:"38%"}} mt="3%" textAlign='center' fontSize="40px"_dark={{color:"#0D87d8"}}>Nossa história</Heading>
                 <Stack mt='3%' gap="50" direction={{base: "column", md: "row"}} align='center'>
                     
                     <Flex direction='column' w={{base:'80vw', md:'72vh'}} h={{base:'fit-content' , md:'50vh'}}>
