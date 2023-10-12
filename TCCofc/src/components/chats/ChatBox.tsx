@@ -14,7 +14,7 @@ import { PiHandshake } from "react-icons/pi";
 import {MdBlock} from "react-icons/md";
 import {FiDelete} from "react-icons/fi";
 import serverUrl from "../code/serverUrl";
-import { Offer, User } from "../code/interfaces";
+import { MessageProps, Offer, User } from "../code/interfaces";
 
 interface chatBoxProps {
     user_id : number,
@@ -29,10 +29,10 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
     }
     const navigate = useNavigate();
     const toast = useToast();
-    const [messages, setMessages] = useState([]);
-    const messageOverFlow = useRef(null);
+    const [messages, setMessages] = useState<MessageProps[]>([]);
+    const messageOverFlow = useRef<any>();
     const [codeSent, setSent] = useState<number>();
-    let msgRender: object[] = []
+    let msgRender: MessageProps[] = []
     const [msg, setMsg] = useState("");
     const [img, setImg] = useState<any>();
 
@@ -72,12 +72,18 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
     })
 
     useEffect(() => {
-        if (messageOverFlow) {
-            messageOverFlow.current.addEventListener('DOMNodeInserted', event => {
-              const { currentTarget: target } = event;
+        if (messageOverFlow.current) {
+            const observer = new MutationObserver(() => {
+              const target = messageOverFlow.current;
               target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
             });
-        }
+      
+            observer.observe(messageOverFlow.current, { childList: true , subtree : true });
+            
+            return () => {
+              observer.disconnect();
+            };
+          }
     }, [])
 
     useEffect(() => {
@@ -255,15 +261,15 @@ const ChatBox = ({chat_id, user_id, other, offer} : chatBoxProps) => {
                         bg='#0000'
                         _hover={{bg : "#0002", _dark:{bg : "#fff3"}}}>
                     </MenuButton>
-                    <MenuList fontSize={{base:"20px", md:"15px"}}>
+                    <MenuList fontSize={{base:"20px", md:"15px"}} w="95vw">
                        <MenuItem onClick={() => {
                             socket.emit("endChat", chat_id);
                             navigate(0);
                         }}> 
-                            <Flex direction="row" align="center" w={{base:"40%" ,md:"95%"}}>Cancelar conversa<Spacer/><BsTrash size="6%"/></Flex>
+                            <Flex direction="row" align="center" w={{base:"100%" ,md:"95%"}}>Cancelar conversa<Spacer/><BsTrash size="6%"/></Flex>
                        </MenuItem>
                        <MenuItem onClick={() => {socket.emit("postMessage", {chat: chat_id, msg : codes.compromisseCode, user: user_id});}}>
-                            <Flex direction="row" align="center" w={{base:"40%" ,md:"95%"}}>Iniciar compromisso<Spacer/><PiHandshake size="6%"/></Flex>
+                            <Flex direction="row" align="center" w={{base:"100%" ,md:"95%"}}>Iniciar compromisso<Spacer/><PiHandshake size="6%"/></Flex>
                        </MenuItem>
                     </MenuList>
                 </Menu>

@@ -59,7 +59,17 @@ interface User {
     user_comp?: string,
     user_email?: string
     user_id?: number,
-    user_nota?: number
+    user_nota?: number,
+    ofr_id?: number,
+    ofr_owner_id?: number
+}
+
+interface MessageProps {
+    msg_content?: string,
+    msg_id?: number,
+    msg_show?: number,
+    User_user_id?: number,
+    Chat_chat_id?: number
 }
 
 interface UserToken {
@@ -121,4 +131,4 @@ interface ProductProps {
     and_regulator?: number
 }
 
-export type { Offer, Comments, User, UserToken, ChatProps, FormInputsProps, ProductProps, OtherInChat };
+export type { Offer, Comments, User, UserToken, ChatProps, FormInputsProps, ProductProps, OtherInChat, MessageProps };

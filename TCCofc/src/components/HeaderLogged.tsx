@@ -61,22 +61,22 @@ const HeaderLogged = ({user}: avatarProps) => {
                     </MenuButton>
                     <MenuList fontSize={{base:"20px", md:"15px"}}>
                         <Link to="/"><MenuItem display={{base:"inherit", md: "none"}}>
-                            <Flex direction="row" align="center" w={{base:"40%" ,md:"95%"}}>Home<Spacer/><AiOutlineHome size="6%"/></Flex>
+                            <Flex direction="row" align="center" w={{base:"37%" ,md:"95%"}}>Home<Spacer/><AiOutlineHome size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/search/all/all"><MenuItem display={{base:"inherit", md: "none"}}>
-                            <Flex direction="row" align="center" w={{base:"40%" ,md:"95%"}}>Pesquisar equipamentos<Spacer/><AiOutlineSearch size="6%"/></Flex>
+                            <Flex direction="row" align="center" w={{base:"37%" ,md:"95%"}}>Pesquisar equipamentos<Spacer/><AiOutlineSearch size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/contact"><MenuItem>
-                            <Flex direction="row" w={{base:"40%" ,md:"95%"}} align="center">Contato<Spacer/><FiPhoneForwarded size="6%"/></Flex>
+                            <Flex direction="row" w={{base:"37%" ,md:"95%"}} align="center">Contato<Spacer/><FiPhoneForwarded size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/about"><MenuItem>
-                            <Flex direction="row" w={{base:"40%" ,md:"95%"}} align="center">Sobre nós<Spacer/><AiOutlineInfoCircle size="6%"/></Flex>
+                            <Flex direction="row" w={{base:"37%" ,md:"95%"}} align="center">Sobre nós<Spacer/><AiOutlineInfoCircle size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/create-offer/all"><MenuItem>
-                            <Flex direction="row" w={{base:"40%" ,md:"95%"}} align="center">Criar oferta<Spacer/><MdOutlineCreate size="6%"/></Flex>
+                            <Flex direction="row" w={{base:"37%" ,md:"95%"}} align="center">Criar oferta<Spacer/><MdOutlineCreate size="6%"/></Flex>
                         </MenuItem></Link>
                         <MenuItem onClick={toggleColorMode}>
-                            <Flex direction="row" w={{base:"40%" ,md:"95%"}} align="center">{colorMode}<Spacer/><CgDarkMode size="6%"/></Flex>
+                            <Flex direction="row" w={{base:"37%" ,md:"95%"}} align="center">{colorMode}<Spacer/><CgDarkMode size="6%"/></Flex>
                         </MenuItem>
                     </MenuList>
                 </Menu>
@@ -120,7 +120,7 @@ const HeaderLogged = ({user}: avatarProps) => {
                         </Heading>
                         <Spacer/>
                         <Flex direction="row" align="center">
-                            <Heading as="h1" fontFamily="atkinson" fontSize={{base: "36px", md: "30px"}} color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{(user.user_nota) ? user.user_nota : "Novo"}</Heading>
+                            <Heading as="h1" fontFamily="atkinson" fontSize={{base: "36px", md: "30px"}} color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>{(user.user_nota) ? user.user_nota : <Text fontSize={{base:"18px", md:"20px"}}>Novo</Text>}</Heading>
                             <BsFillStarFill fill={colors.colorFontBlue} size="3vh"/>
                         </Flex>
                     </Flex>

@@ -28,25 +28,25 @@ const Header = () => {
                     </MenuButton>
                     <MenuList fontSize={{base:"20px", md:"15px"}}>
                         <Link to="/"><MenuItem display={{base:"inherit", md: "none"}}>
-                            <Flex direction="row" align="center" w={{base:"40%" ,md:"95%"}}>Home<Spacer/><AiOutlineHome size="6%"/></Flex>
+                            <Flex direction="row" align="center" w={{base:"37%" ,md:"95%"}}>Home<Spacer/><AiOutlineHome size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/search/all/all"><MenuItem display={{base:"inherit", md: "none"}}>
-                            <Flex direction="row" align="center" w={{base:"40%" ,md:"95%"}}>Pesquisar equipamentos<Spacer/><AiOutlineSearch size="6%"/></Flex>
+                            <Flex direction="row" align="center" w={{base:"37%" ,md:"95%"}}>Pesquisar equipamentos<Spacer/><AiOutlineSearch size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/contact"><MenuItem>
-                            <Flex direction="row" w={{base:"40%" ,md:"95%"}} align="center">Contato<Spacer/><FiPhoneForwarded size="6%"/></Flex>
+                            <Flex direction="row" w={{base:"37%" ,md:"95%"}} align="center">Contato<Spacer/><FiPhoneForwarded size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/about"><MenuItem>
-                            <Flex direction="row" w={{base:"40%" ,md:"95%"}} align="center">Sobre nós<Spacer/><AiOutlineInfoCircle size="6%"/></Flex>
+                            <Flex direction="row" w={{base:"37%" ,md:"95%"}} align="center">Sobre nós<Spacer/><AiOutlineInfoCircle size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/login"><MenuItem>
-                            <Flex direction="row" w={{base:"40%" ,md:"95%"}} align="center">Entrar<Spacer/><AiOutlineLogin size="6%"/></Flex>
+                            <Flex direction="row" w={{base:"37%" ,md:"95%"}} align="center">Entrar<Spacer/><AiOutlineLogin size="6%"/></Flex>
                         </MenuItem></Link>
                         <Link to="/login/new"><MenuItem>
-                            <Flex direction="row" w={{base:"40%" ,md:"95%"}} align="center">Cadastrar<Spacer/><AiOutlineUserAdd size="6%"/></Flex>
+                            <Flex direction="row" w={{base:"37%" ,md:"95%"}} align="center">Cadastrar<Spacer/><AiOutlineUserAdd size="6%"/></Flex>
                         </MenuItem></Link>
                         <MenuItem onClick={toggleColorMode}>
-                            <Flex direction="row" w={{base:"40%" ,md:"95%"}} align="center">{colorMode}<Spacer/><CgDarkMode size="6%"/></Flex>
+                            <Flex direction="row" w={{base:"37%" ,md:"95%"}} align="center">{colorMode}<Spacer/><CgDarkMode size="6%"/></Flex>
                         </MenuItem>
                     </MenuList>
                 </Menu>

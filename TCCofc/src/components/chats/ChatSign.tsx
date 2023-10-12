@@ -3,21 +3,23 @@ import { Avatar, Divider, Flex, Text } from "@chakra-ui/react";
 import axios from "axios";
 import "../../fonts/fonts.css";
 import colors from '../../colors/colors';
+import serverUrl from '../code/serverUrl';
+import { ChatProps, Offer, User } from '../code/interfaces';
 
 interface chatSignProps {
     offerId? : number,
-    chat? : object,
+    chat? : ChatProps,
     click : React.MouseEventHandler<HTMLDivElement>
 }
 
 const ChatSign =  ({offerId, chat, click} : chatSignProps) => {
 
-    const [offer, setOffer] = useState([]);
-    const [user, setUser] = useState([]);
+    const [offer, setOffer] = useState<Offer>({});
+    const [user, setUser] = useState<User>({});
     const [img, setImg] = useState<any>();
 
     async function getOfferChat() {
-        await axios.get(`http://localhost:3344/offers/id/${offerId}`).then((res) => {
+        await axios.get(`${serverUrl}/offers/id/${offerId}`).then((res) => {
             setOffer(res.data[0]);
         }).catch((error) => {
             console.log(error)
@@ -25,7 +27,7 @@ const ChatSign =  ({offerId, chat, click} : chatSignProps) => {
     }
 
     async function getUser(id : number) {
-        await axios.get(`http://localhost:3344/users/id/${id}`).then((res) => {
+        await axios.get(`${serverUrl}/users/id/${id}`).then((res) => {
             setUser(res.data);
         }).catch((error) => {
             console.log(error)
@@ -33,7 +35,7 @@ const ChatSign =  ({offerId, chat, click} : chatSignProps) => {
     }
 
     async function getImg() {
-        await axios.get(`http://localhost:3344/users/profile/photo/${user.user_img}`, {responseType : "arraybuffer"}).then(res => {
+        await axios.get(`${serverUrl}/users/profile/photo/${user.user_img}`, {responseType : "arraybuffer"}).then(res => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
             let reader = new FileReader();
@@ -51,11 +53,11 @@ const ChatSign =  ({offerId, chat, click} : chatSignProps) => {
     }, [offerId])
 
     useEffect(() => {
-        if(offer.ofr_id) getUser(offer.User_user_id);
+        if(offer.ofr_id) getUser(offer.User_user_id ?? 0);
     }, [offer])
 
     useEffect(() => {
-        if(chat) getUser(chat.User_user_id);
+        if(chat) getUser(chat.User_user_id ?? 0);
     }, [chat])
 
     useEffect(() => {

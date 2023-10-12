@@ -120,7 +120,7 @@ const CurrentChats = () => {
         (loading) ? <Loading/> : <Box w="100%" h="100%">
             <HeaderToggle />
             <Flex direction="row" w="100%" h="100vh">
-                <Stack w="25%" bg={colors.bgWhite} _dark={{ bg: colors.bgWhite_Dark, borderRight: "1px solid #fff" }} h="100%" borderRight="1px solid #1972d6" align="center">
+                <Stack w={{base:"100%" , md:"25%"}} bg={colors.bgWhite} _dark={{ bg: colors.bgWhite_Dark, borderRight: {base:"none", md:"1px solid #fff"} }} h="100%" borderRight={{base:"none", md:"1px solid #1972d6"}} align="center" display={{base: (selectedChat) ? "none" : "flex", md:"flex"}}>
                     <Flex pb="4%" direction="row" justifyContent="center" align="center" pt="10vh" w="100%" textAlign="center" bg="#1972d6">
                         <Select onChange={handleSlctChange} w="80%" variant="flushed" fontSize={{ base: "32px", md: "29px" }} fontFamily="outfit" color="#fff" _focus={{ color: colors.colorFontDarkBlue, _dark: { color: "#fff" } }}>
                             <option value={0}>Suas Conversas</option>
@@ -151,7 +151,7 @@ const CurrentChats = () => {
                         (chatsOwn.length > 0) ? <ChatSignList component={renderChatsOwner} /> : <SignAdaptable msg="Parece que ninguém se interessou ainda pela sua oferta. Espere um tempo! Garantimos que alguém vai te contatar!" icon={<MdOutlineContactSupport size="45%" />} bgType="none" />}
                 </Stack>
 
-                <Flex w="75%" align="center" justifyContent="center" bg={colors.bgWhite} _dark={{ bg: colors.bgWhite_Dark }} h="100%" direction="column">
+                <Flex w={{base:"100%", md:"75%"}} display={{base:(selectedChat) ? "flex" : "none", md:"flex"}} align="center" justifyContent="center" bg={colors.bgWhite} _dark={{ bg: colors.bgWhite_Dark }} h="100%" direction="column">
                     {(selectedChat === 0) ? <SignAdaptable msg="Escolha alguma das ofertas que você se interessou para poder negociar com seu dono. Assim você vai poder trocar suas mensagens aqui" icon={<MdOutlineBusinessCenter size="25%" />} bgType="none" width="95%" />
                         : (erase) ? null : <ChatSquare chat_id={selectedChat} user_id={user.user_id ?? 0} isOwner={(selectedOffer == 0) ? false : true} end={() => { setSlctChat(0) }} />}
                 </Flex>
