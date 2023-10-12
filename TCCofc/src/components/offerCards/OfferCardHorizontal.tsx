@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import serverUrl from "../code/serverUrl";
+import ComponentLoading from "../toggles/ComponentLoading";
 
 interface HorizontalOfferCard {
     img: string,
@@ -15,6 +16,7 @@ interface HorizontalOfferCard {
 
 const OfferCardHorizontal = ({img, title, value, desc, id}: HorizontalOfferCard) => {
     const [imgShow, setShow] = useState<any>();
+    const [imgLoading, isLoading] = useState(true);
 
     async function getProdImg() {
         await axios.get(`${serverUrl}/products/photo/${img}`, {responseType : "arraybuffer"}).then(res => {
@@ -25,6 +27,7 @@ const OfferCardHorizontal = ({img, title, value, desc, id}: HorizontalOfferCard)
             reader.onload = () => {
                 setShow(reader.result);
             }
+            isLoading(false);
         }).catch((error) => {
             console.log(error);
         })
@@ -36,7 +39,7 @@ const OfferCardHorizontal = ({img, title, value, desc, id}: HorizontalOfferCard)
     
     return (
         <Card w="90%" h={{base:"60vh",md:"40vh"}} variant="filled" size="sm" direction={{base:"column" ,md:"row"}} borderRadius="10px" _dark={{bg : colors.bgCard_Dark}}>
-            <Image src={(imgShow) ? imgShow : ""} objectFit="contain" w={{base:"100%" ,md:"22.5%"}} h={{base:"50%", md:"100%"}} borderRadius="15px 0 0 15px"/>
+            {(imgLoading) ? <ComponentLoading type="skeleton" height={{base:"50%", md:"100%"}} width={{base:"100%" , md:"22.5%"}}/> : <Image src={(imgShow) ? imgShow : ""} objectFit="contain" w={{base:"100%" ,md:"22.5%"}} h={{base:"50%", md:"100%"}} borderRadius="15px 0 0 15px"/>}
             <Stack w={{base:"100%" ,md:"77.5%"}} h={{base:"50%", md:"100%"}}>
                 <CardBody>
                         <Flex direction="column">

@@ -14,7 +14,7 @@ const SignAdaptable = ({msg, icon, bgType, width ="100%", height="100%" } : sign
         <Flex align="center" h={height} direction="column" justifyContent="center" 
         bgGradient={(bgType == "gradient") ? "#1976D290" : ""} w={width}>
            {icon}
-            <Text fontSize="25px" fontFamily="atkinson" textAlign="center">{msg}</Text>
+            <Text fontSize={{base:"18px" ,md:"25px"}} fontFamily="atkinson" textAlign="center">{msg}</Text>
         </Flex>
     )
 }

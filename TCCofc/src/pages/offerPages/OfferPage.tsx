@@ -21,6 +21,7 @@ import dateDisplayer from "../../components/code/dataDisplayer";
 import serverUrl from "../../components/code/serverUrl";
 import { Offer, User } from "../../components/code/interfaces";
 import Loading from "../../components/toggles/Loading";
+import ComponentLoading from "../../components/toggles/ComponentLoading";
 
 const OfferPage = () => {
     const { id } = useParams();
@@ -105,7 +106,7 @@ const OfferPage = () => {
             queryOwner();
             queryOffersRecomended();
             getReports();
-            getProdImg();
+            if(offer.prod_img) getProdImg();
         }
     }, [offer]);
 
@@ -133,11 +134,10 @@ const OfferPage = () => {
             <Flex bg={colors.bgWhite} direction="column" align="center" h="fit-content" pt="10vh" _dark={{ bg: colors.bgWhite_Dark }}>
 
                 <Flex direction={{ base: "column", md: "row" }} h={{ base: "fit-content", md: "50vh" }} w="90%">
-                    <Image src={(imgShow) ? imgShow : ""}
-                        objectFit="contain" h={{ base: "40vh", md: "95%" }} w={{ base: "100%", md: "30%" }}></Image>
+                    {(imgShow) ? <Image src={imgShow} objectFit="contain" h={{ base: "40vh", md: "95%" }} w={{ base: "100%", md: "30%" }}></Image> : <ComponentLoading type="skeleton" width={{base:"100%", md:"30%"}} height={{base:"40vh", md:"95%"}}/>}
                     <Divider orientation="vertical" ml="2.5" mr="2.5" display={{ base: "none", md: "inherit" }} />
                     <Stack w={{ base: "100%", md: "65%" }} h="100%" spacing={8}>
-                        <Heading as="h1" fontFamily="outfit" fontSize={{ base: "32px", md: "34px" }} color={colors.colorFontBlue} noOfLines={{ md: 1 }}>{offer.ofr_name}</Heading>
+                        <Heading as="h1" fontFamily="outfit" fontSize={{ base: "25px", md: "34px" }} color={colors.colorFontBlue} noOfLines={{ md: 1 }}>{offer.ofr_name}</Heading>
                         <Flex direction={{ base: "column", md: "row" }} w={{ base: "100%", md: "70%" }}>
                             <SimpleGrid spacing={3} fontSize={{ base: "20px", md: "18px" }}>
                                 <Flex direction="row">
@@ -181,15 +181,17 @@ const OfferPage = () => {
 
                 <Flex direction={{ base: "column", md: "row" }} h={{ base: "fit_content", md: "50vh" }} w="90%">
                     <Stack w={{ base: "100%", md: "45%" }} h={{ base: "50vh", md: "100%" }} mt="2vh">
-                        <Heading as="h3" fontFamily="outfit" fontSize={{ base: "32px", md: "30px" }} color={colors.colorFontBlue}>Descrição</Heading>
+                        <Heading as="h3" fontFamily="outfit" fontSize={{ base: "25px", md: "30px" }} color={colors.colorFontBlue}>Descrição</Heading>
                         <Text textAlign="justify" fontSize={{ base: "22px", md: "19px" }}>{offer.ofr_desc}</Text>
                     </Stack>
 
                     <Divider orientation="vertical" mr="5%" ml="5%" display={{ base: "none", md: "inherit" }} />
 
-                    <Stack w={{ base: "100%", md: "45%" }} h={{ base: "20vh", md: "100%" }} mt="2vh" fontSize={{ base: "20px", md: "18px" }}>
+                    <Stack w={{ base: "100%", md: "45%" }} h={{ base: "fit-content", md: "100%" }} mt="2vh" fontSize={{ base: "20px", md: "18px" }}>
                         <Flex direction="row" align="center">
-                            <Link to={`/profile/${owner.user_email}/view`}><Avatar name={owner.user_name} src={(owner.user_img) ? imgOwner : ""} _hover={{ border: `2px solid ${colors.colorFontBlue}`, _dark: { border: "2px solid #fff" } }}></Avatar></Link>
+                            <Link to={`/profile/${owner.user_email}/view`}>
+                                <Avatar name={owner.user_name} src={(owner.user_img) ? imgOwner : ""} _hover={{ border: `2px solid ${colors.colorFontBlue}`, _dark: { border: "2px solid #fff" } }}></Avatar>
+                            </Link>
                             <Text ml="2%" fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{ base: "22px", md: "20px" }} mr="2%">{owner.user_name}</Text>
                             <BsFillStarFill fill={colors.colorFontBlue} />
                             <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }} fontSize={{ base: "22px", md: "20px" }}>{(owner.user_nota) ? owner.user_nota : "Novo"}</Text>
@@ -225,13 +227,13 @@ const OfferPage = () => {
                 <Divider />
 
                 <Flex w="100%" h="fit-content" mt="3%" mb="3%" align="center" direction="column">
-                    <Heading noOfLines={1} mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{ base: "36px", md: "30px" }} as="h1" fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Negocie com {owner.user_name}</Heading>
+                    <Heading noOfLines={1} mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{ base: "25px", md: "30px" }} as="h1" fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Negocie com {owner.user_name}</Heading>
                     <SignNotFoundButton msg="Pelo visto você não pode acessar o chat sem uma conta... Que tal se cadastrar no sistema ou fazer login?" icon={<BiConfused size="45%" />} btnText="Login" btnPath="/login/new" />
                 </Flex>
             </Flex>
 
             <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.veryLightBlue} _dark={{ bg: colors.veryLightBlue_Dark }}>
-                <Heading noOfLines={1} mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{ base: "36px", md: "30px" }} as="h1" fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Ofertas Recomendadas</Heading>
+                <Heading noOfLines={1} mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{ base: "25px", md: "30px" }} as="h1" fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Ofertas Recomendadas</Heading>
                 {(renderTest) ? <OfferList component={renderRecom} /> : <SignNotFound icon={<GiUncertainty size="45%" />} msg="Parece que não há o que recomendar à partir dessa oferta...Considere realizar uma pesquisa com mais detalhes!" />}
             </Flex>
             <Footer />

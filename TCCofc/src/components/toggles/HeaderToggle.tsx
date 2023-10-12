@@ -6,9 +6,11 @@ import HeaderLogged from "../HeaderLogged";
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
 import serverUrl from "../code/serverUrl";
+import ComponentLoading from "./ComponentLoading";
 
 const HeaderToggle = () => {
     const [comp, setComp] = useState<React.ReactElement>();
+    const [loading, isLoading] = useState(true);
 
     useEffect(() => {
         checkTokenLocalStorage();
@@ -17,6 +19,7 @@ const HeaderToggle = () => {
     async function checkTokenLocalStorage() {
         if (!localStorage.getItem("token")) {
             setComp(<Header/>);
+            isLoading(false);
         }
         else {
             const test = localStorage.getItem("token");
@@ -27,9 +30,11 @@ const HeaderToggle = () => {
                     authorization : "Bearer " + localStorage.getItem("token")
                 }}).then(res => {
                     setComp(<HeaderLogged user={res.data}/>)
+                    isLoading(false);
                 }).catch(error => {
                    console.log(error);
                    setComp(<Header/>);
+                   isLoading(false);
                 });
             }
         }
@@ -37,7 +42,7 @@ const HeaderToggle = () => {
 
     return (
         <div>
-            {comp}
+            {(loading) ? <ComponentLoading type="skeleton" width="100%" height="8.5vh"/> : comp}
         </div>  
     )
 }

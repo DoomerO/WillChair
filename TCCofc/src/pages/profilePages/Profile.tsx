@@ -67,12 +67,12 @@ const Profile = ({ user }: ProfileProps) => {
 
   const renderComments = avaliationQuery.map(item => {
     return <Comment
-      user_email={item.user_email}
-      user_img={item.user_img}
-      user_name={item.user_name}
-      content={item.ava_content}
-      date={item.ava_date}
-      points={item.ava_value}
+      user_email={item.user_email ?? ""}
+      user_img={item.user_img ?? ""}
+      user_name={item.user_name ?? ""}
+      content={item.ava_content ?? ""}
+      date={item.ava_date ?? ""}
+      points={item.ava_value ?? 0}
       key={item.ava_id} />
   })
 
@@ -99,9 +99,9 @@ const Profile = ({ user }: ProfileProps) => {
           <Stack w={{ base: "95%", sm: "80%" }}>
 
             <Flex direction="row" align="center">
-              <Heading as="h1" fontSize={{ base: "36px", sm: "30px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{user.user_name}</Heading>
+              <Heading as="h1" fontSize={{ base: "30px", sm: "30px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{user.user_name}</Heading>
               <Spacer />
-              <Text fontFamily="atkinson" fontSize={{ base: "36px", sm: "30px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{(user.user_nota) ? user.user_nota : "Novo"}</Text>
+              <Text fontFamily="atkinson" fontSize={{ base: "30px", sm: "30px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{(user.user_nota) ? user.user_nota : "Novo"}</Text>
               <BsFillStarFill fill={colors.colorFontBlue} size="3vh" />
               <Button variant="ghost" w="fit-content" onClick={() => {
                 toast({
@@ -152,12 +152,12 @@ const Profile = ({ user }: ProfileProps) => {
       </Flex>
 
       <Flex bg={colors.veryLightBlue} h="fit-content" direction="column" align="center" pb="5vh" _dark={{ bg: colors.veryLightBlue_Dark }}>
-        <Heading as="h1" mt="3%" fontSize={{ base: "34px", sm: "30px" }} textAlign="center" color={colors.colorFontDarkBlue} mb="2%" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Comentários sobre {user.user_name ?? null}</Heading>
+        <Heading as="h1" mt="3%" fontSize={{ base: "25px", sm: "30px" }} textAlign="center" color={colors.colorFontDarkBlue} mb="2%" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Comentários sobre {user.user_name ?? null}</Heading>
         {(avaliationQuery.length > 0) ? <CommentList component={renderComments} /> : <SignNotFound msg={`As coisas estão meio quietas por aqui...Não há avaliações sobre ${user.user_name ?? null}`} icon={<TbMoodSilence size="45%" />} />}
       </Flex>
 
       <Flex bg={colors.bgWhite} h="fit-content" direction="column" align="center" pb="5vh" _dark={{ bg: colors.bgWhite_Dark }}>
-        <Heading as="h1" mt="3%" fontSize={{ base: "34px", sm: "30px" }} textAlign="center" color={colors.colorFontDarkBlue} mb="2%" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Ofertas de {user.user_name ?? null}</Heading>
+        <Heading as="h1" mt="3%" fontSize={{ base: "25px", sm: "30px" }} textAlign="center" color={colors.colorFontDarkBlue} mb="2%" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Ofertas de {user.user_name ?? null}</Heading>
         {(userOffers.length > 0) ? <OfferList component={renderUserOffers} /> : <SignNotFound msg={`Parece que ${user.user_name ?? null} não possui nenhuma oferta...`} icon={<MdOutlineSearchOff size="45%" />} />}
       </Flex>
       <Footer />

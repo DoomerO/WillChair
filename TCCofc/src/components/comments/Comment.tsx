@@ -8,8 +8,8 @@ import dateDisplayer from "../code/dataDisplayer";
 import serverUrl from "../code/serverUrl";
 
 interface commentProps {
-    user_img : object,
-    user_name : string,
+    user_img : any,
+    user_name : string, 
     user_email : string,
     content : string,
     date : string,

@@ -5,6 +5,8 @@ import {RiStarSLine, RiStarSFill} from "react-icons/ri"
 import colors from "../colors/colors";
 import "../fonts/fonts.css";
 import { useNavigate } from "react-router-dom";
+import serverUrl from "./code/serverUrl";
+import { Comments } from "./code/interfaces";
 
 interface avaliationProps {
     isOpen : boolean,
@@ -22,10 +24,10 @@ const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name, user_img
     value : 0,
     content : "",
   });
-  const [hasAvaliation, setHasAva] = useState([]); 
+  const [hasAvaliation, setHasAva] = useState<Comments>({}); 
 
     async function getAvaliation() {
-      await axios.get(`http://localhost:3344/avaliation/both/${recUserId}/${envUserId}`, {headers : {
+      await axios.get(`${serverUrl}/avaliation/both/${recUserId}/${envUserId}`, {headers : {
         authorization :  "Bearer " + localStorage.getItem("token")
       }}).then((res) => {
         setHasAva(res.data[0]);
@@ -35,14 +37,14 @@ const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name, user_img
     }
 
     async function postAvaliation() {
-      await axios.post("http://localhost:3344/avaliation", {
+      await axios.post(`${serverUrl}/avaliation`, {
         ava_value :  avaliation.value,
         ava_content: avaliation.content,
         User_user_idEnv: envUserId, 
         User_user_idRec: recUserId
       }, {headers : {
         authorization : "Bearer " + localStorage.getItem("token")
-      }}).then((res) => {
+      }}).then(() => {
         toast({
           title: 'Avaliação realizada com sucesso',
           description: `Parabens! A avaliação foi enviada com sucesso!`,
@@ -64,12 +66,12 @@ const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name, user_img
     }
 
     async function updateAvaliation() {
-      await axios.put(`http://localhost:3344/avaliation/${hasAvaliation.ava_id}`, {
+      await axios.put(`${serverUrl}/avaliation/${hasAvaliation.ava_id}`, {
         ava_value :  avaliation.value,
         ava_content: avaliation.content,
       }, {headers : {
         authorization : "Bearer " + localStorage.getItem("token")
-      }}).then((res) => {
+      }}).then(() => {
         toast({
           title: 'Avaliação atualizada com sucesso!',
           description: `Parabens! Você atualizou uma avaliação já existente!`,
@@ -98,7 +100,7 @@ const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name, user_img
       if(recUserId && envUserId) getAvaliation();
     }, [recUserId, envUserId])
 
-    const handleContentChange = (e:ChangeEvent<HTMLInputElement>) => {
+    const handleContentChange = (e:ChangeEvent<HTMLTextAreaElement>) => {
       setAvaliation(prev => ({...prev, content : e.target.value}));
     }
 
@@ -108,7 +110,7 @@ const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name, user_img
         <ModalContent>
           <ModalHeader>Avaliar {user_name}</ModalHeader>
           <ModalCloseButton onClick={() => {setClose(); clearValue()}}/>
-          <ModalBody justifyContent="center" align="center">
+          <ModalBody justifyContent="center" display="flex" flexDirection="column" alignItems="center">
             <Avatar name={user_name} src={(user_img) ? user_img : null} size="2xl" mb="3%"></Avatar>
             <Stack spacing={5} direction="row" align="center" justifyContent="center" mb="3%">
                 {(avaliation.value >= 1) ? 
@@ -130,7 +132,7 @@ const Avaliation = ({isOpen, setClose, recUserId, envUserId, user_name, user_img
 
             <Stack direction="column" align="center" justifyContent="center" fontFamily="outfit" w="100%" h="20vh">
                 <Text>Deixe um comentário sobre a sua avaliação!</Text>
-                <Textarea onChange={handleContentChange} w="100%" h="100%" placeholder="Digite aqui (Opcional)" borderColor="gray"/>
+                <Textarea onChange={handleContentChange} w="100%" h="100%" placeholder="Digite aqui (Opcional)" borderColor="gray" resize="none"/>
             </Stack>
 
           </ModalBody>

@@ -49,7 +49,7 @@ const OfferPageLogged = () => {
     }, [user]);
 
     useEffect(() => {
-        getUser();
+        if(offer.ofr_id) getUser();
     }, [offer]);
 
    

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import colors from "../../colors/colors";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import serverUrl from "../code/serverUrl";
+import ComponentLoading from "../toggles/ComponentLoading";
 
 interface OfferCard {
     img: string,
@@ -17,15 +19,17 @@ interface OfferCard {
 const CardOffer = ({img, title, condition, composition, type, value, id}: OfferCard) => {
     const navigate = useNavigate();
     const [imgShow, setShow] = useState<any>();
+    const [imgLoading, isLoading] = useState(true);
 
     async function getProdImg() {
-        await axios.get(`http://localhost:3344/products/photo/${img}`, {responseType : "arraybuffer"}).then(res => {
+        await axios.get(`${serverUrl}/products/photo/${img}`, {responseType : "arraybuffer"}).then(res => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
             let reader = new FileReader();
             reader.readAsDataURL(blob);
             reader.onload = () => {
                 setShow(reader.result);
+                isLoading(false);
             }
         }).catch((error) => {
             console.log(error);
@@ -42,7 +46,7 @@ const CardOffer = ({img, title, condition, composition, type, value, id}: OfferC
                 <Heading as='h3' fontSize={{base:"22px", md:"20px"}} noOfLines={1}>{title}</Heading>
             </CardHeader>
             <CardBody flexDirection="column" w="100%">
-                <Image src={(imgShow) ? imgShow : ""} objectFit="contain" w="100%" h="20vh"/>
+                {(imgLoading) ? <ComponentLoading type="skeleton" height="20vh"/> : <Image src={(imgShow) ? imgShow : ""} objectFit="contain" w="100%" h="20vh"/>}
                 <Flex direction="column" mt="3%">
                    <Flex direction="row">
                         <Text color={colors.colorFontBlue} fontSize={{base:"20px", md:"18px"}}>Condição:</Text>

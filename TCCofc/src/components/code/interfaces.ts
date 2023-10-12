@@ -26,13 +26,13 @@ interface Offer {
 }
 
 interface Comments {
-    user_img: object,
-    user_name: string,
-    user_email: string,
-    ava_content: string,
-    ava_date: string,
-    ava_value: number,
-    ava_id: number
+    user_img?: object,
+    user_name?: string,
+    user_email?: string,
+    ava_content?: string,
+    ava_date?: string,
+    ava_value?: number,
+    ava_id?: number
 }
 
 interface ChatProps {
@@ -131,4 +131,16 @@ interface ProductProps {
     and_regulator?: number
 }
 
-export type { Offer, Comments, User, UserToken, ChatProps, FormInputsProps, ProductProps, OtherInChat, MessageProps };
+interface ProductUpdateProps {
+    prod_status?: string,
+    prod_composition?: string,
+    prod_height?: number,
+    prod_weight?: number,
+    append1?: any,
+    append2?: any,
+    append3?: any,
+    append4?: any,
+    append5?: any
+}
+
+export type { Offer, Comments, User, UserToken, ChatProps, FormInputsProps, ProductProps, OtherInChat, MessageProps, ProductUpdateProps };

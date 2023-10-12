@@ -16,6 +16,7 @@ import { FiDelete } from "react-icons/fi";
 import axios from "axios";
 import serverUrl from "../code/serverUrl";
 import { MessageProps, User } from "../code/interfaces";
+import ComponentLoading from "../toggles/ComponentLoading";
 
 interface chatSquareProps {
     user_id: number,
@@ -25,9 +26,12 @@ interface chatSquareProps {
 }
 
 const ChatSquare = ({ chat_id, user_id, isOwner, end }: chatSquareProps) => {
-    if (socket.disconnected) {
-        socket.connect();
-    }
+    useEffect(() => {
+        if (socket.disconnected) {
+            socket.connect();
+        }
+    }, [])
+
     const [messages, setMessages] = useState<MessageProps[]>([]);
     const [other, setOther] = useState<User>({});
     let msgRender: MessageProps[] = []
@@ -37,18 +41,21 @@ const ChatSquare = ({ chat_id, user_id, isOwner, end }: chatSquareProps) => {
     const [codeSent, setSent] = useState<number>();
     const toast = useToast();
     const [img, setImg] = useState<any>();
+    const [loading, isLoading] = useState(true);
 
     async function getImg() {
-        await axios.get(`${serverUrl}/profile/photo/${other.user_img}`, { responseType: "arraybuffer" }).then(res => {
+        await axios.get(`${serverUrl}/users/profile/photo/${other.user_img}`, { responseType: "arraybuffer" }).then(res => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
             let reader = new FileReader();
             reader.readAsDataURL(blob);
             reader.onload = () => {
                 setImg(reader.result);
+                isLoading(false);
             }
         }).catch((error) => {
             console.log(error);
+            isLoading(false);
         })
     }
 
@@ -58,6 +65,7 @@ const ChatSquare = ({ chat_id, user_id, isOwner, end }: chatSquareProps) => {
 
     socket.on(`showMsg:${chat_id}`, (resp) => {
         setMessages(resp);
+        isLoading(false);
     });
 
     socket.on("otherUser", (resp) => {
@@ -261,7 +269,7 @@ const ChatSquare = ({ chat_id, user_id, isOwner, end }: chatSquareProps) => {
             <Spacer />
             <Flex mt={{ base: "0", md: "8vh" }} w="100%" mb="1%" align="center" direction="row" pt="1%" pb="1%" bg={colors.bgTableRow1} _dark={{ bg: colors.bgTableRow1_Dark }} pl="2%" >
                 <Link to={`/profile/${other.user_email}/view`}>
-                    <Avatar name={other.user_name} src={(other.user_img) ? img : ""} size={{ base: "md", md: "sm" }} _hover={{ border: `2px solid ${colors.colorFontBlue}`, _dark: { border: "2px solid #fff" } }} />
+                    {(loading) ? <ComponentLoading type="skeleton-circle" width="10" height="10" /> : <Avatar name={other.user_name} src={(other.user_img) ? img : ""} size={{ base: "md", md: "sm" }} _hover={{ border: `2px solid ${colors.colorFontBlue}`, _dark: { border: "2px solid #fff" } }} />}
                 </Link>
                 <Text fontSize={{ base: "20px", md: "18px" }} ml="1%" fontWeight="bold">{other.user_name}</Text>
                 <Spacer />
@@ -274,7 +282,7 @@ const ChatSquare = ({ chat_id, user_id, isOwner, end }: chatSquareProps) => {
                         bg='#0000'
                         _hover={{ bg: "#0002", _dark: { bg: "#fff3" } }}>
                     </MenuButton>
-                    <MenuList fontSize={{ base: "20px", md: "15px" }} w="100vw">
+                    <MenuList fontSize={{ base: "20px", md: "15px" }} w={{base:"100vw", md:"fit-content"}}>
                         <MenuItem onClick={end}>
                             <Flex direction="row" align="center" w={{ base: "100%", md: "95%" }}>Fechar Chat<Spacer /><AiOutlineCloseCircle size="6%" /></Flex>
                         </MenuItem>
@@ -312,10 +320,10 @@ const ChatSquare = ({ chat_id, user_id, isOwner, end }: chatSquareProps) => {
                 },
             }}>
                 <Stack w="100%">
-                    {renderMessages}
+                    {(loading) ? <ComponentLoading height={{base: "76vh", md:"100%"}}/> : renderMessages}
                 </Stack>
             </Flex>
-            <Spacer display={{base:"none", md:"normal"}}/>
+            <Spacer display={{ base: "none", md: "normal" }} />
             <Flex align="center" direction="column" bg={colors.bgTableRow1} w="100%" _dark={{ bg: colors.bgTableRow1_Dark }}>
                 <InputGroup w="95%" pb="2%" pt="2%">
                     <Input maxLength={255} type="text" fontSize={{ base: "20px", md: "15px" }} onKeyDown={handleKeyPress} onChange={handleChange} value={msg}></Input>

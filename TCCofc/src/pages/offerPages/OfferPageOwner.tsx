@@ -19,6 +19,7 @@ import dateDisplayer from "../../components/code/dataDisplayer";
 import serverUrl from "../../components/code/serverUrl";
 import { ChatProps, Offer, OtherInChat, User } from "../../components/code/interfaces";
 import Loading from "../../components/toggles/Loading";
+import ComponentLoading from "../../components/toggles/ComponentLoading";
 
 interface OwnerPageprops {
     offer: Offer;
@@ -373,8 +374,7 @@ const OfferPageOwner = ({ offer, user }: OwnerPageprops) => {
                 <Flex direction={{ base: "column", md: "row" }} h={{ base: "fit-content", md: "50vh" }} w="90%">
 
                     <Flex direction="column" w={{ base: "100%", md: "30%" }}>
-                        <Image src={(imgShow) ? imgShow : ""} objectFit="contain" h={{ base: "40vh", md: "95%" }}
-                            onClick={() => { console.log(updateOffer.prod_img) }}></Image>
+                        {(imgShow) ? <Image src={imgShow} objectFit="contain" h={{ base: "40vh", md: "95%" }}></Image> : <ComponentLoading type="skeleton" height={{ base: "40vh", md: "95%" }}/>}
                     </Flex>
 
                     <Divider orientation="vertical" ml="2.5" mr="2.5" display={{ base: "none", md: "inherit" }} />
@@ -441,13 +441,13 @@ const OfferPageOwner = ({ offer, user }: OwnerPageprops) => {
 
                 <Flex direction={{ base: "column", md: "row" }} h={{ base: "fit_content", md: "50vh" }} w="90%">
                     <Stack w={{ base: "100%", md: "45%" }} h={{ base: "50vh", md: "100%" }} mt="2vh">
-                        <Heading as="h3" fontFamily="outfit" fontSize={{ base: "32px", md: "34px" }} color={colors.colorFontBlue}>Descrição</Heading>
+                        <Heading as="h3" fontFamily="outfit" fontSize={{ base: "25px", md: "34px" }} color={colors.colorFontBlue}>Descrição</Heading>
                         <Textarea placeholder={offer.ofr_desc} fontSize={{ base: "20px", md: "18px" }} value={updateOffer.ofr_desc || ""} name="ofr_desc" onChange={handleAreaOffer} fontFamily="atkinson" w="100%" resize="none" h={{ base: "80%", md: "70%" }}/>
                     </Stack>
 
                     <Divider orientation="vertical" mr="5%" ml="5%" display={{ base: "none", md: "inherit" }} />
 
-                    <Stack w={{ base: "100%", md: "45%" }} h={{ base: "20vh", md: "100%" }} fontSize={{ base: "20px", md: "18px" }} mt="2vh">
+                    <Stack w={{ base: "100%", md: "45%" }} h={{ base: "fit-content", md: "100%" }} fontSize={{ base: "20px", md: "18px" }} mt="2vh">
                         <Flex direction="row" align="center">
                             <Avatar name={user.user_name} src={(user.user_img) ? imgOwner : ""} mr="2%"></Avatar>
                             <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{ base: "22px", md: "20px" }} mr="2%">{user.user_name}</Text>
@@ -480,8 +480,8 @@ const OfferPageOwner = ({ offer, user }: OwnerPageprops) => {
                 <Divider />
 
                 <Flex w="100%" h="fit-content" mt="3%" mb="3%" align="center" direction="column">
-                    <Stack mb="3%" direction={{ base: "column", md: "row" }} align="center" spacing={2} fontSize={{ base: "32px", md: "30px" }}>
-                        <Heading noOfLines={1} textAlign="center" color={colors.colorFontDarkBlue} as="h1" fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Chat com </Heading>
+                    <Stack mb="3%" direction={{ base: "column", md: "row" }} align="center" spacing={2} fontSize={{ base: "25px", md: "30px" }}>
+                        <Heading noOfLines={1} textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "25px", md:"34px"}} fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Chat com </Heading>
                         <Select placeholder="usuário interessado" variant="flushed" w="fit-content" color={colors.colorFontDarkBlue}
                             fontFamily="outfit" fontSize={{ base: "32px", md: "32px" }} _dark={{ color: colors.colorFontDarkBlue_Dark }} fontWeight="bold" onChange={handleChangeSelect}>
                             {optionsChat}
@@ -492,7 +492,7 @@ const OfferPageOwner = ({ offer, user }: OwnerPageprops) => {
                 </Flex>
 
                 <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.veryLightBlue} _dark={{ bg: colors.veryLightBlue_Dark }} pb="5vh">
-                    <Heading mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{ base: "32px", md: "30px" }} noOfLines={{ base: 2, md: 1 }} as="h1" fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }}>O que deseja fazer com a Oferta?</Heading>
+                    <Heading mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{ base: "25px", md: "30px" }} noOfLines={{ base: 2, md: 1 }} as="h1" fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }}>O que deseja fazer com a Oferta?</Heading>
                     <ButtonGroup gap={5} flexDirection={{ base: "column", md: "row" }}>
                         <Button colorScheme="linkedin" variant="solid" onClick={() => { updateOfferFunc() }}>Atualizar</Button>
                         <Button colorScheme="linkedin" variant="solid" onClick={() => { clearChanges() }}>Limpar Mudanças</Button>
@@ -515,7 +515,7 @@ const OfferPageOwner = ({ offer, user }: OwnerPageprops) => {
                     </ButtonGroup>
                 </Flex>
                 {(offer.ofr_status != "Livre") ? <Flex w="100%" h="fit-content" align="center" direction="column" bg={colors.bgWhite} _dark={{ bg: colors.bgWhite_Dark }} pb="5vh">
-                    <Heading mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{ base: "32px", md: "30px" }} noOfLines={{ base: 2, md: 1 }} as="h1" fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }}>O que deseja fazer com o Compromisso?</Heading>
+                    <Heading mt="3%" mb="3%" textAlign="center" color={colors.colorFontDarkBlue} fontSize={{ base: "25px", md: "30px" }} noOfLines={{ base: 2, md: 1 }} as="h1" fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }}>O que deseja fazer com o Compromisso?</Heading>
                     <ButtonGroup gap={5} flexDirection={{ base: "column", md: "row" }}>
                         <Button colorScheme="linkedin" variant="solid" onClick={() => {
                             toastRender({
