@@ -17,7 +17,7 @@ const Footer = () => {
                 <Stack align='center' w='30vw' direction={{ base: 'column', md: 'row' }}>
                     <SimpleGrid columns={1} spacing={{ base: 2, md: 5 }} h='20vh'>
                         <Text color='#BFBFBF' fontSize='20px'>Empresa</Text>
-                        <Text color='#fff' _hover={{ color: '#ddd' }}><Link to='/'>Sobre</Link></Text>
+                        <Text color='#fff' _hover={{ color: '#ddd' }}><Link to='/about'>Sobre</Link></Text>
                         <Text color='#fff' _hover={{ color: '#ddd' }}><Link to='/'>Marca</Link></Text>
                     </SimpleGrid>
                     <Spacer />
