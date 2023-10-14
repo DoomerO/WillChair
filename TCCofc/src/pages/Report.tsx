@@ -174,7 +174,7 @@ const Report = () => {
 
 
     return (
-        (loading) ? <Loading /> : <Box w="100%" h="100%" onClick={() => { console.log(report) }} >
+        (loading) ? <Loading /> : <Box w="100%" h="100%">
             <HeaderToggle />
             <Flex w="100%" h="100%" direction={{ base: "column-reverse", md: "row" }} align="center" _dark={{ bg: colors.bgWhite_Dark }} bg={colors.bgWhite}>
                 <Stack h={{ base: "70vh", md: "95vh" }} w={{ base: "100%", md: "fit-content" }} direction="column" pt="5%" align="center" pl="2vw" pr="2vw" bg={colors.veryLightBlue} _dark={{ bg: colors.veryLightBlue_Dark }}>

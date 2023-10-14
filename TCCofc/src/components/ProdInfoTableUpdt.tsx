@@ -52,7 +52,6 @@ const ProdInfoTableUpdt = ({ ofr_id, update, clear }: prodTableProps) => {
     }
 
     async function updateProductChild() {
-        console.log(prod.prod_id)
         switch (prod.prod_type) {
             case "Cadeira de Rodas":
                 await axios.put(`${serverUrl}/products/cadeira-rodas/${prod.prod_id}`, {

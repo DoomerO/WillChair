@@ -1,5 +1,4 @@
 import { Flex, Heading, Spacer, Button, Box, Text } from "@chakra-ui/react";
-import { AiOutlineArrowDown } from "react-icons/ai";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -35,7 +34,7 @@ const EmailConfirmation = () => {
                 <Flex direction="column" align="center" mt="3%" mb="0.5%">
                     <Text fontSize={{base: "23px", md:"25px"}}>{resp}</Text>
                 </Flex>
-                <Button variant="solid" colorScheme="linkedin" mt="0.5%" onClick={() => {navigate("/")}}>Seguir</Button>
+                <Button variant="solid" colorScheme="linkedin" mt="0.5%" onClick={() => {navigate(path ?? "")}}>Seguir</Button>
             </Flex>
         </Box>
     )

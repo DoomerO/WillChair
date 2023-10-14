@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Cadeira de Rodas` (
   `cad_widthSeat` FLOAT NULL,
   `cad_type` VARCHAR(20) NULL,
   `cad_maxWeight` FLOAT NULL,
-  `Product_prod_id` INT NULL REFERENCES `willchair`.`Product` (`prod_id`)
+  `Product_prod_id` INT NOT NULL REFERENCES `willchair`.`Product` (`prod_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   PRIMARY KEY (`Product_prod_id`))
@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Muleta` (
   `mul_minHeight` FLOAT NULL,
   `mul_regulator` TINYINT NULL,
   `mul_maxWeight` FLOAT NULL,
-  `Product_prod_id` INT NULL  REFERENCES `willchair`.`Product` (`prod_id`)
+  `Product_prod_id` INT NOT NULL  REFERENCES `willchair`.`Product` (`prod_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   PRIMARY KEY (`Product_prod_id`))
@@ -196,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Bengala` (
   `ben_maxHeight` FLOAT NULL,
   `ben_minHeight` FLOAT NULL,
   `ben_color` VARCHAR(20) NULL,
-  `Product_prod_id` INT NULL REFERENCES `willchair`.`Product` (`prod_id`)
+  `Product_prod_id` INT NOT NULL REFERENCES `willchair`.`Product` (`prod_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   PRIMARY KEY (`Product_prod_id`))
@@ -212,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `willchair`.`Andador` (
   `and_maxHeight` FLOAT NULL,
   `and_minHeight` FLOAT NULL,
   `and_regulator` TINYINT NULL,
-  `Product_prod_id` INT NULL  REFERENCES `willchair`.`Product` (`prod_id`)
+  `Product_prod_id` INT NOT NULL  REFERENCES `willchair`.`Product` (`prod_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   PRIMARY KEY (`Product_prod_id`))

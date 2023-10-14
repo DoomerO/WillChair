@@ -1,3 +1,3 @@
-const serverUrl = "http://localhost:3344";
+const serverUrl = "https://willchair-server.onrender.com";
 
 export default serverUrl;

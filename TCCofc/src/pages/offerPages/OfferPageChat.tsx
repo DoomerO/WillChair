@@ -55,7 +55,6 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
             console.log(res);
             setChatBool(true);
         }).catch(error => {
-            console.log("Bitch")
             console.log(error);
         });
     }
