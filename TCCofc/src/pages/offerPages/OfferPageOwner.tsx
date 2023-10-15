@@ -362,7 +362,7 @@ const OfferPageOwner = ({ offer, user }: OwnerPageprops) => {
         }
         else {
             updateOfferOprt();
-            if (updateOffer.prod_img) updateProdimg();
+            if (updateOffer.prod_imgUpdt) updateProdimg();
         }
     }
 
