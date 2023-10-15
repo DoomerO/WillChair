@@ -123,9 +123,9 @@ const PreConfig = () => {
                     icon={localStorage.getItem("chakra-ui-color-mode") == 'light' ? <FiSun/> : <FiMoon/>}></IconButton>
                 </Flex>
 
-                <Heading as='h1' color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}}>Configuração de Perfil</Heading>
+                <Heading as='h1' color={colors.colorFontDarkBlue} _dark={{color : colors.colorFontDarkBlue_Dark}} textAlign="center">Configuração de Perfil</Heading>
 
-                <Text mt="1%" mb="2%">Diga algumas informações importantes para configurar seu perfil!</Text>
+                <Text mt="1%" mb="2%" textAlign="center">Diga algumas informações importantes para configurar seu perfil!</Text>
                 <Stack direction={{base:"column", md:"row"}} maxW="90%" spacing={{base: 3, md: 10}}>
                     <Stack direction="column" w={{base:"100%", md:"50%"}}>
                         <FormLabel>Telefone<Input onChange={handleChange} type="text" fontFamily="atkinson" value={inputs.phone ? `(${inputs.phone.slice(0,2)})${inputs.phone.slice(2,15)}` : ""} name="phone" maxLength={15} _placeholder={{color : colors.colorFontDarkBlue}} _dark={{_placeholder : {color : colors.colorFontDarkBlue_Dark}}} placeholder={"Digite apenas números"} pattern="[\u0028]?[0]?[0-9]{0,2}[\u0029]?[0-9]{0,}">

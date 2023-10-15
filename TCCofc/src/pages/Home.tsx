@@ -42,7 +42,7 @@ const Home = () => {
             </Flex>
 
             <Flex w='100%' bg={colors.bgWhite} h='fit-content' align='center' direction='column' _dark={{bg:colors.bgWhite_Dark}} pb={{base:"5vh", md:"none"}}>
-                <Heading fontFamily="outfit" as='h1' noOfLines={{base: 2, md: 1}} color='#2D3748' mt={{base:'10%', md:'3%'}} _dark={{color:"#0D87d8"}} fontSize={{base: "32px", md: "34px"}} w={{base:'98vw', md:'fit-content'}}>
+                <Heading fontFamily="outfit" as='h1' noOfLines={{base: 2, md: 1}} color='#2D3748' mt={{base:'10%', md:'3%'}} _dark={{color:"#0D87d8"}} fontSize={{base: "32px", md: "34px"}} w={{base:'98vw', md:'fit-content'}} textAlign="center">
                     O que você pode encontrar por aqui
                 </Heading>
                 <Stack mt='8%' gap="50" direction={{base: "column", md: "row"}} >
@@ -83,7 +83,7 @@ const Home = () => {
 
             <Flex w='100%' h='fit-content' bg={colors.veryLightBlue} align='center' direction='column' _dark={{bg:colors.veryLightBlue_Dark}}>
                 <Box h='20%' alignContent='center' mt={{base:'10%', md:'3%'}}>
-                <Heading fontFamily="outfit" as='h2' noOfLines={{base: 2, md: 1}} color='#1963D2' _dark={{color:'#1983D2'}} fontSize={{base: "32px", md: "34px"}} w={{base:'98vw', md:'fit-content'}}>
+                <Heading fontFamily="outfit" as='h2' noOfLines={{base: 2, md: 1}} color='#1963D2' _dark={{color:'#1983D2'}} fontSize={{base: "32px", md: "34px"}} w={{base:'98vw', md:'fit-content'}} textAlign="center">
                     Confira abaixo algumas de nossas categorias
                 </Heading>
                 </Box>

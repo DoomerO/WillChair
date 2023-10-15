@@ -7,7 +7,7 @@ const NotLogged = () => {
     return (
        <Box w="100%" h="100%" justifyContent="center">
             <Flex align="center" border="3px" direction="column" h="inherit" mt="10%">
-                <Heading as='h1' >Você não está conectado!</Heading>
+                <Heading as='h1'textAlign="center">Você não está conectado!</Heading>
                 <Spacer/>
                 <Flex direction="column" align="center" mt="3%" mb="0.5%">
                     <Text textAlign="center" fontSize={{base: "23px", md:"25px"}}>Clique no botão abaixo para logar na plataforma e acessar essa página!</Text>    
