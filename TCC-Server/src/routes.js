@@ -15,6 +15,7 @@ const controllersProducts = require('./controllers/products/productsController')
 const controllersdenounce = require('./controllers/denounce/denounceController');
 const controllersAvaliation = require('./controllers/avaliation/avaliationController');
 const controllersAdministration = require('./controllers/administrator/administratorControllers');
+const controllersMail = require('./controllers/mailer/mailerController');
 
 const routes = express.Router();
 
@@ -32,7 +33,7 @@ routes.delete('/users/:id', auth, controllersUsers.deleteUser);
 routes.delete('/users/adm/:id', authAdm, controllersUsers.deleteUser);
 
 //Email Routes
-
+routes.post('/email/:toWho', controllersMail.sendConfirmationEmailPasswordChange)
 
 //User Images Routes
 routes.get('/users/profile/photo/:filename', controllersUsers.returnImage);
