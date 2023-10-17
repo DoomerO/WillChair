@@ -1,7 +1,7 @@
 import { Stack, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 
 interface ReportListProps {
-    component : React.ReactElement,
+    component : JSX.Element[],
     height? : string
 }
 

@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Spacer, Stack, Text, Button, useToast, UseToastOptions, FormLabel, Select, Input } from "@chakra-ui/react";
+import { Box, Flex, Heading, Spacer, Stack, Text, Button, useToast, UseToastOptions, FormLabel, Select, Input, ToastPosition } from "@chakra-ui/react";
 import Header from "../components/Header";
 import { ChangeEvent, useEffect, useState } from "react";
 import decode from "../components/code/decode";
@@ -6,16 +6,19 @@ import colors from "../colors/colors";
 import "../fonts/fonts.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import dateDisplayer from "../components/code/dataDisplayer";
 import SignAdaptable from "../components/SignAdaptable";
 import Password from "../components/Password";
+import { AdmToken, AdmnistratorProps } from "../components/code/interfaces";
+import serverUrl from "../components/code/serverUrl";
+import Loading from "../components/Loading";
 
 const UpdateAdm = () => {
-    const [adm, setAdm] = useState(decode(localStorage.getItem("token")));
-    const [adms, setAdms] = useState([]);
+    const [adm, setAdm] = useState<AdmToken>({});
+    const [adms, setAdms] = useState<AdmnistratorProps[]>([]);
     const [admUpdt, setUpdt] = useState({ type: "", value: "", renderAdm: 0, admId: 0, missMatch: false })
     const navigate = useNavigate();
     const toastRender = useToast();
+    const [loading, isLoading] = useState(true);
 
     function toast(title: string, desc: string, time?: number, type?: UseToastOptions["status"], pos?: ToastPosition, close?: boolean) {
         toastRender({
@@ -29,10 +32,11 @@ const UpdateAdm = () => {
     }
 
     async function getAdms() {
-        await axios.get(`http://localhost:3344/adm`, {
+        await axios.get(`${serverUrl}/adm`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
             setAdms(res.data);
+            isLoading(false);
         }).catch((error) => {
             console.log(error)
         })
@@ -55,12 +59,13 @@ const UpdateAdm = () => {
                     data = { password: admUpdt.value }
                     break;
             }
-            await axios.put(`http://localhost:3344/adm/update/${admUpdt.type}/${admUpdt.admId}`, data, {
+            await axios.put(`${serverUrl}/adm/update/${admUpdt.type}/${admUpdt.admId}`, data, {
                 headers: {
                     authorization: "Bearer " + localStorage.getItem("token")
                 }
-            }).then((res) => {
+            }).then(() => {
                 toast("Administrador atualizado!", "O administrador foi atualizado com sucesso!", 3000, "success");
+                navigate(0);
             }).catch((error) => {
                 console.log(error)
                 if (error.response.status == 406) {
@@ -74,6 +79,13 @@ const UpdateAdm = () => {
     }
 
     useEffect(() => {
+        const test = localStorage.getItem("token");
+
+        if (test) {
+            const token = decode(test);
+            setAdm(token)
+        }
+
         getAdms();
     }, []);
 
@@ -81,7 +93,7 @@ const UpdateAdm = () => {
         return <option value={`${item.adm_id},${adms.indexOf(item)}`} key={item.adm_id}>{`${item.adm_name}--id:${item.adm_id}`}</option>
     });
 
-    const handleSelects = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleSelects = (e: ChangeEvent<HTMLSelectElement>) => {
         let values = e.target.value.split(",");
         setUpdt(prev => ({ ...prev, admId: parseInt(values[0]) }));
         setUpdt(prev => ({ ...prev, renderAdm: parseInt(values[1]) }));
@@ -95,8 +107,16 @@ const UpdateAdm = () => {
         }
     }
 
+    const handleChangesSlct = (e: ChangeEvent<HTMLSelectElement>) => {
+        setUpdt(prev => ({ ...prev, [e.target.name]: e.target.value }));
+        if (admUpdt.type == "email" || admUpdt.type == "password") {
+            if (admUpdt.type == "password") setUpdt(prev => ({ ...prev, value: e.target.value }));
+            setUpdt(prev => ({ ...prev, missMatch: e.target.validity.patternMismatch }));
+        }
+    }
+
     return (
-        <Box w="100%" h="100%">
+        (loading) ? <Loading/> : <Box w="100%" h="100%">
             <Header adm={adm} />
             <Flex w="100%" h="100vh" fontFamily="outfit" direction="row" bg={colors.bgWhite} _dark={{ bg: colors.bgWhite_Dark }}>
                 <Stack direction="column" pt="8vh" align="center" w="50%" spacing={5}>
@@ -129,7 +149,7 @@ const UpdateAdm = () => {
                     <Heading color={colors.colorFontBlue} fontFamily="outfit" as="h1">Atualização</Heading>
                     <FormLabel w="80%">
                         Atributo a ser atualizado:
-                        <Select variant="outline" name="type" placeholder="Selecione um atributo" onChange={handleChanges}>
+                        <Select variant="outline" name="type" placeholder="Selecione um atributo" onChange={handleChangesSlct}>
                             <option value="level">Nível</option>
                             <option value="email">Email</option>
                             <option value="password">Senha</option>
@@ -137,7 +157,7 @@ const UpdateAdm = () => {
                         </Select>
                     </FormLabel>
 
-                    {(admUpdt.type == "level") ? <FormLabel w="80%"> Novo Nível: <Select variant="outline" type="number" onChange={handleChanges} name="value">
+                    {(admUpdt.type == "level") ? <FormLabel w="80%"> Novo Nível: <Select variant="outline" onChange={handleChangesSlct} name="value">
                         <option value="1">1</option>
                         <option value="2">2</option>
                     </Select></FormLabel> : null}

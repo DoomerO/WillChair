@@ -1,4 +1,4 @@
-import { Avatar, Box, Divider, Flex, Heading, SimpleGrid, Spacer, Stack, Text, Img, Button, useToast, UseToastOptions } from "@chakra-ui/react";
+import { Avatar, Box, Divider, Flex, Heading, SimpleGrid, Spacer, Stack, Text, Button, useToast, UseToastOptions, ToastPosition } from "@chakra-ui/react";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import decode from "../components/code/decode";
@@ -11,17 +11,21 @@ import dateDisplayer from "../components/code/dataDisplayer";
 import OfferFrom from "../components/OfferForm";
 import SignAdaptable from "../components/SignAdaptable";
 import { MdOutlineSearchOff } from "react-icons/md";
+import { AdmToken, Offer, ReportProps, User } from "../components/code/interfaces";
+import serverUrl from "../components/code/serverUrl";
+import Loading from "../components/Loading";
 
 const ReportPage = () => {
     const { id } = useParams();
     const toastRender = useToast();
     const navigate = useNavigate();
-    const [adm, setAdm] = useState(decode(localStorage.getItem("token")));
-    const [report, setReport] = useState([]);
-    const [reportEnv, setReportEnv] = useState([]);
-    const [offers, setOffers] = useState([]);
+    const [adm, setAdm] = useState<AdmToken>({});
+    const [report, setReport] = useState<ReportProps>({});
+    const [reportEnv, setReportEnv] = useState<User>({});
+    const [offers, setOffers] = useState<Offer[]>([]);
     const [recImg, setRecImg] = useState<any>();
     const [envImg, setEnvImg] = useState<any>();
+    const [loading, isLoading] = useState(true);
 
     const colorsList = [
         "#8E1F96",
@@ -43,7 +47,7 @@ const ReportPage = () => {
     }
 
     async function getReport() {
-        await axios.get(`http://localhost:3344/denounce/id/${id}`, {
+        await axios.get(`${serverUrl}/denounce/id/${id}`, {
             headers: {
                 authorization: "Bearer " + localStorage.getItem("token")
             }
@@ -55,7 +59,7 @@ const ReportPage = () => {
     }
 
     async function getAdm() {
-        await axios.get(`http://localhost:3344/adm/id/${adm.email}`, {
+        await axios.get(`${serverUrl}/adm/id/${adm.email}`, {
             headers: {
                 authorization: "Bearer " + localStorage.getItem("token")
             }
@@ -67,7 +71,7 @@ const ReportPage = () => {
     }
 
     async function getUserEnv() {
-        await axios.get(`http://localhost:3344/users/id/${report.User_user_idEnv}`).then((res) => {
+        await axios.get(`${serverUrl}/users/id/${report.User_user_idEnv}`).then((res) => {
             setReportEnv(res.data);
         }).catch((error) => {
             console.log(error);
@@ -75,23 +79,25 @@ const ReportPage = () => {
     }
 
     async function getOffer() {
-        await axios.get(`http://localhost:3344/offers/id/${report.Offer_ofr_id}`).then((res) => {
+        await axios.get(`${serverUrl}/offers/id/${report.Offer_ofr_id}`).then((res) => {
             setOffers(res.data);
+            isLoading(false);
         }).catch((error) => {
             console.log(error);
         })
     }
 
     async function getOffersUser() {
-        await axios.get(`http://localhost:3344/offers/user/${report.user_email}`).then((res) => {
+        await axios.get(`${serverUrl}/offers/user/${report.user_email}`).then((res) => {
             setOffers(res.data);
+            isLoading(false);
         }).catch((error) => {
             console.log(error);
         })
     }
 
     async function getRecImg() {
-        await axios.get(`http://localhost:3344/users/profile/photo/${report.user_img}`, { responseType: "arraybuffer" }).then((res) => {
+        await axios.get(`${serverUrl}/users/profile/photo/${report.user_img}`, { responseType: "arraybuffer" }).then((res) => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
             let reader = new FileReader();
@@ -105,7 +111,7 @@ const ReportPage = () => {
     }
 
     async function getEnvImg() {
-        await axios.get(`http://localhost:3344/users/profile/photo/${reportEnv.user_img}`, { responseType: "arraybuffer" }).then((res) => {
+        await axios.get(`${serverUrl}/users/profile/photo/${reportEnv.user_img}`, { responseType: "arraybuffer" }).then((res) => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
             let reader = new FileReader();
@@ -120,9 +126,9 @@ const ReportPage = () => {
 
     async function deleteUser(userId: number) {
         if (adm.adm_id == report.adm_assigned) {
-            await axios.delete(`http://localhost:3344/users/adm/${userId}`, {
+            await axios.delete(`${serverUrl}/users/adm/${userId}`, {
                 headers: { authorization: "Bearer " + localStorage.getItem("token") }
-            }).then((res) => {
+            }).then(() => {
                 toast("Usuário apagado", "O usuário foi apagado com sucesso!", 3000, "success")
             }).catch((error) => {
                 console.log(error);
@@ -135,9 +141,9 @@ const ReportPage = () => {
 
     async function reducePointsUser(userId: number) {
         if (adm.adm_id == report.adm_assigned) {
-            await axios.put(`http://localhost:3344/adm/reduce/points/${userId}`, {}, {
+            await axios.put(`${serverUrl}/adm/reduce/points/${userId}`, {}, {
                 headers: { authorization: "Bearer " + localStorage.getItem("token") }
-            }).then((res) => {
+            }).then(() => {
                 toast("Nota Reduzida!", "O usuário perdeu 1 ponto de nota", 3000, "success");
                 navigate(0);
             }).catch((error) => {
@@ -151,9 +157,9 @@ const ReportPage = () => {
 
     async function endReport() {
         if (adm.adm_id == report.adm_assigned) {
-            await axios.delete(`http://localhost:3344/denounce/${report.den_id}`, {
+            await axios.delete(`${serverUrl}/denounce/${report.den_id}`, {
                 headers: { authorization: "Bearer " + localStorage.getItem("token") }
-            }).then((res) => {
+            }).then(() => {
                 toast("Denúncia apagada", "A denúncia foi finalizada", 3000, "success");
                 navigate("/");
             }).catch((error) => {
@@ -164,6 +170,15 @@ const ReportPage = () => {
             toast("Você não é o responsável por essa denúncia!", "Não execute ações em denúncias das quais você não é responsável!", 3000, "error")
         }
     }
+
+    useEffect(() => {
+        const test = localStorage.getItem("token");
+
+        if (test) {
+            const token = decode(test);
+            setAdm(token)
+        }
+    }, [])
 
     useEffect(() => {
         if (id) getReport();
@@ -182,16 +197,16 @@ const ReportPage = () => {
     }, [reportEnv])
 
     const renderOfferForms = offers.map(item => {
-        return <OfferFrom offer={item} admAssigned={report.adm_assigned} admId={adm.adm_id} key={item.ofr_id} />;
+        return <OfferFrom offer={item} admAssigned={report.adm_assigned ?? 0} admId={adm.adm_id ?? 0} key={item.ofr_id} />;
     })
 
     return (
-        <Box w="100%" h="100%">
+        (loading) ? <Loading/> : <Box w="100%" h="100%">
             <Header adm={adm} />
 
             <Flex w="100%" bg={colors.bgWhite} _dark={{ bg: colors.bgWhite_Dark }} pt="8vh" align="center" direction="column">
                 <Flex direction="row" align="center" w="100%">
-                    <BiSolidRightArrow size="20vh" color={colorsList[report.den_gravity - 1]} />
+                    <BiSolidRightArrow size="20vh" color={colorsList[(report.den_gravity) ? report.den_gravity - 1 : 0]} />
                     <Heading as="h1" fontFamily="outfit">
                         {report.den_reason}
                     </Heading>
@@ -209,7 +224,7 @@ const ReportPage = () => {
                             <Text>
                                 Feita em: {(report.den_date) ? dateDisplayer(report.den_date) : ""};
                             </Text>
-                            <Text color={colorsList[report.den_gravity - 1]}>
+                            <Text color={colorsList[(report.den_gravity) ? report.den_gravity - 1 : 0]}>
                                 Gravidade: {report.den_gravity};
                             </Text>
                             <Text>
@@ -261,7 +276,7 @@ const ReportPage = () => {
                                             <Stack bg="orange.500" align="center" direction="column" p="2vh" borderRadius="10px" spacing={2} _dark={{ bg: "orange.200" }}>
                                                 <Text fontWeight="semibold" color="white" _dark={{ color: "black" }} noOfLines={1} fontSize={{ base: "22px", md: "20px" }}>Certeza que esse usuário deve ser apagado?</Text>
                                                 <Stack direction="row">
-                                                    <Button variant="outline" color="#fff" _dark={{ color: "black" }} _hover={{ bg: "#fff2" }} onClick={() => { deleteUser(reportEnv.user_id); }}>Sim</Button>
+                                                    <Button variant="outline" color="#fff" _dark={{ color: "black" }} _hover={{ bg: "#fff2" }} onClick={() => { deleteUser(reportEnv.user_id ?? 0); }}>Sim</Button>
                                                     <Button variant="outline" color="#fff" _dark={{ color: "black" }} _hover={{ bg: "#fff2" }} onClick={() => { toastRender.closeAll() }}>Não</Button>
                                                 </Stack>
                                             </Stack>
@@ -278,7 +293,7 @@ const ReportPage = () => {
                                                 <Text fontWeight="semibold" color="white" _dark={{ color: "black" }} noOfLines={2} fontSize={{ base: "22px", md: "20px" }}>Certeza que esse usuário deve ser penalizado?</Text>
                                                 <Text fontWeight="semibold" color="white" _dark={{ color: "black" }} noOfLines={2} fontSize={{ base: "22px", md: "20px" }}>Perdendo um(1) ponto em sua nota?</Text>
                                                 <Stack direction="row">
-                                                    <Button variant="outline" color="#fff" _dark={{ color: "black" }} _hover={{ bg: "#fff2" }} onClick={() => { reducePointsUser(reportEnv.user_id); }}>Sim</Button>
+                                                    <Button variant="outline" color="#fff" _dark={{ color: "black" }} _hover={{ bg: "#fff2" }} onClick={() => { reducePointsUser(reportEnv.user_id ?? 0); }}>Sim</Button>
                                                     <Button variant="outline" color="#fff" _dark={{ color: "black" }} _hover={{ bg: "#fff2" }} onClick={() => { toastRender.closeAll() }}>Não</Button>
                                                 </Stack>
                                             </Stack>
@@ -332,7 +347,7 @@ const ReportPage = () => {
                                             <Stack bg="orange.500" align="center" direction="column" p="2vh" borderRadius="10px" spacing={2} _dark={{ bg: "orange.200" }}>
                                                 <Text fontWeight="semibold" color="white" _dark={{ color: "black" }} noOfLines={1} fontSize={{ base: "22px", md: "20px" }}>Certeza que esse usuário deve ser apagado?</Text>
                                                 <Stack direction="row">
-                                                    <Button variant="outline" color="#fff" _dark={{ color: "black" }} _hover={{ bg: "#fff2" }} onClick={() => { deleteUser(report.user_id); }}>Sim</Button>
+                                                    <Button variant="outline" color="#fff" _dark={{ color: "black" }} _hover={{ bg: "#fff2" }} onClick={() => { deleteUser(report.user_id ?? 0); }}>Sim</Button>
                                                     <Button variant="outline" color="#fff" _dark={{ color: "black" }} _hover={{ bg: "#fff2" }} onClick={() => { toastRender.closeAll() }}>Não</Button>
                                                 </Stack>
                                             </Stack>
@@ -349,7 +364,7 @@ const ReportPage = () => {
                                                 <Text fontWeight="semibold" color="white" _dark={{ color: "black" }} noOfLines={2} fontSize={{ base: "22px", md: "20px" }}>Certeza que esse usuário deve ser penalizado?</Text>
                                                 <Text fontWeight="semibold" color="white" _dark={{ color: "black" }} noOfLines={2} fontSize={{ base: "22px", md: "20px" }}>Perdendo um(1) ponto em sua nota?</Text>
                                                 <Stack direction="row">
-                                                    <Button variant="outline" color="#fff" _dark={{ color: "black" }} _hover={{ bg: "#fff2" }} onClick={() => { reducePointsUser(report.user_id); }}>Sim</Button>
+                                                    <Button variant="outline" color="#fff" _dark={{ color: "black" }} _hover={{ bg: "#fff2" }} onClick={() => { reducePointsUser(report.user_id ?? 0); }}>Sim</Button>
                                                     <Button variant="outline" color="#fff" _dark={{ color: "black" }} _hover={{ bg: "#fff2" }} onClick={() => { toastRender.closeAll() }}>Não</Button>
                                                 </Stack>
                                             </Stack>
@@ -376,7 +391,7 @@ const ReportPage = () => {
 
                 <Stack direction="column" align="center" mt="1%" w="100%" mb="1%" spacing={8}>
                     <Heading as="h3" color={colors.colorFontBlue} mb="1%">{(report.Offer_ofr_id) ? "Informações sobre a Oferta" : "Ofertas do usuário"}</Heading>
-                    {(offers.length > 0) ? renderOfferForms : <SignAdaptable msg="Sem ofertas registradas nessa denúncia!" icon={<MdOutlineSearchOff size="20%" />} bgType="none"/>}
+                    {(offers.length > 0) ? renderOfferForms : <SignAdaptable msg="Sem ofertas registradas nessa denúncia!" icon={<MdOutlineSearchOff size="20%" />} bgType="none" />}
                 </Stack>
 
                 <Divider orientation="horizontal" />

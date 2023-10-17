@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Flex, Text, Spacer, Image, Input, IconButton, HStack, Button, useColorMode, useColorModeValue, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, useDisclosure, Heading, Divider, Stack, textDecoration, FormLabel } from '@chakra-ui/react';
+import { Flex, Text, Spacer, Image, Input, IconButton, HStack, Button, useColorMode, useColorModeValue, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, useDisclosure, Divider, Stack, FormLabel } from '@chakra-ui/react';
 import {MdAdminPanelSettings} from "react-icons/md";
 import "../fonts/fonts.css";
 import { FiSun, FiMoon } from "react-icons/fi";
@@ -14,9 +14,12 @@ import { ChangeEvent, useEffect, useState } from "react";
 import ReportCard from "./ReportCard";
 import ReportCardList from "./ReportCardList";
 import SignAdaptable from "./SignAdaptable";
+import serverUrl from "./code/serverUrl";
+import { AdmToken, ReportProps } from "./code/interfaces";
+import ComponentLoading from "./ComponentLoading";
 
 interface headerProps {
-    adm : object;
+    adm : AdmToken;
 }
 
 const Header = ({adm}: headerProps) => {
@@ -25,14 +28,16 @@ const Header = ({adm}: headerProps) => {
     const colorMode = useColorModeValue("Modo claro", "Modo escuro");
     const navigate = useNavigate();
     const {isOpen, onOpen, onClose} = useDisclosure();
-    const [reports, setReports] = useState([]);
+    const [reports, setReports] = useState<ReportProps[]>([]);
     const [repId, setRepId] = useState<string>();
+    const [loading, isLoading] = useState(true);
 
     async function getReports() {
-        await axios.get(`http://localhost:3344/denounce/adm/${adm.email}`, {
+        await axios.get(`${serverUrl}/denounce/adm/${adm.email}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
             setReports(res.data);
+            isLoading(false);
         }).catch((error) => {
             console.log(error);
         })
@@ -44,22 +49,22 @@ const Header = ({adm}: headerProps) => {
 
     const renderReports = reports.map(item => {
         if (!repId) {
-            return <ReportCard den_gravity={item.den_gravity} 
-            den_date={item.den_date} 
-            den_content={item.den_content} 
-            den_id={item.den_id} 
-            den_reason={item.den_reason} 
-            den_status={item.den_status}
+            return <ReportCard den_gravity={item.den_gravity ?? 0} 
+            den_date={item.den_date ?? ""} 
+            den_content={item.den_content ?? ""} 
+            den_id={item.den_id ?? 0} 
+            den_reason={item.den_reason ?? ""} 
+            den_status={item.den_status ?? ""}
             key={item.den_id}/>
         }
         else {
-            if (item.den_id.toString().match(repId)) {
-                return <ReportCard den_gravity={item.den_gravity} 
-                den_date={item.den_date} 
-                den_content={item.den_content} 
-                den_id={item.den_id} 
-                den_reason={item.den_reason} 
-                den_status={item.den_status}
+            if (item.den_id && item.den_id.toString().match(repId)) {
+                return <ReportCard den_gravity={item.den_gravity ?? 0} 
+                den_date={item.den_date ?? ""} 
+                den_content={item.den_content ?? ""} 
+                den_id={item.den_id ?? 0} 
+                den_reason={item.den_reason ?? ""} 
+                den_status={item.den_status ?? ""}
                 key={item.den_id}/>
             }
             else return <div key={item.den_id}></div>
@@ -71,7 +76,7 @@ const Header = ({adm}: headerProps) => {
     }
 
     return (
-        <Flex w="100%" h="8.5vh" bg='#fff' position='fixed' _dark={{bg : '#131313'}} boxShadow='lg' zIndex={2}>
+        (loading) ? <ComponentLoading type="skeleton" width="100%" height="8.5vh"/> : <Flex w="100%" h="8.5vh" bg='#fff' position='fixed' _dark={{bg : '#131313'}} boxShadow='lg' zIndex={2}>
             <Image src={logoImg} objectFit='contain' onClick={() => {navigate("/")}} w={{base:"45%", md:"12%"}} h='66%' mt='2.5'></Image>
             <Spacer />
             <HStack w='60%' display={{base: 'none', md:'inherit'}}>

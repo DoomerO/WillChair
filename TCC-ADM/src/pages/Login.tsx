@@ -5,6 +5,7 @@ import "../fonts/fonts.css";
 import Password from "../components/Password";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import serverUrl from "../components/code/serverUrl";
 
 const Login = () => {
     const [loginInfo, setLogin] = useState({
@@ -37,7 +38,7 @@ const Login = () => {
 
     async function verifyAdm() {
         if (loginInfo.email != "" && loginInfo.password != "" && !loginInfo.emailMissmatch && !loginInfo.passwordMissmatch) {
-            await axios.get(`http://localhost:3344/adm/login/${loginInfo.email}/${loginInfo.password}`).then((res) => {
+            await axios.get(`${serverUrl}/adm/login/${loginInfo.email}/${loginInfo.password}`).then((res) => {
                 localStorage.setItem("token", res.data.token);
                 callToast("Login Realizado!", "Aguarde o reirecionamento...", 3000, "loading", "bottom");
                 navigate("/");

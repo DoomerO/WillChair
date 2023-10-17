@@ -8,9 +8,12 @@ import Messages from "./Messages";
 import SignAdaptable from "./SignAdaptable";
 import { BsChatText } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { ChatProps, Offer, ProductProps } from "./code/interfaces";
+import serverUrl from "./code/serverUrl";
+import ComponentLoading from "./ComponentLoading";
 
 interface offerFormprops {
-    offer: object;
+    offer: Offer;
     admAssigned: number;
     admId: number;
 }
@@ -19,8 +22,9 @@ const OfferFrom = ({ offer, admAssigned, admId }: offerFormprops) => {
     const [img, setImg] = useState<any>();
     const toastRender = useToast();
     const navigate = useNavigate();
-    const [prodChild, setChild] = useState([]);
-    const [chats, setChats] = useState([]);
+    const [prodChild, setChild] = useState<ProductProps>({});
+    const [chats, setChats] = useState<ChatProps[]>([]);
+    const [loading, isLoading] = useState(true);
 
     useEffect(() => {
         if (offer.prod_img) getProdImg();
@@ -40,7 +44,7 @@ const OfferFrom = ({ offer, admAssigned, admId }: offerFormprops) => {
     }
 
     async function getProdImg() {
-        await axios.get(`http://localhost:3344/products/photo/${offer.prod_img}`, { responseType: "arraybuffer" }).then((res) => {
+        await axios.get(`${serverUrl}/products/photo/${offer.prod_img}`, { responseType: "arraybuffer" }).then((res) => {
             const buffer = new Uint8Array(res.data);
             const blob = new Blob([buffer], { type: res.headers.contentType });
             let reader = new FileReader();
@@ -54,20 +58,22 @@ const OfferFrom = ({ offer, admAssigned, admId }: offerFormprops) => {
     }
 
     async function getProductChild() {
-        await axios.get(`http://localhost:3344/products/typeQuery/${offer.prod_type}/${offer.Product_prod_id}`, {
+        await axios.get(`${serverUrl}/products/typeQuery/${offer.prod_type}/${offer.Product_prod_id}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
             setChild(res.data[0]);
+            isLoading(false)
         }).catch((error) => {
             console.log(error);
         })
     }
 
     async function getChatsOffer() {
-        await axios.get(`http://localhost:3344/chats/offer/adm/${offer.ofr_id}`, {
+        await axios.get(`${serverUrl}/chats/offer/adm/${offer.ofr_id}`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
             setChats(res.data);
+            if (offer.prod_type != "Cadeira de Rodas" && offer.prod_type != "Andador" && offer.prod_type != "Muleta" && offer.prod_type != "Bengala") isLoading(false);
         }).catch((error) => {
             console.log(error)
         });
@@ -75,19 +81,19 @@ const OfferFrom = ({ offer, admAssigned, admId }: offerFormprops) => {
 
     async function deleteOffer() {
         if (admId == admAssigned) {
-            await axios.delete(`http://localhost:3344/chats/offer/adm/${offer.ofr_id}`, {
+            await axios.delete(`${serverUrl}/chats/offer/adm/${offer.ofr_id}`, {
                 headers: { authorization: "Bearer " + localStorage.getItem("token") }
             }).catch((error) => {
                 console.log(error);
             })
-            await axios.delete(`http://localhost:3344/products/adm/${offer.Product_prod_id}`, {
+            await axios.delete(`${serverUrl}/products/adm/${offer.Product_prod_id}`, {
                 headers: { authorization: "Bearer " + localStorage.getItem("token") }
             }).catch((error) => {
                 console.log(error);
             })
-            await axios.delete(`http://localhost:3344/offers/adm/${offer.ofr_id}`, {
+            await axios.delete(`${serverUrl}/offers/adm/${offer.ofr_id}`, {
                 headers: { authorization: "Bearer " + localStorage.getItem("token") }
-            }).then((res) => {
+            }).then(() => {
                 toast("Oferta apagada", "Você apagou a oferta com sucesso", 5000, "success")
                 navigate(0)
             }).catch((error) => {
@@ -106,13 +112,13 @@ const OfferFrom = ({ offer, admAssigned, admId }: offerFormprops) => {
                 Chat(ID): {item.chat_id}
             </Text>
             <Divider orientation="horizontal" mb="1%" />
-            <Messages chatId={item.chat_id} targetId={offer.User_user_id} />
+            <Messages chatId={item.chat_id ?? 0} targetId={offer.User_user_id ?? 0} />
             <Divider orientation="horizontal" mt="1%" />
         </Flex>
     });
 
     return (
-        <Flex w="100%" p="2%" direction="column" bg={colors.veryLightBlue} _dark={{ bg: colors.veryLightBlue_Dark }}>
+        (loading) ? <ComponentLoading width="100%" height="70vh" /> : <Flex w="100%" p="2%" direction="column" bg={colors.veryLightBlue} _dark={{ bg: colors.veryLightBlue_Dark }}>
             <Flex w="100%" direction="row">
                 <Stack w="50%" direction="column" fontFamily="outfit" spacing={3} fontSize="20px" borderRight="1px solid #0001" _dark={{ borderRight: "1px solid #fff2" }}>
                     <Flex direction="row" w="95%" color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>

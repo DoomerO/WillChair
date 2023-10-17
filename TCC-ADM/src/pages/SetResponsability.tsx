@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Spacer, Stack, Text, Button, useToast, UseToastOptions, FormLabel, Select } from "@chakra-ui/react";
+import { Box, Flex, Heading, Spacer, Stack, Text, Button, useToast, UseToastOptions, FormLabel, Select, ToastPosition } from "@chakra-ui/react";
 import Header from "../components/Header";
 import { ChangeEvent, useEffect, useState } from "react";
 import decode from "../components/code/decode";
@@ -8,19 +8,23 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import dateDisplayer from "../components/code/dataDisplayer";
 import SignAdaptable from "../components/SignAdaptable";
+import serverUrl from "../components/code/serverUrl";
+import { AdmToken, AdmnistratorProps, ReportProps } from "../components/code/interfaces";
+import Loading from "../components/Loading";
 
 const SetResponsability = () => {
-    const [adm, setAdm] = useState(decode(localStorage.getItem("token")));
-    const [reports, setReports] = useState([]);
+    const [adm, setAdm] = useState<AdmToken>({});
+    const [reports, setReports] = useState<ReportProps[]>([]);
     const navigate = useNavigate();
     const toastRender = useToast();
-    const [adms, setAdms] = useState([]);
+    const [adms, setAdms] = useState<AdmnistratorProps[]>([]);
     const [respInfo, setResp] = useState({
         idReport: 0,
         idAdm: 0,
         renderRep: 0,
         renderAdm: 0
     })
+    const [loading, isLoading] = useState(true);
 
     function toast(title: string, desc: string, time?: number, type?: UseToastOptions["status"], pos?: ToastPosition, close?: boolean) {
         toastRender({
@@ -34,7 +38,7 @@ const SetResponsability = () => {
     }
 
     async function getReports() {
-        await axios.get(`http://localhost:3344/denounce`, {
+        await axios.get(`${serverUrl}/denounce`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
             setReports(res.data);
@@ -44,10 +48,11 @@ const SetResponsability = () => {
     }
 
     async function getAdms() {
-        await axios.get(`http://localhost:3344/adm`, {
+        await axios.get(`${serverUrl}/adm`, {
             headers: { authorization: "Bearer " + localStorage.getItem("token") }
         }).then((res) => {
             setAdms(res.data);
+            isLoading(false);
         }).catch((error) => {
             console.log(error)
         })
@@ -55,9 +60,9 @@ const SetResponsability = () => {
 
     async function createResponsability() {
         if (respInfo.idAdm && respInfo.idReport) {
-            await axios.put(`http://localhost:3344/adm/responsability/${respInfo.idReport}/${respInfo.idAdm}`, {}, {
+            await axios.put(`${serverUrl}/adm/responsability/${respInfo.idReport}/${respInfo.idAdm}`, {}, {
                 headers: { authorization: "Bearer " + localStorage.getItem("token") }
-            }).then((res) => {
+            }).then(() => {
                 toast("Responsbilidade criada", `Você responsabilizou ${adms[respInfo.renderAdm - 1].adm_name} pela denúncia ${reports[respInfo.renderRep - 1].den_id}`, 3000, "success")
                 navigate(0);
             }).catch((error) => {
@@ -73,11 +78,18 @@ const SetResponsability = () => {
     }
 
     useEffect(() => {
+        const test = localStorage.getItem("token");
+
+        if (test) {
+            const token = decode(test);
+            setAdm(token)
+        }
+
         getReports();
         getAdms();
     }, [])
 
-    const handleSelects = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleSelects = (e: ChangeEvent<HTMLSelectElement>) => {
         let values = e.target.value.split(",");
         setResp(prev => ({ ...prev, [e.target.name]: parseInt(values[0]) }));
         if (e.target.name == "idReport") {
@@ -98,7 +110,7 @@ const SetResponsability = () => {
     });
 
     return (
-        <Box w="100%" h="100%">
+        (loading) ? <Loading/> : <Box w="100%" h="100%">
             <Header adm={adm} />
             <Flex w="100%" h="100vh" fontFamily="outfit" direction="row" bg={colors.bgWhite} _dark={{ bg: colors.bgWhite_Dark }}>
                 <Stack direction="column" pt="8vh" align="center" w="50%" spacing={5} bg={colors.veryLightBlue} _dark={{ bg: colors.veryLightBlue_Dark }}>
@@ -124,7 +136,7 @@ const SetResponsability = () => {
                             Descrição da denúncia: {reports[respInfo.renderRep - 1].den_content}
                         </Text>
                         <Text>
-                            Data da denúncia: {dateDisplayer(reports[respInfo.renderRep - 1].den_date)}
+                            Data da denúncia: {dateDisplayer(reports[respInfo.renderRep - 1].den_date ?? "")}
                         </Text>
                     </Stack> : <SignAdaptable msg="Selecione um denúncia para colocar um administrador como seu responsável." icon={<div></div>} bgType="none" />}
 

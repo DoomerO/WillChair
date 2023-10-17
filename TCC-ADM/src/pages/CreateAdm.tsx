@@ -1,14 +1,16 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Button, Flex, Heading, Input, Select, Stack, Text, FormLabel, useToast, ToastPosition, UseToastOptions } from "@chakra-ui/react";
+import { Box, Button, Heading, Input, Select, Stack, FormLabel, useToast, ToastPosition, UseToastOptions } from "@chakra-ui/react";
 import Header from "../components/Header";
 import decode from "../components/code/decode";
 import colors from "../colors/colors";
 import Password from "../components/Password";
+import serverUrl from "../components/code/serverUrl";
+import { AdmToken } from "../components/code/interfaces";
 
 const CreateAdm = () => {
   const toast = useToast();
-  const [admToken, setToken] = useState(decode(localStorage.getItem("token")))
+  const [admToken, setToken] = useState<AdmToken>({})
   const [adm, setAdm] = useState({
     adm_name: '',
     adm_email: '',
@@ -16,6 +18,14 @@ const CreateAdm = () => {
     password: '',
     passwordMissmatch: false
   });
+
+  useEffect(() => {
+    const test = localStorage.getItem("token");
+    if (test) {
+      const token = decode(test);
+      setToken(token);
+    }
+  }, [])
 
   function callToast(title: string, desc: string, time?: number, type?: UseToastOptions["status"], pos?: ToastPosition, close?: boolean) {
     toast({
@@ -41,11 +51,11 @@ const CreateAdm = () => {
       callToast("Campos não preenchidos corretamente!", "É necessário o preenchimento correto de todos os campos para a realização do login!", 3000, "warning", "bottom");
       return 
     }
-    axios.post('http://localhost:3344/adm', adm, {
+    axios.post(`${serverUrl}/adm`, adm, {
       headers: {
         authorization: "Bearer " + localStorage.getItem("token")
       }
-    }).then((res) => {
+    }).then(() => {
       callToast("Administrador Criado!", "O administrador foi registrado no sistema devidamente!", 3000, "success")
     }).catch((error) => {
       callToast("Erro!", "Ocorreu algum erro no cadastro de administrador.", 3000, "error")

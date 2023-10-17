@@ -2,6 +2,9 @@ import { Flex, Text, Spacer, Box, Stack } from "@chakra-ui/react";
 import {useState, useEffect} from "react";
 import axios from "axios";
 import colors from "../colors/colors";
+import serverUrl from "./code/serverUrl";
+import { MessageProps } from "./code/interfaces";
+import ComponentLoading from "./ComponentLoading";
 
 interface messagesProps {
     chatId : number,
@@ -10,13 +13,15 @@ interface messagesProps {
 
 const Messages = ({chatId, targetId} : messagesProps) => {
 
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState<MessageProps[]>([]);
+    const [loading, isLoading] = useState(true);
 
     async function getMessages() {
-        await axios.get(`http://localhost:3344/messages/chat/adm/${chatId}`, {
+        await axios.get(`${serverUrl}/messages/chat/adm/${chatId}`, {
             headers : {authorization : "Bearer " + localStorage.getItem("token")}
         }).then((res) => {
             setMessages(res.data);
+            isLoading(false);
         }).catch((error) => {
             console.log(error);
         })
@@ -44,7 +49,7 @@ const Messages = ({chatId, targetId} : messagesProps) => {
     });
 
     return (
-        <Flex w="90%" direction="column">
+        (loading) ? <ComponentLoading width="90%" height="50vh"/>  : <Flex w="90%" direction="column">
             <Flex direction="row" align="center"  mb="1%" p="1.5%" borderRadius="10px" bg={colors.slideMsgBg} _dark={{bg : colors.categoryBg_Dark}}>
                 <Text fontSize="18px" textAlign="justify" fontWeight="bold">Alvo da Denúncia</Text>
                 <Spacer/>
