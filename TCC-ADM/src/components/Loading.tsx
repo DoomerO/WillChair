@@ -1,6 +1,6 @@
 import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
 import colors from "../colors/colors";
-import "../../fonts/fonts.css";
+import "../fonts/fonts.css";
 
 const Loading = () => {
     return (
