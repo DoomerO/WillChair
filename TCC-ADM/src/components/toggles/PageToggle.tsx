@@ -3,6 +3,7 @@ import decode from "../code/decode";
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
 import ErrorPage from "../../pages/intersections/ErrorPage";
+import serverUrl from "../code/serverUrl";
 
 interface toggleProps {
     compSuccess: React.ReactElement
@@ -17,14 +18,16 @@ const PageToggle = ({compSuccess}: toggleProps) => {
     }, []);
 
     async function checkTokenLocalStorage() {
-        if (!localStorage.getItem("token")) {
+        const test = localStorage.getItem("token");
+        if (!test) {
             setComp(<ErrorPage/>);
         }
         else {
-            const token = decode(localStorage.getItem("token"));
+
+            const token = decode(test);
             const email = token.email;
 
-            await axios.get(`http://localhost:3344/adm/email/${"validation"}/${email}`, {headers: {
+            await axios.get(`${serverUrl}/adm/email/${"validation"}/${email}`, {headers: {
                 authorization : "Bearer " + localStorage.getItem("token")
             }}).then(() => {
                 setComp(compSuccess)
