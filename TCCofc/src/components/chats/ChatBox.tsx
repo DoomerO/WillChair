@@ -306,7 +306,7 @@ const ChatBox = ({ chat_id, user_id, other, offer }: chatBoxProps) => {
             </CardBody>
             <CardFooter>
                 <InputGroup>
-                    <Input maxLength={255} type="text" fontSize={{ base: "20px", md: "15px" }} onKeyDown={handleKeyPress} onChange={handleChange} value={msg}></Input>
+                    <Input maxLength={255} type="text" fontSize={{ base: "17px", md: "15px" }} onKeyDown={handleKeyPress} onChange={handleChange} value={msg}></Input>
                     <InputRightAddon children={<IoMdSend />} bg="#eee" _dark={{ bg: "#0000" }} _hover={{ bg: "#aaa", _dark: { bg: "#555" } }}
                         onClick={() => {
                             setMsg("");

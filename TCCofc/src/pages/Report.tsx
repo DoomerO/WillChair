@@ -177,10 +177,10 @@ const Report = () => {
         (loading) ? <Loading /> : <Box w="100%" h="100%">
             <HeaderToggle />
             <Flex w="100%" h="100%" direction={{ base: "column-reverse", md: "row" }} align="center" _dark={{ bg: colors.bgWhite_Dark }} bg={colors.bgWhite}>
-                <Stack h={{ base: "70vh", md: "95vh" }} w={{ base: "100%", md: "fit-content" }} direction="column" pt="5%" align="center" pl="2vw" pr="2vw" bg={colors.veryLightBlue} _dark={{ bg: colors.veryLightBlue_Dark }}>
-                    <Heading fontFamily="outfit" as="h1" fontSize={{ base: "34px", md: "32" }}>Faça sua denúncia</Heading>
-                    <Text fontFamily="atkinson" fontSize={{ base: "20px", md: "18px" }}>Qual o motivo de sua denúncia?</Text>
-                    <Select w={{ base: "90%", md: "47vw" }} fontSize={{ base: "20px", md: "18px" }} onChange={handleSelect} placeholder="selecione o tipo da denuncia" fontFamily="outfit">
+                <Stack h={{ base: "fit-content", md: "95vh" }} w={{ base: "100%", md: "fit-content" }} direction="column" pt="5%" align="center" pl="2vw" pr="2vw" bg={colors.veryLightBlue} _dark={{ bg: colors.veryLightBlue_Dark }} pb={{base:"10vh", md:"0"}}>
+                    <Heading fontFamily="outfit" as="h1" fontSize={{ base: "30px", md: "32" }}>Faça sua denúncia</Heading>
+                    <Text fontFamily="atkinson" fontSize={{ base: "19px", md: "18px" }}>Qual o motivo de sua denúncia?</Text>
+                    <Select w={{ base: "90%", md: "47vw" }} fontSize={{ base: "17px", md: "18px" }} onChange={handleSelect} placeholder="selecione o tipo da denuncia" fontFamily="outfit">
                         <option value="Fraudes e golpes">Fraudes e golpes</option>
                         <option value="Nudez e conteúdo sexual">Nudez e conteúdo sexual</option>
                         <option value="Informações incorretas">Informações incorretas</option>
@@ -195,15 +195,16 @@ const Report = () => {
                     <Collapse in={select}>
                         <Input placeholder='Tipo de denúncia' w={{ base: "90%", md: "47vw" }} onChange={handleChange} name="den_reason"></Input>
                     </Collapse>
-                    <Heading textAlign="center" fontSize={{ base: "30px", md: "25" }} fontFamily="atkinson">Por que você está denunciando?</Heading>
-                    <Text fontFamily="outfit" fontSize={{ base: "20px", md: "18px" }}>Dê detalhes sobre o ocorrido</Text>
-                    <Textarea w={{ base: "90%", md: "47vw" }} fontSize={{ base: "20px", md: "18px" }} h="25vh" placeholder="Descreva aqui" onChange={handleTextArea} name="den_content" resize={"none"} />
-                    <ButtonGroup >
-                        <Button fontSize={{ base: "20px", md: "15px" }} onClick={checkInputs} colorScheme="linkedin" fontFamily="outfit">Enviar</Button>
-                        <Link to={(type == "offer") ? `/offer/${id}` : `/profile/${report.email}/view`}><Button fontSize={{ base: "20px", md: "15px" }} colorScheme="linkedin" fontFamily="outfit">Cancelar</Button></Link>
+
+                    <Heading textAlign="center" fontSize={{ base: "24px", md: "25" }} fontFamily="atkinson" mt={{base:"5vh", md:"7vh"}}>Por que você está denunciando?</Heading>
+                    <Text fontFamily="outfit" fontSize={{ base: "19px", md: "18px" }}>Dê detalhes sobre o ocorrido</Text>
+                    <Textarea w={{ base: "90%", md: "47vw" }} fontSize={{ base: "17px", md: "18px" }} h={{base:"30vh", md:"25vh"}} placeholder="Descreva aqui" onChange={handleTextArea} name="den_content" resize={"none"}/>
+                    <ButtonGroup mt="3%" >
+                        <Button fontSize={{ base: "17px", md: "15px" }} onClick={checkInputs} colorScheme="linkedin" fontFamily="outfit">Enviar</Button>
+                        <Link to={(type == "offer") ? `/offer/${id}` : `/profile/${report.email}/view`}><Button fontSize={{ base: "17px", md: "15px" }} colorScheme="linkedin" fontFamily="outfit">Cancelar</Button></Link>
                     </ButtonGroup>
                 </Stack>
-                <Image w={{ base: "100%", md: "48%" }} h="100%" src={image} />
+                <Image w={{ base: "100%", md: "48%" }} h="100%" src={image} mt={{base: "10vh", md:"0"}}/>
             </Flex>
             <Footer />
         </Box>

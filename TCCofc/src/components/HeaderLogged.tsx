@@ -115,52 +115,52 @@ const HeaderLogged = ({ user }: avatarProps) => {
                         <Divider orientation="horizontal" mt="3" />
                         <Flex direction="row" align="end" mt="3" mb="3">
                             <Avatar name={user.user_name} src={(user.user_img) ? img : ""} size="2xl" mr="1vw" />
-                            <Heading as="h1" fontFamily="outfit">
+                            <Heading as="h1" fontFamily="outfit" fontSize={{ base: "26px", md: "30px" }}>
                                 {user.user_name}
                             </Heading>
                             <Spacer />
                             <Flex direction="row" align="center">
-                                <Heading as="h1" fontFamily="atkinson" fontSize={{ base: "36px", md: "30px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{(user.user_nota) ? user.user_nota : <Text fontSize={{ base: "18px", md: "20px" }}>Novo</Text>}</Heading>
+                                <Heading as="h1" fontFamily="atkinson" fontSize={{ base: "26px", md: "30px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{(user.user_nota) ? user.user_nota : <Text fontSize={{ base: "18px", md: "20px" }}>Novo</Text>}</Heading>
                                 <BsFillStarFill fill={colors.colorFontBlue} size="3vh" />
                             </Flex>
                         </Flex>
                         <Divider orientation="horizontal" />
                         <Stack mt="3" mb="3">
                             <Flex direction="row" align="center">
-                                <Text fontFamily="outfit" fontSize={{ base: "20px", md: "18px" }} mr="1%">Email:</Text>
-                                <Text fontFamily="outfit" fontSize={{ base: "20px", md: "18px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{user.user_email}</Text>
+                                <Text fontFamily="outfit" fontSize={{ base: "17px", md: "18px" }} mr="1%">Email:</Text>
+                                <Text fontFamily="outfit" fontSize={{ base: "17px", md: "18px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{user.user_email}</Text>
                             </Flex>
                             <Flex direction="row" align="center">
-                                <Text fontFamily="outfit" fontSize={{ base: "20px", md: "18px" }} mr="1%">Telefone:</Text>
-                                <Text fontFamily="outfit" fontSize={{ base: "20px", md: "18px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{user.user_phone}</Text>
+                                <Text fontFamily="outfit" fontSize={{ base: "17px", md: "18px" }} mr="1%">Telefone:</Text>
+                                <Text fontFamily="outfit" fontSize={{ base: "17px", md: "18px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{user.user_phone}</Text>
                             </Flex>
                             <Flex direction="row" align="center">
-                                <Text fontFamily="outfit" fontSize={{ base: "20px", md: "18px" }} mr="1%">CEP:</Text>
-                                <Text fontFamily="outfit" fontSize={{ base: "20px", md: "18px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{user.user_CEP}</Text>
+                                <Text fontFamily="outfit" fontSize={{ base: "17px", md: "18px" }} mr="1%">CEP:</Text>
+                                <Text fontFamily="outfit" fontSize={{ base: "17px", md: "18px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{user.user_CEP}</Text>
                             </Flex>
                             <Flex direction="row" align="start">
-                                <Text fontFamily="outfit" fontSize={{ base: "20px", md: "18px" }} mr="1%">Endereço:</Text>
-                                <Text fontFamily="outfit" fontSize={{ base: "20px", md: "18px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{`${user.user_street ?? "Rua"} ${(user.user_houseNum) ? "n° " + user.user_houseNum + (user.user_comp) ? " " + user.user_comp : "" : ""}, ${user.user_district ?? "Bairro"}, ${user.user_city ?? "Cidade"}, ${user.user_FU ?? "Estado"}`}</Text>
+                                <Text fontFamily="outfit" fontSize={{ base: "17px", md: "18px" }} mr="1%">Endereço:</Text>
+                                <Text fontFamily="outfit" fontSize={{ base: "17px", md: "18px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{`${user.user_street ?? "Rua"} ${(user.user_houseNum) ? "n° " + user.user_houseNum + (user.user_comp) ? " " + user.user_comp : "" : ""}, ${user.user_district ?? "Bairro"}, ${user.user_city ?? "Cidade"}, ${user.user_FU ?? "Estado"}`}</Text>
                             </Flex>
                         </Stack>
                         <Divider orientation="horizontal" />
                         <Stack mt="3">
-                            <Heading as="h5" textAlign="center" fontFamily="outfit" fontSize={{ base: "30px", md: "28px" }}>
+                            <Heading as="h5" textAlign="center" fontFamily="outfit" fontSize={{ base: "26px", md: "28px" }}>
                                 Ações
                             </Heading>
                             <Link to={`/profile/${user.user_email}/view`}>
                                 <Flex direction="row" w="100%" align="center" _hover={{ bg: "#0002", _dark: { bg: "#fff2" } }} p="2%" borderRadius="10px">
-                                    <Text fontFamily="outfit" fontSize={{ base: "20px", md: "18px" }}>Acessar Perfil</Text><Spacer /><CgProfile size="6%" />
+                                    <Text fontFamily="outfit" fontSize={{ base: "17px", md: "18px" }}>Acessar Perfil</Text><Spacer /><CgProfile size="6%" />
                                 </Flex>
                             </Link>
                             <Link to="/current-chats">
                                 <Flex direction="row" w="100%" align="center" _hover={{ bg: "#0002", _dark: { bg: "#fff2" } }} p="2%" borderRadius="10px">
-                                    <Text fontFamily="outfit" fontSize={{ base: "20px", md: "18px" }}>Acessar Conversas </Text><Spacer /><PiChatsFill size="6%" />
+                                    <Text fontFamily="outfit" fontSize={{ base: "17px", md: "18px" }}>Acessar Conversas </Text><Spacer /><PiChatsFill size="6%" />
                                 </Flex>
                             </Link>
                             <Link to="/logout">
                                 <Flex direction="row" w="100%" align="center" _hover={{ bg: "#0002", _dark: { bg: "#fff2" } }} p="2%" borderRadius="10px">
-                                    <Text fontFamily="outfit" fontSize={{ base: "20px", md: "18px" }}>Logout</Text><Spacer /><AiOutlineLogout size="6%" />
+                                    <Text fontFamily="outfit" fontSize={{ base: "17px", md: "18px" }}>Logout</Text><Spacer /><AiOutlineLogout size="6%" />
                                 </Flex>
                             </Link>
                         </Stack>

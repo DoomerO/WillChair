@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Heading, IconButton, Spacer, Text, useColorMode, useToast } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { FiArrowLeft, FiSun, FiMoon } from "react-icons/fi";
 
@@ -83,14 +83,14 @@ const PasswordChange = () => {
 
     return (
         <Box w="100%" h="100%" justifyContent="center" alignContent="center">
-            <Flex direction="row" w="90%" mt="3%">
-                <Link to={`/profile/${user.email}/view`}><IconButton aria-label='Return to home' icon={<FiArrowLeft />}></IconButton></Link>
+            <Flex direction="row" w="90%" ml="5%" justifyContent="center" align={"center"} position={{ base: "absolute", md: "inherit" }}>
+                <IconButton aria-label='Return to home' icon={<FiArrowLeft />} onClick={() => { navigate(`/profile/${user.email}/view`) }}></IconButton>
                 <Spacer />
                 <IconButton onClick={toggleColorMode} aria-label='switch lighting mode'
                     icon={localStorage.getItem("chakra-ui-color-mode") == 'light' ? <FiSun /> : <FiMoon />}></IconButton>
             </Flex>
-            <Flex align="center" border="3px" direction="column" h="inherit" mt={{ base: "20%", md: "7%" }}>
-                <Heading as='h1' textAlign="center">Indique a nova senha</Heading>
+            <Flex align="center" border="3px" direction="column" h="inherit" mt={{ base: "10%", md: "7%" }}>
+                <Heading as='h1' textAlign="center" mt={{base: "18vh", md:"0"}}>Indique a nova senha</Heading>
                 <Spacer />
                 <Flex direction="column" align="center" mt="3%" mb="2%">
                     <Text fontSize={{ base: "23px", md: "25px" }} mb="3%">Digite aqui sua nova senha.</Text>

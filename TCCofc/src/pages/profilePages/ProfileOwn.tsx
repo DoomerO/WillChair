@@ -253,10 +253,10 @@ const ProfileOwn = ({ user }: ProfileOwnProps) => {
     return (
         (loading) ? <Loading /> : <Box w="100%" h="100%">
             <HeaderToggle />
-            <Flex direction="column" align="center" w="100%" bg={colors.bgWhite} h="fit-content" pt={{ base: "10vh", sm: "4.6%" }} _dark={{ bg: colors.bgWhite_Dark }}>
-                <Flex direction={{ base: "column-reverse", sm: "row" }} w="100%" h="fit-content">
+            <Flex direction="column" align="center" w="100%" bg={colors.bgWhite} h="fit-content" pt={{ base: "0", sm: "4.6%" }} _dark={{ bg: colors.bgWhite_Dark }}>
+                <Flex direction={{ base: "column", sm: "row" }} w="100%" h="fit-content">
 
-                    <Stack w={{ base: "100%", sm: "22%" }} align="center" bg={colors.bgProfileImg} spacing={4} _dark={{ bg: colors.bgProfileImg_Dark }} mr={{ base: "0", sm: "2%" }} pt={{ base: "5vh", sm: "0" }} pb={{ base: "5vh", sm: "0" }}>
+                    <Stack w={{ base: "100%", sm: "22%" }} align="center" bg={colors.bgProfileImg} spacing={4} _dark={{ bg: colors.bgProfileImg_Dark }} mr={{ base: "0", sm: "2%" }} pt={{ base: "11vh", sm: "0" }} pb={{ base: "5vh", sm: "0" }}>
                         <Avatar src={(userUpdate.user_img != "") ? showImg : (user.user_img) ? user.user_img : ""} name={user.user_name} size="2xl" w="30vh" h="30vh" />
                         <InputGroup display="flex" zIndex={1} w="77.5%">
                             <InputLeftAddon children={<MdOutlinePhotoSizeSelectActual size="80%" />} />
@@ -284,7 +284,7 @@ const ProfileOwn = ({ user }: ProfileOwnProps) => {
                         }}>clique aqui</Button> para mudar sua senha...</Text>
                     </Stack>
 
-                    <Stack w={{ base: "100%", sm: "72%" }} pb="5vh">
+                    <Stack w={{ base: "100%", sm: "72%" }} pb="5vh" pt="5vh">
                         <SimpleGrid spacing={3} w="100%" fontSize={{ base: "19px", sm: "20px" }} justifyContent={{ base: "center", sm: "normal" }}>
 
                             <Heading as="h4" fontFamily="outfit" textAlign="center" fontSize={{ base: "24px", sm: "28px" }}>Informações da Conta e Contato</Heading>
@@ -370,13 +370,13 @@ const ProfileOwn = ({ user }: ProfileOwnProps) => {
                 </Flex>
             </Flex>
 
-            <Flex bg={colors.veryLightBlue} h="fit-content" direction="column" align="center" pb="5vh" _dark={{ bg: colors.veryLightBlue_Dark }}>
-                <Heading as="h1" mt="3%" fontSize={{ base: "34px", sm: "30px" }} textAlign="center" color={colors.colorFontDarkBlue} mb="3%" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Comentários sobre você</Heading>
+            <Flex bg={colors.veryLightBlue} h="fit-content" direction="column" align="center" _dark={{ bg: colors.veryLightBlue_Dark }}>
+                <Heading as="h1" fontSize={{ base: "25px", sm: "30px" }} textAlign="center" color={colors.colorFontDarkBlue} mt={{base:"3vh", md:"3%"}} mb={{base:"3vh", md:"3%"}} _dark={{ color: colors.colorFontDarkBlue_Dark }}>Comentários sobre você</Heading>
                 {(avaliations.length > 0) ? <CommentList component={renderComments} /> : <SignNotFound msg={`As coisas estão meio quietas por aqui...Não há avaliações sobre ${user.user_name}`} icon={<TbMoodSilence size="45%" />} />}
             </Flex>
 
-            <Flex bg={colors.bgWhite} h="fit-content" direction="column" align="center" pb="5vh" _dark={{ bg: colors.bgWhite_Dark }}>
-                <Heading as="h1" mt="3%" fontSize={{ base: "34px", sm: "30px" }} textAlign="center" color={colors.colorFontDarkBlue} mb="3%" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Suas Ofertas</Heading>
+            <Flex bg={colors.bgWhite} h="fit-content" direction="column" align="center" _dark={{ bg: colors.bgWhite_Dark }}>
+                <Heading as="h1" fontSize={{ base: "25px", sm: "30px" }} textAlign="center" color={colors.colorFontDarkBlue} mt={{base:"3vh", md:"3%"}} mb={{base:"3vh", md:"3%"}} _dark={{ color: colors.colorFontDarkBlue_Dark }}>Suas Ofertas</Heading>
                 {(userOffers.length > 0) ? <OfferList component={renderUserOffers} canMdNew /> : <SignNotFoundButton msg="Parece que você não possui ofertas registradas...Que tal criar alguma?!" icon={<BsPencil size="45%" />} btnText='Criar Oferta' btnPath='/create-offer/any' />}
             </Flex>
             <Footer />

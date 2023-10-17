@@ -8,15 +8,15 @@ const Terms = () => {
     return (
         <Box w="100%" h="100%" justifyContent="center">
             <Flex direction="row" w="100%" position="absolute">
-                <Link to="/"><IconButton aria-label='Return to home' icon={<AiOutlineHome />}></IconButton></Link>
+                <Link to="/"><IconButton ml="5vw" aria-label='Return to home' icon={<AiOutlineHome />}></IconButton></Link>
                 <Spacer />
-                <IconButton onClick={toggleColorMode} aria-label='switch lighting mode'
+                <IconButton mr="5vw" onClick={toggleColorMode} aria-label='switch lighting mode'
                     icon={localStorage.getItem("chakra-ui-color-mode") == 'light' ? <FiSun /> : <FiMoon />}></IconButton>
             </Flex>
-            <Flex align="center" border="3px" direction="column" h="inherit" mt="4%" >
+            <Flex align="center" border="3px" direction="column" h="inherit" mt="4%" pt={{base:"8vh", md:"0"}} >
                 <Heading as='h1' >Termos de serviço</Heading>
                 <Spacer />
-                <Flex direction="column" mt="3%" border="2px solid #000" p="2% 2% 0 2%" _dark={{ border: "2px solid #fff" }} w="70%" borderRadius="10px" minH="70vh" maxH="70vh" overflowY="scroll" css={{
+                <Flex direction="column" mt="3%" border="2px solid #000" p="2% 2% 0 2%" _dark={{ border: "2px solid #fff" }} w={{base:"90%", md:"70%"}} borderRadius="10px" minH={{base:"75vh", md:"70vh"}} maxH={{base:"75vh", md:"70vh"}} overflowY="scroll" css={{
                     '&::-webkit-scrollbar': {
                         width: '4px',
                     },

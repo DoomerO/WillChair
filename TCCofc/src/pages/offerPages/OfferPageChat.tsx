@@ -235,7 +235,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
                     <Stack w={{ base: "100%", md: "65%" }} h="100%" spacing={8}>
                         <Heading as="h1" fontFamily="outfit" fontSize={{ base: "25px", md: "34px" }} color={colors.colorFontBlue} noOfLines={{ md: 1 }}>{offer.ofr_name}</Heading>
                         <Flex direction={{ base: "column", md: "row" }} w="100%">
-                            <SimpleGrid spacing={3} fontSize={{ base: "20px", md: "18px" }}>
+                            <SimpleGrid spacing={3} fontSize={{ base: "17px", md: "18px" }}>
                                 <Flex direction="row">
                                     <Text fontFamily="atkinson" mr="5px">Tipo de Oferta:</Text>
                                     <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{offer.ofr_type}</Text>
@@ -250,7 +250,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
                                 </Flex>
                             </SimpleGrid>
                             <Spacer />
-                            <SimpleGrid spacing={3} fontSize={{ base: "20px", md: "18px" }}>
+                            <SimpleGrid spacing={3} fontSize={{ base: "17px", md: "18px" }}>
                                 <Flex direction="row">
                                     <Text fontFamily="atkinson" mr="5px">Valor:</Text>
                                     <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{(offer.ofr_type == "Doação") ? "Grátis" : `R$${offer.ofr_value}`}</Text>
@@ -272,7 +272,7 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
                         {(reports) ? <Flex bg="red.500" color="#fff" direction={{ base: "column", md: "row" }} maxW={{ base: "100%", md: "68%" }} align="center" w="fit-content" p={{ base: "1%", md: "0px 20px 0px 5px" }} borderRadius="10px">
                             <MdOutlineReportProblem size="60%" />
                             <Spacer />
-                            <Text textAlign={{ base: "center", md: "justify" }} fontSize={{ base: "22px", md: "18px" }}>Essa oferta possui denúncias! Estamos avaliando-a para evitar danos à comunidade. Não recomendamos interações...</Text>
+                            <Text textAlign={{ base: "center", md: "justify" }} fontSize={{ base: "17px", md: "18px" }}>Essa oferta possui denúncias! Estamos avaliando-a para evitar danos à comunidade. Não recomendamos interações...</Text>
                         </Flex> : ""}
                     </Stack>
                 </Flex>
@@ -282,17 +282,18 @@ const OfferPageChat = ({ offer, user }: ChatPage) => {
                 <Flex direction={{ base: "column", md: "row" }} h={{ base: "fit_content", md: "50vh" }} w="90%">
                     <Stack w={{ base: "100%", md: "45%" }} h={{ base: "50vh", md: "100%" }} mt="2vh">
                         <Heading as="h3" fontFamily="outfit" fontSize={{ base: "25px", md: "30px" }} color={colors.colorFontBlue}>Descrição</Heading>
-                        <Text textAlign="justify" fontSize={{ base: "22px", md: "19px" }}>{offer.ofr_desc}</Text>
+                        <Text textAlign="justify" fontSize={{ base: "17px", md: "19px" }}>{offer.ofr_desc}</Text>
                     </Stack>
 
                     <Divider orientation="vertical" mr="5%" ml="5%" display={{ base: "none", md: "inherit" }} />
 
-                    <Stack w={{ base: "100%", md: "45%" }} h={{ base: "fit-content", md: "100%" }} mt="2vh" fontSize={{ base: "20px", md: "18px" }}>
+                    <Stack w={{ base: "100%", md: "45%" }} h={{ base: "fit-content", md: "100%" }} mt="2vh" fontSize={{ base: "17px", md: "18px" }}>
                         <Flex direction="row" align="center">
                             <Link to={`/profile/${owner.user_email}/view`}><Avatar name={owner.user_name} src={(owner.user_img) ? img : ""} _hover={{ border: `2px solid ${colors.colorFontBlue}`, _dark: { border: "2px solid #fff" } }}></Avatar></Link>
-                            <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{ base: "22px", md: "20px" }} ml="2%" mr="2%">{owner.user_name}</Text>
+                            <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{ base: "20px", md: "20px" }} ml="2%" mr="2%">{owner.user_name}</Text>
+                            <Spacer display={{base: "flex", md: "none"}}/>
                             <BsFillStarFill fill={colors.colorFontBlue} />
-                            <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }} fontSize={{ base: "22px", md: "20px" }}>{(owner.user_nota) ? owner.user_nota : "Novo"}</Text>
+                            <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }} fontSize={{ base: "17px", md: "20px" }}>{(owner.user_nota) ? owner.user_nota : "Novo"}</Text>
                             <Spacer />
                             <Button variant="ghost" w="fit-content" onClick={() => {
                                 toast({

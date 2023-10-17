@@ -225,7 +225,7 @@ const Search = () => {
 
             <Flex bg={colors.veryLightBlue} w='100%' h='70vh' align="center" _dark={{ bg: colors.veryLightBlue_Dark }} direction="column">
                 <Spacer />
-                <Heading color={colors.colorFontDarkBlue} as='h1' textAlign="center" fontSize={{ base: "36px", md: "30px" }} fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }} mb="5%">Não achou o que estava procurando?</Heading>
+                <Heading color={colors.colorFontDarkBlue} as='h1' textAlign="center" fontSize={{ base: "28px", md: "30px" }} fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }} mb="5%">Não achou o que estava procurando?</Heading>
 
                 <Flex w="90%" direction={{ base: "column-reverse", md: "row" }} align={{ base: "normal", md: "center" }}>
                     <InputGroup display="flex" zIndex={1} w={{ base: "80%", md: "30%" }}>
@@ -255,11 +255,11 @@ const Search = () => {
             </Flex>
 
             <Flex bg={colors.bgWhite} w="100%" h='fit-content' align="center" direction="column" _dark={{ bg: colors.bgWhite_Dark }} pb="5vh">
-                <Heading as="h1" fontSize={{ base: "36px", md: "30px" }} fontFamily="outfit" color={colors.colorFontBlue} mb="3%" mt="3%" textAlign="center">Seus Resultados da Pesquisa "{(value == "others") ? "Outros" : value}"</Heading>
+                <Heading as="h1" fontSize={{ base: "25px", md: "30px" }} fontFamily="outfit" color={colors.colorFontBlue} mb="3%" mt="3%" textAlign="center">Seus Resultados da Pesquisa "{(value == "others") ? "Outros" : value}"</Heading>
                 <Stack direction="row" align="center" w="95%" mb="3%" spacing={4}>
-                    <Button colorScheme="linkedin" w="10%" variant="outline" onClick={() => { setShow(!showFilters) }} >{(showFilters) ? <BiMinus size="inherit" /> : <MdAdd size="inherit" />}Filtros</Button>
+                    <Button colorScheme="linkedin" variant="outline" onClick={() => { setShow(!showFilters) }} >{(showFilters) ? <BiMinus size="100%" /> : <MdAdd size="100%" />}Filtros</Button>
                     <Collapse in={showFilters}>
-                        <Stack direction="row" w="100%" spacing={5}>
+                        <Stack direction={{base:"column", md:"row"}} w="100%" spacing={5}>
                             <FormLabel display="flex" flexDirection="row" alignItems="center">
                                 Cidade:
                                 <Input name="city" onChange={handleFilters} ml="5px" type="text" variant="flushed"></Input>

@@ -21,11 +21,11 @@ const TeamModal = ({ isOpen, setClose }: modalProps) => {
             <Text fontWeight="semibold" fontFamily="outfit" fontSize={{ base: "18px", md: "20px" }} noOfLines={2} textAlign="center" w="80%">Programador Backend, Web Designer e Gestor de Projeto</Text>
             <Flex direction="row" align="center" mt="3" w="80%">
                 <BsGithub size="10%" />
-                <Link to="https://github.com/DoomerO" target="_blank"><Button ml="3%" fontSize={{ base: "20px", md: "18px" }} variant="link" colorScheme="linkedin">DoomerO</Button></Link>
+                <Link to="https://github.com/DoomerO" target="_blank"><Button ml="3%" fontSize={{ base: "16px", md: "18px" }} variant="link" colorScheme="linkedin">DoomerO</Button></Link>
             </Flex>
             <Flex direction="row" align="center" mt="3" w="80%">
                 <BsLinkedin size="10%" />
-                <Link to="https://www.linkedin.com/in/jo%C3%A3o-victor-r-281950240/" target="_blank"><Button ml="2%" fontSize={{ base: "20px", md: "18px" }} variant="link" colorScheme="linkedin">João Victor (Almeida) Rodrigues</Button></Link>
+                <Link to="https://www.linkedin.com/in/jo%C3%A3o-victor-r-281950240/" target="_blank"><Button ml="2%" fontSize={{ base: "16px", md: "18px" }} variant="link" colorScheme="linkedin" >João Victor Rodrigues</Button></Link>
             </Flex>
         </Stack>,
 
@@ -35,7 +35,7 @@ const TeamModal = ({ isOpen, setClose }: modalProps) => {
             <Text fontWeight="semibold" fontFamily="outfit" fontSize={{ base: "18px", md: "20px" }} noOfLines={2} textAlign="center" w="80%">Programador Frontend para Usabilidade e Efeitos Gráficos</Text>
             <Flex direction="row" align="center" mt="3" w="80%">
                 <BsGithub size="10%" />
-                <Link to="https://github.com/BrRange" target="_blank"><Button ml="3%" fontSize={{ base: "20px", md: "18px" }} variant="link" colorScheme="linkedin">BrRange</Button></Link>
+                <Link to="https://github.com/BrRange" target="_blank"><Button ml="3%" fontSize={{ base: "16px", md: "18px" }} variant="link" colorScheme="linkedin">BrRange</Button></Link>
             </Flex>
         </Stack>,
 
@@ -45,7 +45,7 @@ const TeamModal = ({ isOpen, setClose }: modalProps) => {
             <Text fontWeight="semibold" fontFamily="outfit" fontSize={{ base: "18px", md: "20px" }} noOfLines={2} textAlign="center" w="80%">Programador Backend e Modelador de Banco de Dados</Text>
             <Flex direction="row" align="center" mt="3" w="80%">
                 <BsGithub size="10%" />
-                <Link to="https://github.com/Gustav01v" target="_blank"><Button ml="3%" fontSize={{ base: "20px", md: "18px" }} variant="link" colorScheme="linkedin">Gustav01v</Button></Link>
+                <Link to="https://github.com/Gustav01v" target="_blank"><Button ml="3%" fontSize={{ base: "16px", md: "18px" }} variant="link" colorScheme="linkedin">Gustav01v</Button></Link>
             </Flex>
         </Stack>,
 
@@ -55,7 +55,7 @@ const TeamModal = ({ isOpen, setClose }: modalProps) => {
             <Text fontWeight="semibold" fontFamily="outfit" fontSize={{ base: "18px", md: "20px" }} noOfLines={2} textAlign="center" w="80%">Programadora Mobile e Editora de Documentação</Text>
             <Flex direction="row" align="center" mt="3" w="80%">
                 <BsGithub size="10%" />
-                <Link to="https://github.com/Mylliee" target="_blank"><Button ml="3%" fontSize={{ base: "20px", md: "18px" }} variant="link" colorScheme="linkedin">Mylliee</Button></Link>
+                <Link to="https://github.com/Mylliee" target="_blank"><Button ml="3%" fontSize={{ base: "16px", md: "18px" }} variant="link" colorScheme="linkedin">Mylliee</Button></Link>
             </Flex>
         </Stack>,
 
@@ -65,7 +65,7 @@ const TeamModal = ({ isOpen, setClose }: modalProps) => {
             <Text fontWeight="semibold" fontFamily="outfit" fontSize={{ base: "18px", md: "20px" }} noOfLines={2} textAlign="center" w="80%">Designer Gráfico</Text>
             <Flex direction="row" align="center" mt="3" w="80%">
                 <BsGithub size="10%" />
-                <Link to="https://github.com/MatheusBarbosa-01" target="_blank"><Button ml="3%" fontSize={{ base: "20px", md: "18px" }} variant="link" colorScheme="linkedin">MatheusBarbosa-01</Button></Link>
+                <Link to="https://github.com/MatheusBarbosa-01" target="_blank"><Button ml="3%" fontSize={{ base: "16px", md: "18px" }} variant="link" colorScheme="linkedin">MatheusBarbosa-01</Button></Link>
             </Flex>
         </Stack>,
 
@@ -75,7 +75,7 @@ const TeamModal = ({ isOpen, setClose }: modalProps) => {
             <Text fontWeight="semibold" fontFamily="outfit" fontSize={{ base: "18px", md: "20px" }} noOfLines={2} textAlign="center" w="80%">Gestor de Redes Sociais</Text>
             <Flex direction="row" align="center" mt="3" w="80%">
                 <BsGithub size="10%" />
-                <Link to="https://github.com/ointerrogacaodv" target="_blank"><Button ml="3%" fontSize={{ base: "20px", md: "18px" }} variant="link" colorScheme="linkedin">ointerrogacaodv</Button></Link>
+                <Link to="https://github.com/ointerrogacaodv" target="_blank"><Button ml="3%" fontSize={{ base: "16px", md: "18px" }} variant="link" colorScheme="linkedin">ointerrogacaodv</Button></Link>
             </Flex>
         </Stack>
     ]

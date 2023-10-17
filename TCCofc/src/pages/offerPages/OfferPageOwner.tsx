@@ -381,14 +381,14 @@ const OfferPageOwner = ({ offer, user }: OwnerPageprops) => {
                     <Stack w={{ base: "100%", md: "65%" }} h="100%" spacing={8}>
                         <Stack direction="row">
                             <Input type="text" placeholder={offer.ofr_name} name="ofr_name" _placeholder={{ color: colors.colorFontBlue }} value={updateOffer.ofr_name || ""}
-                                variant={{ base: "outline", md: "flushed" }} fontFamily="outfit" fontSize={{ base: "32px", md: "34px" }} onChange={handleChangeOffer} />
+                                variant={{ base: "outline", md: "flushed" }} fontFamily="outfit" fontSize={{ base: "24px", md: "34px" }} onChange={handleChangeOffer} />
                         </Stack>
 
                         <Flex direction={{ base: "column", md: "row" }} w={{ base: "100%", md: "70%" }}>
-                            <SimpleGrid spacing={3} fontSize={{ base: "20px", md: "18px" }} mb="3%">
+                            <SimpleGrid spacing={3} fontSize={{ base: "17px", md: "18px" }} mb="3%">
                                 <Flex direction="row" align="center">
                                     <Text fontFamily="atkinson" mr="5px">Tipo de Oferta:</Text>
-                                    <Select color={colors.colorFontDarkBlue} fontSize={{ base: "20px", md: "18px" }} onChange={handleSelectOffer} value={updateOffer.ofr_type} name="ofr_type" w={{ base: "50%", md: "60%" }} variant={{ base: "outline", md: "flushed" }} _dark={{ color: colors.colorFontDarkBlue_Dark }}>
+                                    <Select color={colors.colorFontDarkBlue} fontSize={{ base: "17px", md: "18px" }} onChange={handleSelectOffer} value={updateOffer.ofr_type} name="ofr_type" w={{ base: "50%", md: "60%" }} variant={{ base: "outline", md: "flushed" }} _dark={{ color: colors.colorFontDarkBlue_Dark }}>
                                         <option value='Doação'>Doação</option>
                                         <option value='Venda'>Venda</option>
                                         <option value='Aluguél'>Aluguél</option>
@@ -404,10 +404,10 @@ const OfferPageOwner = ({ offer, user }: OwnerPageprops) => {
                                 </Flex>
                             </SimpleGrid>
                             <Spacer />
-                            <SimpleGrid spacing={3} fontSize={{ base: "20px", md: "18px" }}>
+                            <SimpleGrid spacing={3} fontSize={{ base: "17px", md: "18px" }}>
                                 <Flex direction="row" align="center">
                                     <Text fontFamily="atkinson" mr="5px">{'Valor (R$):'}</Text>
-                                    <Input type="number" fontFamily="atkinson" fontSize={{ base: "20px", md: "18px" }} name="ofr_value" placeholder={(offer.ofr_type == "Doação") ? "Grátis" : offer.ofr_value?.toString()} value={updateOffer.ofr_value || ""}
+                                    <Input type="number" fontFamily="atkinson" fontSize={{ base: "17px", md: "18px" }} name="ofr_value" placeholder={(offer.ofr_type == "Doação") ? "Grátis" : offer.ofr_value?.toString()} value={updateOffer.ofr_value || ""}
                                         _placeholder={{ color: colors.colorFontDarkBlue }} variant={{ base: "outline", md: "flushed" }} onChange={handleChangeOffer} w={{ base: "50%", md: "24%" }} _dark={{ _placeholder: { color: colors.colorFontDarkBlue_Dark } }} />
                                 </Flex>
                                 <Flex direction="row" align="center">
@@ -416,7 +416,7 @@ const OfferPageOwner = ({ offer, user }: OwnerPageprops) => {
                                 </Flex>
                                 <Flex direction="row" align="center">
                                     <Text fontFamily="atkinson" mr="5px">Parcelas:</Text>
-                                    <Input type="number" fontFamily="atkinson" fontSize={{ base: "20px", md: "18px" }} placeholder={offer.ofr_parcelas?.toString()} name="ofr_parcelas" value={updateOffer.ofr_parcelas || ""}
+                                    <Input type="number" fontFamily="atkinson" fontSize={{ base: "17px", md: "18px" }} placeholder={offer.ofr_parcelas?.toString()} name="ofr_parcelas" value={updateOffer.ofr_parcelas || ""}
                                         _placeholder={{ color: colors.colorFontDarkBlue }} variant={{ base: "outline", md: "flushed" }} onChange={handleChangeOffer} w={{ base: "50%", md: "24%" }} _dark={{ _placeholder: { color: colors.colorFontDarkBlue_Dark } }} />
                                 </Flex>
                             </SimpleGrid>
@@ -430,8 +430,8 @@ const OfferPageOwner = ({ offer, user }: OwnerPageprops) => {
                             <Spacer />
                             {(offer.ofr_status != "Livre") ? <Flex bg={colors.bgTableRow1} p="1%" direction="row" align="center" ml={{ base: 0, md: "2%" }} w={{ base: "100%", md: "68%" }} borderRadius="15px" mt={{ base: "3%", md: 0 }} _dark={{ bg: colors.bgTableRow1_Dark }}>
                                 <Link to={`/profile/${compUser.user_email}/view`}><Avatar name={compUser.user_name} src={(compUser.user_img) ? imgIntrested : ""} _hover={{ border: `2px solid ${colors.colorFontBlue}`, _dark: { border: "2px solid #fff" } }} /></Link>
-                                <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{ base: "19px", md: "20px" }} mr="2%" ml="1%">{compUser.user_name}</Text>
-                                <Text fontFamily="atkinson" fontSize={{ base: "19px", md: "20px" }}>fechou com essa oferta!</Text>
+                                <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{ base: "17px", md: "20px" }} mr="2%" ml="1%">{compUser.user_name}</Text>
+                                <Text fontFamily="atkinson" fontSize={{ base: "17px", md: "20px" }}>fechou com essa oferta!</Text>
                             </Flex> : ""}
                         </Flex>
                     </Stack>
@@ -442,17 +442,18 @@ const OfferPageOwner = ({ offer, user }: OwnerPageprops) => {
                 <Flex direction={{ base: "column", md: "row" }} h={{ base: "fit_content", md: "50vh" }} w="90%">
                     <Stack w={{ base: "100%", md: "45%" }} h={{ base: "50vh", md: "100%" }} mt="2vh">
                         <Heading as="h3" fontFamily="outfit" fontSize={{ base: "25px", md: "34px" }} color={colors.colorFontBlue}>Descrição</Heading>
-                        <Textarea placeholder={offer.ofr_desc} fontSize={{ base: "20px", md: "18px" }} value={updateOffer.ofr_desc || ""} name="ofr_desc" onChange={handleAreaOffer} fontFamily="atkinson" w="100%" resize="none" h={{ base: "80%", md: "70%" }}/>
+                        <Textarea placeholder={offer.ofr_desc} fontSize={{ base: "17px", md: "18px" }} value={updateOffer.ofr_desc || ""} name="ofr_desc" onChange={handleAreaOffer} fontFamily="atkinson" w="100%" resize="none" h={{ base: "80%", md: "70%" }}/>
                     </Stack>
 
                     <Divider orientation="vertical" mr="5%" ml="5%" display={{ base: "none", md: "inherit" }} />
 
-                    <Stack w={{ base: "100%", md: "45%" }} h={{ base: "fit-content", md: "100%" }} fontSize={{ base: "20px", md: "18px" }} mt="2vh">
+                    <Stack w={{ base: "100%", md: "45%" }} h={{ base: "fit-content", md: "100%" }} fontSize={{ base: "17px", md: "18px" }} mt="2vh">
                         <Flex direction="row" align="center">
                             <Avatar name={user.user_name} src={(user.user_img) ? imgOwner : ""} mr="2%"></Avatar>
-                            <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{ base: "22px", md: "20px" }} mr="2%">{user.user_name}</Text>
+                            <Text fontFamily="atkinson" color={colors.colorFontBlue} fontSize={{ base: "20px", md: "20px" }} mr="2%">{user.user_name}</Text>
+                            <Spacer display={{base:"flex", md:"none"}}/>
                             <BsFillStarFill fill={colors.colorFontBlue} />
-                            <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }} fontSize={{ base: "22px", md: "20px" }}>{(user.user_nota) ? user.user_nota : "Novo"}</Text>
+                            <Text fontFamily="atkinson" color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }} fontSize={{ base: "17px", md: "20px" }}>{(user.user_nota) ? user.user_nota : "Novo"}</Text>
                         </Flex>
                         <Flex direction="row">
                             <Text fontFamily="atkinson" mr="5px">Email:</Text>
@@ -469,7 +470,7 @@ const OfferPageOwner = ({ offer, user }: OwnerPageprops) => {
                         {(reports) ? <Flex zIndex="1" right="0" top="15vh" position={{ base: "absolute", md: "initial" }} bg="red.500" color="#fff" direction={{ base: "column", md: "row" }} maxW="100%" align="center" w="fit-content" p={{ base: "1%", md: "10px 20px 10px 5px" }} borderRadius="10px">
                             <MdOutlineReportProblem size="60%" />
                             <Spacer />
-                            <Text textAlign={{ base: "center", md: "justify" }} fontSize={{ base: "22px", md: "18px" }}>Sua oferta possuí denúncias! A situação está sendo avaliada! Em breve uma atitude será tomada! Enquanto isso a oferta não poderá ser alterada ou apagada.</Text>
+                            <Text textAlign={{ base: "center", md: "justify" }} fontSize={{ base: "17px", md: "18px" }}>Sua oferta possuí denúncias! A situação está sendo avaliada! Em breve uma atitude será tomada! Enquanto isso a oferta não poderá ser alterada ou apagada.</Text>
                         </Flex> : ""}
                     </Stack>
                 </Flex>
@@ -483,7 +484,7 @@ const OfferPageOwner = ({ offer, user }: OwnerPageprops) => {
                     <Stack mb="3%" direction={{ base: "column", md: "row" }} align="center" spacing={2} fontSize={{ base: "25px", md: "30px" }}>
                         <Heading noOfLines={1} textAlign="center" color={colors.colorFontDarkBlue} fontSize={{base: "25px", md:"34px"}} fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Chat com </Heading>
                         <Select placeholder="usuário interessado" variant="flushed" w="fit-content" color={colors.colorFontDarkBlue}
-                            fontFamily="outfit" fontSize={{ base: "32px", md: "32px" }} _dark={{ color: colors.colorFontDarkBlue_Dark }} fontWeight="bold" onChange={handleChangeSelect}>
+                            fontFamily="outfit" fontSize={{ base: "25px", md: "32px" }} _dark={{ color: colors.colorFontDarkBlue_Dark }} fontWeight="bold" onChange={handleChangeSelect}>
                             {optionsChat}
                         </Select>
                     </Stack>

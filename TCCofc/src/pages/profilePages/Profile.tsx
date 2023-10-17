@@ -94,14 +94,14 @@ const Profile = ({ user }: ProfileProps) => {
       <HeaderToggle />
       <Flex direction="column" align="center" w="100%" bg={colors.bgWhite} h="fit-content" pt={{ base: "9vh", sm: "4.6%" }} _dark={{ bg: colors.bgWhite_Dark }}>
         <Flex direction={{ base: "column", sm: "row" }} w="90%" h="fit-content" pb="5vh" align={{ base: "center", sm: "normal" }}>
-          <Avatar src={user.user_img ?? null} name={user.user_name ?? "Default"} size="2xl" w="30vh" h="30vh" />
+          <Avatar src={user.user_img ?? null} name={user.user_name ?? "Default"} size="2xl" w="30vh" h="30vh" mb="2vh"/>
           <Spacer />
-          <Stack w={{ base: "95%", sm: "80%" }}>
+          <Stack w={{ base: "100%", sm: "80%" }}>
 
             <Flex direction="row" align="center">
-              <Heading as="h1" fontSize={{ base: "30px", sm: "30px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{user.user_name}</Heading>
+              <Heading as="h1" fontSize={{ base: "24px", sm: "30px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{user.user_name}</Heading>
               <Spacer />
-              <Text fontFamily="atkinson" fontSize={{ base: "30px", sm: "30px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{(user.user_nota) ? user.user_nota : "Novo"}</Text>
+              <Text fontFamily="atkinson" fontSize={{ base: "22px", sm: "30px" }} color={colors.colorFontDarkBlue} _dark={{ color: colors.colorFontDarkBlue_Dark }}>{(user.user_nota) ? user.user_nota : "Novo"}</Text>
               <BsFillStarFill fill={colors.colorFontBlue} size="3vh" />
               <Button variant="ghost" w="fit-content" onClick={() => {
                 toast({
@@ -120,7 +120,7 @@ const Profile = ({ user }: ProfileProps) => {
             </Flex>
 
             <Flex direction={{ base: "column-reverse", md: "row" }} align="flex-start" w="100%">
-              <SimpleGrid spacing={3} fontSize={{ base: "20px", sm: "20px" }}>
+              <SimpleGrid spacing={3} fontSize={{ base: "17px", sm: "20px" }}>
                 <Flex direction="row">
                   <Text fontFamily="atkinson" mr="5px">Email:</Text>
                   <Text fontFamily="atkinson" color={colors.colorFontBlue}>{user?.user_email ?? "Default"}</Text>
@@ -151,13 +151,13 @@ const Profile = ({ user }: ProfileProps) => {
         </Flex>
       </Flex>
 
-      <Flex bg={colors.veryLightBlue} h="fit-content" direction="column" align="center" pb="5vh" _dark={{ bg: colors.veryLightBlue_Dark }}>
-        <Heading as="h1" mt="3%" fontSize={{ base: "25px", sm: "30px" }} textAlign="center" color={colors.colorFontDarkBlue} mb="2%" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Comentários sobre {user.user_name ?? null}</Heading>
+      <Flex bg={colors.veryLightBlue} h="fit-content" direction="column" align="center" _dark={{ bg: colors.veryLightBlue_Dark }}>
+        <Heading as="h1" fontSize={{ base: "25px", sm: "30px" }} textAlign="center" color={colors.colorFontDarkBlue} mt={{base:"3vh", md:"3%"}} mb={{base:"3vh", md:"3%"}} _dark={{ color: colors.colorFontDarkBlue_Dark }}>Comentários sobre {user.user_name ?? null}</Heading>
         {(avaliationQuery.length > 0) ? <CommentList component={renderComments} /> : <SignNotFound msg={`As coisas estão meio quietas por aqui...Não há avaliações sobre ${user.user_name ?? null}`} icon={<TbMoodSilence size="45%" />} />}
       </Flex>
 
-      <Flex bg={colors.bgWhite} h="fit-content" direction="column" align="center" pb="5vh" _dark={{ bg: colors.bgWhite_Dark }}>
-        <Heading as="h1" mt="3%" fontSize={{ base: "25px", sm: "30px" }} textAlign="center" color={colors.colorFontDarkBlue} mb="2%" _dark={{ color: colors.colorFontDarkBlue_Dark }}>Ofertas de {user.user_name ?? null}</Heading>
+      <Flex bg={colors.bgWhite} h="fit-content" direction="column" align="center" _dark={{ bg: colors.bgWhite_Dark }}>
+        <Heading as="h1" fontSize={{ base: "25px", sm: "30px" }} textAlign="center" color={colors.colorFontDarkBlue} mt={{base:"3vh", md:"3%"}} mb={{base:"3vh", md:"3%"}} _dark={{ color: colors.colorFontDarkBlue_Dark }}>Ofertas de {user.user_name ?? null}</Heading>
         {(userOffers.length > 0) ? <OfferList component={renderUserOffers} /> : <SignNotFound msg={`Parece que ${user.user_name ?? null} não possui nenhuma oferta...`} icon={<MdOutlineSearchOff size="45%" />} />}
       </Flex>
       <Footer />

@@ -221,7 +221,7 @@ const HomeProd = () => {
 
             <Flex bg={colors.veryLightBlue} w='100%' h='70vh' align="center" _dark={{ bg: colors.veryLightBlue_Dark }}>
                 <Flex w="100%" direction="column" align="center">
-                    <Heading color={colors.colorFontDarkBlue} textAlign="center" as='h1' fontSize={{ base: "36px", md: "30px" }} fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }} mb="5%">O que deseja encontrar?</Heading>
+                    <Heading color={colors.colorFontDarkBlue} textAlign="center" as='h1' fontSize={{ base: "28px", md: "30px" }} fontFamily="outfit" _dark={{ color: colors.colorFontDarkBlue_Dark }} mb="5%">O que deseja encontrar?</Heading>
 
                     <InputGroup display="flex" zIndex={1} w={{ base: "80%", md: "50%" }}>
                         <Input placeholder='Busque as melhores ofertas aqui!' bg="#eee" borderRightColor="#000" _dark={{ bg: "#0000", borderRightColor: "#fff", color: "#fff", _placeholder: { color: "#dfdfdf" } }}
@@ -238,34 +238,34 @@ const HomeProd = () => {
             </Flex>
 
             <Flex bg={colors.bgWhite} h='fit-content' align="center" direction="column" _dark={{ bg: colors.bgWhite_Dark }}>
-                <Heading color={colors.colorFontDarkBlue} as='h1' fontSize={{ base: "36px", md: "30px" }} _dark={{ color: colors.colorFontDarkBlue_Dark }} mt="3%" mb="3%"
+                <Heading color={colors.colorFontDarkBlue} as='h1' fontSize={{ base: "26px", md: "30px" }} _dark={{ color: colors.colorFontDarkBlue_Dark }} mt={{base:"3vh", md:"3%"}} mb={{base:"3vh", md:"3%"}}
                     fontFamily="outfit" textAlign="center">Confira as ofertas perto de você</Heading>
                 {(renderTest) ? <OfferList component={renderCloseOffers} /> : <SignNotFound msg="Parece que não há equipamentos registrados em sua cidade..." icon={<MdOutlineSearchOff size="45%" />} />}
             </Flex>
 
             <Flex bg={colors.veryLightBlue} w='100%' h='fit-content' align="center" _dark={{ bg: colors.veryLightBlue_Dark }} direction="column">
-                <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{ base: "36px", md: "30px" }} _dark={{ color: colors.colorFontDarkBlue_Dark }} mt="3%" mb="3%">
+                <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{ base: "26px", md: "30px" }} _dark={{ color: colors.colorFontDarkBlue_Dark }} mt={{base:"3vh", md:"3%"}} mb={{base:"3vh", md:"3%"}}>
                     Ofertas criadas por você
                 </Heading>
                 {(renderTestUser) ? <OfferList component={renderUserOffers} canMdNew /> : <SignNotFoundButton msg="Parece que você não possui ofertas registradas...Que tal criar alguma?!" icon={<BsPencil size="45%" />} btnText='Criar Oferta' btnPath='/create-offer/any' />}
             </Flex>
 
             <Flex bg={colors.bgWhite} w='100%' h='fit-content' align="center" _dark={{ bg: colors.bgWhite_Dark }} direction="column">
-                <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{ base: "36px", md: "30px" }} _dark={{ color: colors.colorFontDarkBlue_Dark }} mt="3%" mb="3%">
+                <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{ base: "26px", md: "30px" }} _dark={{ color: colors.colorFontDarkBlue_Dark }} mt={{base:"3vh", md:"3%"}} mb={{base:"3vh", md:"3%"}}>
                     Ofertas que você se interessou
                 </Heading>
                 {(chats.length > 0) ? <OfferList component={renderChatsOffers} /> : <SignNotFoundButton msg="Acho que você não iniciou uma negociação ainda...Vamos lá! Basta pesquisar uma oferta interessante!" icon={<TbMessageCircleSearch size="45%" />} btnText='Pesquisar' btnPath='/search/all/all' />}
             </Flex>
 
             <Flex bg={colors.veryLightBlue} w='100%' h='fit-content' align="center" _dark={{ bg: colors.veryLightBlue_Dark }} direction="column">
-                <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{ base: "36px", md: "30px" }} _dark={{ color: colors.colorFontDarkBlue_Dark }} mt="3%" mb="3%">
+                <Heading textAlign="center" color={colors.colorFontDarkBlue} as='h1' fontFamily="outfit" fontSize={{ base: "26px", md: "30px" }} _dark={{ color: colors.colorFontDarkBlue_Dark }} mt={{base:"3vh", md:"3%"}} mb={{base:"3vh", md:"3%"}}>
                     Ofertas que você se compromissou
                 </Heading>
                 {(renderTestComp) ? <OfferList component={renderCompromissedOffers} /> : <SignNotFound msg="Parece que você não iniciou um compromisso em nenhuma oferta...É simples! Só combinar com o dono de uma oferta que você se interessar!" icon={<PiHandshake size="45%" />} />}
             </Flex>
 
             <Flex bg={colors.bgWhite} h="fit-content" align="center" direction="column" _dark={{ bg: colors.bgWhite_Dark }}>
-                <Heading color={colors.colorFontBlue} textAlign="center" as="h1" fontSize={{ base: "36px", md: "30px" }} mt="3%" mb="3%" fontFamily="outfit">
+                <Heading color={colors.colorFontBlue} textAlign="center" as="h1" fontSize={{ base: "26px", md: "30px" }} mt={{base:"3vh", md:"3%"}} mb={{base:"3vh", md:"3%"}} fontFamily="outfit">
                     Dicas para você
                 </Heading>
                 <Flex w="80%" mb="3%">

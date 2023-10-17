@@ -7,11 +7,11 @@ import {AiOutlineArrowDown} from "react-icons/ai"
 const ConfirmLogOut = () => {
     return (
        <Box w="100%" h="100%" justifyContent="center">
-            <Flex align="center" border="3px" direction="column" h="inherit" mt={{base:"25%", md:"10%"}}>
+            <Flex align="center" border="3px" direction="column" h="inherit" mt={{base:"28vh", md:"10%"}}>
                 <Heading as='h1' textAlign="center">Tchau...então...</Heading>
                 <Spacer/>
-                <Flex direction="column" align="center" mt="3%" mb="0.5%">
-                    <Text fontSize={{base: "23px", md:"25px"}}>Certeza que deseja realizar o Log Out?</Text>
+                <Flex direction="column" align="center" w="100%" mt="3%" mb="0.5%">
+                    <Text fontSize={{base: "23px", md:"25px"}} textAlign="center">Certeza que deseja realizar o Logout?</Text>
                     <Text fontSize={{base: "23px", md:"25px"}}>Se sim, clique no botão abaixo...</Text>    
                 </Flex>
                 <AiOutlineArrowDown size="5vh"/>

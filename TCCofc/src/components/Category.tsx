@@ -22,7 +22,7 @@ const Category = ({ name, icon, path }: catProps) => {
                 </Container>
             </Box>
 
-            <Text align='center' w="100%" noOfLines={2} fontSize={{ base: '19px', md: '20px' }}>
+            <Text align='center' w="100%" noOfLines={2} fontSize={{ base: '18px', md: '20px' }}>
                 {name}
             </Text>
 
