@@ -188,6 +188,9 @@ const Search = () => {
         if ((item.prod_type) ? !item.prod_type.toUpperCase().match(filters.equipament.toUpperCase()) : false && filters.equipament != "") {
             return <div key={item.ofr_id}></div>
         }
+
+        if(item.ofr_status != "Livre") return <div key={item.ofr_id}></div>
+
         return <OfferCardHorizontal
             title={item.ofr_name ?? ""}
             desc={item.ofr_desc ?? ""}
@@ -210,6 +213,9 @@ const Search = () => {
         if ((item.prod_type) ? !item.prod_type.toUpperCase().match(filters.equipament.toUpperCase()) : false && filters.equipament != "") {
             return <div key={item.ofr_id}></div>
         }
+
+        if(item.ofr_status != "Livre") return <div key={item.ofr_id}></div>
+
         return <OfferCardHorizontal
             title={item.ofr_name ?? ""}
             desc={item.ofr_desc ?? ""}
@@ -296,7 +302,7 @@ const Search = () => {
                 </Stack>
 
                 <Stack align="center" spacing={4} w="100%">
-                    {(consult.length > 0) ? (showAll) ? renderAllOffers : renderQueryOffers : <SignNotFound msg="Pelo visto não há registro de sua pesquisa no banco de dados..." icon={<MdOutlineSearchOff size="45%" />} />}
+                    {(consult.length > 0) ? (showAll) ? renderAllOffers : renderQueryOffers : <SignNotFound msg="Pelo visto não há resultados para sua pesquisa..." icon={<MdOutlineSearchOff size="45%" />} />}
                 </Stack>
             </Flex>
 

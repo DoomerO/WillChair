@@ -111,7 +111,7 @@ const HomeProd = () => {
     }, [userQuery]);
 
     const renderCloseOffers = offerQuery.map(item => { //lista de ofertas próximas renderizadas
-        if (item.User_user_id === userQuery.user_id) return <div key={item.ofr_id}></div>
+        if (item.User_user_id === userQuery.user_id || item.ofr_status != "Livre") return <div key={item.ofr_id}></div>
         if (item.ofr_city == userQuery.user_city) {
             renderTest = true;
             return <CardOffer

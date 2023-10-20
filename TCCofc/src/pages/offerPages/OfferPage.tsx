@@ -115,7 +115,7 @@ const OfferPage = () => {
     }, [owner])
 
     const renderRecom = recomended.map(item => {
-        if (item.ofr_city != offer.ofr_city || item.ofr_id == offer.ofr_id) return <div key={item.ofr_id}></div>
+        if (item.ofr_city != offer.ofr_city || item.ofr_id == offer.ofr_id || item.ofr_status != "Livre") return <div key={item.ofr_id}></div>
         renderTest = true;
         return <CardOffer
             key={item.ofr_id}

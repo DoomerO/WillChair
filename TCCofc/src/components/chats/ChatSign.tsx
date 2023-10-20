@@ -5,6 +5,7 @@ import "../../fonts/fonts.css";
 import colors from '../../colors/colors';
 import serverUrl from '../code/serverUrl';
 import { ChatProps, Offer, User } from '../code/interfaces';
+import { useNavigate } from 'react-router-dom';
 
 interface chatSignProps {
     offerId? : number,
@@ -17,6 +18,7 @@ const ChatSign =  ({offerId, chat, click} : chatSignProps) => {
     const [offer, setOffer] = useState<Offer>({});
     const [user, setUser] = useState<User>({});
     const [img, setImg] = useState<any>();
+    const navigate = useNavigate();
 
     async function getOfferChat() {
         await axios.get(`${serverUrl}/offers/id/${offerId}`).then((res) => {
@@ -69,7 +71,7 @@ const ChatSign =  ({offerId, chat, click} : chatSignProps) => {
             <Flex direction={"row"} align="center"><Text color={colors.colorFontBlue} w={(offerId) ? "38%" : "100%"}>{(offerId) ? "Oferta:" : "Falando com:"}</Text><Text noOfLines={1} w="100%">{(offerId) ? offer.ofr_name : ""}</Text></Flex>
             <Divider orientation='horizontal'/>
             <Flex direction="row" align="center" mt="2%">
-                <Avatar size="sm" src={(user.user_img) ? img : ""} name={user.user_name}></Avatar>
+                <Avatar size="sm" src={(user.user_img) ? img : ""} name={user.user_name} _hover={{border : `2px solid ${colors.colorFontBlue}`, _dark : {border : `2px solid ${colors.bgWhite}`}}} onClick={() => {navigate(`/profile/${user.user_email}/view`)}}></Avatar>
                 <Text ml="2%">{user.user_name}</Text>
             </Flex>  
         </Flex>

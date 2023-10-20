@@ -35,7 +35,7 @@ const About = () => {
                         <Text align='center' textAlign='justify' fontSize={{base: '17px', md: '18px'}}>
                         Somos uma equipe de progamadores que queriam solucionar um problema social através de 
                         nosso trabalho. Nos esforçamos para criar um sistema que ajudasse aos outros.  Quer conhecer a equipe? Basta
-                            <Button variant="link" colorScheme="linkedin" onClick={() => {onOpen()}}>
+                            <Button variant="link" colorScheme="linkedin" onClick={() => {onOpen()}} ml="2%">
                                clicar aqui!
                             </Button>
                         </Text>
