@@ -115,6 +115,13 @@ const PreConfig = () => {
             setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
         }
         else { e.target.value = "" }
+    window.onkeydown = (e) => {
+            switch (e.key) {
+                case "Enter":
+                    postInfo()
+                    break;
+            }
+        }
     }
 
     return (
