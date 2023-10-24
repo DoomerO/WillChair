@@ -21,7 +21,7 @@ module.exports = {
         const denounces = await knex('Denounce').where('User_user_idRec', user[0].user_id);
         return res.status(201).json(denounces);
       }
-      else return res.status(401).json({msg : "This user does not exists"});
+      else return res.status(401).json({msg : "Este usuário não existe"});
     } catch(error) {
       return res.status(400).json({ error: error.message });
     }
@@ -36,7 +36,7 @@ module.exports = {
         const denounces = await knex('Denounce').where('adm_assigned', adm[0].adm_id);
         return res.status(201).json(denounces);
       }
-      else return res.status(401).json({msg : "This administrator does not exists"});
+      else return res.status(401).json({msg : "Este administrador não existe"});
     } catch(error) {
       return res.status(400).json({ error: error.message });
     }
@@ -51,7 +51,7 @@ module.exports = {
         const denounces = await knex('Denounce').where('Offer_ofr_id', offer[0].ofr_id);
         return res.status(201).json(denounces);
       }
-      return res.status(401).json({msg : "This offer does not exists."});
+      return res.status(401).json({msg : "Esta oferta não existe"});
     } catch(error) {
       return res.status(400).json({ error: error.message });
     }

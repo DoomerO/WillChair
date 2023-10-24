@@ -54,7 +54,7 @@ module.exports= {
                 return res.status(201).json(result);
             }
             else {
-                return res.status(401).json({msg : "There is no such user with this email"})
+                return res.status(401).json({msg : "Não há um usuário com este e-mail"})
             }
         }
         catch(error) {
@@ -86,7 +86,7 @@ module.exports= {
                 return res.status(201).json(result);
             }
             else {
-                return res.status(401).json({msg : "There is no such user wih this id"})
+                return res.status(401).json({msg : "Não há um usuário com este identificador"})
             }
         }
         catch(error) {
@@ -131,14 +131,14 @@ module.exports= {
                         return res.status(201).json({token : accsesToken})
                     }
                     else {
-                        return res.status(401).json({msg: "There is no user with this data"});
+                        return res.status(401).json({msg: "Não há um usuário com estes dados"});
                     }
                 }).catch((err) => {
                     return res.status(400).json({error: err.message})
                 });
             }
             else {
-                return res.status(401).json({msg: "There is no user with this data"});
+                return res.status(401).json({msg: "Não há um usuário com estes dados"});
             }
         }
         catch(error) {
@@ -153,11 +153,11 @@ module.exports= {
             const {password} = req.body;
             
             if (!user_name || !user_email || !password) {
-                return res.status(401).json({msg : "All info must be provided"})
+                return res.status(401).json({msg : "Todos os camps devem ser preenchidos"})
             }
 
             if (await knex('User').where("user_email", user_email) != "") {
-                return res.status(401).json({msg: "This email is alredy in use"});
+                return res.status(401).json({msg: "Este e-mail já está em uso"});
             }
            
             const user_password = bcrypt.hashSync(password, 10);
@@ -196,7 +196,7 @@ module.exports= {
                   }
 
                   if (!req.file) {
-                    return res.status(400).json({error: 'There is no file provided'});
+                    return res.status(400).json({error: 'Nenhum arquivo provido'});
                   }
     
                   fs.renameSync(req.file.path, req.file.path.replace('dummy', `user${id}`));
@@ -205,7 +205,7 @@ module.exports= {
                         user_img : `user${id}${path.extname(req.file.originalname)}`
                     }).where("user_id", id);
           
-                    return res.status(201).json({msg : "The image was succesfully uploaded"});
+                    return res.status(201).json({msg : "Imagem enviada"});
                 }
                 catch(error) {
                     return res.status(400).json({error: error.message});
@@ -254,7 +254,7 @@ module.exports= {
                 }
             }
             else {
-                return res.status(401).json({msg: "This user does not exists"});
+                return res.status(401).json({msg: "Este usuário não existe"});
             }
 
             const user = {name: user_name, email: consult[0].user_email}
@@ -278,7 +278,7 @@ module.exports= {
             const {password} = req.body;
 
             if(!email || !password) {
-                return res.status(401).json({msg : "All data must be distributed"})
+                return res.status(401).json({msg : "Todos os dados devem ser inseridos"})
             }
 
             if (await knex('User').where("user_email", email) != "") {
@@ -288,9 +288,9 @@ module.exports= {
                 }).where('user_email', email);
             }
             else {
-                return res.status(401).json({msg: "This user does not exists"});
+                return res.status(401).json({msg: "Este usuário não existe"});
             }
-            return res.status(201).json({msg: "Password of " + email  + " updated"});
+            return res.status(201).json({msg: "Senha de " + email  + " atualizada"});
         }
         catch(error) {
             return res.status(400).json({error: error.mesage});
@@ -304,7 +304,7 @@ module.exports= {
             const {email} = req.body;
 
             if(await knex("User").where("user_email", email) != "") {
-                return res.status(401).json({msg: "There is a user with this email alredy."})
+                return res.status(401).json({msg: "Já existe um usuário com este e-mail"})
             }
             const consult = await knex("User").where("user_id", id);
             if(consult !="") {
@@ -321,7 +321,7 @@ module.exports= {
 
                 return res.status(201).json({token : accsesToken});
             }
-            return res.status(401).json({msg : "There is no user with this id"});            
+            return res.status(401).json({msg : "Não há um usuário com este identificador"});            
         }
         catch(error) {
             return res.status(400).json({error: error.mesage});
@@ -333,10 +333,10 @@ module.exports= {
             const {id} = req.params;
             if (await knex("User").where("user_id", id) != "") {
                 await knex('User').del().where("user_id", id);
-                return res.status(201).json({msg: "User deleted"});
+                return res.status(201).json({msg: "Usuário apagado"});
             }
             else {
-                return res.status(401).json({msg: "This user does not exists"});
+                return res.status(401).json({msg: "Este usuário não existe"});
             }
         }
         catch(error) {

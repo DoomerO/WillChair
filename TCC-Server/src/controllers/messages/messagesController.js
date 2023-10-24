@@ -19,7 +19,7 @@ module.exports = {
                 return res.status(201).json(result);
             }
             else {
-                return res.status(401).json({msg : "This chat does not exists"});
+                return res.status(401).json({msg : "Esta conversa não existe"});
             }
         }
         catch(error) {
@@ -40,10 +40,10 @@ module.exports = {
                     User_user_id,
                     Chat_chat_id
                 });
-                return res.status(201).json({msg: "Message posted"})
+                return res.status(201).json({msg: "Mensagem enviada"})
             }
             else {
-                return res.status(401).json({msg : 'There is no chat or user with these ids.'})
+                return res.status(401).json({msg : 'Este usuário ou conversa não existem'})
             }
         }
         catch(error) {
@@ -57,10 +57,10 @@ module.exports = {
 
             if (await knex('Message').where('msg_id', id) != '') {
                 await knex('Message').del().where('msg_id', id);
-                return res.status(201).json({msg: 'Message deleted'});
+                return res.status(201).json({msg: 'Mensagem deletada'});
             }
             else {
-                return res.status(401).json({msg: 'There is no such messages'});
+                return res.status(401).json({msg: 'A mensagem não existe'});
             }
         }
         catch(error) {
@@ -74,10 +74,10 @@ module.exports = {
 
             if (await knex('Chat').where('chat_id', chat_id) != '') {
                 await knex('Message').del().where('Chat_chat_id', chat_id);
-                return res.status(201).json({msg: 'Message deleted'});
+                return res.status(201).json({msg: 'Mensagem deletada'});
             }
             else {
-                return res.status(401).json({msg: 'There is no such chat'});
+                return res.status(401).json({msg: 'Esta conversa não existe'});
             }
         }
         catch(error) {

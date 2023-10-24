@@ -21,7 +21,7 @@ module.exports = {
                 return res.status(201).json(result);
             }
             else {
-                return res.status(401).json("There is no user with this email");
+                return res.status(401).json("Não há um usuário com este e-mail");
             }
         }
         catch(error) {
@@ -39,7 +39,7 @@ module.exports = {
                 return res.status(201).json(result);
             }
             else {
-                return res.status(401).json("There is no offer with this id");
+                return res.status(401).json("Não há uma oferta com este identificador");
             }
         }
         catch(error) {
@@ -55,14 +55,14 @@ module.exports = {
                 case "user_city":
                     consult = await knex("Offer").where("ofr_city", "like", `%${value}%`).join("Product", "Product_prod_id", "prod_id");
                     if(!consult){
-                        return res.status(401).json('There is no offer like this.');
+                        return res.status(401).json('Esta oferta não existe');
                     }
                     return res.status(201).json(consult);
 
                 case "ofr_type":
                     consult = await knex("Offer").where("ofr_type", "like", `%${value}%`).join("Product", "Product_prod_id", "prod_id");
                     if(!consult){
-                        return res.status(401).json('There is no offer like this.');
+                        return res.status(401).json('Esta oferta não existe');
                     }
                     return res.status(201).json(consult);
 
@@ -75,33 +75,33 @@ module.exports = {
                         consult = await knex("Product").join("Offer", "prod_id", "Product_prod_id").where("prod_type", "like", `%${value}%`);
                     }
                     if(!consult){
-                        return res.status(401).json('There is no offer like this.');
+                        return res.status(401).json('Esta oferta não existe');
                     }
                     return res.status(201).json(consult);
 
                 case "name":
                     consult = await knex("Offer").where("ofr_name", "like", `%${value}%`).join("Product", "Product_prod_id", "prod_id");
                     if(!consult){
-                        return res.status(401).json('There is no offer like this.');
+                        return res.status(401).json('Esta oferta não existe');
                     }
                     return res.status(201).json(consult);
 
                 case "prod_composition":
                     consult = await knex("Product").join("Offer", "prod_id", "Product_prod_id").where("prod_composition", "like", `%${value}%`);
                     if(!consult){
-                        return res.status(401).json('There is no offer like this.');
+                        return res.status(401).json('Esta oferta não existe');
                     }
                     return res.status(201).json(consult);
 
                 case "user_name":
                     consult = await knex("Offer").where("ofr_user_name", "like", `%${value}%`).join("Product", "Product_prod_id", "prod_id");
                     if(!consult){
-                        return res.status(401).json('There is no offer like this.');
+                        return res.status(401).json('Esta oferta não existe');
                     }
                     return res.status(201).json(consult);
 
                 default:
-                    return res.status(401).json({msg : "There is no query atribute like this"});
+                    return res.status(401).json({msg : "Este atributo não existe"});
             }
             
         }
@@ -143,14 +143,14 @@ module.exports = {
                         User_user_id,
                         Product_prod_id
                     });
-                    return res.status(201).json({msg : "Offer properly registred"})
+                    return res.status(201).json({msg : "Oferta registrada"})
                 }
                 else {
-                    return res.status(401).json({msg:"This product does not exists in the database"});
+                    return res.status(401).json({msg:"Este produto não existe"});
                 }
             }
             else {
-                return res.status(401).json({msg:"This user does not exists in the database"});
+                return res.status(401).json({msg:"Este usuáro não existe"});
             } 
         }
         catch(error) {
@@ -178,9 +178,9 @@ module.exports = {
                 }).where('ofr_id', id);
             }
             else {
-                return res.status(401).json({msg : "This offer does not exists"})
+                return res.status(401).json({msg : "Esta oferta não existe"})
             }
-            return res.status(201).json({msg : "This offer was properly updated"});
+            return res.status(201).json({msg : "A ferta foi atualizada"});
         }
         catch (error) {
             return res.status(400).json({error: error.message});
@@ -196,9 +196,9 @@ module.exports = {
                     ofr_status : "Livre",
                     user_comp_id : null
                 }).where('ofr_id', id);
-                return res.status(201).json({msg : "Intrested removed properly"});
+                return res.status(201).json({msg : "Interesse removido"});
             }
-            return res.status(401).json({msg : "This offer does not exists"})
+            return res.status(401).json({msg : "Esta oferta não existe"})
         }
         catch(error) {
             return res.status(400).json({error: error.message});
@@ -216,17 +216,17 @@ module.exports = {
                         ofr_status : "Envio",
                         ofr_env_conf : 1
                     }).where('ofr_id', id);
-                    return res.status(201).json({msg : "Product sended"});
+                    return res.status(201).json({msg : "Produto enviado"});
                 }
                 else {
                     await knex("Offer").update({
                         ofr_status : "Conclusão",
                         ofr_rec_conf : 1
                     }).where('ofr_id', id);
-                    return res.status(201).json({msg : "Product recieved"});
+                    return res.status(201).json({msg : "Produto recebido"});
                 }
             }
-            return res.status(401).json({msg : "This offer does not exists"})
+            return res.status(401).json({msg : "Esta oferta não existe"})
         }
         catch(error) {
             return res.status(400).json({error: error.message});
@@ -239,10 +239,10 @@ module.exports = {
             const consult = await knex("Offer").where("ofr_id", id);
             if(consult != ""){
                 await knex("Offer").del().where("ofr_id", id);
-                return res.status(201).json({msg: "Offer Deleted"});
+                return res.status(201).json({msg: "Oferta excluída"});
             }
             else {
-                return res.status(401).json({msg: "This offer is not registred"});
+                return res.status(401).json({msg: "Esta oferta não está registrada"});
             }
             
         }

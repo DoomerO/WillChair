@@ -22,7 +22,7 @@ module.exports = {
                return res.status(201).json(result);
             }
             else {
-                return res.status(401).json({msg : "One or both of the users does not exists"})
+                return res.status(401).json({msg : "Algum dos usuários não existe"})
             }
         }
         catch(error) {
@@ -54,7 +54,7 @@ module.exports = {
                 return res.status(201).json(result);
             }
             else {
-                return res.status(401).json({msg : "This user does not exists"})
+                return res.status(401).json({msg : "Este usuário não existe"})
             }
         }
         catch(error) {

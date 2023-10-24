@@ -46,7 +46,7 @@ module.exports = {
                 return res.status(201).json(result);
             }
             else {
-                return res.status(401).json({msg: "There is no such product type in the database"});
+                return res.status(401).json({msg: "Este tipo de produto não existe"});
             }
         }
         catch(error) {
@@ -63,7 +63,7 @@ module.exports = {
                 return res.status(201).json(result);
             }
             else {
-                return res.status(401).json({msg: "There is no such product type in the database"});
+                return res.status(401).json({msg: "Este tipo de produto não existe"});
             }
         }
         catch(error) {
@@ -105,7 +105,7 @@ module.exports = {
                 return res.status(201).json(result);
             }
             else {
-                return res.status(401).json({msg : "this product does not exists"});
+                return res.status(401).json({msg : "Este produto não existe"});
             }
         }
         catch(error) {
@@ -143,7 +143,7 @@ module.exports = {
                 return res.status(201).json(result);
             }
             else {
-                return res.status(401).json({msg : "There is no such offer with this id"})
+                return res.status(401).json({msg : "Não existe uma oferta com este identificador"})
             }
         }
         catch(error) {
@@ -162,7 +162,7 @@ module.exports = {
                   }
 
                   if (!req.file) {
-                    return res.status(400).json({error: 'There is no file provided'});
+                    return res.status(400).json({error: 'Nenhum arquivo provido'});
                   }
     
                   fs.renameSync(req.file.path, req.file.path.replace('dummy', `prod${id}`));
@@ -171,7 +171,7 @@ module.exports = {
                         prod_img : `prod${id}${path.extname(req.file.originalname)}`
                     }).where("prod_id", id);
           
-                    return res.status(201).json({msg : "The image was succesfully uploaded"});
+                    return res.status(201).json({msg : "Imagem enviada"});
                 }
                 catch(error) {
                     return res.status(400).json({error: error.message});
@@ -209,7 +209,7 @@ module.exports = {
             const {prod_key} = req.body;
 
             if(await knex("Product").where("prod_key", prod_key) != "") {
-                return res.status(401).json({msg: "There is alredy a product with this key"});
+                return res.status(401).json({msg: "Já existe um produto com este código"});
             }
 
             await knex('Product').insert({
@@ -220,7 +220,7 @@ module.exports = {
                 prod_weight,
                 prod_key
             });
-            return res.status(201).json({msg : 'The product was properly registred'});
+            return res.status(201).json({msg : 'rduto registrado'});
         }
         catch(error) {
             return res.status(400).json({error : error. message});
@@ -246,14 +246,14 @@ module.exports = {
                         cad_maxWeight,
                         Product_prod_id: id
                     });
-                    return res.status(201).json({msg : "Product created as 'Cadeira de Rodas'"})
+                    return res.status(201).json({msg : "Produto criado como 'Cadeira de Rodas'"})
                 }
                 else {
-                    return res.status(401).json({msg : "This product's type is not 'Cadeira de Rodas'"});
+                    return res.status(401).json({msg : "O tipo do produto não é 'Cadeira de Rodas'"});
                 }
             }
             else {
-                return res.status(401).json({msg : "This product does not exists"})
+                return res.status(401).json({msg : "Este produto não existe"})
             }
         }
         catch(error) {
@@ -282,14 +282,14 @@ module.exports = {
                         mul_regulator,
                         Product_prod_id: id
                     });
-                    return res.status(201).json({msg : "Product created as 'Muleta'"})
+                    return res.status(201).json({msg : "Produto criado como 'Muleta'"})
                 }
                 else {
-                    return res.status(401).json({msg : "This product's type is not 'Muleta'"});
+                    return res.status(401).json({msg : "O tipo do produto não é 'Muleta'"});
                 }
             }
             else {
-                return res.status(401).json({msg : "This product does not exists"})
+                return res.status(401).json({msg : "Este produto não existe"})
             }
         }
         catch(error) {
@@ -318,14 +318,14 @@ module.exports = {
                         ben_color,
                         Product_prod_id: id
                     });
-                    return res.status(201).json({msg : "Product created as 'Bengala'"})
+                    return res.status(201).json({msg : "Produto criado como 'Bengala'"})
                 }
                 else {
-                    return res.status(401).json({msg : "This product's type is not 'Bengala'"});
+                    return res.status(401).json({msg : "OO tipo do produto não é 'Bengala'"});
                 }
             }
             else {
-                return res.status(401).json({msg : "This product does not exists"})
+                return res.status(401).json({msg : "Este produto não existe"})
             }
         }
         catch(error) {
@@ -354,14 +354,14 @@ module.exports = {
                         and_width,
                         Product_prod_id: id
                     });
-                    return res.status(201).json({msg : "Product created as 'Andador'"})
+                    return res.status(201).json({msg : "Produto criado como 'Andador'"})
                 }
                 else {
-                    return res.status(401).json({msg : "This product's type is not 'Andador'"});
+                    return res.status(401).json({msg : "O tipo do produto não é 'Andador'"});
                 }
             }
             else {
-                return res.status(401).json({msg : "This product does not exists"})
+                return res.status(401).json({msg : "Este produto não existe"})
             }
         }
         catch(error) {
@@ -387,10 +387,10 @@ module.exports = {
                     prod_type,
                     prod_weight
                 }).where('prod_id', id);
-                return res.status(201).json({msg : "Product Updated"});
+                return res.status(201).json({msg : "Produto atualizado"});
             }
             else {
-                return res.status(401).json({msg : "This Product does not exists"});
+                return res.status(401).json({msg : "Este produto não existe"});
             }
         }
         catch(error) {
@@ -416,14 +416,14 @@ module.exports = {
                         cad_type,
                         cad_maxWeight
                     }).where("Product_prod_id", id);
-                    return res.status(201).json({msg : "Product updated as 'Cadeira de Rodas'"})
+                    return res.status(201).json({msg : "Produto atualizado como 'Cadeira de Rodas'"})
                 }
                 else {
-                    return res.status(401).json({msg : "This product's type is not 'Cadeira de Rodas'"});
+                    return res.status(401).json({msg : "O tipo do produto não é 'Cadeira de Rodas'"});
                 }
             }
             else {
-                return res.status(401).json({msg : "This product does not exists"})
+                return res.status(401).json({msg : "Este produto não existe"})
             }
         }
         catch(error) {
@@ -451,14 +451,14 @@ module.exports = {
                         mul_regulator,
                         mul_type
                     }).where('Product_prod_id',id);
-                    return res.status(201).json({msg : "Product updated as 'Muleta'"})
+                    return res.status(201).json({msg : "Produto atualizado como 'Muleta'"})
                 }
                 else {
-                    return res.status(401).json({msg : "This product's type is not 'Muleta'"});
+                    return res.status(401).json({msg : "O tipo do produto não é 'Muleta'"});
                 }
             }
             else {
-                return res.status(401).json({msg : "This product does not exists"})
+                return res.status(401).json({msg : "Este produto não existe"})
             }
         }
         catch(error) {
@@ -486,14 +486,14 @@ module.exports = {
                         ben_type,
                         ben_color
                     }).where('Product_prod_id', id);
-                    return res.status(201).json({msg : "Product updated as 'Bengala'"})
+                    return res.status(201).json({msg : "Produto atualizado como 'Bengala'"})
                 }
                 else {
-                    return res.status(401).json({msg : "This product's type is not 'Bengala'"});
+                    return res.status(401).json({msg : "O tipo do produto não é 'Bengala'"});
                 }
             }
             else {
-                return res.status(401).json({msg : "This product does not exists"})
+                return res.status(401).json({msg : "Este produto não existe"})
             }
         }
         catch(error) {
@@ -521,14 +521,14 @@ module.exports = {
                         and_regulator,
                         and_width
                     }).where("Product_prod_id", id);
-                    return res.status(201).json({msg : "Product updated as 'Andador'"})
+                    return res.status(201).json({msg : "Produto atualizado como 'Andador'"})
                 }
                 else {
-                    return res.status(401).json({msg : "This product's type is not 'Andador'"});
+                    return res.status(401).json({msg : "O tipo do produto não é 'Andador'"});
                 }
             }
             else {
-                return res.status(401).json({msg : "This product does not exists"})
+                return res.status(401).json({msg : "Este produto não existe"})
             }
         }
         catch(error) {
@@ -557,10 +557,10 @@ module.exports = {
                     break;
                 }
                 await knex('Product').del().where('prod_id', id);
-                return res.status(201).json({msg : "Product deleted with success"});
+                return res.status(201).json({msg : "Produto deletado"});
             }
             else {
-                return res.status(400).json({msg : "This product does not exists"});
+                return res.status(400).json({msg : "Este produto não existe"});
             }
         }
         catch(error) {
