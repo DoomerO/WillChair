@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Flex, Text, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button, useColorMode, Avatar, useColorModeValue, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, useDisclosure, Heading, Divider, Stack } from '@chakra-ui/react';
+import { Flex, Text, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button, useColorMode, Avatar, useColorModeValue, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, useDisclosure, Heading, Divider, Stack, useToast, ToastPosition, UseToastOptions } from '@chakra-ui/react';
 import { RxHamburgerMenu } from 'react-icons/rx/index';
 import { AiOutlineHome, AiOutlineInfoCircle, AiOutlineSearch, AiOutlineLogout } from "react-icons/ai/index";
 import { CgDarkMode, CgProfile } from "react-icons/cg/index";
 import { FiPhoneForwarded } from "react-icons/fi/index";
-import { MdOutlineCreate } from "react-icons/md/index";
+import { MdOutlineCreate, MdOutlineInstallMobile } from "react-icons/md/index";
 import { PiChatsFill } from "react-icons/pi/index";
 import colors from "../colors/colors";
 //imagens
@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import serverUrl from "./code/serverUrl";
 import { User } from "./code/interfaces";
+import deferredPromptFunct from "./code/deferredPrompt";
 
 interface avatarProps {
     user: User;
@@ -27,6 +28,29 @@ const HeaderLogged = ({ user }: avatarProps) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [img, setImg] = useState<any>();
     const navigate = useNavigate();
+    const toastRender = useToast();
+
+    function toast(title: string, desc: string, time?: number, type?: UseToastOptions["status"], pos?: ToastPosition, close?: boolean) {
+        toastRender({
+            title: title,
+            description: desc,
+            status: type,
+            duration: time,
+            position: pos,
+            isClosable: close ? close : true
+        })
+    }
+
+    function installPrompt() {
+        deferredPromptFunct().then((res) => {
+            if(res) {
+                toast("App instalado com sucesso!", "Obrigado por instalar nosso app!", 3000, "success");
+            }
+            toast("O App não foi instalado", "Dê uma chance para nosso App! )-`:", 3000, "info");
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
 
     async function getImg() {
         await axios.get(`${serverUrl}/users/profile/photo/${user.user_img}`, { responseType: "arraybuffer" }).then(res => {
@@ -77,6 +101,9 @@ const HeaderLogged = ({ user }: avatarProps) => {
                         </MenuItem></Link>
                         <MenuItem onClick={toggleColorMode}>
                             <Flex direction="row" w={{ base: "37%", md: "95%" }} align="center">{colorMode}<Spacer /><CgDarkMode size="6%" /></Flex>
+                        </MenuItem>
+                        <MenuItem onClick={installPrompt}>
+                            <Flex direction="row" w={{ base: "37%", md: "95%" }} align="center">Instalar aplicativo<Spacer /><MdOutlineInstallMobile size="6%" /></Flex>
                         </MenuItem>
                     </MenuList>
                 </Menu>

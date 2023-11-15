@@ -1,19 +1,44 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Flex, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { Flex, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button, useColorMode, useColorModeValue, ToastPosition, UseToastOptions, useToast } from '@chakra-ui/react';
 import { RxHamburgerMenu } from 'react-icons/rx/index';
 import { AiOutlineHome, AiOutlineInfoCircle, AiOutlineLogin, AiOutlineUserAdd, AiOutlineSearch } from "react-icons/ai/index";
 import { FiPhoneForwarded } from "react-icons/fi/index";
+import { MdOutlineInstallMobile } from "react-icons/md/index";
 import { CgDarkMode } from "react-icons/cg/index";
 //imagens
 import logo from '../img/home/logoDark.png'
 import logoLight from '../img/home/logo.png'
+import deferredPromptFunct from "./code/deferredPrompt";
 
 const Header = () => {
-
     const { toggleColorMode } = useColorMode();
     const logoImg = useColorModeValue(logo, logoLight)
     const colorMode = useColorModeValue("Modo escuro", "Modo claro");
     const navigate = useNavigate();
+    const toastRender = useToast();
+
+    function toast(title: string, desc: string, time?: number, type?: UseToastOptions["status"], pos?: ToastPosition, close?: boolean) {
+        toastRender({
+            title: title,
+            description: desc,
+            status: type,
+            duration: time,
+            position: pos,
+            isClosable: close ? close : true
+        })
+    }
+
+    function installPrompt() {
+        deferredPromptFunct().then((res) => {
+            if(res) {
+                toast("App instalado com sucesso!", "Obrigado por instalar nosso app!", 3000, "success");
+            }
+            toast("O App não foi instalado", "Dê uma chance para nosso App! )-`:", 3000, "info");
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
     return (
         <Flex w="100%" h="8.5vh" bg='#fff' position='fixed' _dark={{ bg: '#131313' }} boxShadow='lg' zIndex={2}>
 
@@ -47,6 +72,9 @@ const Header = () => {
                         </MenuItem></Link>
                         <MenuItem onClick={toggleColorMode}>
                             <Flex direction="row" w={{ base: "37%", md: "95%" }} align="center">{colorMode}<Spacer /><CgDarkMode size="6%" /></Flex>
+                        </MenuItem>
+                        <MenuItem onClick={installPrompt}>
+                            <Flex direction="row" w={{ base: "37%", md: "95%" }} align="center">Instalar aplicativo<Spacer /><MdOutlineInstallMobile size="6%" /></Flex>
                         </MenuItem>
                     </MenuList>
                 </Menu>
