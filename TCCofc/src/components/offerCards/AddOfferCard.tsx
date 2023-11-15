@@ -1,6 +1,6 @@
 import { Container, IconButton } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi/index";
 
 const CreateOfferCard = () => {
     const navigate = useNavigate();

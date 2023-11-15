@@ -1,7 +1,7 @@
 import { Avatar, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, Textarea, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { ChangeEvent, useState, useEffect } from "react";
-import {RiStarSLine, RiStarSFill} from "react-icons/ri"
+import {RiStarSLine, RiStarSFill} from "react-icons/ri/index"
 import colors from "../colors/colors";
 import "../fonts/fonts.css";
 import { useNavigate } from "react-router-dom";

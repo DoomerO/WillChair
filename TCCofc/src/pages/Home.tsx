@@ -3,9 +3,9 @@ import Category from "../components/Category";
 import HeaderToggle from "../components/toggles/HeaderToggle";
 import Footer from "../components/Footer";
 import { Box, Flex, Spacer, Text, Image, Heading, Stack, Container, useColorModeValue } from '@chakra-ui/react';
-import {BsCreditCard} from "react-icons/bs";
-import {BiDonateHeart} from "react-icons/bi";
-import {MdWheelchairPickup} from "react-icons/md";
+import {BsCreditCard} from "react-icons/bs/index";
+import {BiDonateHeart} from "react-icons/bi/index";
+import {MdWheelchairPickup} from "react-icons/md/index";
 import "../fonts/fonts.css"
 import {tilt, reCenter} from "../components/code/tilt"
 //images

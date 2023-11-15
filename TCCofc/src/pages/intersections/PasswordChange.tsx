@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Heading, IconButton, Spacer, Text, useColorMode, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
-import { FiArrowLeft, FiSun, FiMoon } from "react-icons/fi";
+import { FiArrowLeft, FiSun, FiMoon } from "react-icons/fi/index";
 
 import Password from "../../components/Password";
 import axios from "axios";

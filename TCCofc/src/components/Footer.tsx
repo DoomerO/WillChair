@@ -1,11 +1,10 @@
 import { Text, Flex, Image, Stack, SimpleGrid, Spacer, Container } from '@chakra-ui/react';
 import { Link } from "react-router-dom";
 import logo from '../img/home/logo.png';
-import { BsWhatsapp } from 'react-icons/bs';
-import { AiOutlineInstagram } from 'react-icons/ai';
-import { CiFacebook } from 'react-icons/ci';
-import { MdOutlineLanguage } from 'react-icons/md';
-import { MdBusiness } from 'react-icons/md';
+import { BsWhatsapp } from 'react-icons/bs/index';
+import { AiOutlineInstagram } from 'react-icons/ai/index';
+import { CiFacebook } from 'react-icons/ci/index';
+import { MdOutlineLanguage, MdBusiness } from 'react-icons/md/index';
 import colors from '../colors/colors';
 
 const Footer = () => {

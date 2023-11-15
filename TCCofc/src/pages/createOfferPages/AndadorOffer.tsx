@@ -11,7 +11,7 @@ import colors from "../../colors/colors";
 import decode from "../../components/code/decoderToken";
 import axios from "axios";
 
-import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
+import { MdOutlinePhotoSizeSelectActual } from "react-icons/md/index";
 import serverUrl from '../../components/code/serverUrl';
 import Loading from '../../components/toggles/Loading';
 
@@ -198,7 +198,7 @@ const AndadorOffer = () => {
     }, [searchOwn])
 
     useEffect(() => {
-        if (searchOwn) {
+        if (prodOwn.prod_id) {
             postImage();
             postChild();
             postOffer();
@@ -206,20 +206,18 @@ const AndadorOffer = () => {
     }, [prodOwn])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        e.target.value = e.target.value.replace(",", ".")
+        if(e.target.name != "name") e.target.value = e.target.value.replace(",", ".");
         if (e.target.validity.patternMismatch) { return }
         setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 
     const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
         if (e.target.validity.patternMismatch) { return }
-        if ((e.target.name == "weight" || e.target.name == "parcelas" || e.target.name == "width" || e.target.name == "height" || e.target.name == "maxHeight" || e.target.name == "minHeight" || e.target.name == "length" || e.target.name == "price") && e.target.value[0] == "0") { e.target.value = e.target.value.replace("0", "") }
         setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 
     const handleChangeArea = (e: ChangeEvent<HTMLTextAreaElement>) => {
         if (e.target.validity.patternMismatch) { return }
-        if ((e.target.name == "weight" || e.target.name == "parcelas" || e.target.name == "width" || e.target.name == "height" || e.target.name == "maxHeight" || e.target.name == "minHeight" || e.target.name == "length" || e.target.name == "price") && e.target.value[0] == "0") { e.target.value = e.target.value.replace("0", "") }
         setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 

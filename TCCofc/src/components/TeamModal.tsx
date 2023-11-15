@@ -2,7 +2,7 @@ import { Avatar, Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent,
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import '../styles/alice-carousel.css';
-import { BsGithub, BsLinkedin } from "react-icons/bs";
+import { BsGithub, BsLinkedin } from "react-icons/bs/index";
 import colors from "../colors/colors";
 import "../fonts/fonts.css";
 import { Link } from "react-router-dom";

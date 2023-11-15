@@ -12,9 +12,9 @@ import "../../fonts/fonts.css"
 import axios from "axios";
 import serverUrl from "../../components/code/serverUrl";
 
-import { BsFillStarFill } from "react-icons/bs";
-import { TbMoodSilence } from "react-icons/tb";
-import { MdOutlineReport, MdOutlineReportProblem, MdOutlineSearchOff } from "react-icons/md";
+import { BsFillStarFill } from "react-icons/bs/index";
+import { TbMoodSilence } from "react-icons/tb/index";
+import { MdOutlineReport, MdOutlineReportProblem, MdOutlineSearchOff } from "react-icons/md/index";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/toggles/Loading";
 import { Offer, Comments, User } from "../../components/code/interfaces";

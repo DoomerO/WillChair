@@ -2,17 +2,17 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Avatar, Box, Button, ButtonGroup, useToast, Flex, IconButton, Input, InputGroup, InputRightAddon, Menu, MenuButton, MenuItem, MenuList, Spacer, Stack, Text } from "@chakra-ui/react";
 import { socket } from "../socket/socket";
 
-import { IoMdSend } from "react-icons/io";
+import { IoMdSend } from "react-icons/io/index";
 import colors from "../../colors/colors";
 import { Link, useNavigate } from "react-router-dom";
 import codes from "../../components/code/codes";
 
-import { AiOutlineCloseCircle } from "react-icons/ai";
-import { MdBlock, MdOutlineLocalOffer } from "react-icons/md";
-import { BiDotsHorizontal } from "react-icons/bi";
-import { BsTrash } from "react-icons/bs";
-import { PiHandshake } from "react-icons/pi";
-import { FiDelete } from "react-icons/fi";
+import { AiOutlineCloseCircle } from "react-icons/ai/index";
+import { MdBlock, MdOutlineLocalOffer } from "react-icons/md/index";
+import { BiDotsHorizontal } from "react-icons/bi/index";
+import { BsTrash } from "react-icons/bs/index";
+import { PiHandshake } from "react-icons/pi/index";
+import { FiDelete } from "react-icons/fi/index";
 import axios from "axios";
 import serverUrl from "../code/serverUrl";
 import { MessageProps, User } from "../code/interfaces";

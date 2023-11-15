@@ -19,19 +19,19 @@ import SlideMsg from '../components/SlideMsg';
 import Loading from '../components/toggles/Loading';
 
 //icons
-import { BiSearchAlt, BiAccessibility } from 'react-icons/bi';
-import { MdOutlineSearchOff } from "react-icons/md";
-import { BsPencil } from "react-icons/bs";
-import { RiEmpathizeLine } from "react-icons/ri";
-import { GiBrokenBone } from "react-icons/gi";
-import { TbMessageCircleSearch } from "react-icons/tb";
+import { BiSearchAlt, BiAccessibility } from 'react-icons/bi/index';
+import { MdOutlineSearchOff } from "react-icons/md/index";
+import { BsPencil } from "react-icons/bs/index";
+import { RiEmpathizeLine } from "react-icons/ri/index";
+import { GiBrokenBone } from "react-icons/gi/index";
+import { TbMessageCircleSearch } from "react-icons/tb/index";
 
 //outros
 import "../fonts/fonts.css";
 import colors from "../colors/colors";
 import { User, Offer, UserToken, ChatProps } from "../components/code/interfaces";
 import { Link } from 'react-router-dom';
-import { PiHandshake } from 'react-icons/pi';
+import { PiHandshake } from 'react-icons/pi/index';
 import serverUrl from '../components/code/serverUrl';
 
 const HomeProd = () => {

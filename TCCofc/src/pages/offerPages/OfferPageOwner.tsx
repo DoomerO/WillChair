@@ -11,9 +11,9 @@ import SignNotFound from "../../components/signs/SignNotFound";
 import ChatBox from "../../components/chats/ChatBox";
 import "../../fonts/fonts.css";
 
-import { BsFillStarFill } from "react-icons/bs";
-import { HiOutlineUsers } from "react-icons/hi";
-import { MdOutlineContactSupport, MdOutlinePhotoSizeSelectActual, MdOutlineReportProblem } from "react-icons/md";
+import { BsFillStarFill } from "react-icons/bs/index";
+import { HiOutlineUsers } from "react-icons/hi/index";
+import { MdOutlineContactSupport, MdOutlinePhotoSizeSelectActual, MdOutlineReportProblem } from "react-icons/md/index";
 import Avaliation from "../../components/Avaliation";
 import dateDisplayer from "../../components/code/dataDisplayer";
 import serverUrl from "../../components/code/serverUrl";

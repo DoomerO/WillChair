@@ -10,12 +10,12 @@ import ChatSignList from "../components/chats/ChatSignList";
 import ChatSign from "../components/chats/ChatSign";
 import Loading from "../components/toggles/Loading";
 
-import { TbMessageCircleSearch } from "react-icons/tb";
+import { TbMessageCircleSearch } from "react-icons/tb/index";
 import '../fonts/fonts.css';
 import colors from "../colors/colors";
-import { MdOutlineBusinessCenter, MdOutlineContactSupport } from "react-icons/md";
+import { MdOutlineBusinessCenter, MdOutlineContactSupport } from "react-icons/md/index";
 import ChatSquare from "../components/chats/ChatSquare";
-import { AiOutlineQuestionCircle } from "react-icons/ai";
+import { AiOutlineQuestionCircle } from "react-icons/ai/index";
 import {User, Offer, UserToken, ChatProps} from '../components/code/interfaces';
 import serverUrl from "../components/code/serverUrl";
 

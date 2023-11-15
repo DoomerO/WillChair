@@ -13,9 +13,9 @@ import colors from "../../colors/colors";
 import axios from "axios";
 import cep from "cep-promise";
 
-import { BsFillStarFill, BsPencil } from "react-icons/bs";
-import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
-import { TbMoodSilence } from "react-icons/tb";
+import { BsFillStarFill, BsPencil } from "react-icons/bs/index";
+import { MdOutlinePhotoSizeSelectActual } from "react-icons/md/index";
+import { TbMoodSilence } from "react-icons/tb/index";
 import serverUrl from "../../components/code/serverUrl";
 
 import {Offer, Comments, User } from "../../components/code/interfaces";

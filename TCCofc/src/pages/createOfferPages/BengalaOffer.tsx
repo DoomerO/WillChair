@@ -1,7 +1,7 @@
 import { Flex, Heading, Stack, FormLabel, Input, Text, Textarea, Select, Image, Spacer, ButtonGroup, Button, Box, useToast, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, UseToastOptions, ToastPosition } from "@chakra-ui/react";
 import { useState, useEffect, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
+import { MdOutlinePhotoSizeSelectActual } from "react-icons/md/index";
 
 import Footer from "../../components/Footer";
 import SignAdaptable from "../../components/signs/SignAdaptable";
@@ -198,7 +198,7 @@ const BengalaOffer = () => {
     }, [searchOwn])
 
     useEffect(() => {
-        if (searchOwn) {
+        if (prodOwn.prod_id) {
             postImage();
             postChild();
             postOffer();
@@ -206,12 +206,9 @@ const BengalaOffer = () => {
     }, [prodOwn])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.name == "weight" || e.target.name == "height" || e.target.name == "maxHeight" || e.target.name == "minHeight" || e.target.name == "maxWeight" || e.target.name == "price") {
-            setInputs(prev => ({ ...prev, [e.target.name]: e.target.value.replace(",", ".") }));
-        }
-        else {
-            setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
-        }
+        if(e.target.name != "name") e.target.value = e.target.value.replace(",", ".");
+        
+        setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 
     const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -314,9 +311,9 @@ const BengalaOffer = () => {
 
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }}>
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Peso (kg)'}<Input name='weight' type="number" color="gray" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} /></FormLabel>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Peso (kg)'}<Input name='weight' type="number" color="gray" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} pattern='[0-9]{1,3}([.][0-9]{0,2})?'/></FormLabel>
                                 <Spacer />
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura (m)'}<Input name='height' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} /></FormLabel>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura (m)'}<Input name='height' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} pattern='[0-9]{1,3}([.][0-9]{0,2})?'/></FormLabel>
                                 <Spacer />
                                 <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Composição'}<Input name='composition' color="gray" type="text" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} maxLength={20} /></FormLabel>
                             </Flex>
@@ -328,9 +325,9 @@ const BengalaOffer = () => {
                                         <option value={1}>Sim</option>
                                     </Select></FormLabel>
                                 <Spacer />
-                                <FormLabel display={(formInputs.hasRegulator == 1) ? "block" : "none"} w="100%" fontSize={{ base: "17px", md: "18px" }}>{'Altura Mínima (m)'}<Input onChange={handleChange} name='minHeight' color="gray" type="number" fontSize={{ base: "20px", md: "18px" }} /></FormLabel>
+                                <FormLabel display={(formInputs.hasRegulator == 1) ? "block" : "none"} w="100%" fontSize={{ base: "17px", md: "18px" }}>{'Altura Mínima (m)'}<Input onChange={handleChange} name='minHeight' color="gray" type="number" pattern='[0-9]{1,3}([.][0-9]{0,2})?' fontSize={{ base: "20px", md: "18px" }} /></FormLabel>
                                 <Spacer />
-                                <FormLabel display={(formInputs.hasRegulator == 1) ? "block" : "none"} w="100%" fontSize={{ base: "17px", md: "18px" }}>{'Altura Máxima (m)'}<Input onChange={handleChange} name='maxHeight' color="gray" type="number" fontSize={{ base: "20px", md: "18px" }} /></FormLabel>
+                                <FormLabel display={(formInputs.hasRegulator == 1) ? "block" : "none"} w="100%" fontSize={{ base: "17px", md: "18px" }}>{'Altura Máxima (m)'}<Input onChange={handleChange} name='maxHeight' color="gray" type="number" pattern='[0-9]{1,3}([.][0-9]{0,2})?' fontSize={{ base: "20px", md: "18px" }} /></FormLabel>
                             </Flex>
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }} >
@@ -341,7 +338,7 @@ const BengalaOffer = () => {
                                     <option value='Aluguél'>Aluguél</option>
                                 </Select></FormLabel>
                                 <Spacer />
-                                <FormLabel w={{ base: "100%", md: "fit-content" }} display={(formInputs.offerType != "Doação") ? "block" : "none"} fontSize={{ base: "17px", md: "18px" }}>{'Preço (R$)'}<Input onChange={handleChange} name='price' color="gray" type="number" fontSize={{ base: "20px", md: "18px" }} /></FormLabel>
+                                <FormLabel w={{ base: "100%", md: "fit-content" }} display={(formInputs.offerType != "Doação") ? "block" : "none"} fontSize={{ base: "17px", md: "18px" }}>{'Preço (R$)'}<Input onChange={handleChange} name='price' color="gray" type="number" pattern='[0-9]{1,3}([.][0-9]{0,2})?' fontSize={{ base: "20px", md: "18px" }} /></FormLabel>
                                 <Spacer />
                                 <FormLabel w={{ base: "100%", md: "fit-content" }} display={(formInputs.offerType == "Aluguél") ? "block" : "none"} fontSize={{ base: "17px", md: "18px" }}>{'Parcelas'}<Input onChange={handleChange} name='parcelas' color="gray" type="number" fontSize={{ base: "20px", md: "18px" }} /></FormLabel>
                             </Flex>

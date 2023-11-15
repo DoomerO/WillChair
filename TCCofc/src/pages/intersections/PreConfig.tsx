@@ -5,9 +5,9 @@ import axios from "axios";
 import colors from "../../colors/colors";
 import { ChangeEvent, useEffect, useState } from "react";
 import decode from "../../components/code/decoderToken";
-import { AiOutlineArrowRight } from "react-icons/ai";
+import { AiOutlineArrowRight } from "react-icons/ai/index";
 import cep from "cep-promise";
-import { FiArrowLeft, FiSun, FiMoon } from "react-icons/fi";
+import { FiArrowLeft, FiSun, FiMoon } from "react-icons/fi/index";
 import serverUrl from "../../components/code/serverUrl";
 import { UserToken } from "../../components/code/interfaces";
 

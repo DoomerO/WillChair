@@ -3,7 +3,7 @@ import Password from '../components/Password';
 import axios from 'axios';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { Wrap, Button, IconButton, Collapse, Input, useBoolean, Container, useToast, Flex, useColorMode, ButtonGroup, Text, UseToastOptions, ToastPosition } from '@chakra-ui/react'
-import { FiArrowLeft, FiSun, FiMoon } from 'react-icons/fi'
+import { FiArrowLeft, FiSun, FiMoon } from 'react-icons/fi/index'
 import serverUrl from '../components/code/serverUrl';
 
 const Login = () => {

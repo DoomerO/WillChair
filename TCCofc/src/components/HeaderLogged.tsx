@@ -1,16 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Flex, Text, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button, useColorMode, Avatar, useColorModeValue, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, useDisclosure, Heading, Divider, Stack } from '@chakra-ui/react';
-import { RxHamburgerMenu } from 'react-icons/rx';
-import { AiOutlineHome, AiOutlineInfoCircle, AiOutlineSearch, AiOutlineLogout } from "react-icons/ai";
-import { CgDarkMode, CgProfile } from "react-icons/cg";
-import { FiPhoneForwarded } from "react-icons/fi";
-import { MdOutlineCreate } from "react-icons/md";
-import { PiChatsFill } from "react-icons/pi";
+import { RxHamburgerMenu } from 'react-icons/rx/index';
+import { AiOutlineHome, AiOutlineInfoCircle, AiOutlineSearch, AiOutlineLogout } from "react-icons/ai/index";
+import { CgDarkMode, CgProfile } from "react-icons/cg/index";
+import { FiPhoneForwarded } from "react-icons/fi/index";
+import { MdOutlineCreate } from "react-icons/md/index";
+import { PiChatsFill } from "react-icons/pi/index";
 import colors from "../colors/colors";
 //imagens
 import logo from '../img/home/logoDark.png';
 import logoLight from '../img/home/logo.png';
-import { BsFillStarFill } from "react-icons/bs";
+import { BsFillStarFill } from "react-icons/bs/index";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import serverUrl from "./code/serverUrl";

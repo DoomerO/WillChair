@@ -9,9 +9,9 @@ import OfferCardHorizontal from "../components/offerCards/OfferCardHorizontal";
 import SignNotFound from "../components/signs/SignNotFound";
 import Loading from "../components/toggles/Loading";
 
-import { BiSearchAlt } from "react-icons/bi";
-import { MdOutlineSearchOff, MdAdd } from "react-icons/md";
-import { BiMinus } from "react-icons/bi";
+import { BiSearchAlt } from "react-icons/bi/index";
+import { MdOutlineSearchOff, MdAdd } from "react-icons/md/index";
+import { BiMinus } from "react-icons/bi/index";
 
 import { Offer } from "../components/code/interfaces";
 import colors from "../colors/colors";

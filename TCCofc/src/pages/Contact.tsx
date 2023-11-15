@@ -1,8 +1,8 @@
 import Footer from "../components/Footer";
 import { Box, Flex, Heading, Stack, Text,} from '@chakra-ui/react';
-import { IoLogoWhatsapp } from "react-icons/io"
-import { BsFacebook } from "react-icons/bs"
-import { ImInstagram } from "react-icons/im"
+import { IoLogoWhatsapp } from "react-icons/io/index"
+import { BsFacebook } from "react-icons/bs/index"
+import { ImInstagram } from "react-icons/im/index"
 import HeaderToggle from '../components/toggles/HeaderToggle';
 import "../fonts/fonts.css"
 import colors from "../colors/colors"; 

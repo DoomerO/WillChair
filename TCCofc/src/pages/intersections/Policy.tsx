@@ -1,6 +1,6 @@
 import { Box, Flex, Heading, IconButton, ListItem, Spacer, Text, UnorderedList, useColorMode } from "@chakra-ui/react";
-import { FiSun, FiMoon } from "react-icons/fi";
-import { AiOutlineHome } from "react-icons/ai";
+import { FiSun, FiMoon } from "react-icons/fi/index";
+import { AiOutlineHome } from "react-icons/ai/index";
 import { Link } from "react-router-dom";
 
 const Policy = () => {

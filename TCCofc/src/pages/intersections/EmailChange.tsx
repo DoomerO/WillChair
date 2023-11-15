@@ -2,7 +2,7 @@ import { useToast, Button, Flex, Heading, Spacer, Text, Box, Input, IconButton, 
 import { useState, ChangeEvent, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { FiSun, FiMoon, FiArrowLeft } from "react-icons/fi";
+import { FiSun, FiMoon, FiArrowLeft } from "react-icons/fi/index";
 import axios from "axios";
 import decode from "../../components/code/decoderToken";
 import serverUrl from "../../components/code/serverUrl";

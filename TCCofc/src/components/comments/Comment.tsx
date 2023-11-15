@@ -1,7 +1,7 @@
 import { Avatar, Divider, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
 import colors from "../../colors/colors";
 import { Link } from "react-router-dom";
-import { RiStarSFill } from "react-icons/ri";
+import { RiStarSFill } from "react-icons/ri/index";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import dateDisplayer from "../code/dataDisplayer";

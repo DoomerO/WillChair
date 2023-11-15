@@ -1,7 +1,7 @@
 import { Box, Flex, Spacer, Heading, Stack, Input, Select, FormLabel, Button, ButtonGroup, Textarea, Image, useToast, ToastPosition, UseToastOptions } from '@chakra-ui/react';
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
+import { MdOutlinePhotoSizeSelectActual } from "react-icons/md/index";
 
 import Footer from "../../components/Footer";
 import HeaderToggle from "../../components/toggles/HeaderToggle";
@@ -196,7 +196,7 @@ const CadeiraRodasOffer = () => {
     }, [searchOwn])
 
     useEffect(() => {
-        if (searchOwn) {
+        if (prodOwn.prod_id) {
             postImage();
             postChild();
             postOffer();
@@ -204,23 +204,17 @@ const CadeiraRodasOffer = () => {
     }, [prodOwn])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.name == "weight" || e.target.name == "height" || e.target.name == "maxWeight" || e.target.name == "price" || e.target.name == "widthSeat") {
-            setInputs(prev => ({ ...prev, [e.target.name]: e.target.value.replace(",", ".") }));
-        }
-        else {
-            setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
-        }
+        if(e.target.name != "name") e.target.value = e.target.value.replace(",", ".");
+        setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 
     const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
         if (e.target.validity.patternMismatch) { return }
-        if ((e.target.name == "weight" || e.target.name == "parcelas" || e.target.name == "width" || e.target.name == "height" || e.target.name == "maxHeight" || e.target.name == "minHeight" || e.target.name == "length" || e.target.name == "price") && e.target.value[0] == "0") { e.target.value = e.target.value.replace("0", "") }
         setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 
     const handleChangeArea = (e: ChangeEvent<HTMLTextAreaElement>) => {
         if (e.target.validity.patternMismatch) { return }
-        if ((e.target.name == "weight" || e.target.name == "parcelas" || e.target.name == "width" || e.target.name == "height" || e.target.name == "maxHeight" || e.target.name == "minHeight" || e.target.name == "length" || e.target.name == "price") && e.target.value[0] == "0") { e.target.value = e.target.value.replace("0", "") }
         setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 
@@ -238,7 +232,7 @@ const CadeiraRodasOffer = () => {
     }
 
     return (
-        (loading) ? <Loading/> : <Box w="100%" h="100%">
+        (loading) ? <Loading /> : <Box w="100%" h="100%">
             <HeaderToggle />
             <Flex w='100%' h={{ base: "23vh", md: '20vh' }} pt={{ base: "5vh", md: "3%" }} bg={colors.veryLightBlue} align='center' direction="column" justifyContent="center" _dark={{ bg: colors.veryLightBlue_Dark }}>
                 <Heading color={colors.colorFontBlue} textAlign="center" as='h1' fontFamily="outfit" fontSize="35px">Descreva sua Cadeira de Rodas</Heading>
@@ -259,7 +253,7 @@ const CadeiraRodasOffer = () => {
                             <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Título da oferta<Input type='text' fontSize={{ base: "17px", md: "18px" }} maxLength={100}
                                 placeholder='Ex.: Cadeira de Rodas 101M - CDS' name='name' onChange={handleChange} /></FormLabel>
 
-                            <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{ base: "17px", md: "18px" }} textAlign="left" verticalAlign="top" onChange={handleChangeArea} resize="none"/></FormLabel>
+                            <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Descrição<Textarea size='lg' h="20vh" name='desc' fontSize={{ base: "17px", md: "18px" }} textAlign="left" verticalAlign="top" onChange={handleChangeArea} resize="none" /></FormLabel>
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }}>
                                 <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>Tipo de cadeira<Select name='type' color="gray"
@@ -284,19 +278,19 @@ const CadeiraRodasOffer = () => {
 
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }}>
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Peso (kg)'}<Input name='weight' type="number" color="gray" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} /></FormLabel>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Peso (kg)'}<Input name='weight' type="number" color="gray" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} pattern='[0-9]{1,3}([.][0-9]{0,2})?'/></FormLabel>
                                 <Spacer />
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura (m)'}<Input name='height' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} /></FormLabel>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura (m)'}<Input name='height' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} pattern='[0-9]{1,3}([.][0-9]{0,2})?'/></FormLabel>
                                 <Spacer />
                                 <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Composição'}<Input name='composition' color="gray" type="text" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} maxLength={20} /></FormLabel>
                             </Flex>
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }}>
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Largura da cadeira (cm)'}<Input onChange={handleChange} name='width' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} /></FormLabel>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Largura da cadeira (cm)'}<Input onChange={handleChange} name='width' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} pattern='[0-9]{1,3}([.][0-9]{0,2})?'/></FormLabel>
                                 <Spacer />
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Largura do assento (cm)'}<Input onChange={handleChange} name='widthSeat' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} /></FormLabel>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Largura do assento (cm)'}<Input onChange={handleChange} name='widthSeat' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} pattern='[0-9]{1,3}([.][0-9]{0,2})?'/></FormLabel>
                                 <Spacer />
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Peso Máximo Suportado (kg)'}<Input onChange={handleChange} name='maxWeight' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} /></FormLabel>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Peso Máximo Suportado (kg)'}<Input onChange={handleChange} name='maxWeight' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} pattern='[0-9]{1,3}([.][0-9]{0,2})?'/></FormLabel>
                             </Flex>
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }} >
@@ -307,7 +301,7 @@ const CadeiraRodasOffer = () => {
                                     <option value='Aluguél'>Aluguél</option>
                                 </Select></FormLabel>
                                 <Spacer />
-                                <FormLabel w={{ base: "100%", md: "fit-content" }} display={(formInputs.offerType != "Doação") ? "block" : "none"} fontSize={{ base: "17px", md: "18px" }}>{'Preço (R$)'}<Input onChange={handleChange} name='price' color="gray" type="number" fontSize={{ base: "20px", md: "18px" }} /></FormLabel>
+                                <FormLabel w={{ base: "100%", md: "fit-content" }} display={(formInputs.offerType != "Doação") ? "block" : "none"} fontSize={{ base: "17px", md: "18px" }}>{'Preço (R$)'}<Input onChange={handleChange} name='price' color="gray" type="number" fontSize={{ base: "20px", md: "18px" }} pattern='[0-9]{1,3}([.][0-9]{0,2})?' /></FormLabel>
                                 <Spacer />
                                 <FormLabel w={{ base: "100%", md: "fit-content" }} display={(formInputs.offerType == "Aluguél") ? "block" : "none"} fontSize={{ base: "17px", md: "18px" }}>{'Parcelas'}<Input onChange={handleChange} name='parcelas' color="gray" type="number" fontSize={{ base: "20px", md: "18px" }} /></FormLabel>
                             </Flex>

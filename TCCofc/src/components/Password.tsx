@@ -1,7 +1,7 @@
 import { Input, useBoolean, InputRightAddon, InputGroup } from '@chakra-ui/react'
 import "../fonts/fonts.css"
 import { ChangeEventHandler } from 'react'
-import { FiEye, FiEyeOff } from 'react-icons/fi'
+import { FiEye, FiEyeOff } from 'react-icons/fi/index'
 
 interface passProps {
     onChange: ChangeEventHandler<HTMLInputElement>,

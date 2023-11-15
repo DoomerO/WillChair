@@ -2,7 +2,7 @@ import { Box, Flex, Spacer, Heading, Stack, Input, Select, FormLabel, Button, Bu
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
+import { MdOutlinePhotoSizeSelectActual } from "react-icons/md/index";
 import Footer from "../../components/Footer";
 import HeaderToggle from "../../components/toggles/HeaderToggle";
 import SignAdaptable from "../../components/signs/SignAdaptable";
@@ -197,7 +197,7 @@ const MuletaOffer = () => {
     }, [searchOwn])
 
     useEffect(() => {
-        if (searchOwn) {
+        if (prodOwn.prod_id) {
             postImage();
             postChild();
             postOffer();
@@ -205,23 +205,18 @@ const MuletaOffer = () => {
     }, [prodOwn])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.name == "weight" || e.target.name == "height" || e.target.name == "maxHeight" || e.target.name == "minHeight" || e.target.name == "maxWeight" || e.target.name == "price") {
-            setInputs(prev => ({ ...prev, [e.target.name]: e.target.value.replace(",", ".") }));
-        }
-        else {
-            setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
-        }
+        if (e.target.name != "name") e.target.value = e.target.value.replace(",", ".");
+        setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
+
     }
 
     const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement>) => {
         if (e.target.validity.patternMismatch) { return }
-        if ((e.target.name == "weight" || e.target.name == "parcelas" || e.target.name == "width" || e.target.name == "height" || e.target.name == "maxHeight" || e.target.name == "minHeight" || e.target.name == "length" || e.target.name == "price") && e.target.value[0] == "0") { e.target.value = e.target.value.replace("0", "") }
         setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 
     const handleChangeArea = (e: ChangeEvent<HTMLTextAreaElement>) => {
         if (e.target.validity.patternMismatch) { return }
-        if ((e.target.name == "weight" || e.target.name == "parcelas" || e.target.name == "width" || e.target.name == "height" || e.target.name == "maxHeight" || e.target.name == "minHeight" || e.target.name == "length" || e.target.name == "price") && e.target.value[0] == "0") { e.target.value = e.target.value.replace("0", "") }
         setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 
@@ -239,7 +234,7 @@ const MuletaOffer = () => {
     }
 
     return (
-        (loading) ? <Loading/> : <Box w="100%" h="100%">
+        (loading) ? <Loading /> : <Box w="100%" h="100%">
             <HeaderToggle />
             <Flex w='100%' h={{ base: "23vh", md: '20vh' }} pt={{ base: "5vh", md: "3%" }} bg={colors.veryLightBlue} align='center' direction="column" justifyContent="center" _dark={{ bg: colors.veryLightBlue_Dark }}>
                 <Heading color={colors.colorFontBlue} textAlign="center" as='h1' fontFamily="outfit" fontSize="35px">Descreva sua Muleta</Heading>
@@ -276,14 +271,14 @@ const MuletaOffer = () => {
                                     <option value='Ruim'>Ruim</option>
                                 </Select></FormLabel>
                                 <Spacer />
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Peso Máximo Suportado (kg)'}<Input name='maxWeight' type="number" color="gray" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} /></FormLabel>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Peso Máximo Suportado (kg)'}<Input name='maxWeight' type="number" color="gray" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} pattern='[0-9]{1,3}([.][0-9]{0,2})?'/></FormLabel>
                             </Flex>
 
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }}>
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Peso (kg)'}<Input name='weight' type="number" color="gray" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} /></FormLabel>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Peso (kg)'}<Input name='weight' type="number" color="gray" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} pattern='[0-9]{1,3}([.][0-9]{0,2})?'/></FormLabel>
                                 <Spacer />
-                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura (m)'}<Input name='height' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} /></FormLabel>
+                                <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura (m)'}<Input name='height' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} pattern='[0-9]{1,3}([.][0-9]{0,2})?'/></FormLabel>
                                 <Spacer />
                                 <FormLabel w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Composição'}<Input name='composition' color="gray" type="text" fontSize={{ base: "17px", md: "18px" }} onChange={handleChange} maxLength={20} /></FormLabel>
                             </Flex>
@@ -296,9 +291,9 @@ const MuletaOffer = () => {
                                     </Select>
                                 </FormLabel>
                                 <Spacer />
-                                <FormLabel display={(formInputs.hasRegulator == 1) ? "block" : "none"} w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura Mínima (m)'}<Input onChange={handleChange} name='minHeight' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} /></FormLabel>
+                                <FormLabel display={(formInputs.hasRegulator == 1) ? "block" : "none"} w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura Mínima (m)'}<Input onChange={handleChange} name='minHeight' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} pattern='[0-9]{1,3}([.][0-9]{0,2})?'/></FormLabel>
                                 <Spacer />
-                                <FormLabel display={(formInputs.hasRegulator == 1) ? "block" : "none"} w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura Máxima (m)'}<Input onChange={handleChange} name='maxHeight' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} /></FormLabel>
+                                <FormLabel display={(formInputs.hasRegulator == 1) ? "block" : "none"} w="100%" fontSize={{ base: "20px", md: "18px" }}>{'Altura Máxima (m)'}<Input onChange={handleChange} name='maxHeight' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} pattern='[0-9]{1,3}([.][0-9]{0,2})?'/></FormLabel>
                             </Flex>
 
                             <Flex w='100%' h='fit-content' align='center' direction={{ base: 'column', md: 'row' }} >
@@ -309,7 +304,7 @@ const MuletaOffer = () => {
                                     <option value='Aluguél'>Aluguél</option>
                                 </Select></FormLabel>
                                 <Spacer />
-                                <FormLabel w={{ base: "100%", md: "fit-content" }} display={(formInputs.offerType != "Doação") ? "block" : "none"} fontSize={{ base: "20px", md: "18px" }}>{'Preço (R$)'}<Input onChange={handleChange} name='price' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} /></FormLabel>
+                                <FormLabel w={{ base: "100%", md: "fit-content" }} display={(formInputs.offerType != "Doação") ? "block" : "none"} fontSize={{ base: "20px", md: "18px" }}>{'Preço (R$)'}<Input onChange={handleChange} name='price' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} pattern='[0-9]{1,3}([.][0-9]{0,2})?'/></FormLabel>
                                 <Spacer />
                                 <FormLabel w={{ base: "100%", md: "fit-content" }} display={(formInputs.offerType == "Aluguél") ? "block" : "none"} fontSize={{ base: "20px", md: "18px" }}>{'Parcelas'}<Input onChange={handleChange} name='parcelas' color="gray" type="number" fontSize={{ base: "17px", md: "18px" }} /></FormLabel>
                             </Flex>

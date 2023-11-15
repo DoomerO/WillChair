@@ -9,16 +9,15 @@ import ProdInfoTable from "../../components/ProdInfoTable";
 import ChatBox from "../../components/chats/ChatBox";
 import "../../fonts/fonts.css";
 
-import { BsFillStarFill } from "react-icons/bs";
-import { BsChatLeftText } from "react-icons/bs";
-import { GiUncertainty } from "react-icons/gi";
+import { BsFillStarFill, BsChatLeftText } from "react-icons/bs/index";
+import { GiUncertainty } from "react-icons/gi/index";
 
 import CardOffer from "../../components/offerCards/OfferCard";
 import OfferList from "../../components/offerCards/OfferList";
 import SignNotFound from "../../components/signs/SignNotFound";
 import Avaliation from "../../components/Avaliation";
 import { Link, useNavigate } from "react-router-dom";
-import { MdOutlineReport, MdOutlineReportProblem } from "react-icons/md";
+import { MdOutlineReport, MdOutlineReportProblem } from "react-icons/md/index";
 import dateDisplayer from "../../components/code/dataDisplayer";
 import serverUrl from "../../components/code/serverUrl";
 import Loading from "../../components/toggles/Loading";

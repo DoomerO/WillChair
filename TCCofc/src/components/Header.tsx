@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Flex, Spacer, Image, Menu, MenuButton, MenuList, MenuItem, IconButton, Center, HStack, Button, useColorMode, useColorModeValue } from '@chakra-ui/react';
-import { RxHamburgerMenu } from 'react-icons/rx';
-import { AiOutlineHome, AiOutlineInfoCircle, AiOutlineLogin, AiOutlineUserAdd, AiOutlineSearch } from "react-icons/ai";
-import { FiPhoneForwarded } from "react-icons/fi";
-import { CgDarkMode } from "react-icons/cg";
+import { RxHamburgerMenu } from 'react-icons/rx/index';
+import { AiOutlineHome, AiOutlineInfoCircle, AiOutlineLogin, AiOutlineUserAdd, AiOutlineSearch } from "react-icons/ai/index";
+import { FiPhoneForwarded } from "react-icons/fi/index";
+import { CgDarkMode } from "react-icons/cg/index";
 //imagens
 import logo from '../img/home/logoDark.png'
 import logoLight from '../img/home/logo.png'

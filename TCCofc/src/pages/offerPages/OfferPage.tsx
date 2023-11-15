@@ -9,10 +9,10 @@ import colors from "../../colors/colors";
 import ProdInfoTable from "../../components/ProdInfoTable";
 import "../../fonts/fonts.css";
 
-import { BsFillStarFill } from "react-icons/bs";
-import { BiConfused } from "react-icons/bi";
-import { GiUncertainty } from "react-icons/gi";
-import { MdOutlineReport, MdOutlineReportProblem } from "react-icons/md";
+import { BsFillStarFill } from "react-icons/bs/index";
+import { BiConfused } from "react-icons/bi/index";
+import { GiUncertainty } from "react-icons/gi/index";
+import { MdOutlineReport, MdOutlineReportProblem } from "react-icons/md/index";
 import SignNotFoundButton from "../../components/signs/SignNotFoundButton";
 import CardOffer from "../../components/offerCards/OfferCard";
 import OfferList from "../../components/offerCards/OfferList";

@@ -1,9 +1,9 @@
 import { Box, Flex, Spacer, Text, Heading, Stack, Container, useDisclosure, Button } from '@chakra-ui/react';
 import HeaderToggle from '../components/toggles/HeaderToggle';
 import Footer from "../components/Footer";
-import {BsPeopleFill} from "react-icons/bs";
-import {HiOutlineDesktopComputer} from "react-icons/hi";
-import {BsGearFill} from "react-icons/bs";
+import {BsPeopleFill} from "react-icons/bs/index";
+import {HiOutlineDesktopComputer} from "react-icons/hi/index";
+import {BsGearFill} from "react-icons/bs/index";
 import colors from '../colors/colors';
 import "../fonts/fonts.css";
 import TeamModal from '../components/TeamModal';
