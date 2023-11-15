@@ -1,7 +1,9 @@
 {
     "name": "Willchair Accessibility App",
     "short_name": "Willchair",
-    "start_url": "/?home=true",
+    "start_url": "/",
+    "description": "An application to earn accessibility itens.",
+    "version": "1.0",
     "icons": [
         {
             "src": "icons/manifest-icon-192.maskable.png",
@@ -28,8 +30,8 @@
             "purpose": "maskable"
         }
     ],
-    "theme-color": "#F7F9FC",
+    "theme_color": "#F7F9FC",
     "background_color": "#F7F9FC",
     "display": "fullscreen",
-    "orientaion": "portrait"
+    "orientation": "portrait"
 }
