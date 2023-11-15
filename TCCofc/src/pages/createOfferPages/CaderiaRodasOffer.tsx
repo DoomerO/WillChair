@@ -60,9 +60,11 @@ const CadeiraRodasOffer = () => {
         let blank = "";
 
         for (let i = 0; i < 10; i++) {
-            let rand = Math.floor(Math.random() * bits.length + 1);
+            let rand = Math.floor(Math.random() * bits.length);
             blank = blank + bits[rand];
         }
+
+        console.log(blank)
         setInputs(prev => ({ ...prev, key: blank }));
     }
 
@@ -192,7 +194,7 @@ const CadeiraRodasOffer = () => {
     }, [products])
 
     useEffect(() => {
-        getProductKey(formInputs.key ?? "");
+        if(searchOwn) getProductKey(formInputs.key ?? "");
     }, [searchOwn])
 
     useEffect(() => {
